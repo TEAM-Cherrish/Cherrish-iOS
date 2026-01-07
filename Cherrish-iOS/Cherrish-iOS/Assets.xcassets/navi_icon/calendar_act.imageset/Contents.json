@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "calendar_act.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
