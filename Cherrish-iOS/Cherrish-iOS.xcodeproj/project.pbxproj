@@ -10,9 +10,22 @@
 		51B5D3182F0514390090B8B4 /* Cherrish-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cherrish-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CA155E042F0EB70C00229EC4 /* Exceptions for "Cherrish-iOS" folder in "Cherrish-iOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 51B5D3172F0514390090B8B4 /* Cherrish-iOS */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		51B5D31A2F0514390090B8B4 /* Cherrish-iOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				CA155E042F0EB70C00229EC4 /* Exceptions for "Cherrish-iOS" folder in "Cherrish-iOS" target */,
+			);
 			path = "Cherrish-iOS";
 			sourceTree = "<group>";
 		};
