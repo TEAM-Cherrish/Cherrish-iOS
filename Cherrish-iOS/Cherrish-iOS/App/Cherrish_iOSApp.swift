@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct Cherrish_iOSApp: App {
+    
+    init() {
+        // TODO: 코디네이터에서 실행하기
+        DIContainer.shared.dependencyInjection()
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ViewFactory.makeTestView()
         }
     }
 }

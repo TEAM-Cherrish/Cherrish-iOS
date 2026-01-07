@@ -1,0 +1,14 @@
+//
+//  Repository.swift
+//  Cherrish-iOS
+//
+//  Created by 이나연 on 1/3/26.
+//
+
+import Foundation
+
+struct DefaultTestRepository: TestInterface {
+    func test() {
+        print("Repository Test!")
+    }
+}
