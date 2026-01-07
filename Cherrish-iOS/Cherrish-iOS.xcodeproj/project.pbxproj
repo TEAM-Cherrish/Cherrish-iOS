@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		5126F89F2F0E9AF000E67E33 /* OSLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5126F89E2F0E9AF000E67E33 /* OSLog.framework */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		5126F89E2F0E9AF000E67E33 /* OSLog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OSLog.framework; path = System/Library/Frameworks/OSLog.framework; sourceTree = SDKROOT; };
 		51B5D3182F0514390090B8B4 /* Cherrish-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cherrish-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,7 +37,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5126F89F2F0E9AF000E67E33 /* OSLog.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -37,7 +37,7 @@ enum CherrishError: Error, LocalizedError, Equatable {
         case .encodingError:
             return "인코딩 실패"
         case .unknownError:
-            return nil
+            return "알 수 없는 오류"
         }
     }
 }

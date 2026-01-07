@@ -105,7 +105,7 @@ struct CherrishLogger {
         
         let logger = Logger(subsystem: OSLog.subsystem, category: type.category)
         let logMessage = "\(message)"
-        let fileName = (#file as NSString).lastPathComponent
+        let fileName = (file as NSString).lastPathComponent
         
         switch type {
         case .network:
