@@ -18,6 +18,6 @@ final class TestViewModel: ObservableObject {
     func test() {
         testUseCase.execute()
         text = "버튼 터치했음!"
-        print("view model execute")
+        CherrishLogger.debug("로거 테스트")
     }
 }
