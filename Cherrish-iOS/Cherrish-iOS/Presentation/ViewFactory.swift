@@ -8,15 +8,27 @@
 import Foundation
 
 protocol ViewFactoryProtocol {
-    static func makeTestView() -> TestView
+    func makeOnboardingView() -> OnboardingView
+    func makeHomeView() -> HomeView
 }
 
 final class ViewFactory: ViewFactoryProtocol {
-    static func makeTestView() -> TestView {
-        guard let viewModel = DIContainer.shared.resolve(type: TestViewModel.self) else {
-            // TODO: DI 실패 시 기본으로 갈 곳 지정 
+    static let shared = ViewFactory()
+    
+    func makeOnboardingView() -> OnboardingView {
+        guard let viewModel = DIContainer.shared.resolve(type: OnboardingViewModel.self) else {
             fatalError()
         }
-        return TestView(viewModel: viewModel)
+        return OnboardingView(viewModel: viewModel)
+    }
+    
+    func makeInformationView() -> InformationView {
+        guard let viewModel = DIContainer.shared.resolve(type: OnboardingViewModel.self) else {
+            fatalError()
+        }
+        return InformationView(viewModel: viewModel)
+    }
+    func makeHomeView() -> HomeView {
+        return HomeView()
     }
 }
