@@ -85,7 +85,7 @@ struct TypographyText: View {
     var body: some View {
         Text(text)
             .typography(style)
-            .foregroundColor(color)
+            .foregroundStyle(color)
     }
 }
 
