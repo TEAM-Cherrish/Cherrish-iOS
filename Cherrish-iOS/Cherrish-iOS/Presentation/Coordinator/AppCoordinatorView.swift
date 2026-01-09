@@ -10,15 +10,20 @@ import SwiftUI
 struct AppCoordinatorView: View {
     @StateObject private var appCoordinator = AppCoordinator()
     @StateObject private var onboardingCoordinator = OnboardingCoordinator()
+    @StateObject private var tabBarCoordinator = TabBarCoordinator()
     
     var body: some View {
-        switch appCoordinator.appState {
-        case .onboarding:
-            OnboardingCoordinatorView(onboardingCoordinator: onboardingCoordinator)
-                .environmentObject(appCoordinator)
-        case .home:
-            ViewFactory.shared.makeHomeView()
-                .environmentObject(appCoordinator)
+        Group {
+            switch appCoordinator.appState {
+            case .onboarding:
+                OnboardingCoordinatorView()
+                    .environmentObject(onboardingCoordinator)
+            case .home:
+                TabBarCoordinatorView()
+                    .environmentObject(tabBarCoordinator)
+                
+            }
         }
+        .environmentObject(appCoordinator)
     }
 }
