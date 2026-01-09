@@ -29,8 +29,3 @@ struct AddButtonPressedStyle: ButtonStyle {
             .cornerRadius(configuration.isPressed ? 11.4 : 12)
     }
 }
-
-
-#Preview {
-    AddEventButton()
-}

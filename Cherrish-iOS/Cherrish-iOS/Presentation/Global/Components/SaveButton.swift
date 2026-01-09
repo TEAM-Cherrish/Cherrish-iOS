@@ -29,7 +29,3 @@ struct SaveButtonPressedStyle: ButtonStyle {
     }
 }
 
-#Preview {
-    SaveButton()
-}
-
