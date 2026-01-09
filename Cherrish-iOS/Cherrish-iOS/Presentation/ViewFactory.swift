@@ -10,6 +10,13 @@ import Foundation
 protocol ViewFactoryProtocol {
     func makeOnboardingView() -> OnboardingView
     func makeHomeView() -> HomeView
+    func makeCalendarView() -> CalendarView
+    func makeChallengeView() -> ChallengeView
+    func makeMyPageView() -> MyPageView
+    func makeSelectTreatmentView() -> SelectTreatmentView
+    func makeStartChallengeView() -> StartChallengeView
+    func makeSelectMissionView() -> SelectMissionView
+    func makeLoadingView() -> LoadingView
 }
 
 final class ViewFactory: ViewFactoryProtocol {
@@ -28,7 +35,36 @@ final class ViewFactory: ViewFactoryProtocol {
         }
         return InformationView(viewModel: viewModel)
     }
+    
     func makeHomeView() -> HomeView {
         return HomeView()
+    }
+    
+    func makeCalendarView() -> CalendarView {
+        return CalendarView()
+    }
+    
+    func makeChallengeView() -> ChallengeView {
+        return ChallengeView()
+    }
+    
+    func makeMyPageView() -> MyPageView {
+        return MyPageView()
+    }
+    
+    func makeSelectTreatmentView() -> SelectTreatmentView {
+        return SelectTreatmentView()
+    }
+    
+    func makeStartChallengeView() -> StartChallengeView {
+        return StartChallengeView()
+    }
+    
+    func makeSelectMissionView() -> SelectMissionView {
+        return SelectMissionView()
+    }
+    
+    func makeLoadingView() -> LoadingView {
+        return LoadingView()
     }
 }
