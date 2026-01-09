@@ -17,3 +17,13 @@ protocol CoordinatorProtocol: ObservableObject {
     func pop()
     func popToRoot()
 }
+
+extension CoordinatorProtocol {
+    func pop() {
+        path.removeLast()
+    }
+    
+    func popToRoot() {
+        path = NavigationPath()
+    }
+}
