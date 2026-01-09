@@ -9,12 +9,8 @@ import SwiftUI
 
 struct OnboardingCoordinatorView: View {
     @EnvironmentObject private var appCoordinator: AppCoordinator
-    @ObservedObject var onboardingCoordinator: OnboardingCoordinator
-    
-    init(onboardingCoordinator: OnboardingCoordinator) {
-        self.onboardingCoordinator = onboardingCoordinator
-    }
-    
+    @EnvironmentObject var onboardingCoordinator: OnboardingCoordinator
+        
     var body: some View {
         NavigationStack(path: $onboardingCoordinator.path) {
             ViewFactory.shared.makeInformationView()
