@@ -9,6 +9,9 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        Text("HomeView")
+        ZStack {
+            Color.red300
+            Text("HomeView")
+        }
     }
 }
