@@ -28,16 +28,36 @@ struct CustomNavigationBar: View {
     }
     
     var body: some View {
-        HStack {
-            
-            Spacer()
-            Text(title)
-            Spacer()
+        ZStack {
+            HStack(spacing: 0) {
+                if isDisplayLeftBtn {
+                    Image(.chevronLeft)
+                        .padding(10)
+                        .onTapGesture {
+                            leftBtnAction()
+                        }
+                }
+                
+                Spacer()
+                
+                if isDisplayRightBtn {
+                    Image(.close)
+                        .padding(10)
+                        .onTapGesture {
+                            rightBtnAction()
+                        }
+                }
+            }
+            HStack {
+                Spacer()
+                Text(title)
+                    .typography(.title1_sb_18)
+                Spacer()
+            }
             
         }
+        .frame(height: 44)
+        .padding(.vertical,8)
+        
     }
-}
-
-#Preview {
-    CustomNavigationBar(title: "안녕")
 }
