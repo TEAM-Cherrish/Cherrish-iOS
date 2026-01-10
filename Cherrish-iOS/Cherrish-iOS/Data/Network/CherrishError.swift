@@ -17,6 +17,12 @@ enum CherrishError: Error, LocalizedError, Equatable {
     case noData
     case unknownError
     case encodingError
+    case badRequest
+    case unauthorized
+    case forbidden
+    case notFound
+    case conflict
+    case tooManyRequests
 
     var errorDescription: String? {
         switch self {
@@ -38,6 +44,18 @@ enum CherrishError: Error, LocalizedError, Equatable {
             return "인코딩 실패"
         case .unknownError:
             return "알 수 없는 오류"
+        case .badRequest:
+            return "잘못된 요청"
+        case .unauthorized:
+            return "인증 실패"
+        case .forbidden:
+            return "권한 없음"
+        case .conflict:
+            return "리소스 충돌"
+        case .notFound:
+            return "리소스를 찾을 수 없음"
+        case .tooManyRequests:
+            return "요청 한도 초과"
         }
     }
 }
