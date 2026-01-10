@@ -61,3 +61,14 @@ struct CustomNavigationBar: View {
         
     }
 }
+
+#Preview {
+    CustomNavigationBar(
+        isDisplayLeftBtn: true,
+        isDisplayRightBtn: true,
+        title: "시술 여부 선택",
+        leftBtnAction: { print("왼쪽 클릭") },
+        rightBtnAction: { print("오른쪽 클릭") }
+    )
+    
+}
