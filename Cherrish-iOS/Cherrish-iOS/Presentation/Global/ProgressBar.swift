@@ -9,27 +9,35 @@ import SwiftUI
 
 struct ProgressBar: View {
     var totalSteps: Int
-    var currentStep: Int
+    @Binding var currentStep: Int
     
     private let backgroundColor: Color = Color(.gray300)
     private let progressColor: Color = Color(.gray800)
     private let height: CGFloat = 4
     private let cornerRadius: CGFloat = 76
-    private let spacing: CGFloat = 4
+    private let spacing: CGFloat = 4    
     
     @State private var isAppeared = false
     
     var body: some View {
         HStack(spacing: spacing) {
             ForEach(0..<totalSteps, id: \.self) { index in
-                RoundedRectangle(cornerRadius: cornerRadius)
-                    .fill(index < currentStep ? progressColor : backgroundColor)
-                    .frame(height: height)
-                    .scaleX(isAppeared ? 1 : 0)
-                    .animation(
-                        .easeOut(duration: 0.4).delay(Double(index) * 0.08),
-                        value: isAppeared
-                    )
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: cornerRadius)
+                        .fill(backgroundColor)
+                        .frame(height: height)
+                    
+                    RoundedRectangle(cornerRadius: cornerRadius)
+                        .fill(progressColor)
+                        .frame(height: height)
+                        .scaleX(index < currentStep ? 1 : 0)
+                        .animation(.easeOut(duration: 0.5), value: currentStep)
+                }
+                .scaleX(isAppeared ? 1 : 0)
+                .animation(
+                    .easeOut(duration: 0.3).delay(Double(index) * 0.08),
+                    value: isAppeared
+                )
             }
         }
         .frame(height: height)
