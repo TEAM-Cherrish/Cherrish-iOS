@@ -46,10 +46,3 @@ struct ProgressBar: View {
         }
     }
 }
-
-extension View {
-    func scaleX(_ scale: CGFloat) -> some View {
-        self.scaleEffect(x: scale, y: 1, anchor: .leading)
-    }
-}
-
