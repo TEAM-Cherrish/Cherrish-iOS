@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProgressBar: View {
-    var totalSteps: Int
+    let totalSteps: Int
     @Binding var currentStep: Int
     
     private let backgroundColor: Color = Color(.gray300)
