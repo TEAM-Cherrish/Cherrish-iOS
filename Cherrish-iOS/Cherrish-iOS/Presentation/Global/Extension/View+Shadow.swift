@@ -9,8 +9,8 @@ struct CherrishShadow: ViewModifier {
     func body(content: Content) -> some View {
         content
             .shadow(
-                color: Color(.shadow),
-                radius: 10,
+                color: Color(.shadow).opacity(0.12),
+                radius: 5,
                 x: 0,
                 y: 0
             )
