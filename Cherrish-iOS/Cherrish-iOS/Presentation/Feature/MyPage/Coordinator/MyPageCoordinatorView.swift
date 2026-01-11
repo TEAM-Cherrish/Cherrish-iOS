@@ -11,14 +11,8 @@ struct MyPageCoordinatorView: View {
     @EnvironmentObject private var myPageCoordinator: MyPageCoordinator
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $myPageCoordinator.path) {
             ViewFactory.shared.makeMyPageView()
-                .navigationDestination(for: MyPageRoute.self) { route in
-                    switch route {
-                    case .root:
-                        ViewFactory.shared.makeMyPageView()
-                    }
-            }
         }
     }
 }

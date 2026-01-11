@@ -23,6 +23,5 @@ struct OnboardingCoordinatorView: View {
                     }
                 }
         }
-        .environmentObject(onboardingCoordinator)
     }
 }

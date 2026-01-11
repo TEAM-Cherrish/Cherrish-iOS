@@ -19,10 +19,10 @@ final class TabBarCoordinator: ObservableObject {
     @Published var selectedTab: CherrishTab = .home
     @Published var isTabbarHidden: Bool = false
     
-    var homeCoordinator = HomeCoordinator()
-    var calendarCoordinator = CalendarCoordinator()
-    var challengeCoordinator = ChallengeCoordinator()
-    var mypageCoordinator = MyPageCoordinator()
+    lazy var homeCoordinator = HomeCoordinator()
+    lazy var calendarCoordinator = CalendarCoordinator()
+    lazy var challengeCoordinator = ChallengeCoordinator()
+    lazy var mypageCoordinator = MyPageCoordinator()
     
     func switchTab(tab: CherrishTab) {
         selectedTab = tab

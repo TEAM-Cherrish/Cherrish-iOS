@@ -5,7 +5,6 @@
 //  Created by 이나연 on 1/9/26.
 //
 
-import Foundation
 import SwiftUI
 
 enum ChallengeRoute: PresentationTypeProtocol {
