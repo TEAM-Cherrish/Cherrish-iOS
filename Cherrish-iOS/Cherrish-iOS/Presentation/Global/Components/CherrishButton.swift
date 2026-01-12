@@ -49,11 +49,9 @@ struct CherrishButtonStyle: ButtonStyle {
                 height: configuration.isPressed ? type.height * 0.95 : type.height
             )
             .background(type.backgroundColor(for: state))
-            .cornerRadius(
-                configuration.isPressed
-                ? type.cornerRadius * 0.95
-                : type.cornerRadius
-        )
+            .clipShape(RoundedRectangle(cornerRadius: configuration.isPressed
+                                        ? type.cornerRadius * 0.95
+                                        : type.cornerRadius))
     }
 }
 
