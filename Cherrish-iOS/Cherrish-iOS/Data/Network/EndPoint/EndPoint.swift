@@ -69,7 +69,7 @@ enum HeaderType {
         case .withAuth(let userID):
             return [
                 "Content-Type": "application/json",
-                "userID": "\(userID)" // TODO: 서버 구조에 맞춰 수정
+                "X-User-Id": "\(userID)" 
             ]
         }
     }
