@@ -19,10 +19,12 @@ struct ChallengeCoordinatorView: View {
                         ViewFactory.shared.makeChallengeView()
                     case .startChallenge:
                         ViewFactory.shared.makeStartChallengeView()
-                    case .selectMission:
-                        ViewFactory.shared.makeSelectMissionView()
+                    case .selectRoutine:
+                        ViewFactory.shared.makeSelectRoutineView()
                     case .loading:
                         ViewFactory.shared.makeLoadingView()
+                    case .selectMission:
+                        ViewFactory.shared.makeSelectMissionView()
                     }
                 }
         }
