@@ -18,7 +18,7 @@ struct CherrishNavigationBar: View {
          isDisplayRightButton: Bool = true,
          title: String = "",
          leftButtonAction: @escaping () -> Void = {},
-         rightButtonAction: @escaping () -> Void = {},
+         rightButtonAction: @escaping () -> Void = {}
     ) {
         self.isDisplayLeftButton = isDisplayLeftButton
         self.isDisplayRightButton = isDisplayRightButton
@@ -57,7 +57,7 @@ struct CherrishNavigationBar: View {
             
         }
         .frame(height: 44)
-        .padding(.vertical,8)
+        .padding(.vertical, 8)
         
     }
 }
