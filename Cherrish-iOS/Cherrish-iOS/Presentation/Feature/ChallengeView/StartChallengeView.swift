@@ -43,7 +43,7 @@ struct StartChallengeView: View {
             .padding(.bottom, 12)
             
             CherrishButton(title: "챌린지 시작하기", type: .next, state: $startButtonState) {
-                challengeCoordinator.push(.selectMission)
+                challengeCoordinator.push(.selectRoutine)
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 36)

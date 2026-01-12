@@ -63,7 +63,7 @@ final class ViewFactory: ViewFactoryProtocol {
     }
     
     func makeSelectRoutineView() -> SelectRoutineView {
-        return makeSelectRoutineView()
+        return SelectRoutineView()
     }
     
     func makeSelectMissionView() -> SelectMissionView {
