@@ -83,9 +83,6 @@ extension CherrishButtonType {
         default: return 12
         }
     }
-}
-
-extension CherrishButtonType {
     
     func backgroundColor(for state: ButtonState) -> Color {
         switch self {
