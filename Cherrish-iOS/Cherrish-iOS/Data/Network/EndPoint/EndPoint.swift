@@ -27,7 +27,7 @@ protocol EndPoint {
     var method: HTTPMethod { get }
     var headers: HeaderType { get }
     var parameterEncoding: ParameterEncoding { get }
-    var queryParmeters: [String: String]? { get }
+    var queryParameters: [String: String]? { get }
     var bodyParameters: Parameters? { get }
     
     var requestURL: URL { get }
@@ -43,8 +43,8 @@ extension EndPoint {
             return URL(string: "")!
         }
         
-        if let queryParmeters {
-            urlComponents.queryItems = queryParmeters.map {
+        if let queryParameters {
+            urlComponents.queryItems = queryParameters.map {
                 URLQueryItem(name: $0, value: $1)
             }
         }
@@ -69,7 +69,7 @@ enum HeaderType {
         case .withAuth(let userID):
             return [
                 "Content-Type": "application/json",
-                "X-User-Id": "\(userID)" 
+                "X-User-Id": "\(userID)"
             ]
         }
     }
