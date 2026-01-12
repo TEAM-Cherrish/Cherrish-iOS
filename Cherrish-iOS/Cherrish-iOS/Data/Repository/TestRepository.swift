@@ -8,6 +8,12 @@
 import Foundation
 
 struct DefaultTestRepository: TestInterface {
+    private let networkService: NetworkService
+    
+    init(networkService: NetworkService) {
+        self.networkService = networkService
+    }
+    
     func test() {
         print("Repository Test!")
     }

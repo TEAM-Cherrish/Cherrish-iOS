@@ -17,13 +17,17 @@ final class PresentationDependencyAssembler: DependencyAssembler {
     func assemble() {
         preAssembler.assemble()
         
-        guard let testUseCase = DIContainer.shared.resolve(type: TestUseCase.self) else {
-            return
-        }
-        
-        DIContainer.shared.register(type: TestViewModel.self) {
-            print("뷰모델 등록")
-            return TestViewModel(testUseCase: testUseCase)
+//        guard let testUseCase = DIContainer.shared.resolve(type: TestUseCase.self) else {
+//            return
+//        }
+//        
+//        DIContainer.shared.register(type: TestViewModel.self) {
+//            print("뷰모델 등록")
+//            return TestViewModel(testUseCase: testUseCase)
+//        }
+//        
+        DIContainer.shared.register(type: OnboardingViewModel.self) {
+            return OnboardingViewModel()
         }
     }
     
