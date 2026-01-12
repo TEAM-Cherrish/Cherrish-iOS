@@ -8,9 +8,15 @@
 import Foundation
 
 final class DataDependencyAssembler: DependencyAssembler {
+    private let networkService: NetworkService
+    
+    init() {
+        self.networkService = DefaultNetworkService()
+    }
+    
     func assemble() {
         DIContainer.shared.register(type: TestInterface.self) { 
-            return DefaultTestRepository()
+            return DefaultTestRepository(networkService: self.networkService)
         }
     }
 }
