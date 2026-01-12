@@ -9,7 +9,7 @@ import SwiftUI
 
 struct OnboardingCoordinatorView: View {
     @EnvironmentObject private var appCoordinator: AppCoordinator
-    @EnvironmentObject var onboardingCoordinator: OnboardingCoordinator
+    @StateObject private var onboardingCoordinator = OnboardingCoordinator()
         
     var body: some View {
         NavigationStack(path: $onboardingCoordinator.path) {
@@ -22,6 +22,6 @@ struct OnboardingCoordinatorView: View {
                         ViewFactory.shared.makeOnboardingView()
                     }
                 }
-        }
+        }.environmentObject(onboardingCoordinator)
     }
 }

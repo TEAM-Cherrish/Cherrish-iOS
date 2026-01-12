@@ -9,18 +9,14 @@ import SwiftUI
 
 struct AppCoordinatorView: View {
     @StateObject private var appCoordinator = AppCoordinator()
-    @StateObject private var onboardingCoordinator = OnboardingCoordinator()
-    @StateObject private var tabBarCoordinator = TabBarCoordinator()
     
     var body: some View {
         Group {
             switch appCoordinator.appState {
             case .onboarding:
                 OnboardingCoordinatorView()
-                    .environmentObject(onboardingCoordinator)
             case .home:
                 TabBarCoordinatorView()
-                    .environmentObject(tabBarCoordinator)
                 
             }
         }

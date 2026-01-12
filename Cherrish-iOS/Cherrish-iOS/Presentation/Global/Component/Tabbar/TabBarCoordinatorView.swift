@@ -9,31 +9,32 @@ import Foundation
 import SwiftUI
 
 struct TabBarCoordinatorView: View {
-    @EnvironmentObject private var tab: TabBarCoordinator
+    @StateObject private var tabBarCoordinator = TabBarCoordinator()
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            TabView(selection: $tab.selectedTab) {
+            TabView(selection: $tabBarCoordinator.selectedTab) {
                 HomeCoordinatorView()
                     .tag(CherrishTab.home)
-                    .environmentObject(tab.homeCoordinator)
+                    .environmentObject(tabBarCoordinator.homeCoordinator)
                 
                 CalendarCoordinatorView()
                     .tag(CherrishTab.calendar)
-                    .environmentObject(tab.calendarCoordinator)
+                    .environmentObject(tabBarCoordinator.calendarCoordinator)
                 
                 ChallengeCoordinatorView()
                     .tag(CherrishTab.challenge)
-                    .environmentObject(tab.challengeCoordinator)
+                    .environmentObject(tabBarCoordinator.challengeCoordinator)
                             
                 MyPageCoordinatorView()
                     .tag(CherrishTab.mypage)
-                    .environmentObject(tab.mypageCoordinator)
+                    .environmentObject(tabBarCoordinator.mypageCoordinator)
             }
             
-            if !tab.isTabbarHidden {
-                CherrishTabBar(selectedTab: $tab.selectedTab)
+            if !tabBarCoordinator.isTabbarHidden {
+                CherrishTabBar(selectedTab: $tabBarCoordinator.selectedTab)
             }
         }
+        .environmentObject(tabBarCoordinator)
     }
 }

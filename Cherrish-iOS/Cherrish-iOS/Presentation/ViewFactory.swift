@@ -9,6 +9,7 @@ import Foundation
 
 protocol ViewFactoryProtocol {
     func makeOnboardingView() -> OnboardingView
+    func makeInformationView() -> InformationView
     func makeHomeView() -> HomeView
     func makeCalendarView() -> CalendarView
     func makeChallengeView() -> ChallengeView
