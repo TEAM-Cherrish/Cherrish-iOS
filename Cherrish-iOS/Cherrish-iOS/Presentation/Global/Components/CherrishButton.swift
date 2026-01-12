@@ -45,7 +45,7 @@ struct CherrishButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(
-                width: configuration.isPressed ? type.width * 0.95 : type.width,
+                maxWidth: .infinity,
                 height: configuration.isPressed ? type.height * 0.95 : type.height
             )
             .background(type.backgroundColor(for: state))
@@ -57,15 +57,6 @@ struct CherrishButtonStyle: ButtonStyle {
 
 
 extension CherrishButtonType {
-    
-    var width: CGFloat {
-        switch self {
-        case .next: return 326
-        case .confirm: return 126
-        case .save: return 278
-        case .addEvent: return 196
-        }
-    }
     
     var height: CGFloat {
         switch self {

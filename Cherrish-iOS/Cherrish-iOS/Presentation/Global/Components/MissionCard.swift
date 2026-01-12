@@ -30,7 +30,7 @@ struct MissionCard: View {
         }
         .padding(.horizontal, 7)
         .padding(.vertical, 6)
-        .frame(width: 148, height: 80)
+        .frame(maxWidth: .infinity, height: 80)
         .background(isSelected ? .red200 : .gray0)
         .overlay(
             RoundedRectangle(cornerRadius: 10)
