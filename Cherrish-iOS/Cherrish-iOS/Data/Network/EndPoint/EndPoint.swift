@@ -27,7 +27,7 @@ protocol EndPoint {
     var method: HTTPMethod { get }
     var headers: HeaderType { get }
     var parameterEncoding: ParameterEncoding { get }
-    var queryParmaters: [String: String]? { get }
+    var queryParmeters: [String: String]? { get }
     var bodyParameters: Parameters? { get }
     
     var requestURL: URL { get }
@@ -43,8 +43,8 @@ extension EndPoint {
             return URL(string: "")!
         }
         
-        if let queryParmaters {
-            urlComponents.queryItems = queryParmaters.map {
+        if let queryParmeters {
+            urlComponents.queryItems = queryParmeters.map {
                 URLQueryItem(name: $0, value: $1)
             }
         }

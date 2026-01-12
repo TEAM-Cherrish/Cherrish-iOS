@@ -19,7 +19,10 @@ protocol NetworkService {
 
 final class DefaultNetworkService: NetworkService {
     
-    func request<T: Decodable>(_ endPoint: EndPoint, decodingType: T.Type) async throws -> T {
+    func request<T: Decodable>(
+        _ endPoint: EndPoint,
+        decodingType: T.Type)
+    async throws -> T {
         requestLogger(endPoint)
         
         let response = await AF.request(
@@ -86,10 +89,12 @@ final class DefaultNetworkService: NetworkService {
             if let data = response.data,
                let errorResponse = try? JSONDecoder().decode(EmptyResponseDTO.self, from: data) {
                 let cherrishError = handleError(statusCode, errorResponse.message)
+                CherrishLogger.error(cherrishError)
                 throw cherrishError
+            } else {
+                CherrishLogger.error(error)
+                throw error
             }
-            
-            throw error
         }
     }
     
@@ -124,9 +129,6 @@ final class DefaultNetworkService: NetworkService {
             error = .conflict
         case 429:
             error = .tooManyRequests
-        case 408, 500...599:
-            error = .networkConnect
-
         default:
             error = .networkError(
                 code: statusCode,
