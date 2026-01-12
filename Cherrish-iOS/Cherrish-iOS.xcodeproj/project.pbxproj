@@ -6,8 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5131A5B82F120ED2004214DF /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 5131A5B72F120ED2004214DF /* Alamofire */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
-		5126F89E2F0E9AF000E67E33 /* OSLog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OSLog.framework; path = System/Library/Frameworks/OSLog.framework; sourceTree = SDKROOT; };
 		51B5D3182F0514390090B8B4 /* Cherrish-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cherrish-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -37,25 +40,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5131A5B82F120ED2004214DF /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5126F89D2F0E9AF000E67E33 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				5126F89E2F0E9AF000E67E33 /* OSLog.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		51B5D30F2F0514390090B8B4 = {
 			isa = PBXGroup;
 			children = (
 				51B5D31A2F0514390090B8B4 /* Cherrish-iOS */,
-				5126F89D2F0E9AF000E67E33 /* Frameworks */,
 				51B5D3192F0514390090B8B4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,6 +83,7 @@
 			);
 			name = "Cherrish-iOS";
 			packageProductDependencies = (
+				5131A5B72F120ED2004214DF /* Alamofire */,
 			);
 			productName = "Cherrish-iOS";
 			productReference = 51B5D3182F0514390090B8B4 /* Cherrish-iOS.app */;
@@ -117,6 +113,9 @@
 			);
 			mainGroup = 51B5D30F2F0514390090B8B4;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5131A5B62F120ED2004214DF /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 51B5D3192F0514390090B8B4 /* Products */;
 			projectDirPath = "";
@@ -359,6 +358,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5131A5B62F120ED2004214DF /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.11.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5131A5B72F120ED2004214DF /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5131A5B62F120ED2004214DF /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 51B5D3102F0514390090B8B4 /* Project object */;
 }
