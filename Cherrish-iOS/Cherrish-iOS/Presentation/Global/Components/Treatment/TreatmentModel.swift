@@ -10,5 +10,6 @@ import Foundation
 struct TreatmentModel {
     let name: String              
     let benefits: [String]
-    let downtime: String
+    let downtimeMin: Int
+    let downtimeMax: Int
 }
