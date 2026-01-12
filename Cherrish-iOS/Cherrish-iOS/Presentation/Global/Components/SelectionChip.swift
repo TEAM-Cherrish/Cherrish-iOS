@@ -16,7 +16,8 @@ struct SelectionChip: View {
         Text(title)
             .typography(.body1_m_14)
             .foregroundStyle(isSelected ? .gray800 : .gray700)
-            .frame(maxWidth: .infinity, height: 80)
+            .frame(maxWidth: .infinity)
+            .frame(height: 80)
             .background(isSelected ? .red200 : .gray0)
             .overlay(
                 RoundedRectangle(cornerRadius: 10)

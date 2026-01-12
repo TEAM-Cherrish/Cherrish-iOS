@@ -28,9 +28,14 @@ struct CherrishButton: View {
     
     var body: some View {
         Button(action: action) {
-            Text(title)
-                .typography(.title2_sb_16)
-                .foregroundStyle(type.textColor(for: state))
+            HStack{
+                Spacer()
+                Text(title)
+                    .typography(.title2_sb_16)
+                    .foregroundStyle(type.textColor(for: state))
+                Spacer()
+            }
+            
         }
         .buttonStyle(CherrishButtonStyle(state: state, type: type))
         .disabled(type.isDisabled(for: state))
@@ -44,17 +49,14 @@ struct CherrishButtonStyle: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .frame(
-                maxWidth: .infinity,
-                height: configuration.isPressed ? type.height * 0.95 : type.height
-            )
+            .frame(height: type.height)
             .background(type.backgroundColor(for: state))
             .clipShape(RoundedRectangle(cornerRadius: configuration.isPressed
                                         ? type.cornerRadius * 0.95
                                         : type.cornerRadius))
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
     }
 }
-
 
 extension CherrishButtonType {
     
@@ -104,3 +106,69 @@ extension CherrishButtonType {
         }
     }
 }
+
+
+struct CherrishButtonPreviewWrapper: View {
+    
+    @State private var nextState: ButtonState = .normal
+    @State private var activeNextState: ButtonState = .active
+    @State private var dummyState: ButtonState = .active
+
+    var body: some View {
+        VStack(spacing: 16) {
+
+            // NEXT - 비활성
+            CherrishButton(
+                title: "다음",
+                type: .next,
+                state: $nextState
+            ) {
+                print("Next (normal)")
+            }
+
+            // NEXT - 활성
+            CherrishButton(
+                title: "다음",
+                type: .next,
+                state: $activeNextState
+            ) {
+                print("Next (active)")
+            }
+            .padding(CGFloat(8))
+
+            // CONFIRM
+            CherrishButton(
+                title: "확인",
+                type: .confirm,
+                state: $dummyState
+            ) {
+                print("Confirm")
+            }
+
+            // SAVE
+            CherrishButton(
+                title: "등록하기",
+                type: .save,
+                state: $dummyState
+            ) {
+                print("Save")
+            }
+
+            // ADD EVENT
+            CherrishButton(
+                title: "다운타임 없이 일정 추가",
+                type: .addEvent,
+                state: $dummyState
+            ) {
+                print("Add Event")
+            }
+        }
+        .padding()
+        .background(Color.gray100)
+    }
+}
+#Preview {
+    CherrishButtonPreviewWrapper()
+}
+
+
