@@ -7,23 +7,34 @@
 
 import SwiftUI
 
-enum DetaTextFieldStyle: String {
+enum DateTextFieldStyle: String {
     case year = "YYYY"
     case month = "MM"
     case day = "DD"
+    
+    var kr: String {
+        switch self {
+        case .year:
+            "년"
+        case .month:
+            "월"
+        case.day:
+            "일"
+        }
+    }
 }
 
 struct DateTextField: View {
     @Binding var text: String
-    let placeholder: DetaTextFieldStyle
+    let placeholder: DateTextFieldStyle
     
     var body: some View {
         HStack(spacing: 0){
             ZStack {
                 if text.isEmpty {
                     HStack(alignment: .center){
-                        TypographyText(placeholder.rawValue, style: .title2_r_16)
-                            .gray600()
+                        TypographyText(placeholder.rawValue, style: .title2_r_16, color: .gray500)
+                        
                     }
                     
                 }
@@ -35,13 +46,13 @@ struct DateTextField: View {
             }
             .frame(height: 24.adjustedH)
         }
-        .padding(.horizontal, 16.adjustedH)
-        .padding(.vertical, 10.adjustedW)
+        .padding(.horizontal, 18.5.adjustedH)
+        .padding(.vertical, 8.adjustedW)
         .background {
             RoundedRectangle(cornerRadius: 10)
                 .stroke(.gray500, lineWidth: 1)
         }
-        .frame(height: 44.adjustedH)
+        .frame(height: 40.adjustedH)
     }
 }
 
