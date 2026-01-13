@@ -1,0 +1,120 @@
+//
+//  CalendarViewModel.swift
+//  Cherrish-iOS
+//
+//  Created by 이나연 on 1/12/26.
+//
+
+import Foundation
+
+struct DateValue: Identifiable, Hashable {
+    var id: String = UUID().uuidString
+    var day: Int
+    var date: Date
+}
+
+final class CalendarViewModel: ObservableObject {
+    @Published var currentDate: Date = Date()
+    @Published var currentMonth: Int = 0
+    @Published var selectedDate: Date? = Calendar.current.startOfDay(for: Date())
+    @Published private var procedureCountOfMonth: [Int: Int] = [:]
+    
+    private let fetchProcedureCountOfMonthUseCase: FetchProcedureCountOfMonth
+    
+    private var year: Int = 0
+    private var month: Int = 0
+    
+    init(fetchProcedureCountOfMonthUseCase: FetchProcedureCountOfMonth) {
+        self.fetchProcedureCountOfMonthUseCase = fetchProcedureCountOfMonthUseCase
+    }
+    
+    func select(date: Date) {
+        selectedDate = date
+    }
+    
+    func isSelected(_ value: DateValue) -> Bool {
+        guard let selectedDate else { return false }
+        return Calendar.current.isDate(value.date, inSameDayAs: selectedDate)
+    }
+    
+    func getYearAndMonthString() -> String {
+        let targetDate = getCurrentMonth(addingMonth: currentMonth)
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: targetDate)
+        let month = calendar.component(.month, from: targetDate)
+        return "\(year)년 \(month)월"
+    }
+    
+    func getDatesArray() -> [DateValue] {
+        return extractDate(currentMonth: currentMonth)
+    }
+    
+    func getProcedureCount(for value: DateValue) -> Int {
+        guard value.day != -1 else { return 0 }
+        return procedureCountOfMonth[value.day] ?? 0
+    }
+    
+    func firstDateOfCurrentMonth() -> Date {
+        let calendar = Calendar.current
+        let targetDate = getCurrentMonth(addingMonth: currentMonth)
+        
+        let components = calendar.dateComponents([.year, .month], from: targetDate)
+        return calendar.date(from: components)!
+    }
+    
+    func fetchProcedureCountsOfMonth() {
+        let calendar = Calendar.current
+        let targetDate = getCurrentMonth(addingMonth: currentMonth)
+        let year = calendar.component(.year, from: targetDate)
+        let month = calendar.component(.month, from: targetDate)
+        
+        procedureCountOfMonth = fetchProcedureCountOfMonthUseCase.execute(year: year, month: month)
+    }
+}
+
+extension CalendarViewModel {
+    private func getCurrentMonth(addingMonth: Int) -> Date {
+        let calendar = Calendar.current
+        
+        guard let currentMonth = calendar.date(
+            byAdding: .month,
+            value: addingMonth,
+            to: Date()
+        ) else {
+            return Date()
+        }
+        
+        return currentMonth
+    }
+    
+    private func getYearAndMonth(currenDate: Date)-> [String] {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy MM"
+        formatter.locale = Locale(identifier: "ko_KR")
+        
+        let date = formatter.string(from: currenDate)
+        CherrishLogger.debug(date)
+        
+        return date.components(separatedBy: " ")
+    }
+    
+    private func extractDate(currentMonth: Int) -> [DateValue] {
+        let calendar = Calendar.current
+        
+        let currentMonth = getCurrentMonth(addingMonth: currentMonth)
+        var days = currentMonth.getAllDates().compactMap { date -> DateValue in
+            let day = calendar.component(.day, from: date)
+            CherrishLogger.debug("day: \(day)")
+            
+            return DateValue(day: day, date: date)
+        }
+        
+        let firstWeekday = calendar.component(.weekday, from: days.first?.date ?? Date())
+        
+        for _ in 0 ..< firstWeekday - 1 {
+            days.insert(DateValue(day: -1, date: Date()), at: 0)
+        }
+        
+        return days
+    }
+}
