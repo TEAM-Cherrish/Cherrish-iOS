@@ -18,11 +18,10 @@ struct AgeTextBox: View {
                 Spacer()
             }
             Spacer()
-                .frame(height: 8)
+                .frame(height: 8.adjustedH)
             AgeTextField(text: $text, placeholder: placeholder)
         }
         
     }
     
 }
-
