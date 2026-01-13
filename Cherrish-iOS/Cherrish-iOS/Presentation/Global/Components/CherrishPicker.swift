@@ -11,18 +11,18 @@ import UIKit
 struct CustomWheelPicker: View {
     @Binding var selection: Int
     let range: ClosedRange<Int>
-    var width: CGFloat = 74
+    var width: CGFloat = 74.adjustedW
 
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12)
                 .fill(.gray300)
-                .frame(width: width, height: 44)
+                .frame(width: width, height: 44.adjustedH)
             
             PickerViewRepresentable(selection: $selection, range: range)
-                .frame(width: width + 20, height: 132)
+                .frame(width: width + 20.adjustedW, height: 132.adjustedH)
         }
-        .frame(width: width, height: 132)
+        .frame(width: width, height: 132.adjustedH)
         .clipped()
     }
 }
@@ -86,11 +86,11 @@ private struct PickerViewRepresentable: UIViewRepresentable {
         }
         
         func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-            44
+            44.adjustedH
         }
         
         func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-            60
+            60.adjustedW
         }
     }
 }
