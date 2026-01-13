@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChallengeCoordinatorView: View {
     @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
-    
+    @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
     var body: some View {
         NavigationStack(path: $challengeCoordinator.path) {
             ViewFactory.shared.makeStartChallengeView()
@@ -24,12 +24,28 @@ struct ChallengeCoordinatorView: View {
                     case .selectRoutine:
                         ViewFactory.shared.makeSelectRoutineView()
                             .navigationBarBackButtonHidden()
+                            .onAppear() {
+                                tabBarCoordinator.isTabbarHidden = true
+                            }
                     case .loading:
                         ViewFactory.shared.makeLoadingView()
                             .navigationBarBackButtonHidden()
+                            .onAppear() {
+                                tabBarCoordinator.isTabbarHidden = true
+                            }
                     case .selectMission:
                         ViewFactory.shared.makeSelectMissionView()
                             .navigationBarBackButtonHidden()
+                            .onAppear() {
+                                tabBarCoordinator.isTabbarHidden = true
+                            }
+                    case .challengeProgress:
+                        ViewFactory.shared.makeChallengeProgressView()
+                            .navigationBarBackButtonHidden()
+                            .onAppear() {
+                                tabBarCoordinator.isTabbarHidden = false
+                            }
+                        
                     }
                 }
         }

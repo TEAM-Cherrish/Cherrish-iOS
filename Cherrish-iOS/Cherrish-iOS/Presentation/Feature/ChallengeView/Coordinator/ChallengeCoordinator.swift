@@ -13,6 +13,7 @@ enum ChallengeRoute: PresentationTypeProtocol {
     case selectRoutine
     case loading
     case selectMission
+    case challengeProgress
 }
 
 final class ChallengeCoordinator: CoordinatorProtocol {

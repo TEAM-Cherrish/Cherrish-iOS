@@ -1,24 +1,38 @@
 //
-//  LoadingView.swift
+// LoadingView.swift
 //  Cherrish-iOS
 //
-//  Created by 이나연 on 1/10/26.
+//  Created by sumin Kong on 1/10/26.
 //
 
 import SwiftUI
 
 struct LoadingView: View {
-    @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
-    
+   @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
+   
     var body: some View {
-        ZStack {
-            Color.red600
-            VStack {
-                Text("Loading")
-                Button("next") {
-                    challengeCoordinator.push(.root)
-                }
-            }
-        }
-    }
+        VStack(alignment: .center) {
+           CherrishNavigationBar(
+            isDisplayRightButton:false,
+            leftButtonAction: challengeCoordinator.pop
+           )
+           VStack(alignment: .leading, spacing: 0) {
+               HStack(spacing:0) {
+                   TypographyText("피부 컨디션", style: .title1_sb_18, color: .red700)
+                   TypographyText(" 관리 방향을 바탕으로", style: .title1_sb_18, color: .gray800)
+               }
+               TypographyText("TODO 미션을 만들고 있어요.", style: .title1_sb_18, color: .gray800)
+                   .padding(.horizontal,)
+           }
+           .padding(.top, 113.adjustedH)
+       }
+           
+        Image(.loading)
+           .padding(.top, 17.adjustedH)
+       TypographyText("잠시만 기다려주세요!", style: .title2_sb_16, color: .gray800)
+           .padding(.top, 17.adjustedH)
+       Spacer()
+       TypographyText("AI가 맞춤형 루틴을 제작하고 있어요.", style: .body3_m_12, color: .gray600)
+           .padding(.bottom, 30.adjustedH)
+   }
 }

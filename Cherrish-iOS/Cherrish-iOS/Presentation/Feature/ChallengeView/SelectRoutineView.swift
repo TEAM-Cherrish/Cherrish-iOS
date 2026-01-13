@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 enum RoutineType{
     case skinCondition
     case lifeStyle
@@ -68,6 +66,7 @@ struct SelectRoutineView: View {
         }
     }
 }
+
 
 private extension SelectRoutineView {
     func routineChip(title: String, type: RoutineType) -> some View {
