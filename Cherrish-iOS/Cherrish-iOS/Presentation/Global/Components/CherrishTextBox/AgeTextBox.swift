@@ -14,7 +14,7 @@ struct AgeTextBox: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                TypographyText("나이", style: .body1_sb_14)
+                TypographyText("나이", style: .body1_sb_14,color: .gray1000)
                 Spacer()
             }
             Spacer()
