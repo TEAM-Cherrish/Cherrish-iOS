@@ -35,7 +35,7 @@ struct AgeTextField: View {
             RoundedRectangle(cornerRadius: 10)
                 .stroke(.gray500, lineWidth: 1)
         }
-        .frame(height: 40)
+        .frame(height: 44)
          
     }
 }
