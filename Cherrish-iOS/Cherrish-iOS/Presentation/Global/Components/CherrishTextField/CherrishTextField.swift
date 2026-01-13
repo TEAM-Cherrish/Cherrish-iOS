@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AgeTextField: View {
+struct CherrishTextField: View {
     @Binding var text: String
     let placeholder: String
     var body: some View {

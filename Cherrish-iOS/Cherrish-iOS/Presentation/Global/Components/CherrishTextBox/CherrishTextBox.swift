@@ -7,19 +7,20 @@
 
 import SwiftUI
 
-struct AgeTextBox: View {
+struct CherrishTextBox: View {
+    var title: String
     @Binding var text: String
     let placeholder: String
 
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                TypographyText("나이", style: .body1_sb_14,color: .gray1000)
+                TypographyText(title, style: .body1_sb_14,color: .gray1000)
                 Spacer()
             }
             Spacer()
                 .frame(height: 8.adjustedH)
-            AgeTextField(text: $text, placeholder: placeholder)
+            CherrishTextField(text: $text, placeholder: placeholder)
         }
         
     }
