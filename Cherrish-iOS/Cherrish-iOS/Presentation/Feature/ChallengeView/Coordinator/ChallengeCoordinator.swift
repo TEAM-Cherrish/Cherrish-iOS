@@ -10,8 +10,9 @@ import SwiftUI
 enum ChallengeRoute: PresentationTypeProtocol {
     case root
     case startChallenge
-    case selectMission
+    case selectRoutine
     case loading
+    case selectMission
 }
 
 final class ChallengeCoordinator: CoordinatorProtocol {
