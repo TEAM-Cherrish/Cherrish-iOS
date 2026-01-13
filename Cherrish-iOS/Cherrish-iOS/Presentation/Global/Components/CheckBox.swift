@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CheckBoxComponent: View {
-    private enum Constants {
+    private enum CheckBoxStyle {
         static let borderColor = Color(.gray500)
         static let checkedTextColor = Color(.gray500)
         static let uncheckedTextColor = Color(.gray800)
@@ -28,28 +28,28 @@ struct CheckBoxComponent: View {
     
     var body: some View {
         Button(action: {
-            withAnimation(.easeInOut(duration: Constants.animationDuration)) {
+            withAnimation(.easeInOut(duration: CheckBoxStyle.animationDuration)) {
                 isChecked.toggle()
             }
         }) {
-            HStack(spacing: Constants.horizontalSpacing) {
+            HStack(spacing: CheckBoxStyle.horizontalSpacing) {
                 Image(isChecked ? "checkbox_active" : "checkbox_default")
-                    .frame(width: Constants.checkboxSize, height: Constants.checkboxSize)
+                    .frame(width: CheckBoxStyle.checkboxSize, height: CheckBoxStyle.checkboxSize)
                 
-                TypographyText(text, style: .body1_r_14, color: isChecked ? Constants.checkedTextColor : Constants.uncheckedTextColor)
-                    .strikethrough(isChecked, color: Constants.checkedTextColor)
+                TypographyText(text, style: .body1_r_14, color: isChecked ? CheckBoxStyle.checkedTextColor : CheckBoxStyle.uncheckedTextColor)
+                    .strikethrough(isChecked, color: CheckBoxStyle.checkedTextColor)
                 
                 Spacer()
             }
-            .padding(.horizontal, Constants.horizontalPadding)
-            .padding(.vertical, Constants.verticalPadding)
+            .padding(.horizontal, CheckBoxStyle.horizontalPadding)
+            .padding(.vertical, CheckBoxStyle.verticalPadding)
             .background(
-                RoundedRectangle(cornerRadius: Constants.containerCornerRadius)
+                RoundedRectangle(cornerRadius: CheckBoxStyle.containerCornerRadius)
                     .fill(Color.white)
             )
             .overlay(
-                RoundedRectangle(cornerRadius: Constants.containerCornerRadius)
-                    .stroke(Constants.borderColor, lineWidth: 1)
+                RoundedRectangle(cornerRadius: CheckBoxStyle.containerCornerRadius)
+                    .stroke(CheckBoxStyle.borderColor, lineWidth: 1)
             )
         }
         .buttonStyle(PlainButtonStyle())
