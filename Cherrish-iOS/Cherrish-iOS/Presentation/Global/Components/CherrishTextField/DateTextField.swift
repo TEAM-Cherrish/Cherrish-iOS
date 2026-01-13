@@ -43,6 +43,7 @@ struct DateTextField: View {
                     .multilineTextAlignment(.center)
                     .typography(.title2_m_16)
                     .accentColor(.gray1000)
+                    .keyboardType(.numberPad)
             }
             .frame(height: 24.adjustedH)
         }

@@ -24,6 +24,7 @@ struct AgeTextField: View {
                 TextField("" ,text: $text)
                     .gray1000()
                     .multilineTextAlignment(.leading)
+                    .keyboardType(.numberPad)
                     .typography(.body1_m_14)
                     .accentColor(.gray1000)
             }
