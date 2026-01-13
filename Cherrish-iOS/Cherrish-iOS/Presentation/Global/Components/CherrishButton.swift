@@ -28,9 +28,14 @@ struct CherrishButton: View {
     
     var body: some View {
         Button(action: action) {
-            Text(title)
-                .typography(.title2_sb_16)
-                .foregroundStyle(type.textColor(for: state))
+            HStack{
+                Spacer()
+                Text(title)
+                    .typography(.title2_sb_16)
+                    .foregroundStyle(type.textColor(for: state))
+                Spacer()
+            }
+            
         }
         .buttonStyle(CherrishButtonStyle(state: state, type: type))
         .disabled(type.isDisabled(for: state))
@@ -44,34 +49,22 @@ struct CherrishButtonStyle: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .frame(
-                width: configuration.isPressed ? type.width * 0.95 : type.width,
-                height: configuration.isPressed ? type.height * 0.95 : type.height
-            )
+            .frame(height: type.height)
             .background(type.backgroundColor(for: state))
             .clipShape(RoundedRectangle(cornerRadius: configuration.isPressed
                                         ? type.cornerRadius * 0.95
                                         : type.cornerRadius))
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
     }
 }
 
-
 extension CherrishButtonType {
-    
-    var width: CGFloat {
-        switch self {
-        case .next: return 326
-        case .confirm: return 126
-        case .save: return 278
-        case .addEvent: return 196
-        }
-    }
     
     var height: CGFloat {
         switch self {
-        case .save: return 44
+        case .save: return 44.adjustedH
         default:
-            return 50
+            return 50.adjustedH
         }
     }
     

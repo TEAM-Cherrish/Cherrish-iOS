@@ -10,6 +10,6 @@
 		<string>Pretendard-SemiBold.otf</string>
 	</array>
 	<key>UIDesignRequiresCompatibility</key>
-	<false/>
+	<true/>
 </dict>
 </plist>
