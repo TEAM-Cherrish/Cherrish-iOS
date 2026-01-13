@@ -13,15 +13,11 @@ struct StartChallengeView: View {
     @State private var startButtonState: ButtonState = .active
     
     var body: some View {
-        VStack{
-            HStack{
-                VStack(alignment: .leading, spacing: 4){
-                    Text("이번엔 어떤 루틴으로 관리할까요?")
-                        .typography(.headline_sb_20)
-                        .foregroundStyle(.gray1000)
-                    Text("루틴을 지킬수록 체리가 성장해요.")
-                        .typography(.title2_m_16)
-                        .foregroundStyle(.gray800)
+        VStack {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    TypographyText("이번엔 어떤 루틴으로 관리할까요?", style: .headline_sb_20, color: .gray1000)
+                    TypographyText("루틴을 지킬수록 체리가 성장해요.", style: .title2_m_16, color: .gray800)
                 }
                 Spacer()
             }
@@ -30,17 +26,15 @@ struct StartChallengeView: View {
             
             Spacer()
             
-            Image("challengeStartCherry")
+            Image(.challengeStartCherry)
             
             Spacer()
             
-            HStack(spacing: 12){
+            HStack(spacing: 12) {
                 Image("info")
-                Text("이 챌린지는 설정 시점부터 7일간 진행됩니다.")
-                    .typography(.body3_m_12)
-                    .foregroundStyle(.gray600)
+                TypographyText("이 챌린지는 설정 시점부터 7일간 진행됩니다.", style: .body3_m_12, color: .gray600)
             }
-            .padding(.bottom, 12)
+            .padding(.bottom, 12.adjustedH)
             
             CherrishButton(title: "챌린지 시작하기", type: .next, state: $startButtonState) {
                 challengeCoordinator.push(.selectRoutine)
