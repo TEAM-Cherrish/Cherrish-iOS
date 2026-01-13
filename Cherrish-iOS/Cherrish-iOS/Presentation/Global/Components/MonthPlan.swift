@@ -37,10 +37,11 @@ struct MonthPlan: View {
             
             TypographyText("회복 \(dDay)일차", style: .body1_r_14, color: Self.textColor)
             
-            Spacer().frame(width: Self.tagSpacing)
+            Spacer()
+                .frame(width: Self.tagSpacing)
             
             TypographyText(tag, style: .body3_r_12, color: Self.tagTextColor)
-                .frame(width: 32, height: 18)
+                .frame(width: 32, height: 22)
                 .padding(.horizontal, Self.tagPaddingHorizontal)
                 .padding(.vertical, Self.tagPaddingVertical)
                 .background(
@@ -60,4 +61,3 @@ struct MonthPlan: View {
         )
     }
 }
-
