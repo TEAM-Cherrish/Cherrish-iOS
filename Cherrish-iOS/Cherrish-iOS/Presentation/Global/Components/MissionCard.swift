@@ -25,13 +25,13 @@ struct MissionCard: View {
             Text(missionText)
                 .typography(.body1_m_14)
                 .foregroundStyle(isSelected ? .gray800 : .gray700)
-                .padding(.leading, 8)
-                .padding(.bottom, 6)
+                .padding(.leading, 8.adjustedW)
+                .padding(.bottom, 6.adjustedH)
         }
-        .padding(.horizontal, 7)
-        .padding(.vertical, 6)
+        .padding(.horizontal, 7.adjustedW)
+        .padding(.vertical, 6.adjustedH)
         .frame(maxWidth: .infinity)
-        .frame(height: 80)
+        .frame(height: 80.adjustedH)
         .background(isSelected ? .red200 : .gray0)
         .overlay(
             RoundedRectangle(cornerRadius: 10)
