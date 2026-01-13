@@ -25,8 +25,8 @@ struct StartChallengeView: View {
                 }
                 Spacer()
             }
-            .padding(.top, 84)
-            .padding(.leading, 24)
+            .padding(.top, 84.adjustedH)
+            .padding(.leading, 24.adjustedW)
             
             Spacer()
             
@@ -45,8 +45,8 @@ struct StartChallengeView: View {
             CherrishButton(title: "챌린지 시작하기", type: .next, state: $startButtonState) {
                 challengeCoordinator.push(.selectRoutine)
             }
-            .padding(.horizontal, 24)
-            .padding(.bottom, 36)
+            .padding(.horizontal, 24.adjustedW)
+            .padding(.bottom, 36.adjustedH)
         }
     }
 }
