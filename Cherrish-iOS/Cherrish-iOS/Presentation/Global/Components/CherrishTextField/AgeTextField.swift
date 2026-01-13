@@ -16,16 +16,13 @@ struct AgeTextField: View {
             ZStack {
                 if text.isEmpty {
                     HStack{
-                        Text(placeholder)
-                            .typography(.body1_r_14)
-                            .foregroundStyle(.gray600)
-                        
+                        TypographyText(placeholder, style: .body1_r_14, color: .gray600)
                         Spacer()
                     }
                     
                 }
                 TextField("" ,text: $text)
-                    .foregroundStyle(.gray1000)
+                    .gray1000()
                     .multilineTextAlignment(.leading)
                     .typography(.body1_m_14)
                     .accentColor(.gray1000)
