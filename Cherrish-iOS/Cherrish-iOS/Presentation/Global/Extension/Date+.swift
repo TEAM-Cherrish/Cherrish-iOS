@@ -16,4 +16,13 @@ extension Date {
             calendar.date(byAdding: .day, value: day - 1, to: startDate) ?? Date()
         }
     }
+    
+    func toDateString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+
+        return formatter.string(from: self)
+    }
 }
