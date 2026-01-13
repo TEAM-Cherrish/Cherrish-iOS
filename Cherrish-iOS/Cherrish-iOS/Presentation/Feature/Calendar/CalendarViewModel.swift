@@ -16,16 +16,22 @@ struct DateValue: Identifiable, Hashable {
 final class CalendarViewModel: ObservableObject {
     @Published var currentDate: Date = Date()
     @Published var currentMonth: Int = 0
-    @Published var selectedDate: Date? = Calendar.current.startOfDay(for: Date())
+    @Published var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @Published private var procedureCountOfMonth: [Int: Int] = [:]
+    @Published var procedureList: [ProcedureEntity] = []
     
     private let fetchProcedureCountOfMonthUseCase: FetchProcedureCountOfMonth
+    private let fetchTodayProcedureListUseCase: FetchTodayProcedureList
     
     private var year: Int = 0
     private var month: Int = 0
     
-    init(fetchProcedureCountOfMonthUseCase: FetchProcedureCountOfMonth) {
+    init(
+        fetchProcedureCountOfMonthUseCase: FetchProcedureCountOfMonth,
+        fetchTodayProcedureListUseCase: FetchTodayProcedureList
+    ) {
         self.fetchProcedureCountOfMonthUseCase = fetchProcedureCountOfMonthUseCase
+        self.fetchTodayProcedureListUseCase = fetchTodayProcedureListUseCase
     }
     
     func select(date: Date) {
@@ -33,7 +39,6 @@ final class CalendarViewModel: ObservableObject {
     }
     
     func isSelected(_ value: DateValue) -> Bool {
-        guard let selectedDate else { return false }
         return Calendar.current.isDate(value.date, inSameDayAs: selectedDate)
     }
     
@@ -62,13 +67,19 @@ final class CalendarViewModel: ObservableObject {
         return calendar.date(from: components)!
     }
     
-    func fetchProcedureCountsOfMonth() {
+    @MainActor
+    func fetchProcedureCountsOfMonth() async throws {
         let calendar = Calendar.current
         let targetDate = getCurrentMonth(addingMonth: currentMonth)
         let year = calendar.component(.year, from: targetDate)
         let month = calendar.component(.month, from: targetDate)
         
-        procedureCountOfMonth = fetchProcedureCountOfMonthUseCase.execute(year: year, month: month)
+        procedureCountOfMonth = try await fetchProcedureCountOfMonthUseCase.execute(year: year, month: month)
+    }
+    
+    @MainActor
+    func fetchTodayProcedureList() async throws {
+        procedureList = try await fetchTodayProcedureListUseCase.execute(date: selectedDate.toDateString())
     }
 }
 
