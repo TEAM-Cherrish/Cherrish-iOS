@@ -33,5 +33,8 @@ final class DomainDependencyAssembler: DependencyAssembler {
             return DefaultFetchDashboardData(repository: homeRepository)
         }
     
+        DIContainer.shared.register(type: FetchTodayProcedureList.self) {
+            return DefaultFetchTodayProcedure(repository: calendarRepository)
+        }
     }
 }

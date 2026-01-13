@@ -21,13 +21,18 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return OnboardingViewModel()
         }
         
-        guard let fetchProcedureCountOfMonthUseCase = DIContainer.shared.resolve(type: FetchProcedureCountOfMonth.self) else {
+        guard let fetchProcedureCountOfMonthUseCase = DIContainer.shared.resolve(type: FetchProcedureCountOfMonth.self),
+            let fetchTodayProcedureListUseCase = DIContainer.shared.resolve(type: FetchTodayProcedureList.self)
+        else {
             CherrishLogger.error(CherrishError.DIFailedError)
             return
         }
         
         DIContainer.shared.register(type: CalendarViewModel.self) {
-            return CalendarViewModel(fetchProcedureCountOfMonthUseCase: fetchProcedureCountOfMonthUseCase)
+            return CalendarViewModel(
+                fetchProcedureCountOfMonthUseCase: fetchProcedureCountOfMonthUseCase,
+                fetchTodayProcedureListUseCase: fetchTodayProcedureListUseCase
+            )
         }
         
         guard let fetchDashboardData = DIContainer.shared.resolve(type: FetchDashboardData.self) else {
