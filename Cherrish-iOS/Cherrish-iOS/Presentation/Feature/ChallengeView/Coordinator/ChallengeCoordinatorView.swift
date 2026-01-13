@@ -17,16 +17,22 @@ struct ChallengeCoordinatorView: View {
                     switch route {
                     case .root:
                         ViewFactory.shared.makeChallengeView()
+                            .navigationBarBackButtonHidden()
                     case .startChallenge:
                         ViewFactory.shared.makeStartChallengeView()
+                            .navigationBarBackButtonHidden()
                     case .selectRoutine:
                         ViewFactory.shared.makeSelectRoutineView()
+                            .navigationBarBackButtonHidden()
                     case .loading:
                         ViewFactory.shared.makeLoadingView()
+                            .navigationBarBackButtonHidden()
                     case .selectMission:
                         ViewFactory.shared.makeSelectMissionView()
+                            .navigationBarBackButtonHidden()
                     }
                 }
         }
+        .ignoresSafeArea(.all)
     }
 }
