@@ -33,10 +33,19 @@ struct DateTextBox: View {
 private struct DateLabel: View {
     @Binding var text: String
     let placeholderStyle: DateTextFieldStyle
-    fileprivate var body: some View {
+    var body: some View {
         HStack {
-            DateTextField(text: $text , placeholder: placeholderStyle)
-            TypographyText(placeholderStyle.kr, style: .title2_m_16, color: .gray700)
+            CherrishTextField(
+                text: $text,
+                style: .date(
+                    placeholder: placeholderStyle
+                )
+            )
+            TypographyText(
+                placeholderStyle.kr,
+                style: .title2_m_16,
+                color: .gray700
+            )
         }
     }
 }
