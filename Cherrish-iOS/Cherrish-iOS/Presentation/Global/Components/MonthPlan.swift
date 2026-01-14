@@ -11,53 +11,40 @@ struct MonthPlan: View {
     let interaction: String
     let dDay: Int
     let tag: String
-    
     private static let textColor: Color = .gray900
-    private static let tagTextColor: Color = .gray700
-    private static let tagBorderColor: Color = .gray400
-    private static let containerBorderColor: Color = .gray400
-    private static let containerBackgroundColor: Color = .gray0
-    
-    private static let tagSpacing: CGFloat = 6
-    private static let tagPaddingHorizontal: CGFloat = 8
-    private static let tagPaddingVertical: CGFloat = 2
-    private static let tagBorderWidth: CGFloat = 1
-    private static let tagCornerRadius: CGFloat = 20
-    private static let containerPaddingVertical: CGFloat = 12
-    private static let containerPaddingLeading: CGFloat = 14
-    private static let cornerRadius: CGFloat = 10
-    private static let containerBorderWidth: CGFloat = 1
     
     var body: some View {
         HStack(spacing: 0) {
-            
             TypographyText(interaction, style: .body1_m_14, color: Self.textColor)
-            
             TypographyText(" • ", style: .body1_m_14, color: Self.textColor)
-            
             TypographyText("회복 \(dDay)일차", style: .body1_r_14, color: Self.textColor)
             
             Spacer()
-                .frame(width: Self.tagSpacing)
+                .frame(width: 6)
             
-            TypographyText(tag, style: .body3_r_12, color: Self.tagTextColor)
+            TypographyText(tag, style: .body3_r_12, color: .gray700)
                 .frame(width: 32, height: 22)
-                .padding(.horizontal, Self.tagPaddingHorizontal)
-                .padding(.vertical, Self.tagPaddingVertical)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 2)
                 .background(
-                    RoundedRectangle(cornerRadius: Self.tagCornerRadius)
-                        .strokeBorder(Self.tagBorderColor, lineWidth: Self.tagBorderWidth)
+                    RoundedRectangle(cornerRadius: 20)
+                        .strokeBorder(.gray400, lineWidth: 1)
                 )
             
             Spacer()
         }
-        .padding(.vertical, Self.containerPaddingVertical)
-        .padding(.leading, Self.containerPaddingLeading)
-        .background(Self.containerBackgroundColor)
-        .clipShape(RoundedRectangle(cornerRadius: Self.cornerRadius))
+        .padding(.vertical, 12)
+        .padding(.horizontal, 14)
+        .background(.gray0)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
         .overlay(
-            RoundedRectangle(cornerRadius: Self.cornerRadius)
-                .strokeBorder(Self.containerBorderColor, lineWidth: Self.containerBorderWidth)
+            RoundedRectangle(cornerRadius: 10)
+                .strokeBorder(.gray400, lineWidth: 1)
         )
     }
+}
+
+#Preview {
+    MonthPlan(interaction: "복합 박피", dDay: 7, tag: "주의기")
+        .padding()
 }
