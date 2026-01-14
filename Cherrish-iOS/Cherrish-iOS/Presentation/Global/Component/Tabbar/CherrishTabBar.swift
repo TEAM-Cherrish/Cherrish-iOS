@@ -60,7 +60,7 @@ struct CherrishTabBar: View {
                     VStack(alignment: .center, spacing: 3) {
                         Image(selectedTab == tab ? tab.selectedIcon : tab.defaultIcon)
                             .resizable()
-                            .frame(width: 24, height: 24)
+                            .frame(width: 24.adjustedW, height: 24.adjustedW)
                         Text(tab.title)
                             .typography(.body3_m_12)
                             .foregroundColor(selectedTab == tab ? .gray1000 : .gray500)
@@ -69,9 +69,9 @@ struct CherrishTabBar: View {
                 }
             }
         }
-        .padding(.horizontal, 24.5)
-        .padding(.top, 10)
-        .frame(height: 54)
+        .padding(.horizontal, 24.5.adjustedW)
+        .padding(.top, 10.adjustedH)
+        .frame(height: 54.adjustedH)
         
     }
 }

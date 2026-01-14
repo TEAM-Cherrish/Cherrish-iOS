@@ -62,9 +62,9 @@ extension CherrishButtonType {
     
     var height: CGFloat {
         switch self {
-        case .save: return 44
+        case .save: return 44.adjustedH
         default:
-            return 50
+            return 50.adjustedH
         }
     }
     
@@ -106,69 +106,3 @@ extension CherrishButtonType {
         }
     }
 }
-
-
-struct CherrishButtonPreviewWrapper: View {
-    
-    @State private var nextState: ButtonState = .normal
-    @State private var activeNextState: ButtonState = .active
-    @State private var dummyState: ButtonState = .active
-
-    var body: some View {
-        VStack(spacing: 16) {
-
-            // NEXT - 비활성
-            CherrishButton(
-                title: "다음",
-                type: .next,
-                state: $nextState
-            ) {
-                print("Next (normal)")
-            }
-
-            // NEXT - 활성
-            CherrishButton(
-                title: "다음",
-                type: .next,
-                state: $activeNextState
-            ) {
-                print("Next (active)")
-            }
-            .padding(CGFloat(8))
-
-            // CONFIRM
-            CherrishButton(
-                title: "확인",
-                type: .confirm,
-                state: $dummyState
-            ) {
-                print("Confirm")
-            }
-
-            // SAVE
-            CherrishButton(
-                title: "등록하기",
-                type: .save,
-                state: $dummyState
-            ) {
-                print("Save")
-            }
-
-            // ADD EVENT
-            CherrishButton(
-                title: "다운타임 없이 일정 추가",
-                type: .addEvent,
-                state: $dummyState
-            ) {
-                print("Add Event")
-            }
-        }
-        .padding()
-        .background(Color.gray100)
-    }
-}
-#Preview {
-    CherrishButtonPreviewWrapper()
-}
-
-
