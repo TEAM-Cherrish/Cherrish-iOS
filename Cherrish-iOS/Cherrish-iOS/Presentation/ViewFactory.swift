@@ -19,6 +19,7 @@ protocol ViewFactoryProtocol {
     func makeSelectRoutineView() -> SelectRoutineView
     func makeSelectMissionView() -> SelectMissionView
     func makeLoadingView() -> LoadingView
+    func makeChallengeProgressView() -> ChallengeProgressView
 }
 
 final class ViewFactory: ViewFactoryProtocol {
@@ -72,5 +73,9 @@ final class ViewFactory: ViewFactoryProtocol {
     
     func makeLoadingView() -> LoadingView {
         return LoadingView()
+    }
+    
+    func makeChallengeProgressView() -> ChallengeProgressView {
+        return ChallengeProgressView()
     }
 }

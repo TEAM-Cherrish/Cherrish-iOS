@@ -9,23 +9,40 @@ import SwiftUI
 
 struct ChallengeCoordinatorView: View {
     @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
-    
+    @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
     var body: some View {
         NavigationStack(path: $challengeCoordinator.path) {
             ViewFactory.shared.makeStartChallengeView()
                 .navigationDestination(for: ChallengeRoute.self) { route in
-                    switch route {
-                    case .root:
-                        ViewFactory.shared.makeChallengeView()
-                    case .startChallenge:
-                        ViewFactory.shared.makeStartChallengeView()
-                    case .selectRoutine:
-                        ViewFactory.shared.makeSelectRoutineView()
-                    case .loading:
-                        ViewFactory.shared.makeLoadingView()
-                    case .selectMission:
-                        ViewFactory.shared.makeSelectMissionView()
+                    Group {
+                        switch route {
+                        case .root:
+                            ViewFactory.shared.makeChallengeView()
+                        case .startChallenge:
+                            ViewFactory.shared.makeStartChallengeView()
+                        case .selectRoutine:
+                            ViewFactory.shared.makeSelectRoutineView()
+                                .onAppear() {
+                                    tabBarCoordinator.isTabbarHidden = true
+                                }
+                        case .loading:
+                            ViewFactory.shared.makeLoadingView()
+                                .onAppear() {
+                                    tabBarCoordinator.isTabbarHidden = true
+                                }
+                        case .selectMission:
+                            ViewFactory.shared.makeSelectMissionView()
+                                .onAppear() {
+                                    tabBarCoordinator.isTabbarHidden = true
+                                }
+                        case .challengeProgress:
+                            ViewFactory.shared.makeChallengeProgressView()
+                                .onAppear() {
+                                    tabBarCoordinator.isTabbarHidden = false
+                                }
+                        }
                     }
+                    .navigationBarBackButtonHidden()
                 }
         }
     }
