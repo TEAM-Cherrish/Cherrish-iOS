@@ -14,41 +14,36 @@ struct ChallengeCoordinatorView: View {
         NavigationStack(path: $challengeCoordinator.path) {
             ViewFactory.shared.makeStartChallengeView()
                 .navigationDestination(for: ChallengeRoute.self) { route in
-                    switch route {
-                    case .root:
-                        ViewFactory.shared.makeChallengeView()
-                            .navigationBarBackButtonHidden()
-                    case .startChallenge:
-                        ViewFactory.shared.makeStartChallengeView()
-                            .navigationBarBackButtonHidden()
-                    case .selectRoutine:
-                        ViewFactory.shared.makeSelectRoutineView()
-                            .navigationBarBackButtonHidden()
-                            .onAppear() {
-                                tabBarCoordinator.isTabbarHidden = true
-                            }
-                    case .loading:
-                        ViewFactory.shared.makeLoadingView()
-                            .navigationBarBackButtonHidden()
-                            .onAppear() {
-                                tabBarCoordinator.isTabbarHidden = true
-                            }
-                    case .selectMission:
-                        ViewFactory.shared.makeSelectMissionView()
-                            .navigationBarBackButtonHidden()
-                            .onAppear() {
-                                tabBarCoordinator.isTabbarHidden = true
-                            }
-                    case .challengeProgress:
-                        ViewFactory.shared.makeChallengeProgressView()
-                            .navigationBarBackButtonHidden()
-                            .onAppear() {
-                                tabBarCoordinator.isTabbarHidden = false
-                            }
-                        
+                    Group {
+                        switch route {
+                        case .root:
+                            ViewFactory.shared.makeChallengeView()
+                        case .startChallenge:
+                            ViewFactory.shared.makeStartChallengeView()
+                        case .selectRoutine:
+                            ViewFactory.shared.makeSelectRoutineView()
+                                .onAppear() {
+                                    tabBarCoordinator.isTabbarHidden = true
+                                }
+                        case .loading:
+                            ViewFactory.shared.makeLoadingView()
+                                .onAppear() {
+                                    tabBarCoordinator.isTabbarHidden = true
+                                }
+                        case .selectMission:
+                            ViewFactory.shared.makeSelectMissionView()
+                                .onAppear() {
+                                    tabBarCoordinator.isTabbarHidden = true
+                                }
+                        case .challengeProgress:
+                            ViewFactory.shared.makeChallengeProgressView()
+                                .onAppear() {
+                                    tabBarCoordinator.isTabbarHidden = false
+                                }
+                        }
                     }
+                    .navigationBarBackButtonHidden()
                 }
         }
-        .ignoresSafeArea(.all)
     }
 }

@@ -12,6 +12,19 @@ enum RoutineType{
     case lifeStyle
     case bodyShaping
     case wellness
+    
+    var title: String {
+        switch self {
+        case .skinCondition:
+            return "피부 컨디션"
+        case .lifeStyle:
+            return "생활습관"
+        case .bodyShaping:
+            return "체형 관리"
+        case .wellness:
+            return "웰니스∙마음챙김"
+        }
+    }
 }
 
 struct SelectRoutineView: View {
@@ -45,12 +58,12 @@ struct SelectRoutineView: View {
                         
             VStack(spacing: 12) {
                 HStack(spacing: 12) {
-                    routineChip(title: "피부 컨디션", type: .skinCondition)
-                    routineChip(title: "생활습관", type: .lifeStyle)
+                    routineChip(type: .skinCondition)
+                    routineChip(type: .lifeStyle)
                 }
                 HStack(spacing: 12) {
-                    routineChip(title: "체형 관리", type: .bodyShaping)
-                    routineChip(title: "웰니스∙마음챙김", type: .wellness)
+                    routineChip(type: .bodyShaping)
+                    routineChip(type: .wellness)
                 }
             }
             .padding(.horizontal, 33.adjustedW)
@@ -67,10 +80,14 @@ struct SelectRoutineView: View {
     }
 }
 
-
 private extension SelectRoutineView {
-    func routineChip(title: String, type: RoutineType) -> some View {
-        SelectionChip(title: title, isSelected: Binding(get: {selectedRoutine == type},
-                                                        set: {isSelected in selectedRoutine = isSelected ? type : nil}))
+    func routineChip(type: RoutineType) -> some View {
+        SelectionChip(
+            title: type.title,
+            isSelected: Binding(get: {selectedRoutine == type},
+                                set: {isSelected in
+                                    guard isSelected else { return }
+                                    selectedRoutine = type})
+        )
     }
 }
