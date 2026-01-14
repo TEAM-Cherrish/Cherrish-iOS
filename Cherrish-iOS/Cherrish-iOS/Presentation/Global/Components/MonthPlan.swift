@@ -20,26 +20,26 @@ struct MonthPlan: View {
             TypographyText("회복 \(dDay)일차", style: .body1_r_14, color: Self.textColor)
             
             Spacer()
-                .frame(width: 6)
+                .frame(width: 6.adjustedW)
             
             TypographyText(tag, style: .body3_r_12, color: .gray700)
-                .frame(width: 32, height: 22)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 2)
+                .frame(width: 32.adjustedW, height: 22.adjustedH)
+                .padding(.horizontal, 8.adjustedW)
+                .padding(.vertical, 2.adjustedH)
                 .background(
-                    RoundedRectangle(cornerRadius: 20)
-                        .strokeBorder(.gray400, lineWidth: 1)
+                    RoundedRectangle(cornerRadius: 20.adjustedW)
+                        .strokeBorder(.gray400, lineWidth: 1.adjustedW)
                 )
             
             Spacer()
         }
-        .padding(.vertical, 12)
-        .padding(.horizontal, 14)
+        .padding(.vertical, 12.adjustedH)
+        .padding(.horizontal, 14.adjustedW)
         .background(.gray0)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .clipShape(RoundedRectangle(cornerRadius: 10.adjustedW))
         .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .strokeBorder(.gray400, lineWidth: 1)
+            RoundedRectangle(cornerRadius: 10.adjustedW)
+                .strokeBorder(.gray400, lineWidth: 1.adjustedW)
         )
     }
 }
