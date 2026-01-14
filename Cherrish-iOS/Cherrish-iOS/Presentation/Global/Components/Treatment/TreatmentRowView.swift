@@ -9,56 +9,55 @@ import SwiftUI
 
 struct TreatmentRowView: View {
     let displayMode: TreatmentDisplayMode
-    let treatmentModel: TreatmentModel
+    let treatmentEntity: TreatmentEntity
     @Binding var isSelected: Bool
-    var isCompleted: Binding<Bool>?
-    let action:  () -> Void
+    @Binding var isCompleted: Bool
+    let action: () -> Void
     
-    init(displayMode: TreatmentDisplayMode, treatmentModel: TreatmentModel, isSelected: Binding<Bool>, isCompleted: Binding<Bool>? = nil, action: @escaping () -> Void) {
+    init(
+        displayMode: TreatmentDisplayMode,
+        treatmentEntity: TreatmentEntity,
+        isSelected: Binding<Bool>,
+        isCompleted: Binding<Bool>? = nil,
+        action: @escaping () -> Void
+    ) {
         self.displayMode = displayMode
-        self.treatmentModel = treatmentModel
+        self.treatmentEntity = treatmentEntity
         self._isSelected = isSelected
-        self.isCompleted = isCompleted
+        self._isCompleted = isCompleted ?? .constant(false)
         self.action = action
     }
     
     var body: some View {
         switch displayMode {
         case .summary:
-            TreatmentSummaryView(treatmentModel) {
-                action()
-            }
+            TreatmentSummaryView(treatmentEntity, action: action)
             
         case .checkBoxView:
-            TreatmentCheckBoxView(treatmentModel, isSelected: $isSelected){
-                action()
-            }
-                
+            TreatmentCheckBoxView(treatmentEntity, isSelected: $isSelected, isCompleted: $isCompleted, action: action)
+            
         case .completeBoxView:
-            if let isCompleted = isCompleted {
-                TreatmentCompleteBoxView(treatmentModel, isSelected: $isSelected, isCompleted: isCompleted) {
-                     action()
-                }
-                   
-            }
-                
+            TreatmentCheckBoxView(treatmentEntity, isSelected: $isSelected, isCompleted: $isCompleted, isCompletedView: true, action: action)
         }
     }
 }
 
 private struct TreatmentSummaryView: View {
-    let treatmentModel: TreatmentModel
+    let treatmentEntity: TreatmentEntity
     let action: () -> Void
     
-    init(_ treatmentModel: TreatmentModel, action: @escaping () -> Void) {
-        self.treatmentModel = treatmentModel
+    init(
+        _ treatmentEntity: TreatmentEntity,
+        action: @escaping () -> Void
+    ) {
+        self.treatmentEntity = treatmentEntity
         self.action = action
     }
     
     fileprivate var body: some View {
         HStack(spacing: 0) {
             TypographyText(
-                treatmentModel.name,
+                treatmentEntity.name,
                 style: .body1_r_14,
                 color: .gray800
             )
@@ -72,11 +71,11 @@ private struct TreatmentSummaryView: View {
             Spacer()
                 .frame(width: 12)
             TypographyText(
-                "다운타임*\(treatmentModel.downtimeMin)-\(treatmentModel.downtimeMax)일",
+                "다운타임*\(treatmentEntity.downtimeMin)-\(treatmentEntity.downtimeMax)일",
                 style: .body1_r_14,
                 color: .gray700
             )
-        
+            
             Spacer()
             Image(.deletebox)
                 .onTapGesture {
@@ -93,100 +92,47 @@ private struct TreatmentSummaryView: View {
     }
 }
 
-private struct TreatmentCheckBoxView: View {
-    let treatmentModel: TreatmentModel
-    @Binding var isSelected: Bool
-    let action: () -> Void
-    
-    init(_ treatmentModel: TreatmentModel, isSelected: Binding<Bool>, action: @escaping () -> Void) {
-        self.treatmentModel = treatmentModel
-        self._isSelected = isSelected
-        self.action = action
-    }
-    
-    fileprivate var body: some View {
-        VStack {
-            HStack {
-                TypographyText(treatmentModel.name, style: .title1_sb_18, color: .gray1000)
-                Spacer()
-            }
-            HStack(spacing: 0) {
-                TypographyText(
-                    treatmentModel.benefits.joinedWithSeparator(),
-                    style: .body3_r_12,
-                    color: .gray700)
-                Spacer()
-            }
-            
-            
-            Spacer()
-            HStack(spacing: 0){
-                Spacer()
-                Image(.clock)
-                    .foregroundStyle(.gray700)
-                TypographyText(
-                    "다운타임*\(treatmentModel.downtimeMin)-\(treatmentModel.downtimeMax)일",
-                    style: .body2_r_13,
-                    color: .gray700
-                )
-            }
-        }
-        .padding(.vertical, 12)
-        .padding(.horizontal, 14)
-        .frame(height: 100)
-        .background {
-            RoundedRectangle(cornerRadius: 10)
-                .foregroundStyle(isSelected ? .gray300 : Color.white)
-        }
-        .overlay{
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(.gray500, lineWidth: 1)
-        }
-        .onTapGesture {
-            action()
-            isSelected.toggle()
-        }
-    }
-}
 
-private struct TreatmentCompleteBoxView: View {
-    let treatmentModel: TreatmentModel
+private struct TreatmentCheckBoxView: View {
+    let treatmentEntity: TreatmentEntity
     @Binding var isSelected: Bool
     @Binding var isCompleted: Bool
+    let isCompletedView: Bool
     let action: () -> Void
-    init(_ treatmentModel: TreatmentModel, isSelected: Binding<Bool>, isCompleted: Binding<Bool>, action: @escaping () -> Void) {
-        self.treatmentModel = treatmentModel
-        self._isSelected = isSelected
-        self._isCompleted = isCompleted
-        self.action = action
-    }
+    
+    init(
+        _ treatmentEntity: TreatmentEntity,
+        isSelected: Binding<Bool>,
+        isCompleted: Binding<Bool>,
+        isCompletedView: Bool = false,
+        action: @escaping () -> Void,
+        ) {
+            self.treatmentEntity = treatmentEntity
+            self._isSelected = isSelected
+            self._isCompleted = isCompleted
+            self.isCompletedView = isCompletedView
+            self.action = action
+            
+        }
     fileprivate var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text(treatmentModel.name)
+                Text(treatmentEntity.name)
                     .typography(.title1_sb_18)
                 Spacer()
-                Image(isCompleted ? .checkCircular : .checkCircularGray)
-                    
+                if isCompletedView{
+                    Image(isCompleted ? .checkCircular : .checkCircularGray)
+                }
             }
             HStack(spacing: 0) {
-                Text(treatmentModel.benefits.joinedWithSeparator())
+                Text(treatmentEntity.benefits.joinedWithSeparator())
                     .typography(.body3_r_12)
                     .foregroundStyle(.gray700)
                 Spacer()
             }
-
+            
             Spacer()
-            HStack(spacing: 0){
-                Spacer()
-                Image(.clock)
-                    .foregroundStyle(.gray700)
-                TypographyText(
-                    "다운타임*\(treatmentModel.downtimeMin)-\(treatmentModel.downtimeMax)일",
-                    style: .body2_r_13,
-                    color: .gray700
-                )
-            }
+            DownTimeLabel(downtimeMin: treatmentEntity.downtimeMin, downtimeMax: treatmentEntity.downtimeMax)
         }
         .padding(.vertical, 12)
         .padding(.horizontal, 14)
@@ -195,11 +141,11 @@ private struct TreatmentCompleteBoxView: View {
             if isCompleted {
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundStyle(.green1)
-
+                
             } else {
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundStyle(isSelected ? .gray300 : Color.white)
-
+                
             }
         }
         .overlay{
@@ -222,10 +168,19 @@ private struct TreatmentCompleteBoxView: View {
     }
 }
 
-
-
 private struct DownTimeLabel: View {
+    let downtimeMin: Int
+    let downtimeMax: Int
     fileprivate var body: some View {
-        
+        HStack(spacing: 0){
+            Spacer()
+            Image(.clock)
+                .gray700()
+            TypographyText(
+                "다운타임*\(downtimeMin)-\(downtimeMax)일",
+                style: .body2_r_13,
+                color: .gray700
+            )
+        }
     }
 }
