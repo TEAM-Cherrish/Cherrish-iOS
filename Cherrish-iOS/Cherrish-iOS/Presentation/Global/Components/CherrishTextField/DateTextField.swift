@@ -18,7 +18,7 @@ enum DateTextFieldStyle: String {
             "년"
         case .month:
             "월"
-        case.day:
+        case .day:
             "일"
         }
     }
@@ -39,10 +39,10 @@ struct DateTextField: View {
                     
                 }
                 TextField("" ,text: $text)
-                    .foregroundStyle(.gray1000)
+                    .gray1000()
                     .multilineTextAlignment(.center)
                     .typography(.title2_m_16)
-                    .accentColor(.gray1000)
+                    .tint(.gray1000)
                     .keyboardType(.numberPad)
             }
             .frame(height: 24.adjustedH)
@@ -55,8 +55,4 @@ struct DateTextField: View {
         }
         .frame(height: 40.adjustedH)
     }
-}
-
-#Preview {
-    DateTextField(text: Binding.constant(""), placeholder: .year)
 }

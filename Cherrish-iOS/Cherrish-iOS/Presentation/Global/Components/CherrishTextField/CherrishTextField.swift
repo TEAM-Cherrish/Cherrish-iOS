@@ -26,7 +26,7 @@ struct CherrishTextField: View {
                     .multilineTextAlignment(.leading)
                     .keyboardType(.numberPad)
                     .typography(.body1_m_14)
-                    .accentColor(.gray1000)
+                    .tint(.gray1000)
             }
             .frame(height: 24.adjustedH)
         }
