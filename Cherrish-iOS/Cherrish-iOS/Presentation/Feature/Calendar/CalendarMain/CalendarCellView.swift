@@ -7,12 +7,7 @@
 
 import SwiftUI
 
-enum DaySelectionState {
-    case normal
-    case selected
-}
-
-enum DayDownTimeState {
+enum DowntimeDayState: CaseIterable, Hashable {
     case none
     case sensitive
     case caution
@@ -61,7 +56,7 @@ extension CalendarCellView {
     }
 }
 
-extension DayDownTimeState {
+extension DowntimeDayState {
     var backgroundColor: Color {
         switch self {
         case .none:
@@ -85,6 +80,19 @@ extension DayDownTimeState {
             return .red500
         case .recovery:
             return .red400
+        }
+    }
+    
+    var title: String {
+        switch self {
+        case .none:
+            ""
+        case .sensitive:
+            "민감"
+        case .caution:
+            "주의"
+        case .recovery:
+            "회복"
         }
     }
 }

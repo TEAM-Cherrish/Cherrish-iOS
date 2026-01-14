@@ -7,18 +7,24 @@
 
 import SwiftUI
 
+enum ProcedureStatus: String {
+    case active
+    case dimmed
+}
+
 struct ProcedureView: View {
     let treatmentTitle: String
     let treatmentDate: String
     let downTimeDays: Int
+    let status: ProcedureStatus
     
     var body: some View {
         RoundedRectangle(cornerRadius: 6)
-            .fill(.gray0)
+            .fill(status.backgroundColor)
             .frame(height: 56.adjustedH)
             .overlay {
                 RoundedRectangle(cornerRadius: 6)
-                    .strokeBorder(.gray500, lineWidth: 1)
+                    .strokeBorder(status.strokeColor, lineWidth: 1)
             }
             .overlay {
                 treatmentDetail
@@ -32,14 +38,16 @@ extension ProcedureView {
             verticalBar
                 .padding(.leading, 10)
             
-            TypographyText(treatmentTitle, style: .body1_sb_14, color: .gray900)
+            TypographyText(treatmentTitle, style: .body1_sb_14, color: status.titleColor)
                 .padding(.leading, 8)
             
             Spacer()
             
             VStack(alignment: .trailing, spacing: 1) {
-                TypographyText(treatmentDate.dateFormatter(), style: .body3_r_12, color: .gray800)
-                TypographyText("다운타임 \(downTimeDays)일", style: .body3_r_12, color: .gray800)
+                TypographyText(treatmentDate.dateFormatter(), style: .body3_r_12, color: status.downtimeTextColor)
+                if status == .active {
+                    TypographyText("다운타임 \(downTimeDays)일", style: .body3_r_12, color: status.downtimeTextColor)
+                }
             }
             .padding(.trailing, 10)
         }
@@ -47,7 +55,54 @@ extension ProcedureView {
     
     private var verticalBar: some View {
         RoundedRectangle (cornerRadius: 6)
-            .fill(.red600)
+            .fill(status.verticalBarColor)
             .frame(width: 3.adjustedW, height: 34.adjustedH)
+    }
+}
+
+extension ProcedureStatus {
+    var backgroundColor: Color {
+        switch self {
+        case .active:
+            return .gray0
+        case .dimmed:
+            return .gray100
+        }
+    }
+    
+    var strokeColor: Color {
+        switch self {
+        case .active:
+            return .gray500
+        case .dimmed:
+            return .clear
+        }
+    }
+    
+    var verticalBarColor: Color {
+        switch self {
+        case .active:
+            return .red600
+        case .dimmed:
+            return .gray300
+        }
+    }
+    
+    var titleColor: Color {
+        switch self {
+        case .active:
+            return .gray900
+        case .dimmed:
+            return .gray500
+        }
+    }
+    
+    var downtimeTextColor: Color {
+        switch self {
+        case .active:
+            return .gray800
+        case .dimmed:
+            return .gray500
+        }
     }
 }
