@@ -8,9 +8,17 @@
 
 import SwiftUI
 
+enum CalendarMode {
+    case none
+    case selectedProcedure
+}
+
 struct CalendarView: View {
     @ObservedObject var viewModel: CalendarViewModel
     @State private var offsetY: CGFloat = .zero
+    @State private var calendarMode: CalendarMode = .none
+    @State private var selectedProcedureID: ProcedureEntity.ID? = nil
+    
     private let scrollAreaHeight: CGFloat = 184.adjustedH
     
     let weekdays: [String] = ["일", "월", "화", "수", "목", "금", "토"]
@@ -29,7 +37,6 @@ struct CalendarView: View {
             } catch {
                 CherrishLogger.error(error)
             }
-            
         }
     }
 }
@@ -85,6 +92,8 @@ extension CalendarView {
                     )
                     .onTapGesture {
                         viewModel.select(date: value.date)
+                        calendarMode = .none
+                        selectedProcedureID = nil
                     }
                 } else {
                     Text("").hidden()
@@ -99,27 +108,43 @@ extension CalendarView {
         VStack() {
             HStack {
                 TypographyText("일정 ・ \(viewModel.procedureList.count)개", style: .body1_r_14, color: .gray1000)
+                
                 Spacer()
-                Image(.plus)
-                    .resizable()
-                    .renderingMode(.template)
-                    .foregroundStyle(.gray600)
-                    .frame(width: 24.adjustedW, height: 24.adjustedH)
+                
+                switch calendarMode {
+                case .none:
+                    Image(.plus)
+                        .resizable()
+                        .renderingMode(.template)
+                        .foregroundStyle(.gray600)
+                        .frame(width: 24.adjustedW, height: 24.adjustedH)
+                case .selectedProcedure:
+                    downTimeRangeIcons
+                }
+                
             }
             .frame(height: 40.adjustedH)
-            .padding(.horizontal, 19)
+            .padding(.horizontal, 20)
             .padding(.top, 8)
             
             ZStack (alignment: .bottom) {
+                let isDimMode = (selectedProcedureID != nil)
                 ScrollView(showsIndicators: false) {
                     ForEach(viewModel.procedureList, id: \.self) { procedure in
                         ProcedureView(
                             treatmentTitle: procedure.title,
                             treatmentDate: procedure.date,
-                            downTimeDays: procedure.downtimeDays
+                            downTimeDays: procedure.downtimeDays,
+                            status: isDimMode
+                                    ? (selectedProcedureID == procedure.id ? .active : .dimmed)
+                                    : .active
                         )
+                        .onTapGesture {
+                            calendarMode = .selectedProcedure
+                            selectedProcedureID = procedure.id
+                        }
                     }
-                    scrollViewBottomMarkerView
+                    if calendarMode == .none { scrollViewBottomMarkerView }
                 }
                 .coordinateSpace(name: "ProcedureScroll")
                 .onPreferenceChange(ScrollPreferenceKey.self) { offsetY = $0 }
@@ -145,6 +170,28 @@ extension CalendarView {
         .padding(.bottom, 18)
     }
     
+    private var downTimeRangeIcons: some View {
+        HStack(spacing: 2.adjustedW) {
+            ForEach(DowntimeDayState.allCases, id: \.self) { state in
+                HStack(spacing: 3.adjustedW) {
+                    Circle()
+                        .fill(state.backgroundColor)
+                        .overlay(
+                            Circle()
+                                .stroke(state.strokeColor, lineWidth: 1)
+                        )
+                        .frame(width: 12.adjustedW, height: 12.adjustedH)
+                    
+                    TypographyText("\(state.title)", style: .body3_r_12, color: .gray800)
+                }
+                .frame(width: 44.adjustedW, height: 20.adjustedH)
+            }
+        }
+    }
+    
+}
+
+extension CalendarView {
     private var scrollViewBottomMarkerView: some View {
         GeometryReader { proxy in
             Color.clear
