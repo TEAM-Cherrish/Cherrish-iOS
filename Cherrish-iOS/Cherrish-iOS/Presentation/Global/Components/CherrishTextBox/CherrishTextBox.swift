@@ -21,8 +21,6 @@ struct CherrishTextBox: View {
             Spacer()
                 .frame(height: 8.adjustedH)
             CherrishTextField(text: $text, style: .plain(placeholder: placeholder))
-        }
-        
+        }   
     }
-    
 }

@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-
-
 struct DateTextBox: View {
     @Binding var year: String
     @Binding var month: String
@@ -25,7 +23,6 @@ struct DateTextBox: View {
                 DateLabel(text: $month, placeholderStyle: .month)
                 DateLabel(text: $day, placeholderStyle: .day)
             }
-
         }
     }
 }

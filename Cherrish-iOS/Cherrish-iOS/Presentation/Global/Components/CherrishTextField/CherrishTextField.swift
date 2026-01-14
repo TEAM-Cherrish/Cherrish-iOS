@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum cherrishTextFieldStyle {
+enum CherrishTextFieldStyle {
     
     case plain(placeholder: String)
     case date(placeholder: DateTextFieldStyle)
@@ -117,7 +117,7 @@ enum DateTextFieldStyle: String {
 
 struct CherrishTextField: View {
     @Binding var text: String
-    let style: cherrishTextFieldStyle
+    let style: CherrishTextFieldStyle
     var body: some View {
         
         HStack(spacing: 0){
@@ -137,7 +137,6 @@ struct CherrishTextField: View {
                         )
                         Spacer()
                     }
-                    
                 }
                 TextField("" ,text: $text)
                     .foregroundStyle(style.textColor)
@@ -155,7 +154,6 @@ struct CherrishTextField: View {
                 .stroke(style.backgroundStrokeColor, lineWidth: 1)
         }
         .frame(height: 44)
-        
     }
 }
 
