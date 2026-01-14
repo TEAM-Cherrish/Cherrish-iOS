@@ -18,7 +18,7 @@ struct ProcedureView: View {
             .frame(height: 56.adjustedH)
             .overlay {
                 RoundedRectangle(cornerRadius: 6)
-                    .strokeBorder(.gray500, lineWidth: 1) 
+                    .strokeBorder(.gray500, lineWidth: 1)
             }
             .overlay {
                 treatmentDetail
@@ -39,7 +39,6 @@ extension ProcedureView {
             
             VStack(alignment: .trailing, spacing: 1) {
                 TypographyText(treatmentDate.dateFormatter(), style: .body3_r_12, color: .gray800)
-                
                 TypographyText("다운타임 \(downTimeDays)일", style: .body3_r_12, color: .gray800)
             }
             .padding(.trailing, 10)
