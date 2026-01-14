@@ -57,19 +57,26 @@ private struct TreatmentSummaryView: View {
     
     fileprivate var body: some View {
         HStack(spacing: 0) {
-            Text(treatmentModel.name)
-                .typography(.body1_r_14)
-                .foregroundStyle(.gray800)
+            TypographyText(
+                treatmentModel.name,
+                style: .body1_r_14,
+                color: .gray800
+            )
             Spacer()
                 .frame(width: 12)
-            Text("|")
-                .font(.pretendard(.regular, size: 13))
-                .foregroundStyle(.gray600)
+            TypographyText(
+                "|",
+                style: .body2_r_13,
+                color: .gray600
+            )
             Spacer()
                 .frame(width: 12)
-            Text("다운타임*\(treatmentModel.downtimeMin)-\(treatmentModel.downtimeMax)일")
-                .typography(.body1_r_14)
-                .foregroundStyle(.gray700)
+            TypographyText(
+                "다운타임*\(treatmentModel.downtimeMin)-\(treatmentModel.downtimeMax)일",
+                style: .body1_r_14,
+                color: .gray700
+            )
+        
             Spacer()
             Image(.deletebox)
                 .onTapGesture {
@@ -100,14 +107,14 @@ private struct TreatmentCheckBoxView: View {
     fileprivate var body: some View {
         VStack {
             HStack {
-                Text(treatmentModel.name)
-                    .typography(.title1_sb_18)
+                TypographyText(treatmentModel.name, style: .title1_sb_18, color: .gray1000)
                 Spacer()
             }
             HStack(spacing: 0) {
-                Text(treatmentModel.benefits.joinedWithSeparator())
-                    .typography(.body3_r_12)
-                    .foregroundStyle(.gray700)
+                TypographyText(
+                    treatmentModel.benefits.joinedWithSeparator(),
+                    style: .body3_r_12,
+                    color: .gray700)
                 Spacer()
             }
             
@@ -117,9 +124,11 @@ private struct TreatmentCheckBoxView: View {
                 Spacer()
                 Image(.clock)
                     .foregroundStyle(.gray700)
-                Text("다운타임*\(treatmentModel.downtimeMin)-\(treatmentModel.downtimeMax)일")
-                    .font(.pretendard(.medium, size: 13))
-                    .foregroundStyle(.gray700)
+                TypographyText(
+                    "다운타임*\(treatmentModel.downtimeMin)-\(treatmentModel.downtimeMax)일",
+                    style: .body2_r_13,
+                    color: .gray700
+                )
             }
         }
         .padding(.vertical, 12)
@@ -166,16 +175,17 @@ private struct TreatmentCompleteBoxView: View {
                     .foregroundStyle(.gray700)
                 Spacer()
             }
-            
-            
+
             Spacer()
             HStack(spacing: 0){
                 Spacer()
                 Image(.clock)
                     .foregroundStyle(.gray700)
-                Text("다운타임*\(treatmentModel.downtimeMin)-\(treatmentModel.downtimeMax)일")
-                    .font(.pretendard(.medium, size: 13))
-                    .foregroundStyle(.gray700)
+                TypographyText(
+                    "다운타임*\(treatmentModel.downtimeMin)-\(treatmentModel.downtimeMax)일",
+                    style: .body2_r_13,
+                    color: .gray700
+                )
             }
         }
         .padding(.vertical, 12)
@@ -213,3 +223,9 @@ private struct TreatmentCompleteBoxView: View {
 }
 
 
+
+private struct DownTimeLabel: View {
+    fileprivate var body: some View {
+        
+    }
+}
