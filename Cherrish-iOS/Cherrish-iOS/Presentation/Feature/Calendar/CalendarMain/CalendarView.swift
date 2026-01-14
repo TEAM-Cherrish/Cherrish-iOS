@@ -10,6 +10,9 @@ import SwiftUI
 
 struct CalendarView: View {
     @ObservedObject var viewModel: CalendarViewModel
+    @State private var offsetY: CGFloat = .zero
+    private let scrollAreaHeight: CGFloat = 184.adjustedH
+    
     let weekdays: [String] = ["일", "월", "화", "수", "목", "금", "토"]
     let columns = Array(repeating: GridItem(.fixed(40), spacing: 8), count: 7)
     
@@ -19,15 +22,14 @@ struct CalendarView: View {
             dateGridsView
             scheduleListView
         }
-        .onAppear {
-            Task {
-                do {
-                    try await viewModel.fetchProcedureCountsOfMonth()
-                    try await viewModel.fetchTodayProcedureList()
-                } catch {
-                    print(error)
-                }
+        .task {
+            do {
+                try await viewModel.fetchProcedureCountsOfMonth()
+                try await viewModel.fetchTodayProcedureList()
+            } catch {
+                CherrishLogger.error(error)
             }
+            
         }
     }
 }
@@ -108,16 +110,27 @@ extension CalendarView {
             .padding(.horizontal, 19)
             .padding(.top, 8)
             
-            ScrollView(showsIndicators: false) {
-                ForEach(viewModel.procedureList, id: \.self) { procedure in
-                    ProcedureView(
-                        treatmentTitle: procedure.title,
-                        treatmentDate: procedure.date,
-                        downTimeDays: procedure.downtimeDays
-                    )
+            ZStack (alignment: .bottom) {
+                ScrollView(showsIndicators: false) {
+                    ForEach(viewModel.procedureList, id: \.self) { procedure in
+                        ProcedureView(
+                            treatmentTitle: procedure.title,
+                            treatmentDate: procedure.date,
+                            downTimeDays: procedure.downtimeDays
+                        )
+                    }
+                    scrollViewBottomMarkerView
                 }
+                .coordinateSpace(name: "ProcedureScroll")
+                .onPreferenceChange(ScrollPreferenceKey.self) { offsetY = $0 }
+                
+                GradientBox()
+                    .frame(height: 92)
+                    .allowsHitTesting(false)
+                    .opacity(shouldShowGradient ? 1 : 0)
             }
-            .frame(height: 184.adjustedH)
+            
+            .frame(height: scrollAreaHeight.adjustedH)
             .padding(.top, 6)
             .padding(.horizontal, 19)
             .padding(.bottom, 12)
@@ -130,5 +143,20 @@ extension CalendarView {
         .padding(.top, 20)
         .padding(.horizontal, 25)
         .padding(.bottom, 18)
+    }
+    
+    private var scrollViewBottomMarkerView: some View {
+        GeometryReader { proxy in
+            Color.clear
+                .preference(
+                    key: ScrollPreferenceKey.self,
+                    value: proxy.frame(in: .named("ProcedureScroll")).minY
+                )
+        }
+        .frame(height: 1)
+    }
+    
+    private var shouldShowGradient: Bool {
+        offsetY > scrollAreaHeight.adjustedH
     }
 }
