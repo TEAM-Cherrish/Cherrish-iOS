@@ -30,6 +30,7 @@ enum RoutineType{
 struct SelectRoutineView: View {
     
     @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
+    @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
     
     @State private var selectedRoutine: RoutineType? = nil
     
@@ -41,8 +42,14 @@ struct SelectRoutineView: View {
         VStack() {
             CherrishNavigationBar(
                 title: "루틴 챌린지 선택",
-                leftButtonAction: challengeCoordinator.pop,
-                rightButtonAction: challengeCoordinator.pop
+                leftButtonAction: {
+                    challengeCoordinator.pop()
+                    tabBarCoordinator.isTabbarHidden = false
+                },
+                rightButtonAction: {
+                    challengeCoordinator.popToRoot()
+                    tabBarCoordinator.isTabbarHidden = false
+                }
             )
             HStack{
                 VStack(alignment: .leading){

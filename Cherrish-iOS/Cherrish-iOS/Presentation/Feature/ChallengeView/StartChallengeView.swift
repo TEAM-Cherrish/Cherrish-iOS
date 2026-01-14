@@ -9,6 +9,7 @@ import SwiftUI
 
 struct StartChallengeView: View {
     @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
+    @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
     
     @State private var startButtonState: ButtonState = .active
     
@@ -38,6 +39,7 @@ struct StartChallengeView: View {
             
             CherrishButton(title: "챌린지 시작하기", type: .next, state: $startButtonState) {
                 challengeCoordinator.push(.selectRoutine)
+                tabBarCoordinator.isTabbarHidden = true
             }
             .padding(.horizontal, 24.adjustedW)
             .padding(.bottom, 36.adjustedH)
