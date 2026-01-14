@@ -54,7 +54,7 @@ private struct TreatmentSummaryView: View {
         self.action = action
     }
     
-    fileprivate var body: some View {
+    var body: some View {
         HStack(spacing: 0) {
             TypographyText(
                 treatmentEntity.name,
@@ -114,7 +114,7 @@ private struct TreatmentCheckBoxView: View {
             self.action = action
             
         }
-    fileprivate var body: some View {
+    var body: some View {
         VStack(spacing: 0) {
             HStack {
                 Text(treatmentEntity.name)
@@ -171,7 +171,7 @@ private struct TreatmentCheckBoxView: View {
 private struct DownTimeLabel: View {
     let downtimeMin: Int
     let downtimeMax: Int
-    fileprivate var body: some View {
+    var body: some View {
         HStack(spacing: 0){
             Spacer()
             Image(.clock)
