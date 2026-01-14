@@ -27,32 +27,26 @@ struct OnComingCard: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            VStack(alignment: .leading, spacing: 2) {
-                Text(formattedDate)
-                    .typography(.body1_m_14)
-                    .gray700()
-                    .frame(height: 20)
+            VStack(alignment: .leading, spacing: 2.adjustedH) {
+                TypographyText(formattedDate, style: .body1_m_14, color: Color("gray_700"))
+                    .frame(height: 20.adjustedH)
                 
-                Text(name)
-                    .typography(.title2_m_16)
-                    .gray900()
-                    .frame(height: 24)
+                TypographyText(name, style: .title2_m_16, color: Color("gray_900"))
+                    .frame(height: 24.adjustedH)
             }
             
             Spacer()
             
-            HStack(spacing: 12) {
-                Text("D-\(dDay)")
-                    .typography(.body3_r_12)
-                    .gray600()
-                    .frame(width: 40, height: 18)
+            HStack(spacing: 12.adjustedW) {
+                TypographyText("D-\(dDay)", style: .body3_r_12, color: Color("gray_600"))
+                    .frame(width: 40.adjustedW, height: 18.adjustedH)
                     .background(Color("gray_200"))
-                    .cornerRadius(20)
+                    .cornerRadius(20.adjustedW)
                 
                 Image("chevron_left_gray")
 
             }
-            .padding(.vertical, 1)
+            .padding(.vertical, 1.adjustedH)
         }
     }
 }
