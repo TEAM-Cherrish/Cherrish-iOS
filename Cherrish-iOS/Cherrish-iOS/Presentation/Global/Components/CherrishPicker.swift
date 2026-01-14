@@ -36,6 +36,10 @@ private struct PickerViewRepresentable: UIViewRepresentable {
         picker.delegate = context.coordinator
         picker.dataSource = context.coordinator
         
+        picker.subviews.forEach { subview in
+            subview.backgroundColor = .clear
+        }
+        
         let row = selection - range.lowerBound
         picker.selectRow(row, inComponent: 0, animated: true)
         
@@ -52,7 +56,9 @@ private struct PickerViewRepresentable: UIViewRepresentable {
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-    
+}
+
+extension PickerViewRepresentable {
     class Coordinator: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
         var parent: PickerViewRepresentable
         
@@ -73,10 +79,6 @@ private struct PickerViewRepresentable: UIViewRepresentable {
         }
         
         func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-            pickerView.subviews.forEach { subview in
-                subview.backgroundColor = .clear
-            }
-            
             let label = (view as? UILabel) ?? UILabel()
             label.text = "\(parent.range.lowerBound + row)"
             label.textAlignment = .center
