@@ -125,11 +125,11 @@ struct CherrishTextField: View {
                 if text.isEmpty {
                     HStack{
                         switch style {
-                    case .plain:
-                        EmptyView()
-                    case .date:
-                        Spacer()
-                    }
+                        case .plain:
+                            EmptyView()
+                        case .date:
+                            Spacer()
+                        }
                         TypographyText(
                             style.placeholder,
                             style: style.placeholderFont ,
@@ -155,7 +155,7 @@ struct CherrishTextField: View {
                 .stroke(style.backgroundStrokeColor, lineWidth: 1)
         }
         .frame(height: 44)
-         
+        
     }
 }
 
