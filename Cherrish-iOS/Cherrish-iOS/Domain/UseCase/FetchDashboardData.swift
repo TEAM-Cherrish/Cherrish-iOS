@@ -19,6 +19,10 @@ struct DefaultFetchDashboardData: FetchDashboardData {
     }
     
     func execute() async throws -> DashboardEntity {
+<<<<<<< HEAD
         try await repository.fetchDashboard()
+=======
+        return try await repository.fetchDashboard()
+>>>>>>> 95c9770 (feat: #49 클린아키텍쳐)
     }
 }

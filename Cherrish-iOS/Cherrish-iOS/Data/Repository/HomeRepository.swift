@@ -22,7 +22,11 @@ struct DefaultHomeRepository: HomeInterface {
         DashboardEntity(
             date: "2026-01-15",
             challengeName: "피부 컨디션 챌린지",
+<<<<<<< HEAD
             cherryLevel: 3,
+=======
+            cherryLevel: 1,
+>>>>>>> 95c9770 (feat: #49 클린아키텍쳐)
             challengeRate: 40.3,
             recentProcedure: RecentProcedureEntity(
                 name: "레이저 토닝",
