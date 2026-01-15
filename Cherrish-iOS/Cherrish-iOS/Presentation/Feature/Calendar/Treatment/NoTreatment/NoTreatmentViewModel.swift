@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum NoTreatment: Int, CaseIterable {
+enum NoTreatment: Int, CaseIterable,Identifiable {
     case tretmentSelectedCatagory = 1
     case targetDdaySetting
     case treatmentfilter
     case downTimeSetting
-    
+    var id: Self { self }
     var title: String {
         switch self {
         case .tretmentSelectedCatagory:
@@ -27,13 +27,14 @@ enum NoTreatment: Int, CaseIterable {
     }
 }
 
-enum TreatmentCatagory: CaseIterable {
+enum TreatmentCatagory: CaseIterable, Identifiable {
     case textureKeratin
     case pigmentation
     case redness
     case wrinkle
     case pore
     case trouble
+    var id: Self { self }
     
     var title: String {
         switch self {

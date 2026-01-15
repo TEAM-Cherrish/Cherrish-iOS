@@ -10,6 +10,7 @@ import SwiftUI
 enum DdayState: CaseIterable {
     case yse
     case no
+    var id: Self { self }
     
     var title: String {
         switch self {
@@ -78,6 +79,7 @@ struct TargetDdaySettingView: View {
                 
                 DateTextBox(year: $year, month: $month, day: $day)
             }
+                
         }
     }
 }
