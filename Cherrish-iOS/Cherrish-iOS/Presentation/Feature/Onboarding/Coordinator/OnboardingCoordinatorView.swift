@@ -13,14 +13,17 @@ struct OnboardingCoordinatorView: View {
         
     var body: some View {
         NavigationStack(path: $onboardingCoordinator.path) {
-            ViewFactory.shared.makeInformationView()
+            ViewFactory.shared.makeOnboardingContainerView()
                 .navigationDestination(for: OnboardingRoute.self) { route  in
-                    switch route {
-                    case .information:
-                        ViewFactory.shared.makeInformationView()
-                    case .onboarding:
-                        ViewFactory.shared.makeOnboardingView()
+                    Group {
+                        switch route {
+                        case .onboarding:
+                            ViewFactory.shared.makeOnboardingContainerView()
+                        case .information:
+                            ViewFactory.shared.makeInformationView()
+                        }
                     }
+                    .navigationBarBackButtonHidden()
                 }
         }.environmentObject(onboardingCoordinator)
     }
