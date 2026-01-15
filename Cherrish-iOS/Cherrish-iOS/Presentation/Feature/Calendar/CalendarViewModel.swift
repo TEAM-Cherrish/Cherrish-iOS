@@ -24,9 +24,6 @@ final class CalendarViewModel: ObservableObject {
     private let fetchProcedureCountOfMonthUseCase: FetchProcedureCountOfMonth
     private let fetchTodayProcedureListUseCase: FetchTodayProcedureList
     
-    private var year: Int = 0
-    private var month: Int = 0
-    
     init(
         fetchProcedureCountOfMonthUseCase: FetchProcedureCountOfMonth,
         fetchTodayProcedureListUseCase: FetchTodayProcedureList
@@ -132,8 +129,6 @@ extension CalendarViewModel {
         let currentMonth = getCurrentMonth(addingMonth: currentMonth)
         var days = currentMonth.getAllDates().compactMap { date -> DateValue in
             let day = calendar.component(.day, from: date)
-            CherrishLogger.debug("day: \(day)")
-            
             return DateValue(day: day, date: date)
         }
         
