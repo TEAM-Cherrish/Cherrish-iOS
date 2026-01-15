@@ -49,13 +49,12 @@ enum CherryLevel: Int {
     var progressImage: Image {
         Image("challenge_gaugebar_\(levelNumber)")
     }
-    
 }
 
 struct ChallengeProgressView: View {
     
     @State private var isChecked = false
-    private var progressRate: Double = 0.1
+    private var progressRate: Double = 100
     private var cherryLevel: CherryLevel {
         CherryLevel.from(progressRate: progressRate)
     }
@@ -161,8 +160,4 @@ struct ChallengeProgressView: View {
         }
         .scrollIndicators(.hidden)
     }
-}
-
-#Preview {
-    ChallengeProgressView()
 }

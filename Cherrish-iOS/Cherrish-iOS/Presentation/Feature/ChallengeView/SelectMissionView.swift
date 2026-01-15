@@ -88,7 +88,3 @@ struct SelectMissionView: View {
         .padding(.top, 20.adjustedH)        
     }
 }
-
-#Preview {
-    SelectMissionView()
-}

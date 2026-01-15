@@ -30,7 +30,6 @@ struct LoadingView: View {
            }
        }
         .frame(maxHeight: .infinity)
-//        .padding(.top, 20.adjustedH)
         .onAppear {
             moveNextAfterDelay()
         }

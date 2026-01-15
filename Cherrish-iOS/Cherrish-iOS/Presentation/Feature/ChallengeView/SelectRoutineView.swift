@@ -80,7 +80,6 @@ struct SelectRoutineView: View {
             
             CherrishButton(title: "다음", type: .next, state: .constant(nextButtonState)){
                 challengeCoordinator.push(.loading)
-//                challengeCoordinator.push(.selectMission)
                 }
             .padding(.bottom, 38.adjustedH)
             .padding(.horizontal, 24.adjustedW)
