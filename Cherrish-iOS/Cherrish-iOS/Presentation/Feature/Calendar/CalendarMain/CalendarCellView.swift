@@ -19,35 +19,45 @@ struct CalendarCellView: View {
     let value: DateValue
     let procedureCount: Int
     let isSelected: Bool
+    let downtimeState: DowntimeDayState
+    @Binding var calendarMode: CalendarMode
     
     var body: some View {
         ZStack {
+            if calendarMode == .selectedProcedure && downtimeState != .none {
+                Circle()
+                    .fill(downtimeState.backgroundColor)
+                    .overlay(
+                        Circle()
+                            .stroke(downtimeState.strokeColor, lineWidth: 1)
+                    )
+                    .frame(width: 40.adjustedW, height: 40.adjustedH)
+            }
+            
             TypographyText("\(value.day)", style: .body1_r_14, color: .gray1000)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        
+            
             if procedureCount > 0 {
                 let displayCount = min(procedureCount, 3)
                 
-                HStack(spacing: 4) {
-                    ForEach(0..<displayCount, id: \.self) { _ in
-                        scheduleCircle
+                VStack {
+                    Spacer()
+                    HStack(spacing: 4) {
+                        ForEach(0..<displayCount, id: \.self) { _ in
+                            scheduleCircle
+                        }
                     }
+                    .padding(.bottom, 4)
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.bottom, 4)
-                .frame(maxHeight: .infinity, alignment: .bottom)
             }
-        }
-        .frame(width: 40, height: 40)
-        .overlay {
-            if isSelected {
+            
+            if calendarMode == .none && isSelected {
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(.gray500, lineWidth: 1)
             }
         }
+        .frame(width: 40.adjustedW, height: 40.adjustedH)
     }
 }
-
 extension CalendarCellView {
     private var scheduleCircle: some View {
         Circle()
