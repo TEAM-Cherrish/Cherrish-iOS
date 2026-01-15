@@ -9,17 +9,20 @@ import SwiftUI
 
 enum ProcedureStatus: String {
     case active
+    case noDownTime
     case dimmed
 }
 
 struct ProcedureView: View {
     let treatmentTitle: String
     let treatmentDate: String
-    let downTimeDays: String
+    let downTimeDays: Int
     @Binding var calendarMode: CalendarMode
     let isSelected: Bool
     
     private var status: ProcedureStatus {
+        if downTimeDays == 0 { return .noDownTime }
+        
         if isSelected {
             return .active
         }
@@ -64,6 +67,9 @@ extension ProcedureView {
                 if status == .active {
                     TypographyText("다운타임 \(downTimeDays)일", style: .body3_r_12, color: status.downtimeTextColor)
                 }
+                else if status == .noDownTime {
+                    TypographyText("-", style: .body3_r_12, color: status.downtimeTextColor)
+                }
             }
             .padding(.trailing, 10)
         }
@@ -79,7 +85,7 @@ extension ProcedureView {
 extension ProcedureStatus {
     var backgroundColor: Color {
         switch self {
-        case .active:
+        case .active, .noDownTime:
             return .gray0
         case .dimmed:
             return .gray100
@@ -88,7 +94,7 @@ extension ProcedureStatus {
     
     var strokeColor: Color {
         switch self {
-        case .active:
+        case .active, .noDownTime:
             return .gray500
         case .dimmed:
             return .clear
@@ -99,6 +105,8 @@ extension ProcedureStatus {
         switch self {
         case .active:
             return .red600
+        case .noDownTime:
+            return .gray500
         case .dimmed:
             return .gray300
         }
@@ -106,7 +114,7 @@ extension ProcedureStatus {
     
     var titleColor: Color {
         switch self {
-        case .active:
+        case .active, .noDownTime:
             return .gray900
         case .dimmed:
             return .gray500
@@ -115,7 +123,7 @@ extension ProcedureStatus {
     
     var downtimeTextColor: Color {
         switch self {
-        case .active:
+        case .active, .noDownTime:
             return .gray800
         case .dimmed:
             return .gray500
