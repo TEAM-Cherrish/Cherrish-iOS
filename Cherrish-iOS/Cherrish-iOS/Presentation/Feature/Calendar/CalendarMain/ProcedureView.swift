@@ -9,7 +9,6 @@ import SwiftUI
 
 enum ProcedureStatus: String {
     case active
-    case noDownTime
     case dimmed
 }
 
@@ -21,8 +20,6 @@ struct ProcedureView: View {
     let isSelected: Bool
     
     private var status: ProcedureStatus {
-        if downTimeDays == 0 { return .noDownTime }
-        
         if isSelected {
             return .active
         }
@@ -65,10 +62,12 @@ extension ProcedureView {
             VStack(alignment: .trailing, spacing: 1) {
                 TypographyText(treatmentDate.dateFormatter(), style: .body3_r_12, color: status.downtimeTextColor)
                 if status == .active {
-                    TypographyText("다운타임 \(downTimeDays)일", style: .body3_r_12, color: status.downtimeTextColor)
-                }
-                else if status == .noDownTime {
-                    TypographyText("-", style: .body3_r_12, color: status.downtimeTextColor)
+                    if downTimeDays == 0 {
+                        TypographyText("-", style: .body3_r_12, color: status.downtimeTextColor)
+                    }
+                    else {
+                        TypographyText("다운타임 \(downTimeDays)일", style: .body3_r_12, color: status.downtimeTextColor)
+                    }
                 }
             }
             .padding(.trailing, 10)
@@ -77,7 +76,7 @@ extension ProcedureView {
     
     private var verticalBar: some View {
         RoundedRectangle (cornerRadius: 6)
-            .fill(status.verticalBarColor)
+            .fill(downTimeDays == 0 ? .gray500 : status.verticalBarColor)
             .frame(width: 3.adjustedW, height: 34.adjustedH)
     }
 }
@@ -85,7 +84,7 @@ extension ProcedureView {
 extension ProcedureStatus {
     var backgroundColor: Color {
         switch self {
-        case .active, .noDownTime:
+        case .active:
             return .gray0
         case .dimmed:
             return .gray100
@@ -94,7 +93,7 @@ extension ProcedureStatus {
     
     var strokeColor: Color {
         switch self {
-        case .active, .noDownTime:
+        case .active:
             return .gray500
         case .dimmed:
             return .clear
@@ -105,8 +104,6 @@ extension ProcedureStatus {
         switch self {
         case .active:
             return .red600
-        case .noDownTime:
-            return .gray500
         case .dimmed:
             return .gray300
         }
@@ -114,7 +111,7 @@ extension ProcedureStatus {
     
     var titleColor: Color {
         switch self {
-        case .active, .noDownTime:
+        case .active:
             return .gray900
         case .dimmed:
             return .gray500
@@ -123,7 +120,7 @@ extension ProcedureStatus {
     
     var downtimeTextColor: Color {
         switch self {
-        case .active, .noDownTime:
+        case .active:
             return .gray800
         case .dimmed:
             return .gray500
