@@ -36,7 +36,7 @@ struct CalendarCellView: View {
             
             TypographyText("\(value.day)", style: .body1_r_14, color: .gray1000)
             
-            if procedureCount > 0 {
+            if procedureCount > 0 && calendarMode == .none {
                 let displayCount = min(procedureCount, 3)
                 
                 VStack {

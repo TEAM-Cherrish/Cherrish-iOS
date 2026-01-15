@@ -16,7 +16,21 @@ struct ProcedureView: View {
     let treatmentTitle: String
     let treatmentDate: String
     let downTimeDays: String
-    let status: ProcedureStatus
+    @Binding var calendarMode: CalendarMode
+    let isSelected: Bool
+    
+    private var status: ProcedureStatus {
+        if isSelected {
+            return .active
+        }
+        
+        switch calendarMode {
+        case .none:
+            return .active
+        case .selectedProcedure:
+            return .dimmed
+        }
+    }
     
     var body: some View {
         RoundedRectangle(cornerRadius: 6)
@@ -36,10 +50,12 @@ extension ProcedureView {
     private var treatmentDetail: some View {
         HStack(alignment: .center) {
             verticalBar
-                .padding(.leading, 10)
+                .padding(.leading, 10.adjustedW)
+            
+            Spacer()
+                .frame(width: 8.adjustedW)
             
             TypographyText(treatmentTitle, style: .body1_sb_14, color: status.titleColor)
-                .padding(.leading, 8)
             
             Spacer()
             
