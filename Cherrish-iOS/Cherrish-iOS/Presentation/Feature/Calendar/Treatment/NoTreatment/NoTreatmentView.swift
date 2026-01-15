@@ -50,7 +50,7 @@ struct NoTreatmentView: View {
                     viewModel.next()
                 }
             case .targetDdaySetting:
-                CherrishButton(title: "다음", type: .next, state: .constant(.normal)) {
+                CherrishButton(title: "다음", type: .next, state: .constant(viewModel.isDateTextFieldNotEmpty() ? .active : .normal)) {
                     viewModel.next()
                 }
             case .treatmentfilter:

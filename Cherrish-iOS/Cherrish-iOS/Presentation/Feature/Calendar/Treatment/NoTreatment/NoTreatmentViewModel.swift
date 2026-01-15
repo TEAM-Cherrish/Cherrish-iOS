@@ -93,5 +93,11 @@ class NoTreatmentViewModel: ObservableObject{
         }
     }
     
+    func isDateTextFieldNotEmpty() -> Bool {
+        
+        return !(year.isEmpty || month.isEmpty || day.isEmpty)
+            
+    }
+    
     
 }
