@@ -11,6 +11,11 @@ struct ChallengeProgressView: View {
     
     @State private var isChecked = false
     
+    private var progressRate: Double = 50.9
+    private var cherryLevel: Int = 1
+    private var cherryLevelName: String = "아기 체리"
+    private var remainMissions: Int = 3
+    
     @State private var missions: [String] = [
         "진정 토너 + 세럼",
         "진정 토너 + 세럼",
@@ -18,9 +23,26 @@ struct ChallengeProgressView: View {
         "선크림 3번 바르기"
     ]
     
+    private var progressBarImage: Image {
+        switch progressRate {
+        case 0.0..<25.0:
+            return Image(.challengeGaugebar1)
+        case 25.0..<50.0:
+            return Image(.challengeGaugebar2)
+        case 50.0..<75.0:
+            return Image(.challengeGaugebar3)
+        case 75.0...100.0:
+            return Image(.challengeGaugebar4)
+        default:
+            return Image(.challengeGaugebar1)
+        }
+    }
+
+    
     @State private var selectedStates: [Bool] = Array(repeating: false, count: 6)
     private var completeButtonState: ButtonState {
-        selectedStates.contains(true) ? .active : .normal
+//        selectedStates.contains(true) ? .active : .normal
+            .active
     }
     
     var body: some View {
@@ -41,21 +63,21 @@ struct ChallengeProgressView: View {
             ZStack(alignment: .topLeading) {
                 VStack {
                     HStack {
-                        TypographyText("Lv.1 아기 체리", style: .body1_m_14, color: .gray900)
+                        TypographyText("Lv.\(cherryLevel) \(cherryLevelName)", style: .body1_m_14, color: .gray900)
                         Spacer()
                     }
                     Image(.challenge)
                         .padding(.top, 14.adjustedH)
-                    TypographyText("체리가 크려면 n개의 미션을 수행해야 해요!", style: .body2_r_13, color: .gray800)
+                    TypographyText("체리가 크려면 \(remainMissions)개의 미션을 수행해야 해요!", style: .body2_r_13, color: .gray800)
                         .padding(.top, 14.adjustedH)
                     HStack {
-                        TypographyText("챌린지 달성률 25%", style: .body1_m_14, color: .gray900)
+                        TypographyText("챌린지 달성률 \(progressRate)%", style: .body1_m_14, color: .gray900)
                         Spacer()
                     }
                     .padding(.top, 28.adjustedH)
                     .padding(.bottom, 12.adjustedH)
                     
-                    Image(.challengeGaugebar1)
+                    progressBarImage
                         .padding(.bottom, 11.adjustedH)
                 }
                 .padding(.top, 16.adjustedH)

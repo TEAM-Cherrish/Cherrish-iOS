@@ -29,7 +29,7 @@ struct SelectMissionView: View {
     var body: some View {
         VStack {
             CherrishNavigationBar(
-                title: "미션 선택",
+                title: "TO-DO 미션 선택",
                 leftButtonAction: challengeCoordinator.pop,
                 rightButtonAction: challengeCoordinator.popToRoot
             )
@@ -65,16 +65,12 @@ struct SelectMissionView: View {
             .padding(.horizontal, 33.adjustedW)
             
             CherrishButton(title: "플래너에 추가하기", type: .next, state: .constant(nextButtonState)){
-                challengeCoordinator.push(.challengeProgress)
+                    challengeCoordinator.push(.challengeProgress)
                 }
             .padding(.top, 64.adjustedH)
             .padding(.bottom, 38.adjustedH)
             .padding(.horizontal, 24.adjustedW)
         }
+        .padding(.top, 20.adjustedH)
     }
-}
-
-#Preview {
-    SelectMissionView()
-        .environmentObject(ChallengeCoordinator())
 }
