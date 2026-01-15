@@ -11,6 +11,15 @@ import SwiftUI
 enum CalendarMode {
     case none
     case selectedProcedure
+    
+    mutating func toggle() {
+        switch self {
+        case .none:
+            self = .selectedProcedure
+        case .selectedProcedure:
+            self = .none
+        }
+    }
 }
 
 struct CalendarView: View {
@@ -144,12 +153,11 @@ extension CalendarView {
                             treatmentTitle: procedure.name,
                             treatmentDate: viewModel.selectedDate.toDateString(),
                             downTimeDays: procedure.downtimeDays,
-                            status: isDimMode
-                            ? (selectedProcedureID == procedure.procedureId ? .active : .dimmed)
-                            : .active
+                            calendarMode: $calendarMode,
+                            isSelected: selectedProcedureID == procedure.procedureId
                         )
                         .onTapGesture {
-                            calendarMode = .selectedProcedure
+                            calendarMode.toggle()
                             selectedProcedureID = procedure.procedureId
                             viewModel.fetchDowntimeByDay(procedureId: selectedProcedureID ?? 0)
                         }
