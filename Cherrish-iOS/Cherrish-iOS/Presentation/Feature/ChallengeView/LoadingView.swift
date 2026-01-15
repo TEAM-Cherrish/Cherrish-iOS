@@ -29,6 +29,8 @@ struct LoadingView: View {
                     .padding(.bottom, 30.adjustedH)
            }
        }
+        .frame(maxHeight: .infinity)
+//        .padding(.top, 20.adjustedH)
         .onAppear {
             moveNextAfterDelay()
         }
@@ -40,19 +42,6 @@ struct LoadingView: View {
             await MainActor.run {
                 challengeCoordinator.push(.selectMission)
             }
-        }
-    }
-}
-
-extension View {
-    func highlight(
-        highlightText: String,
-        highlightColor: Color = .red700,
-        normalText: String
-    ) -> some View {
-        HStack {
-            TypographyText(highlightText, style: .title1_sb_18, color: highlightColor)
-            TypographyText(normalText, style: .title1_sb_18, color: .gray800)
         }
     }
 }

@@ -28,15 +28,22 @@ struct SelectMissionView: View {
     
     var body: some View {
         VStack {
+            Spacer()
+                .frame(height: 20.adjustedH)
             CherrishNavigationBar(
                 title: "TO-DO 미션 선택",
                 leftButtonAction: challengeCoordinator.pop,
                 rightButtonAction: challengeCoordinator.popToRoot
             )
+            .padding(.top, 20.adjustedH)
+            Spacer()
+                .frame(height: 48.adjustedH)
+                .padding(.horizontal, 33.adjustedW)
+            
             VStack {
                 HStack {
                     VStack(alignment: .leading, spacing: 4.adjustedH) {
-                        TypographyText("첼린지 기간 동안",
+                        TypographyText("챌린지 기간 동안",
                             style: .title1_sb_18,
                             color: .gray1000
                         )
@@ -51,6 +58,8 @@ struct SelectMissionView: View {
                     }
                     Spacer()
                 }
+                Spacer()
+                    .frame(height: 30.adjustedH)
                 VStack(spacing: 10.adjustedH) {
                     ForEach(missions.indices, id: \.self) { index in
                         MissionCard(
@@ -59,18 +68,27 @@ struct SelectMissionView: View {
                         )
                     }
                 }
-                .padding(.top, 30.adjustedH)
             }
-            .padding(.top, 48.adjustedH)
+            .padding(.horizontal, 34.adjustedW)
+            
+            
+            Spacer()
+                .frame(height: 48.adjustedH)
             .padding(.horizontal, 33.adjustedW)
             
             CherrishButton(title: "플래너에 추가하기", type: .next, state: .constant(nextButtonState)){
-                    challengeCoordinator.push(.challengeProgress)
-                }
-            .padding(.top, 64.adjustedH)
-            .padding(.bottom, 38.adjustedH)
+                challengeCoordinator.push(.challengeProgress)
+            }
             .padding(.horizontal, 24.adjustedW)
+            Spacer()
+                .frame(height: 64.adjustedH)
+            .padding(.bottom, 38.adjustedH)
         }
-        .padding(.top, 20.adjustedH)
+        .frame(maxHeight: .infinity)
+        .padding(.top, 20.adjustedH)        
     }
+}
+
+#Preview {
+    SelectMissionView()
 }

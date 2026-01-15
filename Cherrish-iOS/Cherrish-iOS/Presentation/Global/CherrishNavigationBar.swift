@@ -57,7 +57,7 @@ struct CherrishNavigationBar: View {
             
         }
         .frame(height: 44.adjustedH)
-        .padding(.vertical, 8.adjustedH)
+        .padding(.horizontal, 8.adjustedH)
         
     }
 }
