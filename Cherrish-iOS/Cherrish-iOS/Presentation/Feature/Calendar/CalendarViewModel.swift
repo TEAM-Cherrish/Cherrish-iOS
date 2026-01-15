@@ -14,11 +14,12 @@ struct DateValue: Identifiable, Hashable {
 }
 
 final class CalendarViewModel: ObservableObject {
-    @Published var currentDate: Date = Date()
+    @Published private(set) var currentDate: Date = Date()
     @Published var currentMonth: Int = 0
     @Published var selectedDate: Date = Calendar.current.startOfDay(for: Date())
-    @Published private var procedureCountOfMonth: [Int: Int] = [:]
-    @Published var procedureList: [ProcedureEntity] = []
+    @Published private(set) var procedureCountOfMonth: [Int: Int] = [:]
+    @Published private(set) var procedureList: [ProcedureEntity] = [] //오늘 날짜에 들어가는 시술 정보 리스트
+    @Published private(set) var downtimeByDay: [String : DowntimeDayState] = [:]
     
     private let fetchProcedureCountOfMonthUseCase: FetchProcedureCountOfMonth
     private let fetchTodayProcedureListUseCase: FetchTodayProcedureList
@@ -67,6 +68,11 @@ final class CalendarViewModel: ObservableObject {
         return calendar.date(from: components)!
     }
     
+    func getDowntimeState(for date: Date) -> DowntimeDayState {
+        let key = date.toDateString()
+        return downtimeByDay[key] ?? .none
+    }
+    
     @MainActor
     func fetchProcedureCountsOfMonth() async throws {
         let calendar = Calendar.current
@@ -80,6 +86,15 @@ final class CalendarViewModel: ObservableObject {
     @MainActor
     func fetchTodayProcedureList() async throws {
         procedureList = try await fetchTodayProcedureListUseCase.execute(date: selectedDate.toDateString())
+        CherrishLogger.debug(procedureList)
+    }
+    
+    func fetchDowntimeByDay(procedureId: Int) {
+        guard let procedure = procedureList.first(where: { $0.procedureId == procedureId }) else {
+            downtimeByDay = [:]
+            return
+        }
+        mapToDowntimeDays(procedure: procedure)
     }
 }
 
@@ -127,5 +142,14 @@ extension CalendarViewModel {
         }
         
         return days
+    }
+    
+    private func mapToDowntimeDays(procedure: ProcedureEntity) {
+        var map: [String : DowntimeDayState] = [:]
+        procedure.sensitiveDays.forEach { map[$0] = .sensitive }
+        procedure.cautionDays.forEach { map[$0] = .caution }
+        procedure.recoveryDays.forEach { map[$0] = .recovery }
+        downtimeByDay = map
+        CherrishLogger.debug(downtimeByDay)
     }
 }

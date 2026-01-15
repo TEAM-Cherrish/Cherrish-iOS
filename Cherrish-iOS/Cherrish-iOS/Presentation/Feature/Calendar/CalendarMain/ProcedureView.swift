@@ -15,7 +15,7 @@ enum ProcedureStatus: String {
 struct ProcedureView: View {
     let treatmentTitle: String
     let treatmentDate: String
-    let downTimeDays: Int
+    let downTimeDays: String
     let status: ProcedureStatus
     
     var body: some View {

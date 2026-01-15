@@ -17,7 +17,7 @@ struct CalendarView: View {
     @ObservedObject var viewModel: CalendarViewModel
     @State private var offsetY: CGFloat = .zero
     @State private var calendarMode: CalendarMode = .none
-    @State private var selectedProcedureID: ProcedureEntity.ID? = nil
+    @State private var selectedProcedureID: Int? = nil
     
     private let scrollAreaHeight: CGFloat = 184.adjustedH
     
@@ -28,7 +28,7 @@ struct CalendarView: View {
         VStack {
             calendarHeader
             dateGridsView
-            scheduleListView
+            scheduleListConatinerView
         }
         .task {
             do {
@@ -88,12 +88,22 @@ extension CalendarView {
                     CalendarCellView(
                         value: value,
                         procedureCount: viewModel.getProcedureCount(for: value),
-                        isSelected: viewModel.isSelected(value)
+                        isSelected: viewModel.isSelected(value),
+                        downtimeState: viewModel.getDowntimeState(for: value.date),
+                        calendarMode: $calendarMode
                     )
                     .onTapGesture {
                         viewModel.select(date: value.date)
                         calendarMode = .none
                         selectedProcedureID = nil
+                        
+                        Task {
+                            do {
+                                try await viewModel.fetchTodayProcedureList()
+                            } catch {
+                                CherrishLogger.error(error)
+                            }
+                        }
                     }
                 } else {
                     Text("").hidden()
@@ -101,13 +111,13 @@ extension CalendarView {
             }
         }
         .padding(.horizontal, 23)
-        
     }
     
-    private var scheduleListView: some View {
-        VStack() {
+    private var scheduleListConatinerView: some View {
+        let procedureCount = viewModel.procedureList.count
+        return VStack {
             HStack {
-                TypographyText("일정 ・ \(viewModel.procedureList.count)개", style: .body1_r_14, color: .gray1000)
+                TypographyText("일정 ・ \(procedureCount)개", style: .body1_r_14, color: .gray1000)
                 
                 Spacer()
                 
@@ -121,7 +131,6 @@ extension CalendarView {
                 case .selectedProcedure:
                     downTimeRangeIcons
                 }
-                
             }
             .frame(height: 40.adjustedH)
             .padding(.horizontal, 20)
@@ -132,16 +141,17 @@ extension CalendarView {
                 ScrollView(showsIndicators: false) {
                     ForEach(viewModel.procedureList, id: \.self) { procedure in
                         ProcedureView(
-                            treatmentTitle: procedure.title,
-                            treatmentDate: procedure.date,
+                            treatmentTitle: procedure.name,
+                            treatmentDate: viewModel.selectedDate.toDateString(),
                             downTimeDays: procedure.downtimeDays,
                             status: isDimMode
-                                    ? (selectedProcedureID == procedure.id ? .active : .dimmed)
-                                    : .active
+                            ? (selectedProcedureID == procedure.procedureId ? .active : .dimmed)
+                            : .active
                         )
                         .onTapGesture {
                             calendarMode = .selectedProcedure
-                            selectedProcedureID = procedure.id
+                            selectedProcedureID = procedure.procedureId
+                            viewModel.fetchDowntimeByDay(procedureId: selectedProcedureID ?? 0)
                         }
                     }
                     if calendarMode == .none { scrollViewBottomMarkerView }
