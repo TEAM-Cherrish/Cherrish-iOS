@@ -18,7 +18,7 @@ final class CalendarViewModel: ObservableObject {
     @Published var currentMonth: Int = 0
     @Published var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @Published private(set) var procedureCountOfMonth: [Int: Int] = [:]
-    @Published private(set) var procedureList: [ProcedureEntity] = [] //오늘 날짜에 들어가는 시술 정보 리스트
+    @Published private(set) var procedureList: [ProcedureEntity] = []
     @Published private(set) var downtimeByDay: [String : DowntimeDayState] = [:]
     
     private let fetchProcedureCountOfMonthUseCase: FetchProcedureCountOfMonth
