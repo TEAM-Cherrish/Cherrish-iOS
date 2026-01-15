@@ -7,9 +7,18 @@
 
 import SwiftUI
 
-enum TreatmentSelectionState {
+enum TreatmentSelectionState: CaseIterable {
     case notSelected
     case available
+    
+    var title: String {
+        switch self {
+        case .notSelected:
+            return "선택한 시술이 있어요"
+        case .available:
+            return "아직 선택 전이에요"
+        }
+    }
 }
 class SelectTreatmentViewModel: ObservableObject {
     @Published var treatmentSelectionState: TreatmentSelectionState?

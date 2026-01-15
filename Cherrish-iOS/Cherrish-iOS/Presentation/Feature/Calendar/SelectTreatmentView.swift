@@ -17,10 +17,10 @@ struct SelectTreatmentView: View {
             title: "시술 여부 선택",
             leftButtonAction: {
                 calendarCoordinator.pop()
-                tabBarCoordinator.isTabbarHidden = true
+                tabBarCoordinator.isTabbarHidden = false
             },
             rightButtonAction: {
-                tabBarCoordinator.isTabbarHidden = true
+                tabBarCoordinator.isTabbarHidden = false
                 calendarCoordinator.popToRoot()
             }
         )
@@ -63,36 +63,23 @@ private struct SelectChipsView: View {
         HStack(
             spacing: 12
         ) {
-            SelectionChip(
-                title: "선택한 시술이 있어요",
-                isSelected: Binding(
-                    get: {
-                        viewModel.treatmentSelectionState == .available
-                    },
-                    set: { isSelected in
-                        guard isSelected else {
-                            return
+            ForEach(TreatmentSelectionState.allCases, id: \.self) { state in
+                SelectionChip(
+                    title: state.title,
+                    isSelected: Binding(
+                        get: {
+                            viewModel.treatmentSelectionState == state
+                        },
+                        set: { isSelected in
+                            guard isSelected else {
+                                return
+                            }
+                            viewModel.treatmentSelectionState = state
+                            viewModel.buttonState = .active
                         }
-                        viewModel.treatmentSelectionState = .available
-                        viewModel.buttonState = .active
-                    }
+                    )
                 )
-            )
-            SelectionChip(
-                title: "아직 선택 전이에요",
-                isSelected: Binding(
-                    get: {
-                        viewModel.treatmentSelectionState == .notSelected
-                    },
-                    set: { isSelected in
-                        guard isSelected else {
-                            return
-                        }
-                        viewModel.treatmentSelectionState = .notSelected
-                        viewModel.buttonState = .active
-                    }
-                )
-            )
+            }
         }
     }
 }
