@@ -73,6 +73,10 @@ final class CalendarViewModel: ObservableObject {
         return downtimeByDay[key] ?? .none
     }
     
+    func isEmptyProcedureList() -> Bool {
+        return procedureList.isEmpty
+    }
+    
     @MainActor
     func fetchProcedureCountsOfMonth() async throws {
         let calendar = Calendar.current

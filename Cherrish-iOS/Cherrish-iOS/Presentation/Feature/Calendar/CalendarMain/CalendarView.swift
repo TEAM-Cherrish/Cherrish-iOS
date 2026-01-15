@@ -24,7 +24,9 @@ enum CalendarMode {
 
 struct CalendarView: View {
     @ObservedObject var viewModel: CalendarViewModel
-    @State private var offsetY: CGFloat = .zero
+    @State private var topGlobalY: CGFloat = .zero
+    @State private var initialTopGlobalY: CGFloat? = nil
+    @State private var bottomOffsetY: CGFloat = .zero
     @State private var calendarMode: CalendarMode = .none
     @State private var selectedProcedureID: Int? = nil
     
@@ -37,7 +39,12 @@ struct CalendarView: View {
         VStack {
             calendarHeader
             dateGridsView
-            scheduleListConatinerView
+            if viewModel.isEmptyProcedureList() {
+                emptyScheduleView
+            } else {
+                scheduleListConatinerView
+            }
+            
         }
         .task {
             do {
@@ -145,9 +152,12 @@ extension CalendarView {
             .padding(.horizontal, 20)
             .padding(.top, 8)
             
-            ZStack (alignment: .bottom) {
-                let isDimMode = (selectedProcedureID != nil)
+            ZStack {
                 ScrollView(showsIndicators: false) {
+                    scrollViewTopMarkerView
+                        .opacity(calendarMode == .none ? 1 : 0)
+                        .allowsHitTesting(false)
+                    
                     ForEach(viewModel.procedureList, id: \.self) { procedure in
                         ProcedureView(
                             treatmentTitle: procedure.name,
@@ -202,6 +212,41 @@ extension CalendarView {
         .padding(.top, 20)
         .padding(.horizontal, 25)
         .padding(.bottom, 18)
+    }
+    
+    private var emptyScheduleView: some View {
+        VStack(alignment: .center) {
+            VStack(spacing: 8){
+                Image(.illustrationNoschedule)
+                    .resizable()
+                    .frame(width: 148.adjustedW, height: 108.adjustedH)
+                
+                TypographyText("오늘 예정된 일정이 없어요.", style: .body1_r_14, color: .gray600)
+            }
+            .padding(.top, 50)
+            .padding(.horizontal, 65)
+            
+            Spacer()
+                .frame(height: 38.adjustedH)
+            
+            CherrishButton(
+                title: "시술 일정 추가하기",
+                type: .medium,
+                state: .active,
+                leadingIcon: Image(.plus),
+                trailingIcon: nil,
+                action: { }
+            )
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(.gray0)
+                .cherrishShadow()
+        )
+        .frame(width: 326.adjustedW, height: 264.adjustedH)
+        .padding(.top, 20)
+        .padding(.horizontal, 25)
+        .padding(.bottom, 30)
     }
     
     private var downTimeRangeIcons: some View {
