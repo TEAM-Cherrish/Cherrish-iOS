@@ -123,8 +123,6 @@ extension CalendarViewModel {
         formatter.locale = Locale(identifier: "ko_KR")
         
         let date = formatter.string(from: currenDate)
-        CherrishLogger.debug(date)
-        
         return date.components(separatedBy: " ")
     }
     
