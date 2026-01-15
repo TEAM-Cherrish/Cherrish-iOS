@@ -33,7 +33,7 @@ struct MockCalendarRepository: CalendarInterface {
             ProcedureEntity(
                 procedureId: 1,
                 name: "레이저 토닝",
-                downtimeDays: "7",
+                downtimeDays: 7,
                 sensitiveDays: [
                     "2026-01-15",
                     "2026-01-16",
@@ -51,7 +51,7 @@ struct MockCalendarRepository: CalendarInterface {
             ProcedureEntity(
                 procedureId: 2,
                 name: "보톡스",
-                downtimeDays: "3",
+                downtimeDays: 3,
                 sensitiveDays: [
                     "2026-01-15"
                 ],
@@ -65,7 +65,7 @@ struct MockCalendarRepository: CalendarInterface {
             ProcedureEntity(
                 procedureId: 3,
                 name: "필러",
-                downtimeDays: "5",
+                downtimeDays: 5,
                 sensitiveDays: [
                     "2026-01-15",
                     "2026-01-16"
@@ -81,7 +81,7 @@ struct MockCalendarRepository: CalendarInterface {
             ProcedureEntity(
                 procedureId: 4,
                 name: "IPL 레이저",
-                downtimeDays: "2",
+                downtimeDays: 2,
                 sensitiveDays: [
                     "2026-01-15"
                 ],
@@ -93,7 +93,7 @@ struct MockCalendarRepository: CalendarInterface {
             ProcedureEntity(
                 procedureId: 5,
                 name: "윤곽 주사",
-                downtimeDays: "4",
+                downtimeDays: 4,
                 sensitiveDays: [
                     "2026-01-15",
                     "2026-01-16"
@@ -108,20 +108,12 @@ struct MockCalendarRepository: CalendarInterface {
             ProcedureEntity(
                 procedureId: 6,
                 name: "피부 스케일링",
-                downtimeDays: "1",
+                downtimeDays: 0,
                 sensitiveDays: [
                     "2026-01-15"
                 ],
-                cautionDays: [
-                    "2026-01-16",
-                    "2026-01-17",
-                    "2026-01-18"
-                ],
-                recoveryDays: [
-                    "2026-01-19",
-                    "2026-01-20",
-                    "2026-01-21"
-                ]
+                cautionDays: [],
+                recoveryDays: []
             )
         ]
     }
