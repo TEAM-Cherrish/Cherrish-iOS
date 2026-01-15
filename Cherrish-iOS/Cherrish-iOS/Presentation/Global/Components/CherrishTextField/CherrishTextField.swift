@@ -62,15 +62,6 @@ enum CherrishTextFieldStyle {
         }
     }
     
-    var horizontalPadding: CGFloat {
-        switch self {
-        case .plain:
-            return 16.adjustedW
-        case .date:
-            return 18.5.adjustedW
-        }
-    }
-    
     var verticalPadding: CGFloat {
         switch self {
         case .plain:
@@ -134,20 +125,24 @@ struct CherrishTextField: View {
                             style.placeholder,
                             style: style.placeholderFont ,
                             color: style.placeholderColor
-                        )
+                        ).fixedSize()
                         Spacer()
                     }
                 }
-                TextField("" ,text: $text)
-                    .foregroundStyle(style.textColor)
-                    .multilineTextAlignment(style.textAlinement)
-                    .keyboardType(.numberPad)
-                    .typography(style.textFont)
-                    .tint(style.textColor)
+                HStack{
+                    Spacer()
+                    TextField("" ,text: $text)
+                        .foregroundStyle(style.textColor)
+                        .multilineTextAlignment(style.textAlinement)
+                        .keyboardType(.numberPad)
+                        .typography(style.textFont)
+                        .tint(style.textColor)
+                    Spacer()
+                }
+                
             }
             .frame(height: style.fontHeight)
         }
-        .padding(.horizontal, style.horizontalPadding)
         .padding(.vertical, style.verticalPadding)
         .background {
             RoundedRectangle(cornerRadius: 10)
