@@ -162,15 +162,31 @@ extension CalendarView {
                             viewModel.fetchDowntimeByDay(procedureId: selectedProcedureID ?? 0)
                         }
                     }
-                    if calendarMode == .none { scrollViewBottomMarkerView }
+                    
+                    scrollViewBottomMarkerView
+                        .opacity(calendarMode == .none ? 1 : 0)
+                        .allowsHitTesting(false)
                 }
                 .coordinateSpace(name: "ProcedureScroll")
-                .onPreferenceChange(ScrollPreferenceKey.self) { offsetY = $0 }
+                .onPreferenceChange(ScrollTopPreferenceKey.self) { v in
+                    topGlobalY = (calendarMode == .none) ? v : 0
+                    print("topOffsetY(named):", v)
+                }
+                .onPreferenceChange(ScrollBottomPreferenceKey.self) { v in
+                    bottomOffsetY = (calendarMode == .none) ? v : scrollAreaHeight.adjustedH
+                }
                 
-                GradientBox()
+                GradientBox(isTop: true)
+                    .frame(height: 56)
+                    .allowsHitTesting(false)
+                    .opacity(shouldShowGradientTop ? 1 : 0)
+                    .frame(maxHeight: .infinity, alignment: .top)
+                
+                GradientBox(isTop: false)
                     .frame(height: 92)
                     .allowsHitTesting(false)
-                    .opacity(shouldShowGradient ? 1 : 0)
+                    .opacity(shouldShowGradientBottom ? 1 : 0)
+                    .frame(maxHeight: .infinity, alignment: .bottom)
             }
             
             .frame(height: scrollAreaHeight.adjustedH)
@@ -210,18 +226,40 @@ extension CalendarView {
 }
 
 extension CalendarView {
+    private var scrollViewTopMarkerView: some View {
+        GeometryReader { proxy in
+            Color.clear
+                .onAppear {
+                    let v = proxy.frame(in: .global).minY
+                    topGlobalY = v
+                    if initialTopGlobalY == nil { initialTopGlobalY = v }
+                }
+                .onChange(of: proxy.frame(in: .global).minY) { v in
+                    topGlobalY = v
+                }
+        }
+        .frame(height: 0)
+    }
+    
     private var scrollViewBottomMarkerView: some View {
         GeometryReader { proxy in
             Color.clear
                 .preference(
-                    key: ScrollPreferenceKey.self,
-                    value: proxy.frame(in: .named("ProcedureScroll")).minY
+                    key: ScrollBottomPreferenceKey.self,
+                    value: proxy.frame(in: .named("ProcedureScroll")).maxY
                 )
         }
-        .frame(height: 1)
+        .frame(height: 0)
     }
     
-    private var shouldShowGradient: Bool {
-        offsetY > scrollAreaHeight.adjustedH
+    private var shouldShowGradientBottom: Bool {
+        guard calendarMode == .none else { return false }
+        let remaining = bottomOffsetY - scrollAreaHeight.adjustedH
+        return remaining > 1
+    }
+    
+    private var shouldShowGradientTop: Bool {
+        guard calendarMode == .none, let initial = initialTopGlobalY else { return false }
+        return topGlobalY < initial - 0.1
     }
 }
