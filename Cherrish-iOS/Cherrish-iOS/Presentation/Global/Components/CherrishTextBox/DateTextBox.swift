@@ -18,7 +18,7 @@ struct DateTextBox: View {
                 TypographyText("날짜", style: .body1_sb_14, color: .gray1000)
                 Spacer()
             }
-            HStack{
+            HStack(spacing: 14){
                 DateLabel(text: $year, placeholderStyle: .year)
                 DateLabel(text: $month, placeholderStyle: .month)
                 DateLabel(text: $day, placeholderStyle: .day)
