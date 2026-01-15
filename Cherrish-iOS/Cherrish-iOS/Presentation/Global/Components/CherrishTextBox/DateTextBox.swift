@@ -31,13 +31,15 @@ private struct DateLabel: View {
     @Binding var text: String
     let placeholderStyle: DateTextFieldStyle
     var body: some View {
-        HStack {
+        HStack(spacing: 0) {
             CherrishTextField(
                 text: $text,
                 style: .date(
                     placeholder: placeholderStyle
                 )
             )
+            Spacer()
+                .frame(width: 4.adjustedW)
             TypographyText(
                 placeholderStyle.kr,
                 style: .title2_m_16,

@@ -63,12 +63,7 @@ enum CherrishTextFieldStyle {
     }
     
     var horizontalPadding: CGFloat {
-        switch self {
-        case .plain:
-            return 16.adjustedW
-        case .date:
-            return 18.5.adjustedW
-        }
+        return 16.adjustedW
     }
     
     var verticalPadding: CGFloat {
@@ -134,7 +129,7 @@ struct CherrishTextField: View {
                             style.placeholder,
                             style: style.placeholderFont ,
                             color: style.placeholderColor
-                        )
+                        ).fixedSize()
                         Spacer()
                     }
                 }
