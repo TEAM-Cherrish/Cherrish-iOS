@@ -54,6 +54,7 @@ struct CalendarView: View {
                 CherrishLogger.error(error)
             }
         }
+        .background(.gray0)
     }
 }
 
@@ -131,7 +132,7 @@ extension CalendarView {
     
     private var scheduleListConatinerView: some View {
         let procedureCount = viewModel.procedureList.count
-        return VStack {
+        return VStack(spacing: 0) {
             HStack {
                 TypographyText("일정 ・ \(procedureCount)개", style: .body1_r_14, color: .gray1000)
                 
@@ -237,6 +238,10 @@ extension CalendarView {
                 trailingIcon: nil,
                 action: { }
             )
+            .padding(.horizontal, 24)
+            
+            Spacer()
+                .frame(height: 24.adjustedH)
         }
         .background(
             RoundedRectangle(cornerRadius: 10)
