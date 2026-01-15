@@ -112,8 +112,16 @@ struct MockCalendarRepository: CalendarInterface {
                 sensitiveDays: [
                     "2026-01-15"
                 ],
-                cautionDays: [],
-                recoveryDays: []
+                cautionDays: [
+                    "2026-01-16",
+                    "2026-01-17",
+                    "2026-01-18"
+                ],
+                recoveryDays: [
+                    "2026-01-19",
+                    "2026-01-20",
+                    "2026-01-21"
+                ]
             )
         ]
     }
