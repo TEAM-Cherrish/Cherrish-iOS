@@ -14,9 +14,9 @@ enum TreatmentSelectionState: CaseIterable {
     var title: String {
         switch self {
         case .notSelected:
-            return "선택한 시술이 있어요"
-        case .available:
             return "아직 선택 전이에요"
+        case .available:
+            return "선택한 시술이 있어요"
         }
     }
 }
