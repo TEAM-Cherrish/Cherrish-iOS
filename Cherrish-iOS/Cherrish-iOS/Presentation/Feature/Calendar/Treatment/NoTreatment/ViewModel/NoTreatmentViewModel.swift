@@ -8,7 +8,7 @@
 import Foundation
 
 final class NoTreatmentViewModel: ObservableObject{
-    @Published var state: NoTreatment = .treatmentSelectedCatagory
+    @Published var state: NoTreatment = .treatmentSelectedCategory
     var step: Int { state.rawValue }
     @Published var treatmentCatagory: TreatmentCategory?
     @Published var dDay: DdayState?
@@ -18,7 +18,7 @@ final class NoTreatmentViewModel: ObservableObject{
     
     var canProceed: Bool {
            switch state {
-           case .treatmentSelectedCatagory:
+           case .treatmentSelectedCategory:
                return treatmentCatagory != nil
            case .targetDdaySetting:
                return isDateTextFieldNotEmpty()

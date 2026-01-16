@@ -8,7 +8,7 @@
 import Foundation
 
 enum NoTreatment: Int, CaseIterable, Identifiable {
-    case treatmentSelectedCatagory = 1
+    case treatmentSelectedCategory = 1
     case targetDdaySetting
     case treatmentFilter
     case downTimeSetting
@@ -17,7 +17,7 @@ enum NoTreatment: Int, CaseIterable, Identifiable {
     
     var title: String {
         switch self {
-        case .treatmentSelectedCatagory:
+        case .treatmentSelectedCategory:
             return "시술 카테고리 선택"
         case .targetDdaySetting:
             return "목표 디데이 설정"

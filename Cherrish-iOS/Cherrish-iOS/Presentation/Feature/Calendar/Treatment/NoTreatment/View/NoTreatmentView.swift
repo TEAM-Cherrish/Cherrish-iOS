@@ -32,8 +32,8 @@ struct NoTreatmentView: View {
             VStack(spacing: 0){
                 Group {
                     switch viewModel.state {
-                    case .treatmentSelectedCatagory:
-                        TreatmentSelectedCatagory(viewModel: viewModel)
+                    case .treatmentSelectedCategory:
+                        TreatmentSelectedCategory(viewModel: viewModel)
                             .id(viewModel.state)
                     case .targetDdaySetting:
                         TargetDdaySettingView(dDayState: $viewModel.dDay, year: $viewModel.year, month: $viewModel.month, day: $viewModel.day)
@@ -66,7 +66,7 @@ struct NoTreatmentView: View {
     }
 }
 
-private struct TreatmentSelectedCatagory: View {
+private struct TreatmentSelectedCategory: View {
     @ObservedObject var viewModel: NoTreatmentViewModel
     let columns = [
         GridItem(.flexible()),
