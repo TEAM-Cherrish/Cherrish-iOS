@@ -121,7 +121,3 @@ private struct TreatmentSelectedCatagory: View {
         }
     }
 }
-
-#Preview {
-    NoTreatmentView()
-}
