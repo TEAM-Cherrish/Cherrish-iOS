@@ -19,7 +19,6 @@ struct SelectMissionView: View {
         "선크림 3번 바르기",
         "선크림 3번 바르기"
     ]
-    
     @State private var selectedStates: [Bool] = Array(repeating: false, count: 6)
     
     private var nextButtonState: ButtonState {
@@ -40,7 +39,7 @@ struct SelectMissionView: View {
                 .frame(height: 48.adjustedH)
             VStack {
                 HStack {
-                    VStack(alignment: .leading, spacing: 4.adjustedH) {
+                    VStack(alignment: .leading) {
                         TypographyText("챌린지 기간 동안",
                             style: .title1_sb_18,
                             color: .gray1000
@@ -53,6 +52,7 @@ struct SelectMissionView: View {
                             style: .body1_r_14,
                             color: .gray700
                         )
+                        .padding(.top, 4.adjustedH)
                     }
                     Spacer()
                 }
@@ -78,9 +78,19 @@ struct SelectMissionView: View {
             .padding(.horizontal, 24.adjustedW)
             Spacer()
                 .frame(height: 64.adjustedH)
-            .padding(.bottom, 38.adjustedH)
+            .padding(.bottom, 72.adjustedH)
         }
-        .frame(maxHeight: .infinity)
-        .padding(.top, 20.adjustedH)        
+        .padding(.top, 20.adjustedH)
+        .onAppear {
+            selectedStates = Array(repeating: false, count: missions.count)
+        }
+        .onChange(of: missions) { newMissions in
+            selectedStates = Array(repeating: false, count: newMissions.count)
+        }
+        .ignoresSafeArea(edges: .bottom)
     }
+}
+
+#Preview {
+    SelectMissionView()
 }

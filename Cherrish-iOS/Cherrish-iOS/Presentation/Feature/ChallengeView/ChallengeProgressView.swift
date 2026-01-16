@@ -94,7 +94,7 @@ struct ChallengeProgressView: View {
                             TypographyText("Lv.\(cherryLevel.levelNumber) \(cherryLevel.name)", style: .body1_m_14, color: .gray900)
                             Spacer()
                         }
-                        Image("cherry\(cherryLevel.levelNumber)")
+                        cherryLevel.cherryImage
                             .padding(.top, 14.adjustedH)
                         TypographyText("체리가 크려면 \(remainMissions)개의 미션을 수행해야 해요!", style: .body2_r_13, color: .gray800)
                             .padding(.top, 14.adjustedH)

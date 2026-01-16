@@ -37,6 +37,7 @@ struct LoadingView: View {
         .onDisappear {
             navigationTask?.cancel()
         }
+        .ignoresSafeArea(edges: .bottom)
    }
     
     private func moveNextAfterDelay() {

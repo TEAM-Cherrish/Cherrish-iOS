@@ -12,12 +12,13 @@ struct MissionCard: View {
     @Binding var isSelected: Bool
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack {
             HStack {
                 Image(isSelected ? .radiobtnSelected : .radiobtnDefault)
                     .padding(.leading, 14.adjustedW)
                     .padding(.vertical, 14.adjustedH)
                 TypographyText(missionText, style: .body1_r_14, color: isSelected ? .gray800 : .gray700)
+                    .padding(.leading, 6.adjustedW)
                 Spacer()
             }
         }
