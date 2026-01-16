@@ -32,14 +32,14 @@ struct NoTreatmentView: View {
             VStack(spacing: 0){
                 Group {
                     switch viewModel.state {
-                    case .tretmentSelectedCatagory:
+                    case .treatmentSelectedCatagory:
                         TreatmentSelectedCatagory(viewModel: viewModel)
                             .id(viewModel.state)
                     case .targetDdaySetting:
                         //TODO: 목표 디데이 설정
                         TargetDdaySettingView(dDayState: $viewModel.dDay, year: $viewModel.year, month: $viewModel.month, day: $viewModel.day)
                             .id(viewModel.state)
-                    case .treatmentfilter:
+                    case .treatmentFilter:
                         //TODO: 시술 필터링
                         EmptyView()
                     case .downTimeSetting:
@@ -54,7 +54,7 @@ struct NoTreatmentView: View {
                 
                 Group {
                     switch viewModel.state {
-                    case .tretmentSelectedCatagory:
+                    case .treatmentSelectedCatagory:
                         CherrishButton(title: "다음", type: .next, state: .constant(viewModel.treatmentCatagory == nil ? .normal : .active)) {
                             viewModel.next()
                         }
@@ -62,7 +62,7 @@ struct NoTreatmentView: View {
                         CherrishButton(title: "다음", type: .next, state: .constant(viewModel.isDateTextFieldNotEmpty() ? .active : .normal)) {
                             viewModel.next()
                         }
-                    case .treatmentfilter:
+                    case .treatmentFilter:
                         CherrishButton(title: "다음", type: .next, state: .constant(.normal)) {
                             
                         }
@@ -77,8 +77,6 @@ struct NoTreatmentView: View {
                     .frame(height: 38.adjustedH)
             }
             .id(viewModel.step)
-            .scrollIndicators(.hidden)
-            
         }
         .ignoresSafeArea(.keyboard)
     }
@@ -95,7 +93,7 @@ private struct TreatmentSelectedCatagory: View {
             Spacer()
                 .frame(height: 70.adjustedH)
             HStack(spacing: 0) {
-                VStack(alignment: .leading, spacing: 0,) {
+                VStack(alignment: .leading, spacing: 0) {
                     TypographyText(
                         "요즘 가장 신경 쓰이는 ",
                         style: .title1_sb_18,
@@ -117,7 +115,7 @@ private struct TreatmentSelectedCatagory: View {
             Spacer()
                 .frame(height: 40.adjustedH)
             LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(TreatmentCatagory.allCases, id: \.id) { catagory in
+                ForEach(TreatmentCategory.allCases, id: \.id) { catagory in
                     SelectionChip(
                         title: catagory.title,
                         isSelected: Binding(

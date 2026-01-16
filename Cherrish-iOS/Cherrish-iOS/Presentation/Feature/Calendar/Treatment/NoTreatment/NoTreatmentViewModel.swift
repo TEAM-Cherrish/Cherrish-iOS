@@ -7,19 +7,19 @@
 
 import Foundation
 
-enum NoTreatment: Int, CaseIterable,Identifiable {
-    case tretmentSelectedCatagory = 1
+enum NoTreatment: Int, CaseIterable, Identifiable {
+    case treatmentSelectedCatagory = 1
     case targetDdaySetting
-    case treatmentfilter
+    case treatmentFilter
     case downTimeSetting
     var id: Self { self }
     var title: String {
         switch self {
-        case .tretmentSelectedCatagory:
+        case .treatmentSelectedCatagory:
             return "시술 카테고리 선택"
         case .targetDdaySetting:
             return "목표 디데이 설정"
-        case .treatmentfilter:
+        case .treatmentFilter:
             return "시술 필터링"
         case .downTimeSetting:
             return "다운타임 설정"
@@ -27,7 +27,7 @@ enum NoTreatment: Int, CaseIterable,Identifiable {
     }
 }
 
-enum TreatmentCatagory: CaseIterable, Identifiable {
+enum TreatmentCategory: CaseIterable, Identifiable {
     case textureKeratin
     case pigmentation
     case redness
@@ -71,10 +71,10 @@ private extension NoTreatment {
 }
 
 class NoTreatmentViewModel: ObservableObject{
-    @Published var state: NoTreatment = .tretmentSelectedCatagory
+    @Published var state: NoTreatment = .treatmentSelectedCatagory
     @Published var step: Int = 1
-    @Published var treatmentCatagory: TreatmentCatagory? = nil
-    @Published var dDay: DdayState? = nil
+    @Published var treatmentCatagory: TreatmentCategory?
+    @Published var dDay: DdayState?
     @Published var year: String = ""
     @Published var month: String = ""
     @Published var day: String = ""
@@ -95,9 +95,17 @@ class NoTreatmentViewModel: ObservableObject{
     }
     
     func isDateTextFieldNotEmpty() -> Bool {
+        guard !year.isEmpty, !month.isEmpty, !day.isEmpty else {
+            return false
+        }
+        guard let yearInt = Int(year), yearInt >= 2020,
+              let monthInt = Int(month), monthInt >= 1, monthInt <= 12,
+              let dayInt = Int(day), dayInt >= 1, dayInt <= 31 else {
+            return false
+        }
+
+        return true
         
-        return !(year.isEmpty || month.isEmpty || day.isEmpty)
-            
     }
     
     
