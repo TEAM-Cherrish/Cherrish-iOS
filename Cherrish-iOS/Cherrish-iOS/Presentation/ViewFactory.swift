@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ViewFactoryProtocol {
-    func makeOnboardingView() -> OnboardingView
+    func makeOnboardingContainerView() -> OnboardingContainerView
     func makeInformationView() -> InformationView
     func makeHomeView() -> HomeView
     func makeCalendarView() -> CalendarView
@@ -25,11 +25,11 @@ protocol ViewFactoryProtocol {
 final class ViewFactory: ViewFactoryProtocol {
     static let shared = ViewFactory()
     
-    func makeOnboardingView() -> OnboardingView {
+    func makeOnboardingContainerView() -> OnboardingContainerView {
         guard let viewModel = DIContainer.shared.resolve(type: OnboardingViewModel.self) else {
             fatalError()
         }
-        return OnboardingView(viewModel: viewModel)
+        return OnboardingContainerView(viewModel: viewModel)
     }
     
     func makeInformationView() -> InformationView {
