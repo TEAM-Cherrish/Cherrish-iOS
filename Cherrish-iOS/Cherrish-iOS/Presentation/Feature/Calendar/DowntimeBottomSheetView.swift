@@ -34,8 +34,7 @@ struct DowntimeBottomSheetView: View {
             
             grayLineView
                 .padding(.horizontal, 25)
-            
-            
+
             pickerView
             
             grayLineView
@@ -54,6 +53,8 @@ extension DowntimeBottomSheetView {
                 .frame(height: 53.adjustedH)
             
             TypographyText("회복 목표디데이로부터 약 7일 전에 안정될 수 있어요.", style: .body1_r_14, color: .gray1000)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
                 .padding(.horizontal, 18)
                 .offset(y: -4.adjustedH)
             
