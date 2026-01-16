@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct OnboardingPage2: View {
+    @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
+    
     @State private var offsetX: CGFloat = 0
     
     private let levelImages: [ImageResource] = [.LV_0, .LV_1, .LV_2, .LV_3, .LV_4]
@@ -25,6 +27,9 @@ struct OnboardingPage2: View {
                     .scaledToFit()
                     .frame(width: 24.adjustedW, height: 24.adjustedW)
                     .foregroundStyle(.gray600)
+                    .onTapGesture {
+                        onboardingCoordinator.push(.information)
+                    }
             }
             .padding(.horizontal, 29.adjustedW)
             .padding(.top, 30.adjustedH)
@@ -110,7 +115,7 @@ struct InfiniteLevelCarousel: View {
         offsetX = initialOffset
         animateCarousel(animationID: currentAnimationID)
     }
-    
+     
     private func stopAnimation() {
         isAnimating = false
         animationID = UUID()

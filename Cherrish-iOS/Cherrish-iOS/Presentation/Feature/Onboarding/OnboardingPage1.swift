@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct OnboardingPage1: View {
+    @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
+    
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
@@ -19,6 +21,9 @@ struct OnboardingPage1: View {
                     .scaledToFit()
                     .frame(width: 24.adjustedW, height: 24.adjustedW)
                     .foregroundStyle(.gray600)
+                    .onTapGesture {
+                        onboardingCoordinator.push(.information)
+                    }
             }
             .padding(.horizontal, 29.adjustedW)
             .padding(.top, 30.adjustedH)
@@ -54,10 +59,10 @@ struct OnboardingPage1: View {
                     
                     Rectangle()
                         .fill(Color.red700)
-                        .frame(width: 252.adjustedW, height: 1.4) // 위 밑줄 (짧은 줄)
+                        .frame(width: 252.adjustedW, height: 1.4)
                     Rectangle()
                         .fill(Color.red700)	
-                        .frame(width: 260.adjustedW, height: 1.4) // 아래 밑줄 (긴 줄)
+                        .frame(width: 260.adjustedW, height: 1.4) 
                         .padding(.top, 3)
                     
                     TypographyText("일정을 한 눈에 정리해드려요", style: .title1_sb_18, color: .gray1000)
