@@ -18,7 +18,7 @@ struct DateTextBox: View {
                 TypographyText("날짜", style: .body1_sb_14, color: .gray1000)
                 Spacer()
             }
-            HStack{
+            HStack(spacing: 14){
                 DateLabel(text: $year, placeholderStyle: .year)
                 DateLabel(text: $month, placeholderStyle: .month)
                 DateLabel(text: $day, placeholderStyle: .day)
@@ -31,13 +31,15 @@ private struct DateLabel: View {
     @Binding var text: String
     let placeholderStyle: DateTextFieldStyle
     var body: some View {
-        HStack {
+        HStack(spacing: 0) {
             CherrishTextField(
                 text: $text,
                 style: .date(
                     placeholder: placeholderStyle
                 )
             )
+            Spacer()
+                .frame(width: 4.adjustedW)
             TypographyText(
                 placeholderStyle.kr,
                 style: .title2_m_16,
