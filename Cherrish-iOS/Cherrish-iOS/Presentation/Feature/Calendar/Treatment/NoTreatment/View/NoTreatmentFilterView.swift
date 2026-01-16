@@ -12,7 +12,7 @@ struct NoTreatmentFilterView: View {
     @ObservedObject var viewModel: NoTreatmentViewModel
     var body: some View {
         VStack(spacing: 0) {
-            TitleHeaderView()
+            TitleHeaderView(title: viewModel.treatmentCatagory?.title ?? "")
             Spacer()
                 .frame(height: 10.adjustedH)
             ScrollView(.vertical, showsIndicators: false){
@@ -34,11 +34,12 @@ struct NoTreatmentFilterView: View {
 }
 
 private struct TitleHeaderView: View {
+    let title: String
     var body: some View {
         VStack {
             VStack(alignment: .leading) {
                 HStack(spacing: 6) {
-                    TypographyText("색소 ∙ 잡티", style: .title1_sb_18, color: .gray1000)
+                    TypographyText(title, style: .title1_sb_18, color: .gray1000)
                     TypographyText("관련 시술 리스트", style: .title1_sb_18, color: .gray1000)
                     Spacer()
                 }
