@@ -8,32 +8,38 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject private var viewModel = HomeViewModel()
+    @StateObject private var viewModel: HomeViewModel
+    
+    init(viewModel: HomeViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
         ZStack {
             BackgroundGradientView()
             
-            VStack(spacing: 0) {
-                HeaderLogoView()
-                ZStack(alignment: .bottomTrailing) {
-                    ChallengeCardView(
-                        challengeName: viewModel.challengeName,
-                        challengeRate: viewModel.challengeRateText,
-                        challengeBarImageName: viewModel.challengeBarImageName
-                    )
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 0) {
+                    HeaderLogoView()
+                    ZStack(alignment: .bottomTrailing) {
+                        ChallengeCardView(
+                            challengeName: viewModel.challengeName,
+                            challengeRate: viewModel.challengeRateText,
+                            challengeBarImageName: viewModel.challengeBarImageName
+                        )
+                        
+                        Image(viewModel.cherryLevelImageName)
+                            .resizable()
+                            .frame(width: 122, height: 122)
+                            .offset(x: -24, y: -67)
+                    }
+                    PlanBoxView(viewModel: viewModel)
+                        .padding(.top, 14)
                     
-                    Image(viewModel.cherryLevelImageName)
-                        .resizable()
-                        .frame(width: 122, height: 122)
-                        .offset(x: -24, y: -67)
+                    UpcomingBoxView(viewModel: viewModel)
+                        .padding(.top, 14)
                 }
-                PlanBoxView(viewModel: viewModel)
-                    .padding(.top, 14)
-                
-                UpcomingBoxView()
-                    .padding(.top, 14)
-                Spacer()
+                .padding(.bottom, 20)
             }
         }
         .task {
@@ -98,7 +104,7 @@ private struct ChallengeCardView: View {
         )
         .cherrishShadow()
         .padding(.horizontal, 24)
-        .padding(.top, 40)
+        .padding(.top, 10)
     }
 }
 
@@ -156,9 +162,10 @@ private struct PlanBoxView: View {
                             style: .body1_r_14,
                             color: .gray600
                         )
+                        .frame(width: 296, height: 30)
+                        .padding(.top, 6)
                     }
-                    .padding(.top, 16)
-                    .padding(.bottom, 4)
+                    .contentShape(Rectangle())
                 }
             }
         }
@@ -191,6 +198,31 @@ private struct PlanBoxView: View {
 }
 
 private struct UpcomingBoxView: View {
+    @ObservedObject var viewModel: HomeViewModel
+    private let buttonState: ButtonState = .active
+    
+    private func pinStyle(for index: Int, totalCount: Int) -> (circleColor: Color, lineTopColor: Color, lineBottomColor: Color) {
+        let red600 = Color("red_600")
+        let red500 = Color("red_500")
+        let red300 = Color("red_300")
+        let gray0 = Color("gray_0")
+        
+        let result: (circleColor: Color, lineTopColor: Color, lineBottomColor: Color)
+        
+        switch index {
+        case 0:
+            let lineBottomColor = totalCount >= 2 ? red500 : gray0
+            result = (red600, red600, lineBottomColor)
+        case 1:
+            let lineBottomColor = totalCount >= 3 ? red300 : gray0
+            result = (red500, red500, lineBottomColor)
+        default: 
+            result = (red300, red300, gray0)
+        }
+        
+        return result
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
@@ -203,11 +235,14 @@ private struct UpcomingBoxView: View {
             
             Divider()
                 .gray300()
+                .padding(.bottom, 11)
             
-            Spacer()
-            
+            if viewModel.upcomingItems.isEmpty {
+                emptyStateView
+            } else {
+                contentView
+            }
         }
-        .frame(height: 109)
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 14)
@@ -217,10 +252,60 @@ private struct UpcomingBoxView: View {
         .padding(.horizontal, 24)
 
     }
+
+    private var contentView: some View {
+        VStack(spacing: 0) {
+            ForEach(Array(viewModel.upcomingItems.enumerated()), id: \.element.id) { index, item in
+                let style = pinStyle(for: index, totalCount: viewModel.upcomingItems.count)
+                
+                HStack(alignment: .top, spacing: 24) {
+                    PinView(
+                        circleColor: style.circleColor,
+                        lineTopColor: style.lineTopColor,
+                        lineBottomColor: style.lineBottomColor
+                    )
+                    .padding(.leading, 26)
+                    .offset(y: -12)
+                    
+                    OnComingCard(
+                        date: item.date,
+                        name: item.name,
+                        count: item.count,
+                        dDay: item.dDay
+                    )
+                }
+            }
+        }
+        .padding(.top, 11)
+        .padding(.bottom, 12)
+    }
+
+    private var emptyStateView: some View {
+        VStack(spacing: 0) {
+            Image("illustration_noschedule")
+                .padding(.top, 50)
+            TypographyText("아직 진행 중인 관리가 없어요.", style: .body1_r_14, color: .gray600)
+                .padding(.top, 8)
+            
+            CherrishButton(
+                title: "관리 일정을 추가해보세요 !",
+                type: .next,
+                state: .constant(buttonState)
+            ) {
+               
+            }
+            .padding(.horizontal, 24)
+            .padding(.top, 48)
+            .padding(.bottom, 24)
+        }
+        .frame(maxWidth: .infinity)
+    }
 }
 
 struct PinView: View {
-    var color: Color = .pink
+    var circleColor: Color
+    var lineTopColor: Color
+    var lineBottomColor: Color
     var circleSize: CGFloat = 10
     var lineLength: CGFloat = 65
     var lineWidth: CGFloat = 2
@@ -228,17 +313,22 @@ struct PinView: View {
     var body: some View {
         VStack(spacing: 0) {
             Circle()
-                .fill(color)
+                .fill(circleColor)
                 .frame(width: circleSize, height: circleSize)
             
             Rectangle()
-                .fill(color)
+                .fill(
+                    LinearGradient(
+                        colors: [lineTopColor, lineBottomColor],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
                 .frame(width: lineWidth, height: lineLength)
         }
-        
     }
 }
 
 #Preview {
-    HomeView()
+    HomeView(viewModel: DIContainer.shared.resolve(type: HomeViewModel.self)!)
 }

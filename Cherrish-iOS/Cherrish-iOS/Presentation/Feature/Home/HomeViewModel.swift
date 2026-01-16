@@ -18,21 +18,6 @@ final class HomeViewModel: ObservableObject {
         self.fetchDashboardData = fetchDashboardData
     }
     
-    init() {
-<<<<<<< HEAD
-        guard let useCase = DIContainer.shared.resolve(type: FetchDashboardData.self) else {
-            fatalError("FetchDashboardData is not registered in DIContainer")
-        }
-        self.fetchDashboardData = useCase
-=======
-        if let useCase = DIContainer.shared.resolve(type: FetchDashboardData.self) {
-            self.fetchDashboardData = useCase
-        } else {
-            self.fetchDashboardData = MockFetchDashboardData()
-        }
->>>>>>> 95c9770 (feat: #49 클린아키텍쳐)
-    }
-    
     @MainActor
     func loadDashboard() async {
         isLoading = true
@@ -60,7 +45,7 @@ final class HomeViewModel: ObservableObject {
     
     var challengeRateText: String {
         guard let rate = dashboardData?.challengeRate else { return "0%" }
-        return String(format: "%.0f%%", rate)
+        return String(format: "%.1f%%", rate)
     }
     
     var challengeName: String {
@@ -68,7 +53,7 @@ final class HomeViewModel: ObservableObject {
     }
     
     var cherryLevel: Int {
-        dashboardData?.cherryLevel ?? 1
+        dashboardData?.cherryLevel ?? 0
     }
     
     var challengeBarImageName: String {
@@ -76,72 +61,50 @@ final class HomeViewModel: ObservableObject {
         return "home_chellenge_bar\(level)"
     }
     
-<<<<<<< HEAD
     var cherryLevelImageName: String {
         let level = min(max(cherryLevel, 0), 4)
         return "home_lv.\(level)"
     }
     
-=======
->>>>>>> 95c9770 (feat: #49 클린아키텍쳐)
     var allMonthPlanItems: [MonthPlanItem] {
-        var items: [MonthPlanItem] = []
-        
-        if let recent = dashboardData?.recentProcedure {
-            items.append(MonthPlanItem(
-                id: 0,
-                name: recent.name,
-                dayCount: recent.daysSince,
-                tag: recent.currentPhase.displayText,
+        guard let recentProcedures = dashboardData?.recentProcedures else { return [] }
+        return recentProcedures.enumerated().map { index, procedure in
+            MonthPlanItem(
+                id: "\(procedure.name)_\(procedure.daysSince)_\(index)",
+                name: procedure.name,
+                dayCount: procedure.daysSince,
+                tag: procedure.currentPhase.displayText,
                 isRecent: true
-            ))
+            )
         }
-        
-        if let upcoming = dashboardData?.upcomingProcedures {
-            items.append(contentsOf: upcoming.map { procedure in
-                MonthPlanItem(
-                    id: procedure.id,
-                    name: procedure.name,
-                    dayCount: procedure.dDay,
-                    tag: "D-\(procedure.dDay)",
-                    isRecent: false
-                )
-            })
+    }
+    
+    var upcomingItems: [UpcomingItem] {
+        guard let upcoming = dashboardData?.upcomingProcedures else { return [] }
+        return upcoming.enumerated().map { index, group in
+            UpcomingItem(
+                id: "\(group.date)_\(index)",
+                date: group.date,
+                name: group.name,
+                count: group.count,
+                dDay: group.dDay
+            )
         }
-        
-        return items
     }
 }
 
 struct MonthPlanItem: Identifiable {
-    let id: Int
+    let id: String
     let name: String
     let dayCount: Int
     let tag: String
     let isRecent: Bool
 }
-<<<<<<< HEAD
-=======
 
-private struct MockFetchDashboardData: FetchDashboardData {
-    func execute() async throws -> DashboardEntity {
-        DashboardEntity(
-            date: "2026-01-15",
-            challengeName: "피부 컨디션 챌린지",
-            cherryLevel: 1,
-            challengeRate: 40.3,
-            recentProcedure: RecentProcedureEntity(
-                name: "레이저 토닝",
-                scheduledAt: "2026-01-12T14:00:00",
-                daysSince: 3,
-                currentPhase: .sensitive
-            ),
-            upcomingProcedures: [
-                UpcomingProcedureEntity(id: 123, name: "보톡스", scheduledAt: "2026-01-20T16:00:00", dDay: 5),
-                UpcomingProcedureEntity(id: 124, name: "필러", scheduledAt: "2026-01-25T15:00:00", dDay: 10),
-                UpcomingProcedureEntity(id: 125, name: "울쎄라", scheduledAt: "2026-02-01T14:00:00", dDay: 17)
-            ]
-        )
-    }
+struct UpcomingItem: Identifiable {
+    let id: String
+    let date: String
+    let name: String
+    let count: Int
+    let dDay: Int
 }
->>>>>>> 95c9770 (feat: #49 클린아키텍쳐)

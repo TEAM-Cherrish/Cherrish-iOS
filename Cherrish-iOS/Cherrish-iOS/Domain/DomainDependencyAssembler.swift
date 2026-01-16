@@ -25,24 +25,10 @@ final class DomainDependencyAssembler: DependencyAssembler {
             return DefaultTestUseCase(repository: testRepository)
         }
         
-<<<<<<< HEAD
-        guard let networkService = DIContainer.shared.resolve(type: NetworkService.self) else {
-            return
-        }
-        
-        let homeRepository = DefaultHomeRepository(networkService: networkService)
-        
-        DIContainer.shared.register(type: HomeInterface.self) {
-            return homeRepository
-        }
-        
-=======
-        // Home UseCase
         guard let homeRepository = DIContainer.shared.resolve(type: HomeInterface.self) else {
             return
         }
         
->>>>>>> 95c9770 (feat: #49 클린아키텍쳐)
         DIContainer.shared.register(type: FetchDashboardData.self) {
             return DefaultFetchDashboardData(repository: homeRepository)
         }
