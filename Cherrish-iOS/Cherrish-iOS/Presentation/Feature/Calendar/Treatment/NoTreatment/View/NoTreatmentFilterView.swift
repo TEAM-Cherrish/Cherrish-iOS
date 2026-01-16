@@ -74,8 +74,3 @@ private struct TitleHeaderView: View {
           
     }
 }
-
-
-#Preview {
-    NoTreatmentView()
-}
