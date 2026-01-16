@@ -7,36 +7,18 @@
 
 import SwiftUI
 
-enum RoutineType{
-    case skinCondition
-    case lifeStyle
-    case bodyShaping
-    case wellness
-    
-    var title: String {
-        switch self {
-        case .skinCondition:
-            return "피부 컨디션"
-        case .lifeStyle:
-            return "생활습관"
-        case .bodyShaping:
-            return "체형 관리"
-        case .wellness:
-            return "웰니스∙마음챙김"
-        }
-    }
-}
-
 struct SelectRoutineView: View {
     
     @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
     @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
     
-    @State private var selectedRoutine: RoutineType? = nil
+    @StateObject private var viewModel = SelectRoutineViewModel()
     
-    private var nextButtonState: ButtonState {
-        selectedRoutine == nil ? .normal : .active
-    }
+    private let columns = [
+        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: 12)
+    ]
+
     
     var body: some View {
         VStack {
@@ -64,21 +46,18 @@ struct SelectRoutineView: View {
             .padding(.horizontal, 33.adjustedW)
                         
             VStack(spacing: 12) {
-                HStack(spacing: 12) {
-                    routineChip(type: .skinCondition)
-                    routineChip(type: .lifeStyle)
+                LazyVGrid(columns: columns, spacing: 12) {
+                    ForEach(viewModel.routines) { routine in
+                        routineChip(routine)
+                    }
                 }
-                HStack(spacing: 12) {
-                    routineChip(type: .bodyShaping)
-                    routineChip(type: .wellness)
-                }
+                .padding(.horizontal, 33.adjustedW)
+                .padding(.top, 40.adjustedH)
             }
-            .padding(.horizontal, 33.adjustedW)
-            .padding(.top, 40.adjustedH)
             
             Spacer()
             
-            CherrishButton(title: "다음", type: .next, state: .constant(nextButtonState)){
+            CherrishButton(title: "다음", type: .next, state: .constant(viewModel.nextButtonState)){
                 challengeCoordinator.push(.loading)
                 }
             .padding(.bottom, 38.adjustedH)
@@ -88,13 +67,18 @@ struct SelectRoutineView: View {
 }
 
 private extension SelectRoutineView {
-    func routineChip(type: RoutineType) -> some View {
+    func routineChip(_ routine: RoutineType) -> some View {
         SelectionChip(
-            title: type.title,
-            isSelected: Binding(get: {selectedRoutine == type},
-                                set: {isSelected in
-                                    guard isSelected else { return }
-                                    selectedRoutine = type})
+            title: routine.title,
+            isSelected: Binding(
+                get: {viewModel.selectedRoutine == routine},
+                set: {isSelected in
+                    guard isSelected else { return }
+                    viewModel.select(routine)}
+            )
         )
     }
+}
+#Preview {
+    SelectRoutineView()
 }
