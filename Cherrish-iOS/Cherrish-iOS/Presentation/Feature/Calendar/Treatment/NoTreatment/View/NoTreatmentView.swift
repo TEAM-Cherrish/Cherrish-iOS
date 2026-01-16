@@ -26,20 +26,19 @@ struct NoTreatmentView: View {
             )
             ProgressBar(
                 totalSteps: NoTreatment.allCases.count,
-                currentStep: $viewModel.step
+                currentStep: .constant(viewModel.step)
             )
             .padding( .horizontal, 33.5.adjustedW)
             VStack(spacing: 0){
                 Group {
                     switch viewModel.state {
-                    case .tretmentSelectedCatagory:
-                        TreatmentSelectedCatagory(viewModel: viewModel)
+                    case .treatmentSelectedCategory:
+                        TreatmentSelectedCategory(viewModel: viewModel)
                             .id(viewModel.state)
                     case .targetDdaySetting:
-                        //TODO: 목표 디데이 설정
                         TargetDdaySettingView(dDayState: $viewModel.dDay, year: $viewModel.year, month: $viewModel.month, day: $viewModel.day)
                             .id(viewModel.state)
-                    case .treatmentfilter:
+                    case .treatmentFilter:
                         //TODO: 시술 필터링
                         EmptyView()
                     case .downTimeSetting:
@@ -53,38 +52,21 @@ struct NoTreatmentView: View {
                 Spacer()
                 
                 Group {
-                    switch viewModel.state {
-                    case .tretmentSelectedCatagory:
-                        CherrishButton(title: "다음", type: .next, state: .constant(viewModel.treatmentCatagory == nil ? .normal : .active)) {
+                    CherrishButton(title: "다음", type: .next, state: .constant(viewModel.canProceed ? .active : .normal)) {
                             viewModel.next()
                         }
-                    case .targetDdaySetting:
-                        CherrishButton(title: "다음", type: .next, state: .constant(viewModel.isDateTextFieldNotEmpty() ? .active : .normal)) {
-                            viewModel.next()
-                        }
-                    case .treatmentfilter:
-                        CherrishButton(title: "다음", type: .next, state: .constant(.normal)) {
-                            
-                        }
-                    case .downTimeSetting:
-                        CherrishButton(title: "다음", type: .next, state: .constant(.normal)) {
-                            
-                        }
-                    }
                 }
                 .padding(.horizontal, 25.adjustedW)
                 Spacer()
                     .frame(height: 38.adjustedH)
             }
             .id(viewModel.step)
-            .scrollIndicators(.hidden)
-            
         }
         .ignoresSafeArea(.keyboard)
     }
 }
 
-private struct TreatmentSelectedCatagory: View {
+private struct TreatmentSelectedCategory: View {
     @ObservedObject var viewModel: NoTreatmentViewModel
     let columns = [
         GridItem(.flexible()),
@@ -95,7 +77,7 @@ private struct TreatmentSelectedCatagory: View {
             Spacer()
                 .frame(height: 70.adjustedH)
             HStack(spacing: 0) {
-                VStack(alignment: .leading, spacing: 0,) {
+                VStack(alignment: .leading, spacing: 0) {
                     TypographyText(
                         "요즘 가장 신경 쓰이는 ",
                         style: .title1_sb_18,
@@ -117,7 +99,7 @@ private struct TreatmentSelectedCatagory: View {
             Spacer()
                 .frame(height: 40.adjustedH)
             LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(TreatmentCatagory.allCases, id: \.id) { catagory in
+                ForEach(TreatmentCategory.allCases, id: \.id) { catagory in
                     SelectionChip(
                         title: catagory.title,
                         isSelected: Binding(
@@ -138,8 +120,4 @@ private struct TreatmentSelectedCatagory: View {
             }
         }
     }
-}
-
-#Preview {
-    NoTreatmentView()
 }
