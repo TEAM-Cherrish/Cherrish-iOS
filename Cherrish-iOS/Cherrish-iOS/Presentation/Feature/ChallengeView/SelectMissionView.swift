@@ -76,9 +76,8 @@ struct SelectMissionView: View {
                 challengeCoordinator.push(.challengeProgress)
             }
             .padding(.horizontal, 24.adjustedW)
-            Spacer()
-                .frame(height: 64.adjustedH)
-            .padding(.bottom, 72.adjustedH)
+            .padding(.top, 64.adjustedH)
+            .padding(.bottom, 38.adjustedH)
         }
         .padding(.top, 20.adjustedH)
         .onAppear {
@@ -89,8 +88,4 @@ struct SelectMissionView: View {
         }
         .ignoresSafeArea(edges: .bottom)
     }
-}
-
-#Preview {
-    SelectMissionView()
 }
