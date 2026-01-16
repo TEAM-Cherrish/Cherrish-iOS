@@ -47,8 +47,3 @@ struct TreatmentFilterView: View {
         .padding(.horizontal, 24.5.adjustedW)
     }
 }
-
-
-#Preview {
-    TreatmentFilterView(viewModel: TreatmentViewModel())
-}

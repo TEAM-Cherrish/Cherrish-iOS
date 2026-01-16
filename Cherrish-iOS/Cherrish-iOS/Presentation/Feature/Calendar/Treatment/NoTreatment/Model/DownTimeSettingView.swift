@@ -59,7 +59,3 @@ struct DownTimeSettingView: View {
     }
     
 }
-
-#Preview {
-    DownTimeSettingView(treatments: TreatmentEntity.mockData)
-}
