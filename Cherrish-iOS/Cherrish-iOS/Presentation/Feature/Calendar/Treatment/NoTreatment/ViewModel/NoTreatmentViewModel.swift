@@ -24,7 +24,7 @@ final class NoTreatmentViewModel: ObservableObject{
            case .targetDdaySetting:
                return isDateTextFieldNotEmpty()
            case .treatmentFilter:
-               return true
+               return !selectedTreatments.isEmpty
            case .downTimeSetting:
                return true
            }
