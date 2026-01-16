@@ -75,7 +75,7 @@ extension ProcedureView {
     }
     
     private var verticalBar: some View {
-        RoundedRectangle (cornerRadius: 6)
+        RoundedRectangle(cornerRadius: 6)
             .fill(downTimeDays == 0 ? .gray500 : status.verticalBarColor)
             .frame(width: 3.adjustedW, height: 34.adjustedH)
     }

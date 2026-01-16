@@ -12,6 +12,10 @@ enum DowntimeDayState: CaseIterable, Hashable {
     case sensitive
     case caution
     case recovery
+    
+    static var displayCases: [DowntimeDayState] {
+        [.sensitive, .caution, .recovery]
+    }
 }
 
 struct CalendarCellView: View {
@@ -96,13 +100,13 @@ extension DowntimeDayState {
     var title: String {
         switch self {
         case .none:
-            ""
+            return ""
         case .sensitive:
-            "민감"
+            return "민감"
         case .caution:
-            "주의"
+            return "주의"
         case .recovery:
-            "회복"
+            return "회복"
         }
     }
 }
