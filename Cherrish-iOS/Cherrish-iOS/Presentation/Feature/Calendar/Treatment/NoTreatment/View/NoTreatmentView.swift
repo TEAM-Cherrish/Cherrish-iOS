@@ -26,7 +26,7 @@ struct NoTreatmentView: View {
             )
             ProgressBar(
                 totalSteps: NoTreatment.allCases.count,
-                currentStep: $viewModel.step
+                currentStep: .constant(viewModel.step)
             )
             .padding( .horizontal, 33.5.adjustedW)
             VStack(spacing: 0){
@@ -36,7 +36,6 @@ struct NoTreatmentView: View {
                         TreatmentSelectedCatagory(viewModel: viewModel)
                             .id(viewModel.state)
                     case .targetDdaySetting:
-                        //TODO: 목표 디데이 설정
                         TargetDdaySettingView(dDayState: $viewModel.dDay, year: $viewModel.year, month: $viewModel.month, day: $viewModel.day)
                             .id(viewModel.state)
                     case .treatmentFilter:
@@ -53,24 +52,9 @@ struct NoTreatmentView: View {
                 Spacer()
                 
                 Group {
-                    switch viewModel.state {
-                    case .treatmentSelectedCatagory:
-                        CherrishButton(title: "다음", type: .next, state: .constant(viewModel.treatmentCatagory == nil ? .normal : .active)) {
+                    CherrishButton(title: "다음", type: .next, state: .constant(viewModel.canProceed ? .active : .normal)) {
                             viewModel.next()
                         }
-                    case .targetDdaySetting:
-                        CherrishButton(title: "다음", type: .next, state: .constant(viewModel.isDateTextFieldNotEmpty() ? .active : .normal)) {
-                            viewModel.next()
-                        }
-                    case .treatmentFilter:
-                        CherrishButton(title: "다음", type: .next, state: .constant(.normal)) {
-                            
-                        }
-                    case .downTimeSetting:
-                        CherrishButton(title: "다음", type: .next, state: .constant(.normal)) {
-                            
-                        }
-                    }
                 }
                 .padding(.horizontal, 25.adjustedW)
                 Spacer()
