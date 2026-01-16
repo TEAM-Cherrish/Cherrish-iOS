@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct NoTreatmentFilterView: View {
+    
     @ObservedObject var viewModel: NoTreatmentViewModel
     var body: some View {
         VStack(spacing: 0) {
             TitleHeaderView()
+            Spacer()
+                .frame(height: 10.adjustedH)
             ScrollView(.vertical, showsIndicators: false){
                 Spacer()
-                    .frame(height: 19.adjustedH)
+                    .frame(height: 10.adjustedH)
                 ForEach(viewModel.Treatments, id: \.id) { treatment in
                     TreatmentRowView(
                         displayMode: .checkBoxView,
