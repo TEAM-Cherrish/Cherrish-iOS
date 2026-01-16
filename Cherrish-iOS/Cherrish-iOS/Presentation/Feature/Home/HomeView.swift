@@ -296,6 +296,7 @@ private struct UpcomingBoxView: View {
             
             Divider()
                 .gray300()
+                .padding(.horizontal, 15.adjustedW)
                 .padding(.bottom, 11.adjustedH)
             
             if viewModel.upcomingItems.isEmpty {
