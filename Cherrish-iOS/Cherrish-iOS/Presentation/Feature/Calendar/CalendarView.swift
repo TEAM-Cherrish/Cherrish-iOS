@@ -14,6 +14,5 @@ struct CalendarView: View {
             Color.red700
             Text("CalendarView")
         }
-        
     }
 }

@@ -46,8 +46,7 @@ struct NoTreatmentView: View {
                         NoTreatmentFilterView(viewModel: viewModel)
                         
                     case .downTimeSetting:
-                        //TODO: 다운타임 설정
-                        EmptyView()
+                        DownTimeSettingView(treatments: viewModel.selectedTreatments)
                     }
                 }
                 Spacer()
@@ -127,4 +126,9 @@ private struct TreatmentSelectedCategory: View {
             }
         }
     }
+}
+
+
+#Preview {
+    NoTreatmentView()
 }
