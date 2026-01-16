@@ -28,6 +28,7 @@ struct CalendarView: View {
     @State private var bottomOffsetY: CGFloat = .zero
     @State private var calendarMode: CalendarMode = .none
     @State private var selectedProcedureID: Int? = nil
+    @State private var buttonState: ButtonState = .active
     
     private let scrollAreaHeight: CGFloat = 184.adjustedH
     
@@ -231,7 +232,7 @@ extension CalendarView {
             CherrishButton(
                 title: "시술 일정 추가하기",
                 type: .medium,
-                state: .active,
+                state: $buttonState,
                 leadingIcon: Image(.plus),
                 trailingIcon: nil,
                 action: { }
