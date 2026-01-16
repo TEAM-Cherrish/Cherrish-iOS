@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct SelectedTreatmentView: View {
-    @ObservedObject var viewModel: NoTreatmentViewModel
+    let selectedTreatments: [TreatmentEntity]
+    let removeTreatment: (TreatmentEntity) -> Void
     
     private let itemHeight: CGFloat = 34.adjustedH
     private let spacing: CGFloat = 16.adjustedH
     private let maxVisibleCount = 3
     
     private var scrollViewHeight: CGFloat {
-        let count = min(viewModel.selectedTreatments.count, maxVisibleCount)
+        let count = min(selectedTreatments.count, maxVisibleCount)
         let contentHeight = CGFloat(count) * itemHeight + CGFloat(max(count - 1, 0)) * spacing
         return contentHeight + 24.adjustedH
     }
@@ -44,12 +45,12 @@ struct SelectedTreatmentView: View {
             )
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: spacing) {
-                    ForEach(viewModel.selectedTreatments, id: \.id) { treatment in
+                    ForEach(selectedTreatments, id: \.id) { treatment in
                         TreatmentRowView(
                             displayMode: .summary,
                             treatmentEntity: treatment,
                             isSelected: .constant(true),
-                            action: { viewModel.removeTreatment(treatment) }
+                            action: { removeTreatment(treatment) }
                         )
                         .frame(height: itemHeight)
                     }
@@ -57,7 +58,7 @@ struct SelectedTreatmentView: View {
                 .padding(.vertical, 14.adjustedH)
             }
             .frame(height: scrollViewHeight)
-            .scrollDisabled(viewModel.selectedTreatments.count <= maxVisibleCount)
+            .scrollDisabled(selectedTreatments.count <= maxVisibleCount)
             .padding(.horizontal, 24.5.adjustedW)
         }
     }
