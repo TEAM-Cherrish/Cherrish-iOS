@@ -70,6 +70,7 @@ struct ChallengeProgressView: View {
     ]
     
     @State private var selectedStates: [Bool] = Array(repeating: false, count: 6)
+    
     let buttonState: ButtonState = .active
     
     var body: some View {

@@ -38,8 +38,6 @@ struct SelectMissionView: View {
             .padding(.top, 20.adjustedH)
             Spacer()
                 .frame(height: 48.adjustedH)
-                .padding(.horizontal, 33.adjustedW)
-            
             VStack {
                 HStack {
                     VStack(alignment: .leading, spacing: 4.adjustedH) {
@@ -70,8 +68,6 @@ struct SelectMissionView: View {
                 }
             }
             .padding(.horizontal, 34.adjustedW)
-            
-            
             Spacer()
                 .frame(height: 48.adjustedH)
             .padding(.horizontal, 33.adjustedW)

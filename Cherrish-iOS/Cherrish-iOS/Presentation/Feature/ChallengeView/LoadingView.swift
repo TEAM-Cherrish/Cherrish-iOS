@@ -9,7 +9,8 @@ import SwiftUI
 
 struct LoadingView: View {
    @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
-   
+   @State private var navigationTask: Task<Void, Never>?
+    
     var body: some View {
         VStack {
            CherrishNavigationBar(
@@ -33,13 +34,19 @@ struct LoadingView: View {
         .onAppear {
             moveNextAfterDelay()
         }
+        .onDisappear {
+            navigationTask?.cancel()
+        }
    }
     
     private func moveNextAfterDelay() {
         Task {
-            try? await Task.sleep(nanoseconds: 3_000_000_000)
-            await MainActor.run {
-                challengeCoordinator.push(.selectMission)
+            navigationTask = Task {
+                try? await Task.sleep(nanoseconds: 3_000_000_000)
+                guard !Task.isCancelled else { return }
+                await MainActor.run {
+                    challengeCoordinator.push(.selectMission)
+                }
             }
         }
     }
