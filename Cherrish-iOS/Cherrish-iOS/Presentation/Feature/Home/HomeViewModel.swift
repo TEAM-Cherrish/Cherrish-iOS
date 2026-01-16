@@ -45,7 +45,7 @@ final class HomeViewModel: ObservableObject {
     
     var challengeRateText: String {
         guard let rate = dashboardData?.challengeRate else { return "0%" }
-        return String(format: "%.1f%%", rate)
+        return String(format: "%.0f%%", rate)
     }
     
     var challengeName: String {
@@ -57,7 +57,7 @@ final class HomeViewModel: ObservableObject {
     }
     
     var challengeBarImageName: String {
-        let level = min(max(cherryLevel, 1), 4)
+        let level = min(max(cherryLevel, 0), 4)
         return "home_chellenge_bar\(level)"
     }
     

@@ -21,25 +21,31 @@ struct HomeView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
                     HeaderLogoView()
-                    ZStack(alignment: .bottomTrailing) {
-                        ChallengeCardView(
-                            challengeName: viewModel.challengeName,
-                            challengeRate: viewModel.challengeRateText,
-                            challengeBarImageName: viewModel.challengeBarImageName
-                        )
+                    ZStack(alignment: .topTrailing) {
+                        if viewModel.cherryLevel == 0 {
+                            ChallengeCardEmptyView(
+                                challengeBarImageName: viewModel.challengeBarImageName
+                            )
+                        } else {
+                            ChallengeCardView(
+                                challengeName: viewModel.challengeName,
+                                challengeRate: viewModel.challengeRateText,
+                                challengeBarImageName: viewModel.challengeBarImageName
+                            )
+                        }
                         
-                        Image(viewModel.cherryLevelImageName)
-                            .resizable()
-                            .frame(width: 122, height: 122)
-                            .offset(x: -24, y: -67)
+                        if viewModel.cherryLevel != 0 {
+                            Image(viewModel.cherryLevelImageName)
+                                .offset(x: -10.adjustedW, y: -67.adjustedH)
+                        }
                     }
                     PlanBoxView(viewModel: viewModel)
-                        .padding(.top, 14)
+                        .padding(.top, 14.adjustedH)
                     
                     UpcomingBoxView(viewModel: viewModel)
-                        .padding(.top, 14)
+                        .padding(.top, 14.adjustedH)
                 }
-                .padding(.bottom, 20)
+                .padding(.bottom, 20.adjustedH)
             }
         }
         .task {
@@ -56,7 +62,7 @@ private struct BackgroundGradientView: View {
                 startPoint: .top,
                 endPoint: .bottom
             )
-            .frame(height: 270)
+            .frame(height: 270.adjustedH)
             
             Color("home_gradient2")
         }
@@ -70,8 +76,49 @@ private struct HeaderLogoView: View {
             Image(.cherrishLogo)
             Spacer()
         }
-        .padding(.leading, 32)
-        .padding(.top, 40)
+        .padding(.leading, 32.adjustedW)
+        .padding(.top, 40.adjustedH)
+    }
+}
+
+private struct ChallengeCardEmptyView: View {
+    let challengeBarImageName: String
+    private let buttonState: ButtonState = .active
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                TypographyText("챌린지를 시작해봐요!", style: .body1_m_14, color: .gray700)
+                    .padding(.top, 18)
+
+                Spacer()
+            }
+            .padding(.leading, 18)
+            
+            Image(challengeBarImageName)
+                .padding(.top, 10.adjustedH)
+            
+            CherrishButton(
+                title: "챌린지 시작하기",
+                type: .next,
+                state: .constant(buttonState)
+            ) {
+               
+            }
+            .padding(.horizontal, 24)
+            .padding(.top, 10)
+            .padding(.bottom, 18)
+            
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 14)
+                .gray0()
+        )
+        .cherrishShadow()
+        .padding(.horizontal, 24.adjustedW)
+        .padding(.top, 14.adjustedH)
     }
 }
 
@@ -83,28 +130,41 @@ private struct ChallengeCardView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                TypographyText(challengeName, style: .title2_m_16, color: .gray700)
-                TypographyText(challengeRate, style: .title2_m_16, color: .gray1000)
-                    .padding(.leading, 4)
-                TypographyText("달성", style: .title2_m_16, color: .gray700)
-                    .padding(.leading, 4)
+                TypographyText("진행 중인 챌린지", style: .body1_m_14, color: .gray700)
                 
                 Spacer()
             }
-            .padding(.horizontal, 18)
+            .padding(.leading, 18.adjustedW)
+            
+            HStack(spacing: 0) {
+                TypographyText("웰니스 • 마음챙김", style: .title2_m_16, color: .gray900)
+                
+                TypographyText("80.9%", style: .body3_m_12, color: .red700)
+                    .frame(height: 19.adjustedH)
+                    .padding(.horizontal, 7.adjustedW)
+                    .background(
+                        RoundedRectangle(cornerRadius: 30.adjustedW)
+                            .strokeBorder(.red600, lineWidth: 1.adjustedW)
+                    )
+                    .padding(.leading, 6.adjustedW)
+                
+                Spacer()
+            }
+            .padding(.top, 4.adjustedH)
+            .padding(.leading, 18.adjustedW)
             
             Image(challengeBarImageName)
-                .padding(.top, 18)
+                .padding(.top, 16.adjustedH)
         }
-        .frame(height: 109)
+        .frame(height: 131.adjustedH)
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 14)
                 .gray0()
         )
         .cherrishShadow()
-        .padding(.horizontal, 24)
-        .padding(.top, 10)
+        .padding(.horizontal, 24.adjustedW)
+        .padding(.top, 14.adjustedH)
     }
 }
 
@@ -134,9 +194,9 @@ private struct PlanBoxView: View {
                 
                 Spacer()
             }
-            .padding(.top, 18)
-            .padding(.leading, 15)
-            .padding(.bottom, 4)
+            .padding(.top, 18.adjustedH)
+            .padding(.leading, 15.adjustedW)
+            .padding(.bottom, 4.adjustedH)
             
             if viewModel.allMonthPlanItems.isEmpty {
                 emptyStateView
@@ -147,8 +207,8 @@ private struct PlanBoxView: View {
                         dDay: item.dayCount,
                         tag: item.tag
                     )
-                    .padding(.top, 8)
-                    .padding(.horizontal, 15)
+                    .padding(.top, 8.adjustedH)
+                    .padding(.horizontal, 15.adjustedW)
                 }
                 
                 if hasMoreItems {
@@ -162,20 +222,20 @@ private struct PlanBoxView: View {
                             style: .body1_r_14,
                             color: .gray600
                         )
-                        .frame(width: 296, height: 30)
-                        .padding(.top, 6)
+                        .frame(width: 296.adjustedW, height: 30.adjustedH)
+                        .padding(.top, 6.adjustedH)
                     }
                     .contentShape(Rectangle())
                 }
             }
         }
-        .padding(.bottom, 14)
+        .padding(.bottom, 14.adjustedH)
         .background(
             RoundedRectangle(cornerRadius: 14)
                 .gray0()
                 .cherrishShadow()
         )
-        .padding(.horizontal, 24)
+        .padding(.horizontal, 24.adjustedW)
 
     }
     
@@ -192,8 +252,8 @@ private struct PlanBoxView: View {
             RoundedRectangle(cornerRadius: 10.adjustedW)
                 .strokeBorder(.gray400, lineWidth: 1.adjustedW)
         )
-        .padding(.top, 8)
-        .padding(.horizontal, 15)
+                    .padding(.top, 8.adjustedH)
+                    .padding(.horizontal, 15.adjustedW)
     }
 }
 
@@ -227,15 +287,15 @@ private struct UpcomingBoxView: View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 TypographyText("다가오는 일정", style: .body1_m_14, color: .gray700)
-                    .padding(.leading, 20)
-                    .padding(.vertical, 16)
+                    .padding(.leading, 20.adjustedW)
+                    .padding(.vertical, 16.adjustedH)
                 
                 Spacer()
             }
             
             Divider()
                 .gray300()
-                .padding(.bottom, 11)
+                .padding(.bottom, 11.adjustedH)
             
             if viewModel.upcomingItems.isEmpty {
                 emptyStateView
@@ -249,7 +309,7 @@ private struct UpcomingBoxView: View {
                 .gray0()
         )
         .cherrishShadow()
-        .padding(.horizontal, 24)
+        .padding(.horizontal, 24.adjustedW)
 
     }
 
@@ -258,14 +318,14 @@ private struct UpcomingBoxView: View {
             ForEach(Array(viewModel.upcomingItems.enumerated()), id: \.element.id) { index, item in
                 let style = pinStyle(for: index, totalCount: viewModel.upcomingItems.count)
                 
-                HStack(alignment: .top, spacing: 24) {
+                HStack(alignment: .top, spacing: 24.adjustedW) {
                     PinView(
                         circleColor: style.circleColor,
                         lineTopColor: style.lineTopColor,
                         lineBottomColor: style.lineBottomColor
                     )
-                    .padding(.leading, 26)
-                    .offset(y: -12)
+                    .padding(.leading, 26.adjustedW)
+                    .offset(y: -12.adjustedH)
                     
                     OnComingCard(
                         date: item.date,
@@ -276,27 +336,27 @@ private struct UpcomingBoxView: View {
                 }
             }
         }
-        .padding(.top, 11)
-        .padding(.bottom, 12)
+        .padding(.top, 11.adjustedH)
+        .padding(.bottom, 12.adjustedH)
     }
 
     private var emptyStateView: some View {
         VStack(spacing: 0) {
             Image("illustration_noschedule")
-                .padding(.top, 50)
+                .padding(.top, 24.adjustedH)
             TypographyText("아직 진행 중인 관리가 없어요.", style: .body1_r_14, color: .gray600)
-                .padding(.top, 8)
+                .padding(.top, 8.adjustedH)
             
             CherrishButton(
-                title: "관리 일정을 추가해보세요 !",
+                title: "관리 일정을 추가하기",
                 type: .next,
                 state: .constant(buttonState)
             ) {
                
             }
-            .padding(.horizontal, 24)
-            .padding(.top, 48)
-            .padding(.bottom, 24)
+            .padding(.horizontal, 24.adjustedW)
+            .padding(.top, 32.adjustedH)
+            .padding(.bottom, 24.adjustedH)
         }
         .frame(maxWidth: .infinity)
     }
@@ -306,9 +366,9 @@ struct PinView: View {
     var circleColor: Color
     var lineTopColor: Color
     var lineBottomColor: Color
-    var circleSize: CGFloat = 10
-    var lineLength: CGFloat = 65
-    var lineWidth: CGFloat = 2
+    var circleSize: CGFloat = 10.adjustedW
+    var lineLength: CGFloat = 65.adjustedH
+    var lineWidth: CGFloat = 2.adjustedW
     
     var body: some View {
         VStack(spacing: 0) {

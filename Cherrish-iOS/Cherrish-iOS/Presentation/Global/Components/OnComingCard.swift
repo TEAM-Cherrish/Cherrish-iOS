@@ -15,8 +15,7 @@ struct OnComingCard: View {
     var onTap: (() -> Void)? = nil
     
     private var displayName: String {
-        guard count > 1 else { return name }
-        return "\(name) 외 \(count - 1)건"
+        return name
     }
     
     private var dDayText: String {
