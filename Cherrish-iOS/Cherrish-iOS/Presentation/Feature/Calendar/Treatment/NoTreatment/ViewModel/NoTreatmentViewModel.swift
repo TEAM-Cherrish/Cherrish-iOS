@@ -15,7 +15,8 @@ final class NoTreatmentViewModel: ObservableObject{
     @Published var year: String = ""
     @Published var month: String = ""
     @Published var day: String = ""
-    
+    @Published var Treatments: [TreatmentEntity] = TreatmentEntity.mockData
+    @Published var selectedTreatments: [TreatmentEntity] = []
     var canProceed: Bool {
            switch state {
            case .treatmentSelectedCategory:
