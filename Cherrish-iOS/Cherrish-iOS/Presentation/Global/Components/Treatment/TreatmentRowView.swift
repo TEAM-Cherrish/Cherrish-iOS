@@ -105,7 +105,7 @@ private struct TreatmentCheckBoxView: View {
         isSelected: Binding<Bool>,
         isCompleted: Binding<Bool>,
         isCompletedView: Bool = false,
-        action: @escaping () -> Void,
+        action: @escaping () -> Void
         ) {
             self.treatmentEntity = treatmentEntity
             self._isSelected = isSelected

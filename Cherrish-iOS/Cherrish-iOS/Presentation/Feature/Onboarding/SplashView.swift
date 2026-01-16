@@ -17,8 +17,8 @@ struct SplashView: View {
                     .init(color: .splashGradient1, location: 0.6),
                     .init(color: .splashGradient2, location: 1.0)
                 ]),
-                startPoint: .top,
-                endPoint: .bottom
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
             )
             
             Image(.appicon)
