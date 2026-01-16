@@ -23,7 +23,7 @@ struct CherrishButton: View {
     
     let title: String
     let type: CherrishButtonType
-    var state: ButtonState
+    @Binding var state: ButtonState
     let leadingIcon: Image?
     let trailingIcon: Image? 
     let action: () -> Void
