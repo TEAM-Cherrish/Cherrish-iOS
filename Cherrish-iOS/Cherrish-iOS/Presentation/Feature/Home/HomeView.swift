@@ -74,6 +74,7 @@ private struct HeaderLogoView: View {
     var body: some View {
         HStack(spacing: 0) {
             Image(.cherrishLogo)
+                .frame(width: 116.adjustedW, height: 40.adjustedH)
             Spacer()
         }
         .padding(.leading, 32.adjustedW)
@@ -89,14 +90,15 @@ private struct ChallengeCardEmptyView: View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 TypographyText("챌린지를 시작해봐요!", style: .body1_m_14, color: .gray700)
-                    .padding(.top, 18)
+                    .padding(.top, 18.adjustedH)
 
                 Spacer()
             }
-            .padding(.leading, 18)
+            .padding(.leading, 18.adjustedW)
             
             Image(challengeBarImageName)
                 .padding(.top, 10.adjustedH)
+                .padding(.horizontal, 18.adjustedW)
             
             CherrishButton(
                 title: "챌린지 시작하기",
@@ -105,15 +107,14 @@ private struct ChallengeCardEmptyView: View {
             ) {
                
             }
-            .padding(.horizontal, 24)
-            .padding(.top, 10)
-            .padding(.bottom, 18)
+            .padding(.horizontal, 24.adjustedW)
+            .padding(.top, 10.adjustedH)
+            .padding(.bottom, 18.adjustedH)
             
             Spacer()
         }
-        .frame(maxWidth: .infinity)
         .background(
-            RoundedRectangle(cornerRadius: 14)
+            RoundedRectangle(cornerRadius: 14.adjustedW)
                 .gray0()
         )
         .cherrishShadow()
