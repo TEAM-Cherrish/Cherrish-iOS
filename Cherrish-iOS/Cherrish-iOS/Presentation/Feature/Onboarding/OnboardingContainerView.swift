@@ -41,6 +41,19 @@ struct OnboardingContainerView: View {
             .animation(.easeInOut(duration: 0.3), value: currentPage)
         }
         .ignoresSafeArea(.all, edges: .top)
+        .background(
+            VStack(spacing: 0) {
+                LinearGradient(
+                    colors: [Color("home_gradient1"), Color("home_gradient2")],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .frame(height: 310)
+                
+                Color("home_gradient2")
+            }
+            .ignoresSafeArea()
+        )
     }
 }
 
