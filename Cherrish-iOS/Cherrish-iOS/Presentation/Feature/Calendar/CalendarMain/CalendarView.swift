@@ -1,4 +1,3 @@
-
 //
 //  CalendarView.swift
 //  Cherrish-iOS
@@ -42,7 +41,7 @@ struct CalendarView: View {
             if viewModel.isEmptyProcedureList() {
                 emptyScheduleView
             } else {
-                scheduleListConatinerView
+                scheduleListContainerView
             }
             
         }
@@ -130,7 +129,7 @@ extension CalendarView {
         .padding(.horizontal, 23)
     }
     
-    private var scheduleListConatinerView: some View {
+    private var scheduleListContainerView: some View {
         let procedureCount = viewModel.procedureList.count
         return VStack(spacing: 0) {
             HStack {
@@ -170,7 +169,7 @@ extension CalendarView {
                         .onTapGesture {
                             calendarMode.toggle()
                             selectedProcedureID = procedure.procedureId
-                            viewModel.fetchDowntimeByDay(procedureId: selectedProcedureID ?? 0)
+                            viewModel.fetchDowntimeByDay(procedureId: procedure.procedureId)
                         }
                     }
                     
@@ -181,7 +180,6 @@ extension CalendarView {
                 .coordinateSpace(name: "ProcedureScroll")
                 .onPreferenceChange(ScrollTopPreferenceKey.self) { v in
                     topGlobalY = (calendarMode == .none) ? v : 0
-                    print("topOffsetY(named):", v)
                 }
                 .onPreferenceChange(ScrollBottomPreferenceKey.self) { v in
                     bottomOffsetY = (calendarMode == .none) ? v : scrollAreaHeight.adjustedH
@@ -256,7 +254,7 @@ extension CalendarView {
     
     private var downTimeRangeIcons: some View {
         HStack(spacing: 2.adjustedW) {
-            ForEach(DowntimeDayState.allCases, id: \.self) { state in
+            ForEach(DowntimeDayState.displayCases, id: \.self) { state in
                 HStack(spacing: 3.adjustedW) {
                     Circle()
                         .fill(state.backgroundColor)

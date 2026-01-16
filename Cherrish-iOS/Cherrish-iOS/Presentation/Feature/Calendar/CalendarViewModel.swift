@@ -62,7 +62,7 @@ final class CalendarViewModel: ObservableObject {
         let targetDate = getCurrentMonth(addingMonth: currentMonth)
         
         let components = calendar.dateComponents([.year, .month], from: targetDate)
-        return calendar.date(from: components)!
+        return calendar.date(from: components) ?? targetDate
     }
     
     func getDowntimeState(for date: Date) -> DowntimeDayState {
@@ -112,15 +112,6 @@ extension CalendarViewModel {
         }
         
         return currentMonth
-    }
-    
-    private func getYearAndMonth(currenDate: Date)-> [String] {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy MM"
-        formatter.locale = Locale(identifier: "ko_KR")
-        
-        let date = formatter.string(from: currenDate)
-        return date.components(separatedBy: " ")
     }
     
     private func extractDate(currentMonth: Int) -> [DateValue] {

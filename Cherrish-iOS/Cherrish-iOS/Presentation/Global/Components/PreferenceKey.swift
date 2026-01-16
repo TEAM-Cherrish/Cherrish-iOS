@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct ScrollTopPreferenceKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
+    static var defaultValue: CGFloat = .zero
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
+        value = max(value, nextValue())
     }
 }
 
 struct ScrollBottomPreferenceKey: PreferenceKey {
     static var defaultValue: CGFloat = .zero
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value += nextValue()
-    } 
+        value = max(value, nextValue())
+    }
 }

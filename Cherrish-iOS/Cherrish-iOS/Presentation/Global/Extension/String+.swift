@@ -8,19 +8,25 @@
 import Foundation
 
 extension String {
+    private static let inputFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        return dateFormatter
+    }()
+    
+    private static let outputFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "M월 d일 EEEE"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        return dateFormatter
+    }()
+    
     func dateFormatter() -> String {
-        let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "yyyy-MM-dd"
-        inputFormatter.locale = Locale(identifier: "en_US_POSIX")
-        
-        guard let date = inputFormatter.date(from: self) else {
+        guard let date = String.inputFormatter.date(from: self) else {
             return self
         }
-        
-        let outputFormatter = DateFormatter()
-        outputFormatter.dateFormat = "M월 d일 EEEE"
-        outputFormatter.locale = Locale(identifier: "ko_KR")
-        
-        return outputFormatter.string(from: date)
+
+        return String.outputFormatter.string(from: date)
     }
 }

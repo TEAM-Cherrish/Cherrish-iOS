@@ -12,13 +12,13 @@ protocol FetchProcedureCountOfMonth {
 }
 
 struct DefaultFetchProcedureCountOfMonth: FetchProcedureCountOfMonth {
-    private let repopsitory: CalendarInterface
+    private let repository: CalendarInterface
     
     init(repository: CalendarInterface) {
-        self.repopsitory = repository
+        self.repository = repository
     }
     
     func execute(year: Int, month: Int) async throws -> [Int : Int] {
-        return repopsitory.fetchProcedureCountOfMonth(year: year, month: month)
+        return repository.fetchProcedureCountOfMonth(year: year, month: month)
     }
 }
