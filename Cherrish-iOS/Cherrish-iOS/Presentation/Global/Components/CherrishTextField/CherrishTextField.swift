@@ -10,20 +10,32 @@ import SwiftUI
 enum CherrishTextFieldStyle {
     
     case plain(placeholder: String)
+    case number(placeholder: String)
     case date(placeholder: DateTextFieldStyle)
     
     var placeholder: String {
         switch self {
         case .plain(placeholder: let placeholder):
             return placeholder
+        case .number(placeholder: let placeholder):
+            return placeholder
         case .date(placeholder: let placeholder):
             return placeholder.rawValue
         }
     }
     
-    var placeholderFont: Typography {
+    var keyboardType: UIKeyboardType {
         switch self {
         case .plain:
+            return .default
+        case .number, .date:
+            return .numberPad
+        }
+    }
+    
+    var placeholderFont: Typography {
+        switch self {
+        case .plain, .number:
             return .body1_r_14
         case .date:
             return .title2_r_16
@@ -32,7 +44,7 @@ enum CherrishTextFieldStyle {
     
     var placeholderColor: Color {
         switch self {
-        case .plain:
+        case .plain, .number:
             return .gray600
         case .date:
             return .gray500
@@ -41,7 +53,7 @@ enum CherrishTextFieldStyle {
     
     var textFont: Typography {
         switch self {
-        case .plain:
+        case .plain, .number:
             return .body1_m_14
         case .date:
             return .title2_m_16
@@ -64,7 +76,7 @@ enum CherrishTextFieldStyle {
     
     var verticalPadding: CGFloat {
         switch self {
-        case .plain:
+        case .plain, .number:
             return 10.adjustedH
         case .date:
             return 8.adjustedH
@@ -80,7 +92,7 @@ enum CherrishTextFieldStyle {
     
     var textAlinement: TextAlignment {
         switch self {
-        case .plain:
+        case .plain, .number:
             return .leading
         case .date:
             return .center
@@ -116,7 +128,7 @@ struct CherrishTextField: View {
                 if text.isEmpty {
                     HStack{
                         switch style {
-                        case .plain:
+                        case .plain, .number:
                             EmptyView()
                         case .date:
                             Spacer()
@@ -131,15 +143,14 @@ struct CherrishTextField: View {
                 }
                 HStack{
                     Spacer()
-                    TextField("" ,text: $text)
-                        .foregroundStyle(style.textColor)
-                        .multilineTextAlignment(style.textAlinement)
-                        .keyboardType(.numberPad)
-                        .typography(style.textFont)
-                        .tint(style.textColor)
+                TextField("" ,text: $text)
+                    .foregroundStyle(style.textColor)
+                    .multilineTextAlignment(style.textAlinement)
+                    .keyboardType(style.keyboardType)
+                    .typography(style.textFont)
+                    .tint(style.textColor)
                     Spacer()
                 }
-                
             }
             .frame(height: style.fontHeight)
         }

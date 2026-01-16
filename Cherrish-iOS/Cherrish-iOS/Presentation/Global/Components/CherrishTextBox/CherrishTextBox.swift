@@ -11,6 +11,7 @@ struct CherrishTextBox: View {
     var title: String
     @Binding var text: String
     let placeholder: String
+    var isNumberField: Bool = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -20,7 +21,10 @@ struct CherrishTextBox: View {
             }
             Spacer()
                 .frame(height: 8.adjustedH)
-            CherrishTextField(text: $text, style: .plain(placeholder: placeholder))
+            CherrishTextField(
+                text: $text,
+                style: isNumberField ? .number(placeholder: placeholder) : .plain(placeholder: placeholder)
+            )
         }   
     }
 }

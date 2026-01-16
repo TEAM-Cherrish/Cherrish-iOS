@@ -8,8 +8,8 @@
 import SwiftUI
 
 enum OnboardingRoute: PresentationTypeProtocol {
-    case information
     case onboarding
+    case information
 }
 
 final class OnboardingCoordinator: CoordinatorProtocol {
