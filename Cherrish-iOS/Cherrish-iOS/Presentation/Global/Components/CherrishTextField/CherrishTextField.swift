@@ -74,6 +74,15 @@ enum CherrishTextFieldStyle {
         }
     }
     
+    var horizontalPadding: CGFloat {
+        switch self {
+        case .plain, .number:
+            return 16.adjustedW
+        case .date:
+            return 18.5.adjustedW
+        }
+    }
+    
     var verticalPadding: CGFloat {
         switch self {
         case .plain, .number:
@@ -141,16 +150,12 @@ struct CherrishTextField: View {
                         Spacer()
                     }
                 }
-                HStack{
-                    Spacer()
                 TextField("" ,text: $text)
                     .foregroundStyle(style.textColor)
                     .multilineTextAlignment(style.textAlinement)
                     .keyboardType(style.keyboardType)
                     .typography(style.textFont)
                     .tint(style.textColor)
-                    Spacer()
-                }
             }
             .frame(height: style.fontHeight)
         }
