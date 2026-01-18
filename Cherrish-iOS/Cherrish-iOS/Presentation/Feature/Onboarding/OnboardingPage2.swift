@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct OnboardingPage2: View {
-    @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
-    
     @State private var offsetX: CGFloat = 0
     
     private let levelImages: [ImageResource] = [.LV_0, .LV_1, .LV_2, .LV_3, .LV_4]
@@ -19,28 +17,12 @@ struct OnboardingPage2: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                Spacer()
-                
-                Image(.close)
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 24.adjustedW, height: 24.adjustedW)
-                    .foregroundStyle(.gray600)
-                    .onTapGesture {
-                        onboardingCoordinator.push(.information)
-                    }
-            }
-            .padding(.horizontal, 29.adjustedW)
-            .padding(.top, 30.adjustedH)
-            
-            HStack(spacing: 0) {
                 TypographyText("원하는 추구미에 도달할 수 있도록\nTO-DO 루틴을 제시해줘요", style: .title1_m_18, color: .gray1000)
             
                 Spacer()
             }
             .padding(.horizontal, 42.adjustedW)
-            .padding(.top, 50.adjustedH)
+            .padding(.top, 104.adjustedH)
             
             Image(.onboarding2)
                 .resizable()

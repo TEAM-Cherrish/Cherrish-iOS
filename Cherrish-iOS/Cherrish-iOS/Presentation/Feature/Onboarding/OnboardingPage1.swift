@@ -8,26 +8,8 @@
 import SwiftUI
 
 struct OnboardingPage1: View {
-    @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
-    
     var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 0) {
-                Spacer()
-                
-                Image(.close)
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 24.adjustedW, height: 24.adjustedW)
-                    .foregroundStyle(.gray600)
-                    .onTapGesture {
-                        onboardingCoordinator.push(.information)
-                    }
-            }
-            .padding(.horizontal, 29.adjustedW)
-            .padding(.top, 30.adjustedH)
-            
             Image(.illustrationOnboardingCal)
                 .resizable()
                 .scaledToFit()
@@ -39,7 +21,7 @@ struct OnboardingPage1: View {
                         .frame(width: 120.adjustedW)
                         .offset(x: 152.adjustedW, y: 180.adjustedH)
                 }
-                .padding(.top, 38.adjustedH)
+                .padding(.top, 92.adjustedH)
             
             HStack(spacing: 0) {
                 Image(.comment)
