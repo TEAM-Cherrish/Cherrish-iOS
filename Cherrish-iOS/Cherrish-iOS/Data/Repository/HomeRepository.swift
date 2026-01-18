@@ -15,7 +15,12 @@ struct DefaultHomeRepository: HomeInterface {
     }
     
     func fetchDashboard() async throws -> DashboardEntity {
-        fatalError("Not implemented")
+        let userID = 2
+        let dto = try await networkService.request(
+            HomeAPI.fetchDashboard(userID: userID),
+            decodingType: DashboardDTO.self
+        )
+        return dto.toEntity()
     }
 
 }

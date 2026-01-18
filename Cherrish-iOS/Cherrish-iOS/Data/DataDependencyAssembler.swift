@@ -20,7 +20,7 @@ final class DataDependencyAssembler: DependencyAssembler {
         }
         
         DIContainer.shared.register(type: HomeInterface.self) {
-            return MockHomeRepository(networkService: self.networkService)
+            return DefaultHomeRepository(networkService: self.networkService)
         }
     }
 }
