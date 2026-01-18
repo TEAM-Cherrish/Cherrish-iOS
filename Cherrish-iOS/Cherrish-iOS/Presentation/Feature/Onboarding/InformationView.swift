@@ -70,7 +70,13 @@ struct InformationView: View {
 
             Spacer()
             
-            CherrishButton(title: "다음", type: .next, state: $buttonState) {
+            CherrishButton(
+                title: "다음",
+                type: .large,
+                state: $buttonState,
+                leadingIcon: nil,
+                trailingIcon: nil
+            ) {
                 appCoordinator.navigationToTabbar()
             }
             .padding(.horizontal, 25.adjustedW)

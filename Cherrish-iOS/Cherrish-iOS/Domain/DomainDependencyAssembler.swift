@@ -17,12 +17,12 @@ final class DomainDependencyAssembler: DependencyAssembler {
     func assemble() {
         preAssembler.assemble()
 
-        guard let testRepository = DIContainer.shared.resolve(type: TestInterface.self) else {
+        guard let calendarRepository = DIContainer.shared.resolve(type: CalendarInterface.self) else {
             return
         }
         
-        DIContainer.shared.register(type: TestUseCase.self) {
-            return DefaultTestUseCase(repository: testRepository)
+        DIContainer.shared.register(type: FetchProcedureCountOfMonth.self) {
+            return DefaultFetchProcedureCountOfMonth(repository: calendarRepository)
         }
         
         guard let homeRepository = DIContainer.shared.resolve(type: HomeInterface.self) else {
@@ -31,6 +31,10 @@ final class DomainDependencyAssembler: DependencyAssembler {
         
         DIContainer.shared.register(type: FetchDashboardData.self) {
             return DefaultFetchDashboardData(repository: homeRepository)
+        }
+    
+        DIContainer.shared.register(type: FetchTodayProcedureList.self) {
+            return DefaultFetchTodayProcedure(repository: calendarRepository)
         }
     }
 }
