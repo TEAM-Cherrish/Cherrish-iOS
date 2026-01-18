@@ -9,26 +9,21 @@ import SwiftUI
 
 struct NoTreatmentView: View {
     @StateObject private var viewModel: NoTreatmentViewModel
-    
+
     init(viewModel: NoTreatmentViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
-    
+
     var body: some View {
         VStack(spacing: 0) {
             CherrishNavigationBar(
-                title:viewModel.state.title,
-                leftButtonAction: {
-                    viewModel.previous()
-                },
-                rightButtonAction: {
-                    
-                }
+                title: viewModel.state.title,
+                leftButtonAction: { viewModel.previous() },
+                rightButtonAction: { }
             )
-            
-            Spacer()
-                .frame(height: 20.adjustedH)
-            
+
+            Spacer().frame(height: 20.adjustedH)
+
             ProgressBar(
                 totalSteps: NoTreatment.allCases.count,
                 currentStep: .constant(viewModel.step)
@@ -36,58 +31,69 @@ struct NoTreatmentView: View {
             .padding(.leading, 34.adjustedW)
             .padding(.trailing, 33.adjustedW)
             .padding(.bottom, 20.adjustedH)
-            
-            VStack(spacing: 0){
-                Group {
-                    switch viewModel.state {
-                    case .treatmentSelectedCategory:
-                        TreatmentSelectedCategory(viewModel: viewModel)
-                            .padding( .leading, 34.adjustedW)
-                            .padding( .trailing, 33.adjustedW)
-                            .id(viewModel.state)
-                        
-                    case .targetDdaySetting:
-                        TargetDdaySettingView(dDayState: $viewModel.dDay, year: $viewModel.year, month: $viewModel.month, day: $viewModel.day)
-                            .padding( .leading, 34.adjustedW)
-                            .padding( .trailing, 33.adjustedW)
-                            .id(viewModel.state)
-                        
-                    case .treatmentFilter:
-                        NoTreatmentFilterView(viewModel: viewModel)
-                        
-                    case .downTimeSetting:
-                        DownTimeSettingView(treatments: viewModel.selectedTreatments)
-                        
-                    }
-                }
+
+            VStack(spacing: 0) {
+                contentView()
                 Spacer()
-                Group {
-                    if viewModel.state == .treatmentFilter {
-                        if !viewModel.selectedTreatments.isEmpty {
-                            SelectedTreatmentView(selectedTreatments: viewModel.selectedTreatments, removeTreatment: viewModel.removeTreatment(_:))
-                        }
-                    }
-                    CherrishButton(
-                        title: "다음",
-                        type: .next,
-                        state: .constant(viewModel.canProceed ? .active : .normal),
-                        leadingIcon: nil,
-                        trailingIcon: nil
-                    ) {
-                        viewModel.next()
-                    }
-                    .padding(.horizontal, 25.adjustedW)
-                }
-                .padding(.leading, 25.adjustedW)
-                .padding(.trailing, 24.adjustedW)
-                
-                Spacer()
-                    .frame(height: 38.adjustedH)
-                
+                bottomView()          
+                Spacer().frame(height: 38.adjustedH)
             }
             .id(viewModel.step)
         }
         .ignoresSafeArea(.keyboard)
+    }
+
+    @ViewBuilder
+    private func contentView() -> some View {
+        switch viewModel.state {
+        case .treatmentSelectedCategory:
+            TreatmentSelectedCategory(viewModel: viewModel)
+                .padding(.leading, 34.adjustedW)
+                .padding(.trailing, 33.adjustedW)
+                .id(String(describing: viewModel.state))
+
+        case .targetDdaySetting:
+            TargetDdaySettingView(
+                dDayState: $viewModel.dDay,
+                year: $viewModel.year,
+                month: $viewModel.month,
+                day: $viewModel.day
+            )
+            .padding(.leading, 34.adjustedW)
+            .padding(.trailing, 33.adjustedW)
+            .id(String(describing: viewModel.state))
+
+        case .treatmentFilter:
+            NoTreatmentFilterView(viewModel: viewModel)
+
+        case .downTimeSetting:
+            DownTimeSettingView(treatments: viewModel.selectedTreatments)
+        }
+    }
+
+    @ViewBuilder
+    private func bottomView() -> some View {
+        VStack(spacing: 0) {
+            if viewModel.state == .treatmentFilter, !viewModel.selectedTreatments.isEmpty {
+                SelectedTreatmentView(
+                    selectedTreatments: viewModel.selectedTreatments,
+                    removeTreatment: viewModel.removeTreatment(_:)
+                )
+            }
+
+            CherrishButton(
+                title: "다음",
+                type: .large,
+                state: .constant(viewModel.canProceed ? .active : .normal),
+                leadingIcon: nil,
+                trailingIcon: nil
+            ) {
+                viewModel.next()
+            }
+            .padding(.horizontal, 25.adjustedW)
+        }
+        .padding(.leading, 25.adjustedW)
+        .padding(.trailing, 24.adjustedW)
     }
 }
 
@@ -134,7 +140,7 @@ private struct TreatmentSelectedCategory: View {
             Spacer()
                 .frame(height: 40.adjustedH)
             LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(TreatmentCategory.allCases, id: \.id) { category in
+                ForEach(TreatmentCategory.allCases) { category in
                     SelectionChip(
                         title: category.title,
                         isSelected: Binding(
