@@ -10,19 +10,6 @@ import SwiftUI
 struct OnboardingPage1: View {
     var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 0) {
-                Spacer()
-                
-                Image(.close)
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 24.adjustedW, height: 24.adjustedW)
-                    .foregroundStyle(.gray600)
-            }
-            .padding(.horizontal, 29.adjustedW)
-            .padding(.top, 30.adjustedH)
-            
             Image(.illustrationOnboardingCal)
                 .resizable()
                 .scaledToFit()
@@ -32,10 +19,9 @@ struct OnboardingPage1: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 120.adjustedW)
-                        .alignmentGuide(.leading) { _ in -152.adjustedW }
-                        .alignmentGuide(.top) { _ in -209.adjustedH }
+                        .offset(x: 152.adjustedW, y: 180.adjustedH)
                 }
-                .padding(.top, 38.adjustedH)
+                .padding(.top, 92.adjustedH)
             
             HStack(spacing: 0) {
                 Image(.comment)
@@ -54,10 +40,10 @@ struct OnboardingPage1: View {
                     
                     Rectangle()
                         .fill(Color.red700)
-                        .frame(width: 252.adjustedW, height: 1.4) // 위 밑줄 (짧은 줄)
+                        .frame(width: 252.adjustedW, height: 1.4)
                     Rectangle()
                         .fill(Color.red700)	
-                        .frame(width: 260.adjustedW, height: 1.4) // 아래 밑줄 (긴 줄)
+                        .frame(width: 260.adjustedW, height: 1.4) 
                         .padding(.top, 3)
                     
                     TypographyText("일정을 한 눈에 정리해드려요", style: .title1_sb_18, color: .gray1000)
@@ -72,8 +58,4 @@ struct OnboardingPage1: View {
             Spacer()
         }
     }
-}
-
-#Preview {
-    OnboardingPage1()
 }

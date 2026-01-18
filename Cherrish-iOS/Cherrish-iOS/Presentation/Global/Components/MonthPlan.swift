@@ -23,7 +23,7 @@ struct MonthPlan: View {
                 .frame(width: 6.adjustedW)
             
             TypographyText(tag, style: .body3_r_12, color: .gray700)
-                .frame(width: 32.adjustedW, height: 22.adjustedH)
+                .frame(height: 22.adjustedH)
                 .padding(.horizontal, 8.adjustedW)
                 .padding(.vertical, 2.adjustedH)
                 .background(

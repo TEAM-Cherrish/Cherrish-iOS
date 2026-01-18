@@ -14,12 +14,15 @@ struct CalendarCoordinatorView: View {
         NavigationStack(path: $calendarCoordinator.path) {
             ViewFactory.shared.makeCalendarView()
                 .navigationDestination(for: CalendarRoute.self) { route in
-                    switch route {
-                    case .root:
-                        ViewFactory.shared.makeHomeView()
-                    case .selectTreatment:
-                        ViewFactory.shared.makeSelectTreatmentView()
+                    Group {
+                        switch route {
+                        case .root:
+                            ViewFactory.shared.makeHomeView()
+                        case .selectTreatment:
+                            ViewFactory.shared.makeSelectTreatmentView()
+                        }
                     }
+                    .navigationBarBackButtonHidden()
                 }
         }
     }

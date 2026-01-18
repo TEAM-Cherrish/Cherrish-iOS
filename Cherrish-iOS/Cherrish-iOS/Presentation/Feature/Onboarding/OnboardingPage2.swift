@@ -17,27 +17,12 @@ struct OnboardingPage2: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                Spacer()
-                
-                Image(.close)
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 24.adjustedW, height: 24.adjustedW)
-                    .foregroundStyle(.gray600)
-            }
-            .padding(.horizontal, 29.adjustedW)
-            .padding(.top, 30.adjustedH)
-            
-            
-            
-            HStack(spacing: 0) {
                 TypographyText("원하는 추구미에 도달할 수 있도록\nTO-DO 루틴을 제시해줘요", style: .title1_m_18, color: .gray1000)
             
                 Spacer()
             }
             .padding(.horizontal, 42.adjustedW)
-            .padding(.top, 50.adjustedH)
+            .padding(.top, 104.adjustedH)
             
             Image(.onboarding2)
                 .resizable()
@@ -110,7 +95,7 @@ struct InfiniteLevelCarousel: View {
         offsetX = initialOffset
         animateCarousel(animationID: currentAnimationID)
     }
-    
+     
     private func stopAnimation() {
         isAnimating = false
         animationID = UUID()
@@ -134,8 +119,4 @@ struct InfiniteLevelCarousel: View {
             animateCarousel(animationID: animationID)
         }
     }
-}
-
-#Preview {
-    OnboardingPage2()
 }
