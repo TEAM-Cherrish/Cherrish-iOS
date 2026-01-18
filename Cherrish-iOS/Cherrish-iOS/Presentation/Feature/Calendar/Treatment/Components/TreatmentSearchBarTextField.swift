@@ -1,0 +1,54 @@
+//
+//  TreatmentSearchBarTextField.swift
+//  Cherrish-iOS
+//
+//  Created by 어재선 on 1/16/26.
+//
+
+import SwiftUI
+
+struct TreatmentSearchBarTextField: View {
+    @Binding var text: String
+    let enter: () -> Void
+    var isDisabled: Bool
+    var body: some View {
+        
+        VStack {
+           
+            HStack{
+                ZStack {
+                    if text.isEmpty {
+                        HStack{
+                            TypographyText("원하시는 시술을 적어주세요.", style: .body1_r_14, color: .gray600)
+                            Spacer()
+                        }
+                    }
+                    TextField("" ,text: $text)
+                        .foregroundStyle(.gray1000)
+                        .typography(.body1_m_14)
+                        .multilineTextAlignment(.leading)
+                        .tint(.gray1000)
+                        .onSubmit {
+                            enter()
+                        }
+                }
+                .padding(.vertical, 8.adjustedH)
+                .padding(.leading, 16.5.adjustedW)
+                Button{
+                    enter()
+                } label: {
+                    ZStack {
+                        Image(.search)
+                    }
+                }
+                .padding(.leading, 8)
+                .disabled(isDisabled)
+            }
+            .padding(.trailing, 16.5.adjustedW)
+        }
+        .background{
+            RoundedRectangle(cornerRadius: 30)
+                .foregroundStyle(.gray200)
+        }
+    }
+}
