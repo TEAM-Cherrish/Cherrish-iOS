@@ -40,7 +40,10 @@ struct TreatmentView: View {
             }
             .id(viewModel.step)
         }
-        .ignoresSafeArea(.keyboard)
+        .ignoresSafeArea(.keyboard,edges: .bottom)
+        .onTapGesture {
+            hideKeyboard()
+        }
     }
     
     @ViewBuilder
