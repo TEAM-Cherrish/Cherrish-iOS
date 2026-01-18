@@ -8,7 +8,7 @@
 import SwiftUI
 import UIKit
 
-struct CustomWheelPicker: View {
+struct CherrishPicker: View {
     @Binding var selection: Int
     let range: ClosedRange<Int>
     var width: CGFloat = 74.adjustedW
