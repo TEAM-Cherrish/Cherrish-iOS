@@ -110,7 +110,7 @@ extension DowntimeBottomSheetView {
                 
                 Spacer ()
                 
-                TypographyText("여유기간 \(betweenDays - selectedDowntime == 0 ? 0 : betweenDays - selectedDowntime)일", style: .title2_m_16, color: .gray800)
+                TypographyText("여유기간 \(betweenDays - selectedDowntime < 0 ? 0 : betweenDays - selectedDowntime)일", style: .title2_m_16, color: .gray800)
                 Spacer()
             }
             
