@@ -10,7 +10,7 @@ import Foundation
 struct DashboardEntity {
     let date: String
     let dayOfWeek: String
-    let challengeName: String
+    let challengeName: String?
     let cherryLevel: Int
     let challengeRate: Double
     let recentProcedures: [RecentProcedureEntity]
