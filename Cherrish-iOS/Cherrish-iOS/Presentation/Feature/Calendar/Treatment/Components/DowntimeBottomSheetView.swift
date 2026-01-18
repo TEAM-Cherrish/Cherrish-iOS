@@ -147,7 +147,3 @@ extension DowntimeBottomSheetView {
         .padding(.horizontal, 24.adjustedW)
     }
 }
-
-#Preview {
-    CherrishPicker(selection: .constant(1), range: 1...30)
-}
