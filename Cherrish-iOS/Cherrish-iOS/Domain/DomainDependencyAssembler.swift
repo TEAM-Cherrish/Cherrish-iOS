@@ -24,5 +24,13 @@ final class DomainDependencyAssembler: DependencyAssembler {
         DIContainer.shared.register(type: TestUseCase.self) {
             return DefaultTestUseCase(repository: testRepository)
         }
+        
+        guard let homeRepository = DIContainer.shared.resolve(type: HomeInterface.self) else {
+            return
+        }
+        
+        DIContainer.shared.register(type: FetchDashboardData.self) {
+            return DefaultFetchDashboardData(repository: homeRepository)
+        }
     }
 }

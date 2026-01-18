@@ -146,7 +146,7 @@ struct CherrishTextField: View {
                             style.placeholder,
                             style: style.placeholderFont ,
                             color: style.placeholderColor
-                        )
+                        ).fixedSize()
                         Spacer()
                     }
                 }
@@ -159,7 +159,6 @@ struct CherrishTextField: View {
             }
             .frame(height: style.fontHeight)
         }
-        .padding(.horizontal, style.horizontalPadding)
         .padding(.vertical, style.verticalPadding)
         .background {
             RoundedRectangle(cornerRadius: 10)

@@ -18,7 +18,10 @@ struct SelectionChip: View {
             .foregroundStyle(isSelected ? .gray800 : .gray700)
             .frame(maxWidth: .infinity)
             .frame(height: 80.adjustedH)
-            .background(isSelected ? .red200 : .gray0)
+            .background{
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundStyle( isSelected ? .red200 : .gray0)
+            }
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(isSelected ? .red500 : .gray500, lineWidth: 1)
