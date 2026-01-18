@@ -155,7 +155,13 @@ extension ChallengeProgressView {
                     )
                 }
             }
-            CherrishButton(title: "오늘 미션 종료하기", type: .next, state: .constant(buttonState)){
+            CherrishButton(
+                title: "오늘 미션 종료하기",
+                type: .small,
+                state: .constant(buttonState),
+                leadingIcon: nil,
+                trailingIcon: nil
+            ){
                 
                 }
             .padding(.top, 10.adjustedH)

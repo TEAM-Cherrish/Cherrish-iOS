@@ -44,7 +44,10 @@ final class ViewFactory: ViewFactoryProtocol {
     }
     
     func makeCalendarView() -> CalendarView {
-        return CalendarView()
+        guard let viewModel = DIContainer.shared.resolve(type: CalendarViewModel.self) else {
+            fatalError()
+        }
+        return CalendarView(viewModel: viewModel)
     }
     
     func makeChallengeView() -> ChallengeView {

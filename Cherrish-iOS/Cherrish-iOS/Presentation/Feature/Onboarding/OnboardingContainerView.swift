@@ -31,8 +31,10 @@ struct OnboardingContainerView: View {
                 
                 CherrishButton(
                     title: "시작하기",
-                    type: .confirm,
-                    state: $buttonState
+                    type: .large,
+                    state: $buttonState,
+                    leadingIcon: nil,
+                    trailingIcon: nil
                 ) {
                     onboardingCoordinator.push(.information)
                 }
