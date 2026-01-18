@@ -136,9 +136,9 @@ private struct ChallengeCardView: View {
             .padding(.leading, 18.adjustedW)
             
             HStack(spacing: 0) {
-                TypographyText("웰니스 • 마음챙김", style: .title2_m_16, color: .gray900)
+                TypographyText(challengeName, style: .title2_m_16, color: .gray900)
                 
-                TypographyText("80.9%", style: .body3_m_12, color: .red700)
+                TypographyText(challengeRate, style: .body3_m_12, color: .red700)
                     .frame(height: 19.adjustedH)
                     .padding(.horizontal, 7.adjustedW)
                     .background(
