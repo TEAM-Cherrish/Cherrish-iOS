@@ -93,7 +93,7 @@ struct SelectedTreatmentView: View {
                 topGlobalY = minY
             }
             .onPreferenceChange(ScrollBottomPreferenceKey.self) { height in
-                bottomOffsetY = height  
+                bottomOffsetY = height
             }
         }
     }
@@ -132,8 +132,4 @@ extension SelectedTreatmentView {
         let remaining = bottomOffsetY - scrollViewHeight.adjustedH
         return remaining > 1
     }
-}
-
-#Preview {
-    SelectedTreatmentView(selectedTreatments: [TreatmentEntity.init(name: "냐냐냐", benefits: ["냐냐냐"], downtimeMin: 3, downtimeMax: 5),TreatmentEntity.init(name: "냐냐냐", benefits: ["냐냐냐"], downtimeMin: 3, downtimeMax: 5),TreatmentEntity.init(name: "냐냐냐", benefits: ["냐냐냐"], downtimeMin: 3, downtimeMax: 5),TreatmentEntity.init(name: "냐냐냐", benefits: ["냐냐냐"], downtimeMin: 3, downtimeMax: 5),TreatmentEntity.init(name: "냐냐냐", benefits: ["냐냐냐"], downtimeMin: 3, downtimeMax: 5)], removeTreatment: { _ in})
 }
