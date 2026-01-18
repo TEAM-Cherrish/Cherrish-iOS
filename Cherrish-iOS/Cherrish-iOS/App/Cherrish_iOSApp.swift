@@ -16,7 +16,7 @@ struct Cherrish_iOSApp: App {
     
     var body: some Scene {
         WindowGroup {
-            AppCoordinatorView()
+            NoTreatmentView(viewModel: NoTreatmentViewModel())
         }
     }
 }
