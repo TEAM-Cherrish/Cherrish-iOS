@@ -50,26 +50,28 @@ struct DowntimeBottomSheetView: View {
 
 extension DowntimeBottomSheetView {
     private var speechBubble: some View {
-        ZStack {
-            Image(.speechBubble)
-                .resizable()
-                .scaledToFill()
-                .frame(height: 53.adjustedH)
             
-            TypographyText("회복 목표디데이로부터 약 7일 전에 안정될 수 있어요.", style: .body1_r_14, color: .gray1000)
+            TypographyText(true ? "회복 목표디데이로부터 약 7일 전에 안정될 수 있어요." : "설정한 다운타임은 목표일을 넘깁니다.", style: .body1_r_14, color: .gray1000)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
                 .padding(.horizontal, 18.adjustedW)
-                .offset(y: -4.adjustedH)
+                .padding(.top, 12.adjustedH)
+                .padding(.bottom, 20.59.adjustedH)
+                .background{
+                    Image(.speechBubble)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: 53.adjustedH)
+                }
             
-        }
-        .padding(.horizontal, 25.adjustedW)
+        .padding(.leading, 25.adjustedW)
+        .padding(.trailing, 24.adjustedW)
         .frame(height: 53.adjustedH)
     }
     
     private var downtimeProgressBar: some View {
-        VStack {
-            HStack {
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
                 Spacer()
                 
                 TypographyText("다운타임 \(selectedDowntime)일", style: .title2_m_16, color: .red600)
@@ -99,7 +101,7 @@ extension DowntimeBottomSheetView {
             .frame(height: 8.adjustedH)
             .padding(.horizontal, 25.adjustedW)
             
-            HStack {
+            HStack(spacing: 0) {
                 TypographyText("1월 2일", style: .body2_r_13, color: .gray700)
                     .frame(height: 18.adjustedH)
                 
@@ -119,7 +121,7 @@ extension DowntimeBottomSheetView {
     }
     
     private var pickerView: some View {
-        HStack {
+        HStack(spacing: 0) {
             Spacer()
             
             VStack(spacing: 0) {
@@ -138,12 +140,16 @@ extension DowntimeBottomSheetView {
     }
     
     private var buttonView: some View {
-        
-        HStack(spacing: 4) {
-            CherrishButton(title: "다운타임 없이 일정 추가", type: .addEvent, state: .constant(.normal), leadingIcon: .none, trailingIcon: .none, action: {})
-            
-            CherrishButton(title: "확인", type: .medium, state: .constant(.normal), leadingIcon: .none, trailingIcon: .none, action: {})
+        GeometryReader { geo in
+            HStack(spacing: 4.adjustedW) {
+                CherrishButton(title: "다운타임 없이 일정 추가", type: .addEvent, state: .constant(.normal), leadingIcon: .none, trailingIcon: .none, action: {})
+                    .frame(width: geo.size.width * 2/3 - 2)
+
+                CherrishButton(title: "확인", type: .small, state: .constant(.normal), leadingIcon: .none, trailingIcon: .none, action: {})
+                    .frame(width: geo.size.width * 1/3 - 2)
+            }
         }
+        
         .padding(.horizontal, 24.adjustedW)
     }
 }
