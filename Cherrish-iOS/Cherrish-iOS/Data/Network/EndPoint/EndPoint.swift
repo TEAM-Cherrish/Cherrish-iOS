@@ -35,7 +35,7 @@ protocol EndPoint {
 
 extension EndPoint {
     var requestURL: URL {
-        let baseURL = "" // TODO: 서버 배포 후 수정
+        let baseURL = Environment.baseURL 
         let urlString = baseURL + basePath + path
         
         guard var urlComponents = URLComponents(string: urlString) else {

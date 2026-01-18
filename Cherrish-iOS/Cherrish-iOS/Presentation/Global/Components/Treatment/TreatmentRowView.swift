@@ -1,0 +1,186 @@
+//
+//  TreatmentRowView.swift
+//  Cherrish-iOS
+//
+//  Created by 어재선 on 1/12/26.
+//
+
+import SwiftUI
+
+struct TreatmentRowView: View {
+    let displayMode: TreatmentDisplayMode
+    let treatmentEntity: TreatmentEntity
+    @Binding var isSelected: Bool
+    @Binding var isCompleted: Bool
+    let action: () -> Void
+    
+    init(
+        displayMode: TreatmentDisplayMode,
+        treatmentEntity: TreatmentEntity,
+        isSelected: Binding<Bool>,
+        isCompleted: Binding<Bool>? = nil,
+        action: @escaping () -> Void
+    ) {
+        self.displayMode = displayMode
+        self.treatmentEntity = treatmentEntity
+        self._isSelected = isSelected
+        self._isCompleted = isCompleted ?? .constant(false)
+        self.action = action
+    }
+    
+    var body: some View {
+        switch displayMode {
+        case .summary:
+            TreatmentSummaryView(treatmentEntity, action: action)
+            
+        case .checkBoxView:
+            TreatmentCheckBoxView(treatmentEntity, isSelected: $isSelected, isCompleted: $isCompleted, action: action)
+            
+        case .completeBoxView:
+            TreatmentCheckBoxView(treatmentEntity, isSelected: $isSelected, isCompleted: $isCompleted, isCompletedView: true, action: action)
+        }
+    }
+}
+
+private struct TreatmentSummaryView: View {
+    let treatmentEntity: TreatmentEntity
+    let action: () -> Void
+    
+    init(
+        _ treatmentEntity: TreatmentEntity,
+        action: @escaping () -> Void
+    ) {
+        self.treatmentEntity = treatmentEntity
+        self.action = action
+    }
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            TypographyText(
+                treatmentEntity.name,
+                style: .body1_r_14,
+                color: .gray800
+            )
+            Spacer()
+                .frame(width: 12)
+            TypographyText(
+                "|",
+                style: .body2_r_13,
+                color: .gray600
+            )
+            Spacer()
+                .frame(width: 12)
+            TypographyText(
+                "다운타임*\(treatmentEntity.downtimeMin)-\(treatmentEntity.downtimeMax)일",
+                style: .body1_r_14,
+                color: .gray700
+            )
+            
+            Spacer()
+            Image(.deletebox)
+                .onTapGesture {
+                    action()
+                }
+        }
+        .padding(.leading, 17)
+        .padding(.trailing,10)
+        .padding(.vertical, 7)
+        .background(
+            RoundedRectangle(cornerRadius: 6)
+                .fill(.gray200)
+        )
+    }
+}
+
+
+private struct TreatmentCheckBoxView: View {
+    let treatmentEntity: TreatmentEntity
+    @Binding var isSelected: Bool
+    @Binding var isCompleted: Bool
+    let isCompletedView: Bool
+    let action: () -> Void
+    
+    init(
+        _ treatmentEntity: TreatmentEntity,
+        isSelected: Binding<Bool>,
+        isCompleted: Binding<Bool>,
+        isCompletedView: Bool = false,
+        action: @escaping () -> Void
+        ) {
+            self.treatmentEntity = treatmentEntity
+            self._isSelected = isSelected
+            self._isCompleted = isCompleted
+            self.isCompletedView = isCompletedView
+            self.action = action
+            
+        }
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text(treatmentEntity.name)
+                    .typography(.title1_sb_18)
+                Spacer()
+                if isCompletedView{
+                    Image(isCompleted ? .checkCircular : .checkCircularGray)
+                }
+            }
+            HStack(spacing: 0) {
+                Text(treatmentEntity.benefits.joinedWithSeparator())
+                    .typography(.body3_r_12)
+                    .foregroundStyle(.gray700)
+                Spacer()
+            }
+            
+            Spacer()
+            DownTimeLabel(downtimeMin: treatmentEntity.downtimeMin, downtimeMax: treatmentEntity.downtimeMax)
+        }
+        .padding(.vertical, 12)
+        .padding(.horizontal, 14)
+        .frame(height: 100)
+        .background {
+            if isCompleted {
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundStyle(.green1)
+                
+            } else {
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundStyle(isSelected ? .gray300 : Color.white)
+                
+            }
+        }
+        .overlay{
+            if isCompleted {
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(.green2, lineWidth: 1)
+            } else {
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(.gray500, lineWidth: 1)
+            }
+            
+        }
+        .onTapGesture {
+            action()
+            if !isCompleted {
+                isSelected.toggle()
+            }
+            
+        }
+    }
+}
+
+private struct DownTimeLabel: View {
+    let downtimeMin: Int
+    let downtimeMax: Int
+    var body: some View {
+        HStack(spacing: 0){
+            Spacer()
+            Image(.clock)
+                .gray700()
+            TypographyText(
+                "다운타임*\(downtimeMin)-\(downtimeMax)일",
+                style: .body2_r_13,
+                color: .gray700
+            )
+        }
+    }
+}
