@@ -8,31 +8,21 @@
 import SwiftUI
 
 struct MissionCard: View {
-    
     let missionText: String
     @Binding var isSelected: Bool
     
     var body: some View {
-        VStack(alignment: .leading) {
-            
+        VStack {
             HStack {
+                Image(isSelected ? .radiobtnSelected : .radiobtnDefault)
+                    .padding(.leading, 14.adjustedW)
+                    .padding(.vertical, 14.adjustedH)
+                TypographyText(missionText, style: .body1_r_14, color: isSelected ? .gray800 : .gray700)
+                    .padding(.leading, 6.adjustedW)
                 Spacer()
-                Image(isSelected ? "radiobtn_selected" : "radiobtn_default")
             }
-            
-            Spacer()
-            
-            Text(missionText)
-                .typography(.body1_m_14)
-                .foregroundStyle(isSelected ? .gray800 : .gray700)
-                .padding(.leading, 8.adjustedW)
-                .padding(.bottom, 6.adjustedH)
         }
-        .padding(.horizontal, 7.adjustedW)
-        .padding(.vertical, 6.adjustedH)
-        .frame(maxWidth: .infinity)
-        .frame(height: 80.adjustedH)
-        .background(isSelected ? .red200 : .gray0)
+        .background(isSelected ? .red100 : .gray0)
         .overlay(
             RoundedRectangle(cornerRadius: 10)
                 .stroke(isSelected ? .red500 : .gray500, lineWidth: 1)

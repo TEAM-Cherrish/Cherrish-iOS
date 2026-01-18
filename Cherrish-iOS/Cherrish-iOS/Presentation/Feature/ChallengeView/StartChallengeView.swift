@@ -9,6 +9,7 @@ import SwiftUI
 
 struct StartChallengeView: View {
     @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
+    @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
     
     @State private var startButtonState: ButtonState = .active
     
@@ -23,12 +24,11 @@ struct StartChallengeView: View {
             }
             .padding(.top, 84.adjustedH)
             .padding(.leading, 24.adjustedW)
+            .padding(.bottom, 34.adjustedH)
             
-            Spacer()
-            
-            Image(.challengeStartCherry)
-            
-            Spacer()
+            Image(.illustrationChallengeStart)
+                .padding(.top, 10.adjustedH)
+                .padding(.horizontal, 24.adjustedW)
             
             HStack(spacing: 12) {
                 Image("info")
@@ -37,7 +37,9 @@ struct StartChallengeView: View {
             .padding(.bottom, 12.adjustedH)
             
             CherrishButton(title: "챌린지 시작하기", type: .next, state: $startButtonState) {
+                
                 challengeCoordinator.push(.selectRoutine)
+                tabBarCoordinator.isTabbarHidden = true
             }
             .padding(.horizontal, 24.adjustedW)
             .padding(.bottom, 36.adjustedH)
