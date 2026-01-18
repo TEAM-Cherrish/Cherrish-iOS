@@ -10,6 +10,8 @@ import SwiftUI
 struct DownTimeSettingView: View {
     var treatments: [TreatmentEntity]
     
+    @State var isShowSheet: Bool = false
+    
     var body: some View {
         VStack {
             Spacer()
@@ -27,7 +29,7 @@ struct DownTimeSettingView: View {
             }
             ScrollView(.vertical, showsIndicators: false) {
                 ForEach(treatments, id: \.self) { treatment in
-                    TreatmentRowView(displayMode: .completeBoxView, treatmentEntity: treatment, isSelected: .constant(false), isCompleted: .constant(false), action: {})
+                    TreatmentRowView(displayMode: .completeBoxView, treatmentEntity: treatment, isSelected: .constant(false), isCompleted: .constant(false), action: { isShowSheet.toggle() })
                 }
                 
                 Spacer()
@@ -64,9 +66,12 @@ struct DownTimeSettingView: View {
                     Spacer()
                 }
             }
-           
+            
         }
         .padding(.horizontal, 25.adjustedW)
+        .sheet(isPresented: $isShowSheet) {
+            DowntimeBottomSheetView()
+                .presentationDetents([.medium])
+        }
     }
-    
 }
