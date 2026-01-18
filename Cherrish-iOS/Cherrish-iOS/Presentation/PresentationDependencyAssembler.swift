@@ -35,7 +35,7 @@ final class PresentationDependencyAssembler: DependencyAssembler {
         }
         
         DIContainer.shared.register(type: HomeViewModel.self) {
-            return HomeViewModel(fetchDashboardData: fetchDashboardData)
+            return HomeViewModel(fetchDashboardDataUseCase: fetchDashboardData)
         }
     }
     

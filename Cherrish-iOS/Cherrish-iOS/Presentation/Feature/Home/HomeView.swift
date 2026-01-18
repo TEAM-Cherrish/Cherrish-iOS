@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject private var viewModel: HomeViewModel
-    
-    init(viewModel: HomeViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
+    @StateObject private var viewModel = DIContainer.shared.resolve(type: HomeViewModel.self)!
     
     var body: some View {
         ZStack {
@@ -58,13 +54,13 @@ private struct BackgroundGradientView: View {
     var body: some View {
         VStack(spacing: 0) {
             LinearGradient(
-                colors: [Color("home_gradient1"), Color("home_gradient2")],
+                colors: [.homeGradient1, .homeGradient2],
                 startPoint: .top,
                 endPoint: .bottom
             )
             .frame(height: 270.adjustedH)
             
-            Color("home_gradient2")
+            Color.homeGradient2
         }
         .ignoresSafeArea()
     }
@@ -263,10 +259,10 @@ private struct UpcomingBoxView: View {
     private let buttonState: ButtonState = .active
     
     private func pinStyle(for index: Int, totalCount: Int) -> (circleColor: Color, lineTopColor: Color, lineBottomColor: Color) {
-        let red600 = Color("red_600")
-        let red500 = Color("red_500")
-        let red300 = Color("red_300")
-        let gray0 = Color("gray_0")
+        let red600 = Color.red600
+        let red500 = Color.red500
+        let red300 = Color.red300
+        let gray0 = Color.gray0
         
         let result: (circleColor: Color, lineTopColor: Color, lineBottomColor: Color)
         
@@ -302,7 +298,7 @@ private struct UpcomingBoxView: View {
             if viewModel.upcomingItems.isEmpty {
                 emptyStateView
             } else {
-                contentView
+                upcomingListView
             }
         }
         .frame(maxWidth: .infinity)
@@ -315,7 +311,7 @@ private struct UpcomingBoxView: View {
 
     }
 
-    private var contentView: some View {
+    private var upcomingListView: some View {
         VStack(spacing: 0) {
             ForEach(Array(viewModel.upcomingItems.enumerated()), id: \.element.id) { index, item in
                 let style = pinStyle(for: index, totalCount: viewModel.upcomingItems.count)
@@ -389,8 +385,4 @@ struct PinView: View {
                 .frame(width: lineWidth, height: lineLength)
         }
     }
-}
-
-#Preview {
-    HomeView(viewModel: DIContainer.shared.resolve(type: HomeViewModel.self)!)
 }

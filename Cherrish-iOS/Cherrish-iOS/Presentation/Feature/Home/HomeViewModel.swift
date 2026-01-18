@@ -12,10 +12,10 @@ final class HomeViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     
-    private let fetchDashboardData: FetchDashboardData
+    private let fetchDashboardDataUseCase: FetchDashboardData
     
-    init(fetchDashboardData: FetchDashboardData) {
-        self.fetchDashboardData = fetchDashboardData
+    init(fetchDashboardDataUseCase: FetchDashboardData) {
+        self.fetchDashboardDataUseCase = fetchDashboardDataUseCase
     }
     
     @MainActor
@@ -24,7 +24,7 @@ final class HomeViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-            dashboardData = try await fetchDashboardData.execute()
+            dashboardData = try await fetchDashboardDataUseCase.execute()
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -73,8 +73,7 @@ final class HomeViewModel: ObservableObject {
                 id: "\(procedure.name)_\(procedure.daysSince)_\(index)",
                 name: procedure.name,
                 dayCount: procedure.daysSince,
-                tag: procedure.currentPhase.displayText,
-                isRecent: true
+                tag: procedure.currentPhase.displayText
             )
         }
     }
@@ -98,7 +97,6 @@ struct MonthPlanItem: Identifiable {
     let name: String
     let dayCount: Int
     let tag: String
-    let isRecent: Bool
 }
 
 struct UpcomingItem: Identifiable {

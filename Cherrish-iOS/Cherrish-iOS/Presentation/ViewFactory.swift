@@ -40,10 +40,7 @@ final class ViewFactory: ViewFactoryProtocol {
     }
     
     func makeHomeView() -> HomeView {
-        guard let viewModel = DIContainer.shared.resolve(type: HomeViewModel.self) else {
-            fatalError()
-        }
-        return HomeView(viewModel: viewModel)
+        return HomeView()
     }
     
     func makeCalendarView() -> CalendarView {

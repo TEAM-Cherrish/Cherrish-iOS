@@ -29,20 +29,3 @@ struct UpcomingProcedureEntity {
     let count: Int
     let dDay: Int
 }
-
-enum ProcedurePhase {
-    case sensitive
-    case caution
-    case recovery
-    
-    var displayText: String {
-        switch self {
-        case .sensitive:
-            return "민감기"
-        case .caution:
-            return "주의기"
-        case .recovery:
-            return "회복기"
-        }
-    }
-}
