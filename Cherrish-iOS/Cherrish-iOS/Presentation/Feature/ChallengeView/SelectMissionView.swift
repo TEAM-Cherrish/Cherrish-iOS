@@ -1,26 +1,91 @@
 //
-//  SelectMissionView.swift
+//SelectMissionView.swift
 //  Cherrish-iOS
 //
-//  Created by 이나연 on 1/10/26.
+//  Created by sumin Kong on 1/10/26.
 //
 
 import SwiftUI
 
 struct SelectMissionView: View {
+    
     @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
     
+    @State private var missions: [String] = [
+        "진정 토너 + 세럼",
+        "진정 토너 + 세럼",
+        "진정 토너 + 세럼",
+        "선크림 3번 바르기",
+        "선크림 3번 바르기",
+        "선크림 3번 바르기"
+    ]
+    @State private var selectedStates: [Bool] = Array(repeating: false, count: 6)
+    
+    private var nextButtonState: ButtonState {
+        selectedStates.contains(true) ? .active : .normal
+    }
+    
     var body: some View {
-        ZStack {
-            Color.red600
-            
+        VStack {
+            Spacer()
+                .frame(height: 20.adjustedH)
+            CherrishNavigationBar(
+                title: "TO-DO 미션 선택",
+                leftButtonAction: challengeCoordinator.pop,
+                rightButtonAction: challengeCoordinator.popToRoot
+            )
+            .padding(.top, 20.adjustedH)
+            Spacer()
+                .frame(height: 48.adjustedH)
             VStack {
-                Text("SelectMission")
-                
-                Button("next") {
-                    challengeCoordinator.push(.loading)
+                HStack {
+                    VStack(alignment: .leading) {
+                        TypographyText("챌린지 기간 동안",
+                            style: .title1_sb_18,
+                            color: .gray1000
+                        )
+                        TypographyText("진행할 미션을 선택해주세요.",
+                            style: .title1_sb_18,
+                            color: .gray1000
+                        )
+                        TypographyText("복수 선택이 가능해요.",
+                            style: .body1_r_14,
+                            color: .gray700
+                        )
+                        .padding(.top, 4.adjustedH)
+                    }
+                    Spacer()
+                }
+                Spacer()
+                    .frame(height: 30.adjustedH)
+                VStack(spacing: 10.adjustedH) {
+                    ForEach(missions.indices, id: \.self) { index in
+                        MissionCard(
+                            missionText: missions[index],
+                            isSelected: $selectedStates[index]
+                        )
+                    }
                 }
             }
+            .padding(.horizontal, 34.adjustedW)
+            Spacer()
+                .frame(height: 48.adjustedH)
+            .padding(.horizontal, 33.adjustedW)
+            
+            CherrishButton(title: "플래너에 추가하기", type: .next, state: .constant(nextButtonState)){
+                challengeCoordinator.push(.challengeProgress)
+            }
+            .padding(.horizontal, 24.adjustedW)
+            .padding(.top, 64.adjustedH)
+            .padding(.bottom, 38.adjustedH)
         }
+        .padding(.top, 20.adjustedH)
+        .onAppear {
+            selectedStates = Array(repeating: false, count: missions.count)
+        }
+        .onChange(of: missions) { newMissions in
+            selectedStates = Array(repeating: false, count: newMissions.count)
+        }
+        .ignoresSafeArea(edges: .bottom)
     }
 }
