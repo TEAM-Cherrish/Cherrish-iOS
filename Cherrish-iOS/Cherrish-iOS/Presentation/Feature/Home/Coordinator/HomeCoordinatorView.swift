@@ -13,6 +13,12 @@ struct HomeCoordinatorView: View {
     var body: some View {
         NavigationStack(path: $homeCoordinator.path) {
             ViewFactory.shared.makeHomeView()
+                .navigationDestination(for: HomeRoute.self) { route in
+                    switch route {
+                    case .root:
+                        ViewFactory.shared.makeHomeView()
+                    }
+                }
         }
     }
 }
