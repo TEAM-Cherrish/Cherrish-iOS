@@ -69,14 +69,16 @@ struct NoTreatmentView: View {
         case .downTimeSetting:
             DownTimeSettingView(
                 treatments: viewModel.selectedTreatments,
-                year: viewModel.toInt(
-                    viewModel.year
-                ),
-                month: viewModel.toInt(
-                    viewModel.month
-                ),
-                day: viewModel.toInt(
-                    viewModel.day
+                setday: (
+                    viewModel.toInt(
+                        viewModel.year
+                    ),
+                    viewModel.toInt(
+                        viewModel.month
+                    ),
+                    viewModel.toInt(
+                        viewModel.day
+                    )
                 ), today: viewModel.today
             )
         }
