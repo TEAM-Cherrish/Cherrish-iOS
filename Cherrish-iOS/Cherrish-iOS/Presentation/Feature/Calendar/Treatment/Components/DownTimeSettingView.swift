@@ -71,7 +71,9 @@ struct DownTimeSettingView: View {
         .padding(.horizontal, 25.adjustedW)
         .sheet(isPresented: $isShowSheet) {
             DowntimeBottomSheetView()
-                .presentationDetents([.medium])
+                .presentationDetents([.extraLarge])
+                .presentationBackground(.gray0)
+                .presentationDragIndicator(.visible)
         }
     }
 }
