@@ -12,8 +12,8 @@ struct InformationView: View {
     @EnvironmentObject private var onboardingCoordinator: OnboardingCoordinator
     @EnvironmentObject private var appCoordinator: AppCoordinator
     
-    @State var name = ""
-    @State var age = ""
+    @State private var name = ""
+    @State private var age = ""
     @State private var buttonState: ButtonState = .normal
     @FocusState private var isNameFocused: Bool
     @FocusState private var isAgeFocused: Bool
