@@ -9,13 +9,14 @@ import Foundation
 import SwiftUI
 
 enum AppState {
+    case splash
     case onboarding
     case home
 }
 
 final class AppCoordinator: ObservableObject {
     @Published var path: NavigationPath = NavigationPath()
-    @Published var appState: AppState = .onboarding
+    @Published var appState: AppState = .splash
     
     func navigationToTabbar() {
         path.removeLast(path.count)
