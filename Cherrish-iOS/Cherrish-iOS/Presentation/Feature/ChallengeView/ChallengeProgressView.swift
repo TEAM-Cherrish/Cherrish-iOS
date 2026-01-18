@@ -8,9 +8,8 @@
 import SwiftUI
 
 enum CherryLevel: Int {
-    case mong = 0
+    case mong = 1
     case bbo
-    case chok
     case pang
     case ggu
     
@@ -23,10 +22,8 @@ enum CherryLevel: Int {
         case 25.0..<50.0:
             return .bbo
         case 50.0..<75.0:
-            return .chok
-        case 75.0..<100.0:
             return .pang
-        case 100.0...:
+        case 75.0...100.0:
             return .ggu
         default:
             return .mong
@@ -37,7 +34,6 @@ enum CherryLevel: Int {
         switch self {
         case .mong: return "몽롱체리"
         case .bbo: return "뽀득체리"
-        case .chok: return "촉촉체리"
         case .pang: return "팡팡체리"
         case .ggu: return "꾸꾸체리"
         }
@@ -88,77 +84,89 @@ struct ChallengeProgressView: View {
                         )
                     Spacer()
                 }
-                VStack {
-                    VStack {
-                        HStack {
-                            TypographyText("Lv.\(cherryLevel.levelNumber) \(cherryLevel.name)", style: .body1_m_14, color: .gray900)
-                            Spacer()
-                        }
-                        cherryLevel.cherryImage
-                            .padding(.top, 14.adjustedH)
-                        TypographyText("체리가 크려면 \(remainMissions)개의 미션을 수행해야 해요!", style: .body2_r_13, color: .gray800)
-                            .padding(.top, 14.adjustedH)
-                    }
-                    .padding(.horizontal, 25.adjustedW)
-                    Rectangle()
-                        .fill(.gray300)
-                        .frame(height: 1)
-                        .padding(.vertical, 14.adjustedH)
-                    VStack {
-                        HStack {
-                            TypographyText("챌린지 달성률 \(progressRate)%", style: .body1_m_14, color: .gray900)
-                            Spacer()
-                        }
-                        .padding(.bottom, 12.adjustedH)
-                        cherryLevel.progressImage
-                            .padding(.bottom, 11.adjustedH)
-                    }
-                    .padding(.horizontal, 25.adjustedW)
+                CherryGrowthView
+                CherryTodoView
+            }
+            .padding(.horizontal, 25.adjustedW)
+            .padding(.vertical, 24.adjustedH)
+        }
+        .scrollIndicators(.hidden)
+    }
+}
+
+extension ChallengeProgressView {
+    private var CherryGrowthView : some View {
+        VStack {
+            VStack {
+                HStack {
+                    TypographyText("Lv.\(cherryLevel.levelNumber) \(cherryLevel.name)", style: .body1_m_14, color: .gray900)
+                    Spacer()
                 }
-                .padding(.top, 16.adjustedH)
-                .background(
+                cherryLevel.cherryImage
+                    .padding(.top, 14.adjustedH)
+                TypographyText("체리가 크려면 \(remainMissions)개의 미션을 수행해야 해요!", style: .body2_r_13, color: .gray800)
+                    .padding(.top, 14.adjustedH)
+            }
+            .padding(.horizontal, 25.adjustedW)
+            Rectangle()
+                .fill(.gray300)
+                .frame(height: 1)
+                .padding(.vertical, 14.adjustedH)
+            VStack {
+                HStack {
+                    TypographyText("챌린지 달성률 \(progressRate)%", style: .body1_m_14, color: .gray900)
+                    Spacer()
+                }
+                .padding(.bottom, 12.adjustedH)
+                cherryLevel.progressImage
+                    .padding(.bottom, 11.adjustedH)
+            }
+            .padding(.horizontal, 25.adjustedW)
+        }
+        .padding(.top, 16.adjustedH)
+
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(
                     LinearGradient(
                         gradient: Gradient(colors: [.red200, .gray0]),
                         startPoint: .top,
                         endPoint: .bottom
                     )
                 )
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.gray0)
-                )
-                .cherrishShadow()
-                VStack {
-                    HStack {
-                        TypographyText("4일차 TO-DO 미션", style: .body1_sb_14, color: .gray1000)
-                        Spacer()
-                    }
-                    Spacer()
-                    VStack(spacing: 8.adjustedH) {
-                        ForEach(missions.indices, id: \.self) { index in
-                            CheckBoxComponent(
-                                text: missions[index],
-                                isChecked: $selectedStates[index]
-                            )
-                        }
-                    }
-                    CherrishButton(title: "오늘 미션 종료하기", type: .next, state: .constant(buttonState)){
-                        
-                        }
-                    .padding(.top, 10.adjustedH)
-                    .padding(.bottom, 18.adjustedH)
-                }
-                .padding(.top, 14.adjustedH)
-                .padding(.horizontal, 18.adjustedW)
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.gray0)
-                )
-                .cherrishShadow()
+        )
+        .cherrishShadow()
+    }
+}
+
+extension ChallengeProgressView {
+    private var CherryTodoView : some View {
+        VStack {
+            HStack {
+                TypographyText("4일차 TO-DO 미션", style: .body1_sb_14, color: .gray1000)
+                Spacer()
             }
-            .padding(.horizontal, 25.adjustedW)
-            .padding(.vertical, 24.adjustedH)
+            Spacer()
+            VStack(spacing: 8.adjustedH) {
+                ForEach(missions.indices, id: \.self) { index in
+                    CheckBoxComponent(
+                        text: missions[index],
+                        isChecked: $selectedStates[index]
+                    )
+                }
+            }
+            CherrishButton(title: "오늘 미션 종료하기", type: .next, state: .constant(buttonState)){
+                
+                }
+            .padding(.top, 10.adjustedH)
+            .padding(.bottom, 18.adjustedH)
         }
-        .scrollIndicators(.hidden)
+        .padding(.top, 14.adjustedH)
+        .padding(.horizontal, 18.adjustedW)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.gray0)
+        )
+        .cherrishShadow()
     }
 }
