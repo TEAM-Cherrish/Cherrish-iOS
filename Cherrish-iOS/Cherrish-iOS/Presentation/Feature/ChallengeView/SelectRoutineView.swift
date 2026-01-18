@@ -57,7 +57,13 @@ struct SelectRoutineView: View {
             
             Spacer()
             
-            CherrishButton(title: "다음", type: .next, state: .constant(viewModel.nextButtonState)){
+            CherrishButton(
+                title: "다음",
+                type: .large,
+                state: .constant(viewModel.nextButtonState),
+                leadingIcon: nil,
+                trailingIcon: nil
+            ){
                 challengeCoordinator.push(.loading)
                 }
             .padding(.bottom, 38.adjustedH)

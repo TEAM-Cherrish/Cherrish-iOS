@@ -36,7 +36,13 @@ struct StartChallengeView: View {
             }
             .padding(.bottom, 12.adjustedH)
             
-            CherrishButton(title: "챌린지 시작하기", type: .next, state: $startButtonState) {
+            CherrishButton(
+                title: "챌린지 시작하기",
+                type: .large,
+                state: $startButtonState,
+                leadingIcon: nil,
+                trailingIcon: nil
+            ) {
                 
                 challengeCoordinator.push(.selectRoutine)
                 tabBarCoordinator.isTabbarHidden = true
