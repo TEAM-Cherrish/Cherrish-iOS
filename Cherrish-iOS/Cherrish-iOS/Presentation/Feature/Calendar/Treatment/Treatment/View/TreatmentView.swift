@@ -29,7 +29,8 @@ struct TreatmentView: View {
                 totalSteps: Treatment.allCases.count,
                 currentStep: .constant(viewModel.step)
             )
-            .padding( .horizontal, 33.5.adjustedW)
+            .padding(.bottom, 20.adjustedH)
+            .padding(.horizontal, 33.5.adjustedW)
             
             VStack(spacing: 0){
                 Group {
