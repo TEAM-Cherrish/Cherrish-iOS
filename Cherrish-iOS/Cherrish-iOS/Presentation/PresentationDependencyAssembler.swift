@@ -29,6 +29,14 @@ final class PresentationDependencyAssembler: DependencyAssembler {
         DIContainer.shared.register(type: OnboardingViewModel.self) {
             return OnboardingViewModel()
         }
+        
+        guard let fetchDashboardData = DIContainer.shared.resolve(type: FetchDashboardData.self) else {
+            return
+        }
+        
+        DIContainer.shared.register(type: HomeViewModel.self) {
+            return HomeViewModel(fetchDashboardDataUseCase: fetchDashboardData)
+        }
     }
     
     

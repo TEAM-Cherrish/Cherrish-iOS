@@ -13,6 +13,8 @@ struct AppCoordinatorView: View {
     var body: some View {
         Group {
             switch appCoordinator.appState {
+            case .splash:
+                SplashView()
             case .onboarding:
                 OnboardingCoordinatorView()
             case .home:
