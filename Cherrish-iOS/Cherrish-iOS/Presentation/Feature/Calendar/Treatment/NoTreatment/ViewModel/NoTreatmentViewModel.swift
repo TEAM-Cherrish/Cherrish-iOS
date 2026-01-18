@@ -32,12 +32,26 @@ final class NoTreatmentViewModel: ObservableObject{
            }
        }
     
+    var today: (year: Int, month: Int, day: Int) {
+        let calendar = Calendar.current
+        let now = Date()
+        return (
+            calendar.component(.year, from: now),
+            calendar.component(.month, from: now),
+            calendar.component(.day, from: now)
+        )
+    }
+    
     func next() {
         state.next()
     }
     
     func previous() {
         state.previous()
+    }
+    
+    func toInt(_ value: String) -> Int {
+        Int(value) ?? 0
     }
     
     func isDateTextFieldNotEmpty() -> Bool {
