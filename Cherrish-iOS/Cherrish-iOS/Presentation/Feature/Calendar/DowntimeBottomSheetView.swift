@@ -132,4 +132,12 @@ extension DowntimeBottomSheetView {
             Spacer()
         }
     }
+    
+    private var buttonView: some View {
+        HStack {
+            CherrishButton(title: "다운타임 없이 일정 추가", type: .addEvent, state: .constant(.normal), action: {})
+            
+            CherrishButton(title: "확인", type: .save, state: .constant(.normal), action: {})
+        }
+    }
 }
