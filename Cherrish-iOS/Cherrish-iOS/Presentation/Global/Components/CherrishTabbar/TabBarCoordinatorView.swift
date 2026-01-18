@@ -37,7 +37,7 @@ struct TabBarCoordinatorView: View {
             }
         }
         .environmentObject(tabBarCoordinator)
-        .onChange(of: tabBarCoordinator.selectedTab) { newTab in
+        .onChange(of: tabBarCoordinator.selectedTab) { oldTab, newTab in
             switch newTab {
             case .home:
                 tabBarCoordinator.homeCoordinator.popToRoot()
@@ -48,7 +48,6 @@ struct TabBarCoordinatorView: View {
             case .mypage:
                 tabBarCoordinator.mypageCoordinator.popToRoot()
             }
-            
         }
     }
 }
