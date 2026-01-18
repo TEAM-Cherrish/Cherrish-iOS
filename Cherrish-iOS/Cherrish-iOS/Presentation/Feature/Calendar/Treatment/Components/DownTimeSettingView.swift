@@ -10,7 +10,10 @@ import SwiftUI
 struct DownTimeSettingView: View {
     @State var selectedTreatment: TreatmentEntity? = nil
     var treatments: [TreatmentEntity]
-    
+    let year: Int
+    let month: Int
+    let day: Int
+    let today: (year: Int, month: Int, day: Int)
     var body: some View {
         VStack {
             Spacer()
@@ -81,7 +84,13 @@ struct DownTimeSettingView: View {
         }
         .padding(.horizontal, 25.adjustedW)
         .sheet(item: $selectedTreatment) { treatment in
-                DowntimeBottomSheetView(treatment: treatment)
+            DowntimeBottomSheetView(
+                treatment: treatment,
+                today: today,
+                year: year,
+                month: month,
+                day: day
+            )
                     .presentationDetents([.extraLarge])
                     .presentationBackground(.gray0)
                     .presentationDragIndicator(.visible)

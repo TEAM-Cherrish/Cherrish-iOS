@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct DowntimeBottomSheetView: View {
-    var treatment: TreatmentEntity
+    let treatment: TreatmentEntity
+    let today: (year: Int, month: Int, day: Int)
+    let year: Int
+    let month: Int
+    let day: Int
     @State var selectedDowntime: Int = 5
     @State var rate: Double = 0.5
     
@@ -105,12 +109,12 @@ extension DowntimeBottomSheetView {
             .padding(.horizontal, 25.adjustedW)
             
             HStack {
-                TypographyText("1월 2일", style: .body2_r_13, color: .gray700)
+                TypographyText("\(today.month)월 \(today.day)일", style: .body2_r_13, color: .gray700)
                     .frame(height: 18.adjustedH)
                 
                 Spacer()
                 
-                TypographyText("1월 14일", style: .body2_r_13, color: .gray700)
+                TypographyText("\(month)월 \(day)일", style: .body2_r_13, color: .gray700)
                     .frame(height: 18.adjustedH)
             }
             .padding(.horizontal, 25.adjustedW)
