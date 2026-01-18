@@ -6,43 +6,53 @@
 //
 
 import SwiftUI
-import Combine
 
-enum RoutineType: CaseIterable, Identifiable {
-    case skinCondition
-    case lifeStyle
-    case bodyShaping
-    case wellness
-    
-    var id: Self { self }
-    
-    var title: String {
-        switch self {
-        case .skinCondition:
-            return "피부 컨디션"
-        case .lifeStyle:
-            return "생활습관"
-        case .bodyShaping:
-            return "체형 관리"
-        case .wellness:
-            return "웰니스∙마음챙김"
-        }
-    }
+struct Routine: Identifiable, Decodable, Equatable {
+    let id: Int
+    let name: String
+    let description: String
 }
 
-@MainActor
 final class SelectRoutineViewModel: ObservableObject {
     
-//    @Published var routines: [RoutineType] = []
-    @Published var routines: [RoutineType] = RoutineType.allCases
+    @Published var routines: [Routine] = []
+    @Published var selectedRoutine: Routine?
     
-    @Published var selectedRoutine: RoutineType? = nil
+    private let challengeRepository: ChallengeInterface
+    
+    init(
+        challengeRepository: ChallengeInterface = DIContainer.shared.resolve(type: ChallengeInterface.self)!
+    ) {
+        self.challengeRepository = challengeRepository
+    }
     
     var nextButtonState: ButtonState {
         selectedRoutine == nil ? .normal : .active
     }
     
-    func select(_ routine: RoutineType) {
+    func select(_ routine: Routine) {
         selectedRoutine = routine
     }
+    
+    func fetchRoutines() {
+        challengeRepository.fetchHomecareRoutines { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let dtos):
+                    self?.routines = dtos.map {
+                        Routine(
+                            id: $0.id,
+                            name: $0.name,
+                            description: $0.description
+                        )
+                    }
+
+                case .failure(let error):
+                    CherrishLogger.error(error)
+                    self?.routines = []
+                }
+            }
+        }
+    }
+
 }
