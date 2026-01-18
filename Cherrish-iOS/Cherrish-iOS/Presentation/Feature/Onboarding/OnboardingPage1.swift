@@ -37,8 +37,7 @@ struct OnboardingPage1: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 120.adjustedW)
-                        .alignmentGuide(.leading) { _ in -152.adjustedW }
-                        .alignmentGuide(.top) { _ in -209.adjustedH }
+                        .offset(x: 152.adjustedW, y: 180.adjustedH)
                 }
                 .padding(.top, 38.adjustedH)
             
