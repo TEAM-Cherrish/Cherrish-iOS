@@ -42,15 +42,21 @@ final class NoTreatmentViewModel: ObservableObject{
         guard !year.isEmpty, !month.isEmpty, !day.isEmpty else {
             return false
         }
+        
         guard let yearInt = Int(year), yearInt >= 2020,
-              let monthInt = Int(month), monthInt >= 1, monthInt <= 12,
-              let dayInt = Int(day), dayInt >= 1, dayInt <= 31 else {
+              let monthInt = Int(month), (1...12).contains(monthInt),
+              let dayInt = Int(day), (1...31).contains(dayInt) else {
             return false
         }
-
-        return true
         
+        let components = DateComponents(year: yearInt, month: monthInt, day: dayInt)
+        
+        guard let date = Calendar.current.date(from: components),
+              Calendar.current.dateComponents([.year, .month, .day], from: date) == components else {
+            return false
+        }
+        
+        return true
     }
-    
-    
+
 }

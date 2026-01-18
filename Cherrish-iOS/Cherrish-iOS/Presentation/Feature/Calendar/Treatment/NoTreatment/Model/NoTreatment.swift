@@ -32,7 +32,6 @@ enum NoTreatment: Int, CaseIterable, Identifiable {
     var isLast: Bool { self == Self.allCases.last }
 }
 
-// MARK: - Navigation
 extension NoTreatment {
     mutating func next() {
         let allCases = Self.allCases
