@@ -53,6 +53,9 @@ struct SelectRoutineView: View {
                 }
                 .padding(.horizontal, 33.adjustedW)
                 .padding(.top, 40.adjustedH)
+                .onAppear {
+                    viewModel.fetchRoutines()
+                }
             }
             
             Spacer()
@@ -68,9 +71,9 @@ struct SelectRoutineView: View {
 }
 
 private extension SelectRoutineView {
-    func routineChip(_ routine: RoutineType) -> some View {
+    func routineChip(_ routine: Routine) -> some View {
         SelectionChip(
-            title: routine.title,
+            title: routine.name,
             isSelected: Binding(
                 get: {viewModel.selectedRoutine == routine},
                 set: {isSelected in
