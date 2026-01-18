@@ -17,17 +17,22 @@ final class PresentationDependencyAssembler: DependencyAssembler {
     func assemble() {
         preAssembler.assemble()
         
-//        guard let testUseCase = DIContainer.shared.resolve(type: TestUseCase.self) else {
-//            return
-//        }
-//        
-//        DIContainer.shared.register(type: TestViewModel.self) {
-//            print("뷰모델 등록")
-//            return TestViewModel(testUseCase: testUseCase)
-//        }
-//        
         DIContainer.shared.register(type: OnboardingViewModel.self) {
             return OnboardingViewModel()
+        }
+        
+        guard let fetchProcedureCountOfMonthUseCase = DIContainer.shared.resolve(type: FetchProcedureCountOfMonth.self),
+            let fetchTodayProcedureListUseCase = DIContainer.shared.resolve(type: FetchTodayProcedureList.self)
+        else {
+            CherrishLogger.error(CherrishError.DIFailedError)
+            return
+        }
+        
+        DIContainer.shared.register(type: CalendarViewModel.self) {
+            return CalendarViewModel(
+                fetchProcedureCountOfMonthUseCase: fetchProcedureCountOfMonthUseCase,
+                fetchTodayProcedureListUseCase: fetchTodayProcedureListUseCase
+            )
         }
         
         guard let fetchDashboardData = DIContainer.shared.resolve(type: FetchDashboardData.self) else {
@@ -38,6 +43,4 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return HomeViewModel(fetchDashboardDataUseCase: fetchDashboardData)
         }
     }
-    
-    
 }
