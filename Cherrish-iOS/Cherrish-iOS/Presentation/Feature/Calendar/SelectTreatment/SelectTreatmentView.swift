@@ -38,7 +38,13 @@ struct SelectTreatmentView: View {
             
             Spacer()
             
-            CherrishButton(title: "다음", type: .next, state: $viewModel.buttonState, action: { })
+            CherrishButton(
+                title: "다음",
+                type: .large,
+                state: $viewModel.buttonState,
+                leadingIcon: nil,
+                trailingIcon: nil,
+                action: { })
             
             Spacer()
                 .frame(height: 72.adjustedH)

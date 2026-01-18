@@ -67,7 +67,13 @@ struct NoTreatmentView: View {
                             SelectedTreatmentView(selectedTreatments: viewModel.selectedTreatments, removeTreatment: viewModel.removeTreatment(_:))
                         }
                     }
-                    CherrishButton(title: "다음", type: .next, state: .constant(viewModel.canProceed ? .active : .normal)) {
+                    CherrishButton(
+                        title: "다음",
+                        type: .next,
+                        state: .constant(viewModel.canProceed ? .active : .normal),
+                        leadingIcon: nil,
+                        trailingIcon: nil
+                    ) {
                         viewModel.next()
                     }
                     .padding(.horizontal, 25.adjustedW)
