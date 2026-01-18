@@ -50,7 +50,7 @@ struct InformationView: View {
                 .focused($isNameFocused)
                 .overlay(alignment: .bottomLeading) {
                     if isNameOverLimit {
-                        TypographyText("이름은 최대 7자까지 입력 가능합니다.", style: .body1_r_14, color: Color("red_700"))
+                        TypographyText("이름은 최대 7자까지 입력 가능합니다.", style: .body1_r_14, color: .red700)
                             .offset(y: 24.adjustedH)
                     }
                 }
@@ -61,7 +61,7 @@ struct InformationView: View {
                 .focused($isAgeFocused)
                 .overlay(alignment: .bottomLeading) {
                     if showAgeError {
-                        TypographyText("입력 가능한 최대 나이 100세를 초과했습니다.", style: .body1_r_14, color: Color("red_700"))
+                        TypographyText("입력 가능한 최대 나이 100세를 초과했습니다.", style: .body1_r_14, color: .red700)
                             .offset(y: 24.adjustedH)
                     }
                 }
@@ -95,8 +95,4 @@ struct InformationView: View {
         let isAgeValid = !age.isEmpty && !isAgeOverLimit
         buttonState = (isNameValid && isAgeValid) ? .active : .normal
     }
-}
-
-#Preview {
-    InformationView(viewModel: OnboardingViewModel())
 }

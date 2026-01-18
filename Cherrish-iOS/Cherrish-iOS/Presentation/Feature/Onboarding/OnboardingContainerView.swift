@@ -58,13 +58,13 @@ struct OnboardingContainerView: View {
         .background(
             VStack(spacing: 0) {
                 LinearGradient(
-                    colors: [Color("home_gradient1"), Color("home_gradient2")],
+                    colors: [.homeGradient1, .homeGradient2],
                     startPoint: .top,
                     endPoint: .bottom
                 )
                 .frame(height: 310)
                 
-                Color("home_gradient2")
+                Color.homeGradient2
             }
             .ignoresSafeArea()
         )
