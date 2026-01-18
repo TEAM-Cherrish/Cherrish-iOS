@@ -25,9 +25,9 @@ struct ChallengeCoordinatorView: View {
                                 .onAppear() {
                                     tabBarCoordinator.isTabbarHidden = true
                                 }
-                                .onDisappear {
-                                    tabBarCoordinator.isTabbarHidden = false
-                                }
+//                                .onDisappear {
+//                                    tabBarCoordinator.isTabbarHidden = false
+//                                }
                         case .loading:
                             ViewFactory.shared.makeLoadingView()
                                 .onAppear() {
