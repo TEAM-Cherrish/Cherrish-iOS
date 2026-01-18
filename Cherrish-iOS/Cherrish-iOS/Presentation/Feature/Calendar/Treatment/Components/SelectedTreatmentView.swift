@@ -25,7 +25,9 @@ struct SelectedTreatmentView: View {
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
                     TypographyText("선택한 시술", style: .body1_sb_14, color: .gray600)
+                    
                     Spacer()
+                    
                 }
                 .padding(.horizontal, 26.adjustedW)
                 .padding(.vertical, 9.adjustedH)
@@ -33,6 +35,7 @@ struct SelectedTreatmentView: View {
                 Rectangle()
                     .frame(height: 1)
                     .foregroundStyle(.gray400)
+                
             }
             .background(.gray0)
             .cornerRadius(10, corners: [.topLeft, .topRight])
