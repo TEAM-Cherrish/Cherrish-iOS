@@ -30,6 +30,7 @@ enum TreatmentCategory: CaseIterable, Identifiable {
             return "모공"
         case .trouble:
             return "트러블"
+            
         }
     }
 }

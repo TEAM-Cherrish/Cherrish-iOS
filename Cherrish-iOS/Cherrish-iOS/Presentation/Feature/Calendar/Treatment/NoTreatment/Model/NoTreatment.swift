@@ -35,15 +35,21 @@ enum NoTreatment: Int, CaseIterable, Identifiable {
 extension NoTreatment {
     mutating func next() {
         let allCases = Self.allCases
+        
         guard let currentIndex = allCases.firstIndex(of: self),
               currentIndex + 1 < allCases.count else { return }
+        
         self = allCases[allCases.index(after: currentIndex)]
+        
     }
     
     mutating func previous() {
         let allCases = Self.allCases
+        
         guard let currentIndex = allCases.firstIndex(of: self),
               currentIndex > 0 else { return }
+        
         self = allCases[allCases.index(before: currentIndex)]
+        
     }
 }

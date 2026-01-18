@@ -8,7 +8,6 @@
 import Foundation
 
 final class NoTreatmentViewModel: ObservableObject{
-    
     @Published var state: NoTreatment = .treatmentSelectedCategory
     @Published var treatmentCatagory: TreatmentCategory?
     @Published var dDay: DdayState?
