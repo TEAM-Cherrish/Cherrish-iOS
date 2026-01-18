@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct DownTimeSettingView: View {
+    @State var selectedTreatment: TreatmentEntity? = nil
     var treatments: [TreatmentEntity]
-    
-    @State var isShowSheet: Bool = false
     
     var body: some View {
         VStack {
@@ -29,7 +28,19 @@ struct DownTimeSettingView: View {
             }
             ScrollView(.vertical, showsIndicators: false) {
                 ForEach(treatments, id: \.self) { treatment in
-                    TreatmentRowView(displayMode: .completeBoxView, treatmentEntity: treatment, isSelected: .constant(false), isCompleted: .constant(false), action: { isShowSheet.toggle() })
+                    TreatmentRowView(
+                        displayMode: .completeBoxView,
+                        treatmentEntity: treatment,
+                        isSelected: .constant(
+                            selectedTreatment == treatment
+                        ),
+                        isCompleted: .constant(
+                            false
+                        ),
+                        action: {
+                            selectedTreatment = treatment
+                    
+                        })
                 }
                 
                 Spacer()
@@ -69,11 +80,11 @@ struct DownTimeSettingView: View {
             
         }
         .padding(.horizontal, 25.adjustedW)
-        .sheet(isPresented: $isShowSheet) {
-            DowntimeBottomSheetView()
-                .presentationDetents([.extraLarge])
-                .presentationBackground(.gray0)
-                .presentationDragIndicator(.visible)
+        .sheet(item: $selectedTreatment) { treatment in
+                DowntimeBottomSheetView(treatment: treatment)
+                    .presentationDetents([.extraLarge])
+                    .presentationBackground(.gray0)
+                    .presentationDragIndicator(.visible)
         }
     }
 }
