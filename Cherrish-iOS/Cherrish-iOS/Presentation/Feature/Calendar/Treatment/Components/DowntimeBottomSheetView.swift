@@ -10,11 +10,10 @@ import SwiftUI
 struct DowntimeBottomSheetView: View {
     let treatment: TreatmentEntity
     let today: (year: Int, month: Int, day: Int)
-    let year: Int
-    let month: Int
-    let day: Int
-    @State var selectedDowntime: Int = 5
-    @State var rate: Double = 0.5
+    let setday: (year: Int, month: Int, day: Int)
+    @State private var selectedDowntime: Int = 1
+    @State private var rate: Double = 0.0
+    @State private var betweenDays: Int = 0
     
     var body: some View {
         VStack(spacing: 0) {
@@ -50,6 +49,21 @@ struct DowntimeBottomSheetView: View {
             buttonView
             
         }
+        .onAppear {
+            selectedDowntime = treatment.downtimeMax
+            betweenDays = Int.daysBetween(
+                fromYear: setday.year,
+                fromMonth: setday.month,
+                fromDay: setday.day,
+                toYear: today.year,
+                toMonth: today.month,
+                toDay: today.day
+            )
+            rate = min(Double(selectedDowntime) / Double(betweenDays), 1.0)
+        }
+        .onChange(of: selectedDowntime) {
+            rate = min(Double(selectedDowntime) / Double(betweenDays), 1.0)
+        }
     }
 }
 
@@ -62,11 +76,21 @@ extension DowntimeBottomSheetView {
                 .scaledToFill()
                 .frame(height: 53.adjustedH)
             
-            TypographyText(
-                "회복 목표디데이로부터 약 7일 전에 안정될 수 있어요.",
-                style: .body1_r_14,
-                color: .gray1000
-            )
+            Group {
+                if betweenDays - selectedDowntime < 1 {
+                    TypographyText(
+                        "설정한 다운타임은 목표일을 넘깁니다.",
+                        style: .body1_r_14,
+                        color: .gray1000
+                    )
+                } else {
+                    TypographyText(
+                        "회복 목표디데이로부터 약 \(betweenDays - selectedDowntime)일 전에 안정될 수 있어요.",
+                        style: .body1_r_14,
+                        color: .gray1000
+                    )
+                }
+            }
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
                 .padding(.horizontal, 18.adjustedW)
@@ -86,7 +110,7 @@ extension DowntimeBottomSheetView {
                 
                 Spacer ()
                 
-                TypographyText("여유기간 7일", style: .title2_m_16, color: .gray800)
+                TypographyText("여유기간 \(betweenDays - selectedDowntime == 0 ? 0 : betweenDays - selectedDowntime)일", style: .title2_m_16, color: .gray800)
                 Spacer()
             }
             
@@ -114,7 +138,7 @@ extension DowntimeBottomSheetView {
                 
                 Spacer()
                 
-                TypographyText("\(month)월 \(day)일", style: .body2_r_13, color: .gray700)
+                TypographyText("\(setday.month)월 \(setday.day)일", style: .body2_r_13, color: .gray700)
                     .frame(height: 18.adjustedH)
             }
             .padding(.horizontal, 25.adjustedW)
