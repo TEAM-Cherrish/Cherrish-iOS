@@ -98,8 +98,10 @@ private struct ChallengeCardEmptyView: View {
             
             CherrishButton(
                 title: "챌린지 시작하기",
-                type: .next,
-                state: .constant(buttonState)
+                type: .large,
+                state: .constant(buttonState),
+                leadingIcon: nil,
+                trailingIcon: nil
             ) {
                
             }
@@ -347,8 +349,10 @@ private struct UpcomingBoxView: View {
             
             CherrishButton(
                 title: "관리 일정을 추가하기",
-                type: .next,
-                state: .constant(buttonState)
+                type: .small,
+                state: .constant(buttonState),
+                leadingIcon: nil,
+                trailingIcon: nil
             ) {
                
             }
