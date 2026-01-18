@@ -147,9 +147,9 @@ extension DowntimeBottomSheetView {
 
                 CherrishButton(title: "확인", type: .small, state: .constant(.normal), leadingIcon: .none, trailingIcon: .none, action: {})
                     .frame(width: geo.size.width * 1/3 - 2)
+                
             }
         }
-        
         .padding(.horizontal, 24.adjustedW)
     }
 }
