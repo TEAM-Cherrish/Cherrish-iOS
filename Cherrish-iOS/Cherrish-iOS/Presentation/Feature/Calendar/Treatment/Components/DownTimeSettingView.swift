@@ -10,9 +10,7 @@ import SwiftUI
 struct DownTimeSettingView: View {
     @State var selectedTreatment: TreatmentEntity? = nil
     var treatments: [TreatmentEntity]
-    let year: Int
-    let month: Int
-    let day: Int
+    let setday: (year: Int, month: Int, day: Int)
     let today: (year: Int, month: Int, day: Int)
     var body: some View {
         VStack {
@@ -87,9 +85,7 @@ struct DownTimeSettingView: View {
             DowntimeBottomSheetView(
                 treatment: treatment,
                 today: today,
-                year: year,
-                month: month,
-                day: day
+                setday: setday
             )
                     .presentationDetents([.extraLarge])
                     .presentationBackground(.gray0)

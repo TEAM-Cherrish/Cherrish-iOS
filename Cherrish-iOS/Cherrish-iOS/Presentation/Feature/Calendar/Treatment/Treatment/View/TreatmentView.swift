@@ -62,10 +62,18 @@ struct TreatmentView: View {
             
         case .downTimeSetting:
             DownTimeSettingView(
-                treatments: viewModel.treatments,
-                year: viewModel.toInt(viewModel.year),
-                month: viewModel.toInt(viewModel.month),
-                day: viewModel.toInt(viewModel.day),
+                treatments: viewModel.selectedTreatments,
+                setday: (
+                    viewModel.toInt(
+                        viewModel.year
+                    ),
+                    viewModel.toInt(
+                        viewModel.month
+                    ),
+                    viewModel.toInt(
+                        viewModel.day
+                    )
+                ),
                 today: viewModel.today
             )
         }
