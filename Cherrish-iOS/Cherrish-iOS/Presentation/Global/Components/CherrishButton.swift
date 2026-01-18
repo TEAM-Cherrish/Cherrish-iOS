@@ -13,9 +13,9 @@ enum ButtonState {
 }
 
 enum CherrishButtonType {
-    case next
-    case confirm
-    case save
+    case large
+    case small
+    case medium
     case addEvent
 }
 
@@ -24,15 +24,29 @@ struct CherrishButton: View {
     let title: String
     let type: CherrishButtonType
     @Binding var state: ButtonState
+    let leadingIcon: Image?
+    let trailingIcon: Image? 
     let action: () -> Void
     
     var body: some View {
         Button(action: action) {
-            HStack{
+            HStack(spacing: 0){
                 Spacer()
+                
+                if let leadingIcon {
+                    leadingIcon
+                        .frame(width: 24, height: 24)
+                }
+                
                 Text(title)
                     .typography(.title2_sb_16)
                     .foregroundStyle(type.textColor(for: state))
+                
+                if let trailingIcon {
+                    trailingIcon
+                        .frame(width: 24, height: 24)
+                }
+                
                 Spacer()
             }
             
@@ -41,7 +55,6 @@ struct CherrishButton: View {
         .disabled(type.isDisabled(for: state))
     }
 }
-
 
 struct CherrishButtonStyle: ButtonStyle {
     let state: ButtonState
@@ -62,7 +75,7 @@ extension CherrishButtonType {
     
     var height: CGFloat {
         switch self {
-        case .save: return 44.adjustedH
+        case .medium: return 44.adjustedH
         default:
             return 50.adjustedH
         }
@@ -70,16 +83,16 @@ extension CherrishButtonType {
     
     var cornerRadius: CGFloat {
         switch self {
-        case .save: return 10
+        case .medium: return 10
         default: return 12
         }
     }
     
     func backgroundColor(for state: ButtonState) -> Color {
         switch self {
-        case .next:
+        case .large:
             return state == .active ? .red700 : .gray200
-        case .confirm, .save:
+        case .small, .medium:
             return .red700
         case .addEvent:
             return .gray400
@@ -88,9 +101,9 @@ extension CherrishButtonType {
     
     func textColor(for state: ButtonState) -> Color {
         switch self {
-        case .next:
+        case .large:
             return state == .active ? .gray0 : .gray600
-        case .confirm, .save:
+        case .small, .medium:
             return .gray0
         case .addEvent:
             return .gray700
@@ -99,7 +112,7 @@ extension CherrishButtonType {
     
     func isDisabled(for state: ButtonState) -> Bool {
         switch self {
-        case .next:
+        case .large:
             return state == .normal
         default:
             return false

@@ -55,7 +55,13 @@ struct TreatmentView: View {
                         }
                     }
                     
-                    CherrishButton(title: "다음", type: .next, state: .constant(viewModel.canProceed ? .active : .normal)) {
+                    CherrishButton(
+                        title: "다음",
+                        type: .large,
+                        state: .constant(viewModel.canProceed ? .active : .normal),
+                        leadingIcon: nil,
+                        trailingIcon: nil
+                    ) {
                         viewModel.next()
                         
                     }
