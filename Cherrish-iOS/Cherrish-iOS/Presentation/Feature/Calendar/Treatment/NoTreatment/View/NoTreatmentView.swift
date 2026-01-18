@@ -10,7 +10,7 @@ import SwiftUI
 struct NoTreatmentView: View {
     @StateObject private var viewModel: NoTreatmentViewModel
     
-    init(viewModel: NoTreatmentViewModel = NoTreatmentViewModel()) {
+    init(viewModel: NoTreatmentViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     var body: some View {
@@ -29,6 +29,7 @@ struct NoTreatmentView: View {
                 currentStep: .constant(viewModel.step)
             )
             .padding( .horizontal, 33.5.adjustedW)
+            .padding(.bottom, 20)
             VStack(spacing: 0){
                 Group {
                     switch viewModel.state {
@@ -82,7 +83,7 @@ private struct TreatmentSelectedCategory: View {
     var body: some View {
         VStack {
             Spacer()
-                .frame(height: 70.adjustedH)
+                .frame(height: 50.adjustedH)
             HStack(spacing: 0) {
                 VStack(alignment: .leading, spacing: 0) {
                     TypographyText(
@@ -127,4 +128,8 @@ private struct TreatmentSelectedCategory: View {
             }
         }
     }
+}
+
+#Preview {
+    NoTreatmentView(viewModel: NoTreatmentViewModel())
 }

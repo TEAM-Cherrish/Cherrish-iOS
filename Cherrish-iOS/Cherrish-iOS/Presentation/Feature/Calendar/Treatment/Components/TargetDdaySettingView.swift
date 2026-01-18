@@ -32,7 +32,7 @@ struct TargetDdaySettingView: View {
     var body: some View {
         VStack {
             Spacer()
-                .frame(height: 70.adjustedH)
+                .frame(height: 50.adjustedH)
             HStack(spacing:0){
                 VStack(alignment: .leading, spacing: 0) {
                     TypographyText("회복을 계획할 때 고려해야 할", style: .title1_sb_18, color: .gray1000)
