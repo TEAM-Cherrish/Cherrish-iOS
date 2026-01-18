@@ -40,6 +40,10 @@ struct DowntimeBottomSheetView: View {
             grayLineView
                 .padding(.horizontal, 25.adjustedW)
             
+            Spacer()
+                .frame(height: 44.adjustedH)
+            buttonView
+            
         }
     }
 }
@@ -128,16 +132,22 @@ extension DowntimeBottomSheetView {
             Spacer()
             
             CherrishPicker(selection: $selectedDowntime, range: 1...30)
-            
+
             Spacer()
         }
     }
     
     private var buttonView: some View {
-        HStack {
-            CherrishButton(title: "다운타임 없이 일정 추가", type: .addEvent, state: .constant(.normal), action: {})
+        
+        HStack(spacing: 4) {
+            CherrishButton(title: "다운타임 없이 일정 추가", type: .addEvent, state: .constant(.normal), leadingIcon: .none, trailingIcon: .none, action: {})
             
-            CherrishButton(title: "확인", type: .save, state: .constant(.normal), action: {})
+            CherrishButton(title: "확인", type: .medium, state: .constant(.normal), leadingIcon: .none, trailingIcon: .none, action: {})
         }
+        .padding(.horizontal, 24.adjustedW)
     }
+}
+
+#Preview {
+    CherrishPicker(selection: .constant(1), range: 1...30)
 }
