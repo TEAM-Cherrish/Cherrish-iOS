@@ -19,7 +19,7 @@ struct DowntimeBottomSheetView: View {
             TypographyText("개인 다운타임으로 설정해주세요.", style: .title1_sb_18, color: .gray1000)
                 .frame(height: 27.adjustedH)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 25)
+                .padding(.leading, 25.adjustedH)
             
             Spacer()
                 .frame(height: 44.adjustedH)
@@ -33,12 +33,12 @@ struct DowntimeBottomSheetView: View {
                 .frame(height: 25.adjustedH)
             
             grayLineView
-                .padding(.horizontal, 25)
+                .padding(.horizontal, 25.adjustedW)
 
             pickerView
             
             grayLineView
-                .padding(.horizontal, 25)
+                .padding(.horizontal, 25.adjustedW)
             
         }
     }
@@ -55,11 +55,11 @@ extension DowntimeBottomSheetView {
             TypographyText("회복 목표디데이로부터 약 7일 전에 안정될 수 있어요.", style: .body1_r_14, color: .gray1000)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
-                .padding(.horizontal, 18)
+                .padding(.horizontal, 18.adjustedW)
                 .offset(y: -4.adjustedH)
             
         }
-        .padding(.horizontal, 25)
+        .padding(.horizontal, 25.adjustedW)
         .frame(height: 53.adjustedH)
     }
     
@@ -81,18 +81,18 @@ extension DowntimeBottomSheetView {
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 24)
                         .fill(.gray400)
-                        .frame(height: 8)
+                        .frame(height: 8.adjustedH)
                     
                     RoundedRectangle(cornerRadius: 24)
                         .fill(.red600)
                         .frame(
                             width: geometry.size.width * rate,
-                            height: 8
+                            height: 8.adjustedH
                         )
                         .animation(.easeOut(duration: 0.5), value: rate)
                 }
             }
-            .frame(height: 8)
+            .frame(height: 8.adjustedH)
             .padding(.horizontal, 25.adjustedW)
             
             HStack {
@@ -132,8 +132,4 @@ extension DowntimeBottomSheetView {
             Spacer()
         }
     }
-}
-
-#Preview {
-    DowntimeBottomSheetView()
 }
