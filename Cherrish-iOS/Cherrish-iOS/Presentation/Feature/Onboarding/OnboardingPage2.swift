@@ -34,8 +34,6 @@ struct OnboardingPage2: View {
             .padding(.horizontal, 29.adjustedW)
             .padding(.top, 30.adjustedH)
             
-            
-            
             HStack(spacing: 0) {
                 TypographyText("원하는 추구미에 도달할 수 있도록\nTO-DO 루틴을 제시해줘요", style: .title1_m_18, color: .gray1000)
             
