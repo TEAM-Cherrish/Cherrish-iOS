@@ -2,7 +2,7 @@
 //  PageIndicator.swift
 //  Cherrish-iOS
 //
-//  Created by Cherrish on 1/15/26.
+//  Created by 송성용 on 1/15/26.
 //
 
 import SwiftUI
@@ -22,12 +22,5 @@ struct PageIndicator: View {
                     .frame(width: dotSize, height: dotSize)
             }
         }
-    }
-}
-
-#Preview {
-    VStack(spacing: 20) {
-        PageIndicator(currentPage: 0, totalPages: 2)
-        PageIndicator(currentPage: 1, totalPages: 2)
     }
 }
