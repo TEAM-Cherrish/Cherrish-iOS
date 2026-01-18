@@ -10,7 +10,6 @@ import Combine
 
 final class TreatmentViewModel: ObservableObject{
     @Published var state: Treatment = .targetDdaySetting
-    var step: Int { state.rawValue }
     @Published var dDay: DdayState?
     @Published var year: String = ""
     @Published var month: String = ""
@@ -20,7 +19,21 @@ final class TreatmentViewModel: ObservableObject{
     @Published var searchText = ""
     @Published var filteredTreatments: [TreatmentEntity] = []
     
+    
+    
+    var step: Int { state.rawValue }
+    
     var cancellables = Set<AnyCancellable>()
+    
+    var today: (year: Int, month: Int, day: Int) {
+        let calendar = Calendar.current
+        let now = Date()
+        return (
+            calendar.component(.year, from: now),
+            calendar.component(.month, from: now),
+            calendar.component(.day, from: now)
+        )
+    }
     
     init() {
         filteredTreatments = treatments
@@ -43,6 +56,10 @@ final class TreatmentViewModel: ObservableObject{
     
     func previous() {
         state.previous()
+    }
+    
+    func toInt(_ value: String) -> Int {
+        Int(value) ?? 0
     }
     
     func isDateTextFieldNotEmpty() -> Bool {
