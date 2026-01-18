@@ -13,8 +13,9 @@ struct NoTreatmentView: View {
     init(viewModel: NoTreatmentViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
+    
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             CherrishNavigationBar(
                 title:viewModel.state.title,
                 leftButtonAction: {
@@ -24,11 +25,14 @@ struct NoTreatmentView: View {
                     
                 }
             )
+            Spacer()
+                .frame(height: 20.adjustedH)
             ProgressBar(
                 totalSteps: NoTreatment.allCases.count,
                 currentStep: .constant(viewModel.step)
             )
-            .padding(.horizontal, 33.5.adjustedW)
+            .padding(.leading, 34.adjustedW)
+            .padding(.trailing, 33.adjustedW)
             .padding(.bottom, 20.adjustedH)
             
             VStack(spacing: 0){
@@ -57,7 +61,9 @@ struct NoTreatmentView: View {
                     viewModel.next()
                         
                 }
-                .padding(.horizontal, 25.adjustedW)
+                .padding(.leading, 25.adjustedW)
+                .padding(.trailing, 24.adjustedW)
+                
                 Spacer()
                     .frame(height: 38.adjustedH)
             }
@@ -73,8 +79,9 @@ private struct TreatmentSelectedCategory: View {
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
+    
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Spacer()
                 .frame(height: 50.adjustedH)
             HStack(spacing: 0) {
@@ -117,7 +124,6 @@ private struct TreatmentSelectedCategory: View {
                             }
                         )
                     )
-                    
                 }
             }
         }

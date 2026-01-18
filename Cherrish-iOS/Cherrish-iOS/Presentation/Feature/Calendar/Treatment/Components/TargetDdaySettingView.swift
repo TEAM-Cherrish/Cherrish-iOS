@@ -39,8 +39,10 @@ struct TargetDdaySettingView: View {
                     TypographyText("중요한 일정이 있나요?", style: .title1_sb_18, color: .gray1000)
                 }
                 Spacer()
-                
             }
+            .frame(height: 54.adjustedH)
+            Spacer()
+                .frame(height: 40)
             HStack(spacing: 12.adjustedW) {
                 ForEach(DdayState.allCases, id: \.self) { state in
                     SelectionChip(
@@ -61,8 +63,6 @@ struct TargetDdaySettingView: View {
             }
             Spacer()
                 .frame(height: 56.adjustedH)
-            
-            
             if let state = dDayState {
                 HStack(spacing: 0) {
                     switch state {
@@ -73,10 +73,8 @@ struct TargetDdaySettingView: View {
                     }
                     Spacer()
                 }
-                
                 Spacer()
                     .frame(height: 24.adjustedH)
-                
                 DateTextBox(year: $year, month: $month, day: $day)
             }
                 
