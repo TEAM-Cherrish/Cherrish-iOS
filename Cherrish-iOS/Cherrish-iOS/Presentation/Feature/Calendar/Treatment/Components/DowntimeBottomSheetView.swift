@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DowntimeBottomSheetView: View {
+    var treatment: TreatmentEntity
     @State var selectedDowntime: Int = 5
     @State var rate: Double = 0.5
     
@@ -49,6 +50,7 @@ struct DowntimeBottomSheetView: View {
 }
 
 extension DowntimeBottomSheetView {
+    
     private var speechBubble: some View {
         ZStack {
             Image(.speechBubble)
@@ -125,7 +127,7 @@ extension DowntimeBottomSheetView {
                 TypographyText("다운타임", style: .headline_sb_20, color: .gray1000)
                     .frame(height: 30.adjustedH)
                 
-                TypographyText("보통 3-5일", style: .title2_m_16, color: .gray600)
+                TypographyText("보통 \(treatment.downtimeMin)-\(treatment.downtimeMax)일", style: .title2_m_16, color: .gray600)
             }
             
             Spacer()
