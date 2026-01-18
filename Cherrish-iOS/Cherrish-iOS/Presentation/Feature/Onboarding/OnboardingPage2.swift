@@ -140,7 +140,3 @@ struct InfiniteLevelCarousel: View {
         }
     }
 }
-
-#Preview {
-    OnboardingPage2()
-}

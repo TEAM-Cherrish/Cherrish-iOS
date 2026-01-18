@@ -78,7 +78,3 @@ struct OnboardingPage1: View {
         }
     }
 }
-
-#Preview {
-    OnboardingPage1()
-}
