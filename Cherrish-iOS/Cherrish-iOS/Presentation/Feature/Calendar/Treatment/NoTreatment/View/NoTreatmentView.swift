@@ -132,7 +132,3 @@ private struct TreatmentSelectedCategory: View {
         }
     }
 }
-
-#Preview {
-    NoTreatmentView(viewModel: NoTreatmentViewModel())
-}

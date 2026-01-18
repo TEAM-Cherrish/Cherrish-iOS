@@ -18,7 +18,7 @@ struct NoTreatmentFilterView: View {
             ScrollView(.vertical, showsIndicators: false){
                 Spacer()
                     .frame(height: 10.adjustedH)
-                ForEach(viewModel.Treatments, id: \.id) { treatment in
+                ForEach(viewModel.treatments, id: \.id) { treatment in
                     TreatmentRowView(
                         displayMode: .checkBoxView,
                         treatmentEntity: treatment,
