@@ -15,6 +15,7 @@ struct InformationView: View {
     @State var name = ""
     @State var age = ""
     @State private var buttonState: ButtonState = .normal
+    @FocusState private var isNameFocused: Bool
     @FocusState private var isAgeFocused: Bool
     @State private var showAgeError: Bool = false
     
@@ -34,45 +35,51 @@ struct InformationView: View {
                 
                 Spacer()
             }
-            .padding(.leading, 34)
-            .padding(.top, 143)
+            .padding(.leading, 34.adjustedW)
+            .padding(.top, 143.adjustedH)
             
             HStack(spacing: 0) {
                 TypographyText("회복가이드를 위해 기본 정보가 필요해요!", style: .title2_m_16, color: .gray700)
                 
                 Spacer()
             }
-            .padding(.leading, 34)
-            .padding(.top, 6)
+            .padding(.leading, 34.adjustedW)
+            .padding(.top, 6.adjustedH)
             
             CherrishTextBox(title: "이름",text: $name, placeholder: "김체리")
+                .focused($isNameFocused)
                 .overlay(alignment: .bottomLeading) {
                     if isNameOverLimit {
                         TypographyText("이름은 최대 7자까지 입력 가능합니다.", style: .body1_r_14, color: Color("red_700"))
-                            .offset(y: 24)
+                            .offset(y: 24.adjustedH)
                     }
                 }
-                .padding(.top, 70)
-                .padding(.horizontal, 34)
+                .padding(.top, 70.adjustedH)
+                .padding(.horizontal, 34.adjustedW)
             
             CherrishTextBox(title: "나이",text: $age, placeholder: "20", isNumberField: true)
                 .focused($isAgeFocused)
                 .overlay(alignment: .bottomLeading) {
                     if showAgeError {
                         TypographyText("입력 가능한 최대 나이 100세를 초과했습니다.", style: .body1_r_14, color: Color("red_700"))
-                            .offset(y: 24)
+                            .offset(y: 24.adjustedH)
                     }
                 }
-                .padding(.top, 30)
-                .padding(.horizontal, 34)
+                .padding(.top, 35.adjustedH)
+                .padding(.horizontal, 34.adjustedW)
 
             Spacer()
             
             CherrishButton(title: "다음", type: .next, state: $buttonState) {
                 appCoordinator.navigationToTabbar()
             }
-            .padding(.horizontal, 25)
-            .padding(.bottom, 38)
+            .padding(.horizontal, 25.adjustedW)
+            .padding(.bottom, 38.adjustedH)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            isNameFocused = false
+            isAgeFocused = false
         }
         .onChange(of: name) { _ in updateButtonState() }
         .onChange(of: age) { _ in updateButtonState() }
@@ -90,3 +97,6 @@ struct InformationView: View {
     }
 }
 
+#Preview {
+    InformationView(viewModel: OnboardingViewModel())
+}
