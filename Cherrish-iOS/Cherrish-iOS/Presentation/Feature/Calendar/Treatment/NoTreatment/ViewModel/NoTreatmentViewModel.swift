@@ -8,13 +8,17 @@
 import Foundation
 
 final class NoTreatmentViewModel: ObservableObject{
+    
     @Published var state: NoTreatment = .treatmentSelectedCategory
-    var step: Int { state.rawValue }
     @Published var treatmentCatagory: TreatmentCategory?
     @Published var dDay: DdayState?
     @Published var year: String = ""
     @Published var month: String = ""
     @Published var day: String = ""
+    @Published var treatments: [TreatmentEntity] = TreatmentEntity.mockData
+    @Published var selectedTreatments: [TreatmentEntity] = []
+    
+    var step: Int { state.rawValue }
     
     var canProceed: Bool {
            switch state {
@@ -23,7 +27,7 @@ final class NoTreatmentViewModel: ObservableObject{
            case .targetDdaySetting:
                return isDateTextFieldNotEmpty()
            case .treatmentFilter:
-               return true
+               return !selectedTreatments.isEmpty
            case .downTimeSetting:
                return true
            }

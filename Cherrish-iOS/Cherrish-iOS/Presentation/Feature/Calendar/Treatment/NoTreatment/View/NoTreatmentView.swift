@@ -40,21 +40,22 @@ struct NoTreatmentView: View {
                     switch viewModel.state {
                     case .treatmentSelectedCategory:
                         TreatmentSelectedCategory(viewModel: viewModel)
+                            .padding( .leading, 34.adjustedW)
+                            .padding( .trailing, 33.adjustedW)
                             .id(viewModel.state)
                     case .targetDdaySetting:
                         TargetDdaySettingView(dDayState: $viewModel.dDay, year: $viewModel.year, month: $viewModel.month, day: $viewModel.day)
+                            .padding( .leading, 34.adjustedW)
+                            .padding( .trailing, 33.adjustedW)
                             .id(viewModel.state)
                     case .treatmentFilter:
-                        //TODO: 시술 필터링
-                        EmptyView()
+                        NoTreatmentFilterView(viewModel: viewModel)
+                        
                     case .downTimeSetting:
                         //TODO: 다운타임 설정
                         EmptyView()
                     }
                 }
-                .padding( .leading, 34.adjustedW)
-                .padding( .trailing, 33.adjustedW)
-                
                 Spacer()
                 
                 CherrishButton(title: "다음", type: .next, state: .constant(viewModel.canProceed ? .active : .normal)) {
@@ -72,6 +73,8 @@ struct NoTreatmentView: View {
         .ignoresSafeArea(.keyboard)
     }
 }
+
+//MARK: - TreatmentSelectedCategoryView
 
 private struct TreatmentSelectedCategory: View {
     @ObservedObject var viewModel: NoTreatmentViewModel
