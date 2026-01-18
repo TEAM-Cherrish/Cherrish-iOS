@@ -58,7 +58,11 @@ extension DowntimeBottomSheetView {
                 .scaledToFill()
                 .frame(height: 53.adjustedH)
             
-            TypographyText("회복 목표디데이로부터 약 7일 전에 안정될 수 있어요.", style: .body1_r_14, color: .gray1000)
+            TypographyText(
+                "회복 목표디데이로부터 약 7일 전에 안정될 수 있어요.",
+                style: .body1_r_14,
+                color: .gray1000
+            )
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
                 .padding(.horizontal, 18.adjustedW)
@@ -124,10 +128,19 @@ extension DowntimeBottomSheetView {
             Spacer()
             
             VStack(spacing: 0) {
-                TypographyText("다운타임", style: .headline_sb_20, color: .gray1000)
+                TypographyText(
+                    "다운타임",
+                    style: .headline_sb_20,
+                    color: .gray1000
+                )
                     .frame(height: 30.adjustedH)
                 
-                TypographyText("보통 \(treatment.downtimeMin)-\(treatment.downtimeMax)일", style: .title2_m_16, color: .gray600)
+                TypographyText(
+                    "보통 \(treatment.downtimeMin)-\(treatment.downtimeMax)일",
+                    style: .title2_m_16,
+                    color: .gray600
+                )
+                .frame(height: 24.adjustedH)
             }
             
             Spacer()
@@ -141,14 +154,33 @@ extension DowntimeBottomSheetView {
     private var buttonView: some View {
         GeometryReader { geo in
             HStack(spacing: 4.adjustedW) {
-                CherrishButton(title: "다운타임 없이 일정 추가", type: .addEvent, state: .constant(.normal), leadingIcon: .none, trailingIcon: .none, action: {})
-                    .frame(width: geo.size.width * 2/3 - 2)
+                CherrishButton(
+                    title: "다운타임 없이 일정 추가",
+                    type: .addEvent,
+                    state: .constant(
+                        .normal
+                    ),
+                    leadingIcon: .none,
+                    trailingIcon: .none,
+                    action: { })
+                .frame(width: geo.size.width * 2/3 - 2)
                 
-                CherrishButton(title: "확인", type: .small, state: .constant(.normal), leadingIcon: .none, trailingIcon: .none, action: {})
-                    .frame(width: geo.size.width * 1/3 - 2)
+                CherrishButton(
+                    title: "확인",
+                    type: .small,
+                    state: .constant(
+                        .normal
+                    ),
+                    leadingIcon: .none,
+                    trailingIcon: .none,
+                    action: { })
+                .frame(
+                    width: geo.size.width * 1/3 - 2
+                )
                 
             }
         }
+        .frame(height: 50.adjustedH)
         .padding(.horizontal, 24.adjustedW)
     }
 }
