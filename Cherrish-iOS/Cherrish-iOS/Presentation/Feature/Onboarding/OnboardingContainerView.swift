@@ -72,3 +72,8 @@ struct OnboardingContainerView: View {
         )
     }
 }
+
+#Preview {
+    OnboardingContainerView(viewModel: OnboardingViewModel())
+        .environmentObject(OnboardingCoordinator())
+}
