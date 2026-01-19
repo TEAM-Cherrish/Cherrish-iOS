@@ -11,6 +11,7 @@ protocol ViewFactoryProtocol {
     func makeOnboardingContainerView() -> OnboardingContainerView
     func makeInformationView() -> InformationView
     func makeHomeView() -> HomeView
+    func makeNoTreatmentView() -> NoTreatmentView
     func makeCalendarView() -> CalendarView
     func makeChallengeView() -> ChallengeView
     func makeMyPageView() -> MyPageView
@@ -22,7 +23,9 @@ protocol ViewFactoryProtocol {
     func makeChallengeProgressView() -> ChallengeProgressView
 }
 
+
 final class ViewFactory: ViewFactoryProtocol {
+    
     static let shared = ViewFactory()
     
     func makeOnboardingContainerView() -> OnboardingContainerView {
@@ -63,6 +66,13 @@ final class ViewFactory: ViewFactoryProtocol {
             fatalError()
         }
         return SelectTreatmentView(viewModel: viewModel)
+    }
+    
+    func makeNoTreatmentView() -> NoTreatmentView {
+        guard let viewModel = DIContainer.shared.resolve(type: NoTreatmentViewModel.self) else {
+            fatalError()
+        }
+        return NoTreatmentView(viewModel: viewModel)
     }
     
     func makeStartChallengeView() -> StartChallengeView {
