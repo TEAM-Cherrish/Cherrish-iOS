@@ -48,7 +48,7 @@ struct TreatmentView: View {
                 Group {
                     if viewModel.state == .treatmentFilter {
                         if !viewModel.selectedTreatments.isEmpty {
-                            SelectedTreatmentView(selectedTreatments: viewModel.selectedTreatments, removeTreatment: viewModel.removeTreatment(_:))
+                            SelectedTreatmentSheetView(selectedTreatments: viewModel.selectedTreatments, removeTreatment: viewModel.removeTreatment(_:))
                         }
                     }
                     
