@@ -64,7 +64,7 @@ struct SelectMissionView: View {
             .padding(.horizontal, 34.adjustedW)
             .padding(.top, 48.adjustedH)
             Spacer()
-            CherrishButton(title: "플래너에 추가하기", type: .next, state: .constant(nextButtonState)){
+            CherrishButton(title: "플래너에 추가하기", type: .large, state: .constant(nextButtonState), leadingIcon: nil, trailingIcon: nil){
                 challengeCoordinator.push(.challengeProgress)
             }
             .padding(.horizontal, 24.adjustedW)
