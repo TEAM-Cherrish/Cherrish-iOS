@@ -51,14 +51,7 @@ struct DowntimeBottomSheetView: View {
         }
         .onAppear {
             selectedDowntime = treatment.downtimeMax
-            betweenDays = Int.daysBetween(
-                fromYear: setday.year,
-                fromMonth: setday.month,
-                fromDay: setday.day,
-                toYear: today.year,
-                toMonth: today.month,
-                toDay: today.day
-            )
+            betweenDays = Date.daysBetween(from: setday, to: today) ?? 0
             rate = betweenDays > 0 ? min(Double(selectedDowntime) / Double(betweenDays), 1.0) : 1.0
         }
         .onChange(of: selectedDowntime) {
