@@ -13,21 +13,9 @@ final class OnboardingViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     private let createProfileUseCase: CreateProfileUseCase
-<<<<<<< HEAD
     
     init(createProfileUseCase: CreateProfileUseCase) {
         self.createProfileUseCase = createProfileUseCase
-=======
-    private let userDefaultService: UserDefaultService
-    
-    init(
-        createProfileUseCase: CreateProfileUseCase? = nil,
-        userDefaultService: UserDefaultService = DefaultUserDefaultService()
-    ) {
-        self.createProfileUseCase = createProfileUseCase
-            ?? DIContainer.shared.resolve(type: CreateProfileUseCase.self)!
-        self.userDefaultService = userDefaultService
->>>>>>> origin/feat/#90-informationViewAPI
     }
     
     @MainActor
@@ -36,12 +24,7 @@ final class OnboardingViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-<<<<<<< HEAD
             _ = try await createProfileUseCase.execute(name: name, age: age)
-=======
-            let profile = try await createProfileUseCase.execute(name: name, age: age)
-            _ = userDefaultService.save(profile.id, key: .userID)
->>>>>>> origin/feat/#90-informationViewAPI
             isOnboardingCompleted = true
         } catch let error as CherrishError {
             errorMessage = error.localizedDescription
