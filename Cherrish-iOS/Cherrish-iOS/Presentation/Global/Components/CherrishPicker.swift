@@ -41,12 +41,28 @@ private struct PickerViewRepresentable: UIViewRepresentable {
         }
         
         let row = selection - range.lowerBound
-        picker.selectRow(row, inComponent: 0, animated: true)
+        picker.selectRow(row, inComponent: 0, animated: false)
+        
+        DispatchQueue.main.async {
+            self.findAndConnectScrollViews(in: picker, coordinator: context.coordinator)
+        }
         
         return picker
     }
     
+    private func findAndConnectScrollViews(in view: UIView, coordinator: Coordinator) {
+        for subview in view.subviews {
+            if let scrollView = subview as? UIScrollView {
+                coordinator.originalScrollViewDelegate = scrollView.delegate
+                scrollView.delegate = coordinator
+            }
+            findAndConnectScrollViews(in: subview, coordinator: coordinator)
+        }
+    }
+    
     func updateUIView(_ uiView: UIPickerView, context: Context) {
+        guard !context.coordinator.isScrolling else { return }
+        
         let row = selection - range.lowerBound
         if uiView.selectedRow(inComponent: 0) != row {
             uiView.selectRow(row, inComponent: 0, animated: true)
@@ -59,8 +75,11 @@ private struct PickerViewRepresentable: UIViewRepresentable {
 }
 
 extension PickerViewRepresentable {
-    class Coordinator: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
+    class Coordinator: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIScrollViewDelegate {
         var parent: PickerViewRepresentable
+        private let rowHeight: CGFloat = 44.adjustedH
+        var isScrolling: Bool = false
+        weak var originalScrollViewDelegate: UIScrollViewDelegate?
         
         init(_ parent: PickerViewRepresentable) {
             self.parent = parent
@@ -75,13 +94,14 @@ extension PickerViewRepresentable {
         }
         
         func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+            isScrolling = false
             parent.selection = parent.range.lowerBound + row
         }
         
         func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
             pickerView.subviews.forEach { subview in
-                   subview.backgroundColor = .clear
-               }
+                subview.backgroundColor = .clear
+            }
             
             let label = (view as? UILabel) ?? UILabel()
             label.text = "\(parent.range.lowerBound + row)"
@@ -97,6 +117,48 @@ extension PickerViewRepresentable {
         
         func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
             60.adjustedW
+        }
+        
+        private var initialContentOffset: CGFloat = 0
+        private var initialRow: Int = 0
+        
+        func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+            isScrolling = true
+            initialContentOffset = scrollView.contentOffset.y
+            initialRow = parent.selection - parent.range.lowerBound
+            originalScrollViewDelegate?.scrollViewWillBeginDragging?(scrollView)
+        }
+        
+        func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+            originalScrollViewDelegate?.scrollViewDidEndDragging?(scrollView, willDecelerate: decelerate)
+        }
+        
+        func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+            originalScrollViewDelegate?.scrollViewDidEndDecelerating?(scrollView)
+        }
+        
+        func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+            originalScrollViewDelegate?.scrollViewWillEndDragging?(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
+        }
+        
+        func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            originalScrollViewDelegate?.scrollViewDidScroll?(scrollView)
+            
+            guard isScrolling else { return }
+            
+            let deltaOffset = scrollView.contentOffset.y - initialContentOffset
+            let deltaRow = Int(round(deltaOffset / rowHeight))
+            let newRow = initialRow + deltaRow
+            let clampedRow = max(0, min(newRow, parent.range.count - 1))
+            let newSelection = parent.range.lowerBound + clampedRow
+            
+            if parent.selection != newSelection {
+                parent.selection = newSelection
+            }
+        }
+        
+        func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+            originalScrollViewDelegate?.scrollViewDidEndScrollingAnimation?(scrollView)
         }
     }
 }
