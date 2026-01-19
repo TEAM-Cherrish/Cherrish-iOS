@@ -71,7 +71,7 @@ struct SelectRoutineView: View {
 }
 
 private extension SelectRoutineView {
-    func routineChip(_ routine: Routine) -> some View {
+    func routineChip(_ routine: RoutineEntity) -> some View {
         SelectionChip(
             title: routine.name,
             isSelected: Binding(
