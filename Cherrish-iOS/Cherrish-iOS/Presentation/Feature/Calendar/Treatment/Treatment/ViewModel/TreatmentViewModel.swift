@@ -9,8 +9,7 @@ import SwiftUI
 import Combine
 
 final class TreatmentViewModel: ObservableObject{
-    @Published var state: Treatment = .targetDdaySetting
-    var step: Int { state.rawValue }
+    @Published var state: TreatmentStep = .targetDdaySetting
     @Published var dDay: DdayState?
     @Published var year: String = ""
     @Published var month: String = ""

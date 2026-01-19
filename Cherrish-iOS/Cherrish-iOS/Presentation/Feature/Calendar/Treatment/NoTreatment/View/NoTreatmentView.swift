@@ -22,7 +22,7 @@ struct NoTreatmentView: View {
                 .frame(height: 20.adjustedH)
 
             ProgressBar(
-                totalSteps: NoTreatment.allCases.count,
+                totalSteps: NoTreatmentStep.allCases.count,
                 currentStep: .constant(viewModel.step)
             )
             .padding(.leading, 34.adjustedW)
