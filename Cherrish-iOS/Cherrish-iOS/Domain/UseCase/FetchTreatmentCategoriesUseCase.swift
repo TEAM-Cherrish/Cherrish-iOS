@@ -1,5 +1,5 @@
 //
-//  FetchTreatmentCategoriesUseCaseImpl.swift
+//  FetchTreatmentCategoriesUseCase.swift
 //  Cherrish-iOS
 //
 //  Created by 어재선 on 1/19/26.
@@ -11,7 +11,7 @@ protocol FetchTreatmentCategoriesUseCase {
     func execute() async throws -> [TreatmentCategoryEntity]
 }
 
-struct FetchTreatmentCategoriesUseCaseImpl: FetchTreatmentCategoriesUseCase {
+struct DefaultFetchTreatmentCategoriesUseCase: FetchTreatmentCategoriesUseCase {
     private let repository: TreatmentInterface
     
     init(repository: TreatmentInterface) {
