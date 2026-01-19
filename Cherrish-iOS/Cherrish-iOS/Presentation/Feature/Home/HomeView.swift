@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject private var viewModel = DIContainer.shared.resolve(type: HomeViewModel.self)!
+    @ObservedObject var viewModel: HomeViewModel
     
     var body: some View {
         ZStack {
