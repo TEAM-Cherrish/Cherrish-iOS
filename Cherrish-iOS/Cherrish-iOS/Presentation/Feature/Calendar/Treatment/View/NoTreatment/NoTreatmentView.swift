@@ -8,14 +8,25 @@
 import SwiftUI
 
 struct NoTreatmentView: View {
+    @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
+    @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
     @ObservedObject var viewModel: NoTreatmentViewModel
     
     var body: some View {
         VStack(spacing: 0) {
             CherrishNavigationBar(
                 title: viewModel.state.title,
-                leftButtonAction: { viewModel.previous() },
-                rightButtonAction: { }
+                leftButtonAction: {
+                    if viewModel.step == 1 {
+                        calendarCoordinator.pop()
+                    }
+                    viewModel.previous()
+                   
+                },
+                rightButtonAction: {
+                    calendarCoordinator.popToRoot()
+                    tabBarCoordinator.isTabbarHidden = false
+                }
             )
 
             Spacer()
@@ -40,6 +51,9 @@ struct NoTreatmentView: View {
         .ignoresSafeArea(.keyboard)
         .task {
             await viewModel.loadCategories()
+        }
+        .onAppear {
+            tabBarCoordinator.isTabbarHidden = true
         }
     }
 

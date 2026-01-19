@@ -22,6 +22,8 @@ struct CalendarCoordinatorView: View {
                             ViewFactory.shared.makeSelectTreatmentView()
                         case .noTreatment:
                             ViewFactory.shared.makeNoTreatmentView()
+                        case .treatment:
+                            ViewFactory.shared.makeTreatmentView()
                         }
                     }
                     .navigationBarBackButtonHidden()

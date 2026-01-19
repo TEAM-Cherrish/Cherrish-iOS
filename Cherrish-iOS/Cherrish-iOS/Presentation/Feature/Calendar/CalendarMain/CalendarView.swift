@@ -22,6 +22,7 @@ enum CalendarMode {
 }
 
 struct CalendarView: View {
+    @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
     @ObservedObject var viewModel: CalendarViewModel
     @State private var topGlobalY: CGFloat = .zero
     @State private var initialTopGlobalY: CGFloat? = nil
@@ -145,6 +146,9 @@ extension CalendarView {
                         .renderingMode(.template)
                         .foregroundStyle(.gray600)
                         .frame(width: 24.adjustedW, height: 24.adjustedH)
+                        .onTapGesture {
+                            calendarCoordinator.push(.selectTreatment)
+                        }
                 case .selectedProcedure:
                     downTimeRangeIcons
                 }
@@ -235,7 +239,7 @@ extension CalendarView {
                 state: $buttonState,
                 leadingIcon: Image(.plus),
                 trailingIcon: nil,
-                action: { }
+                action: { calendarCoordinator.push(.selectTreatment) }
             )
             .padding(.horizontal, 24)
             
