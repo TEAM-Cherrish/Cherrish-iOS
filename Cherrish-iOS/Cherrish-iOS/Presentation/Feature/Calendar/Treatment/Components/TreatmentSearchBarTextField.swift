@@ -33,7 +33,7 @@ struct TreatmentSearchBarTextField: View {
                             enter()
                         }
                 }
-                .frame(height: 20)
+                .frame(height: 20.adjustedH)
                 .padding(.vertical, 8.adjustedH)
                 
                 Button{
@@ -43,7 +43,7 @@ struct TreatmentSearchBarTextField: View {
                         Image(.search)
                     }
                 }
-                .padding(.leading, 8)
+                .padding(.leading, 8.adjustedW)
                 .disabled(isDisabled)
             }
         }
