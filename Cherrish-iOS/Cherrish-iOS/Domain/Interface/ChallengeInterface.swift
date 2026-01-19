@@ -8,6 +8,6 @@
 import Foundation
 
 protocol ChallengeInterface {
-    func fetchHomecareRoutines(completion: @escaping (Result<[ChallengeRoutineDTO], Error>) -> Void
+    func fetchHomecareRoutines(completion: @escaping (Result<[RoutineEntity], Error>) -> Void
     )
 } 

@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 
 struct DefaultChallengeRepository: ChallengeInterface {
+    
     private let networkService: NetworkService
 
     init(networkService: NetworkService) {
@@ -17,22 +18,19 @@ struct DefaultChallengeRepository: ChallengeInterface {
     }
 
     func fetchHomecareRoutines(
-        completion: @escaping (Result<[ChallengeRoutineDTO], Error>) -> Void
+        completion: @escaping (Result<[RoutineEntity], Error>) -> Void
     ) {
-        let url = "\(Environment.baseURL)/api/challenges/homecare-routines"
+        let url = ChallengeAPI.homecareRoutines.url
 
-        AF.request(url, method: .get)
+        AF.request((url), method: .get)
             .validate()
             .responseDecodable(
                 of: BaseResponseDTO<[ChallengeRoutineDTO]>.self
             ) { response in
                 switch response.result {
                 case .success(let decoded):
-                    guard let routines = decoded.data else {
-                        completion(.success([]))
-                        return
-                    }
-                    completion(.success(routines))
+                    let entities: [RoutineEntity] = decoded.data?.map { $0.toEntity()} ?? []
+                    completion(.success(entities))
 
                 case .failure(let error):
                     completion(.failure(error))
