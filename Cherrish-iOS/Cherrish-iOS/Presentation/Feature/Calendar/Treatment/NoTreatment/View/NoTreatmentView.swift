@@ -97,6 +97,7 @@ struct NoTreatmentView: View {
 
 private struct TreatmentSelectedCategory: View {
     @ObservedObject var viewModel: NoTreatmentViewModel
+    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
