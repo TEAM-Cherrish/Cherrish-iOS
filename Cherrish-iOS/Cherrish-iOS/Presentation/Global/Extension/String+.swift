@@ -11,7 +11,7 @@ extension String {
     private static let inputFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.locale = Locale(identifier: "ko_KR")
         return dateFormatter
     }()
     
