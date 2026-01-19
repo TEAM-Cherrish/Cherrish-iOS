@@ -1,0 +1,12 @@
+//
+//  TreatmentCategoryInterface.swift
+//  Cherrish-iOS
+//
+//  Created by 어재선 on 1/19/26.
+//
+
+import Foundation
+
+protocol TreatmentCategoryInterface {
+    func fetchCategories() async throws -> [TreatmentCategoryEntity]
+}
