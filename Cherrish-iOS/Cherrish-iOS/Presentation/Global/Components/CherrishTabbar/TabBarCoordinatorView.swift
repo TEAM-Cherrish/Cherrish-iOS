@@ -31,13 +31,12 @@ struct TabBarCoordinatorView: View {
             }
             .padding(.bottom, tabBarCoordinator.isTabbarHidden ? 0 : 54.adjustedH)
             .id(tabBarCoordinator.selectedTab)
-            .environmentObject(tabBarCoordinator)
             if !tabBarCoordinator.isTabbarHidden {
                 CherrishTabBar(selectedTab: $tabBarCoordinator.selectedTab)
             }
         }
         .environmentObject(tabBarCoordinator)
-        .onChange(of: tabBarCoordinator.selectedTab) { oldTab, newTab in
+        .onChange(of: tabBarCoordinator.selectedTab) { _, newTab in
             switch newTab {
             case .home:
                 tabBarCoordinator.homeCoordinator.popToRoot()
