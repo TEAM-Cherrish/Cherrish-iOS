@@ -33,14 +33,21 @@ struct DownTimeSettingView: View {
                         displayMode: .completeBoxView,
                         treatmentEntity: treatment,
                         isSelected: .constant(
+<<<<<<<< HEAD:Cherrish-iOS/Cherrish-iOS/Presentation/Feature/Calendar/Treatment/View/DownTimeSettingView.swift
                             selectedTreatment == treatment
+========
+                            false
+>>>>>>>> origin/refactor/#103-treatment:Cherrish-iOS/Cherrish-iOS/Presentation/Feature/Calendar/Treatment/Model/DownTimeSettingView.swift
                         ),
                         isCompleted: .constant(
                             false
                         ),
                         action: {
+<<<<<<<< HEAD:Cherrish-iOS/Cherrish-iOS/Presentation/Feature/Calendar/Treatment/View/DownTimeSettingView.swift
                             selectedTreatment = treatment
                     
+========
+>>>>>>>> origin/refactor/#103-treatment:Cherrish-iOS/Cherrish-iOS/Presentation/Feature/Calendar/Treatment/Model/DownTimeSettingView.swift
                         })
                 }
                 .padding(.top, 24.adjustedH)
