@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct DefaultTreatmentRepository: TreatmentInterface {
     func fetchCategories() async throws -> [TreatmentCategoryEntity] {
         return []

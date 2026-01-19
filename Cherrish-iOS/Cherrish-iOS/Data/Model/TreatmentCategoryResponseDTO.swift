@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct TreatmentCategoryDTO: Decodable {
+struct TreatmentCategoryResponseDTO: Decodable {
     let id: Int
     let content: String
 }
 
-extension TreatmentCategoryDTO {
+extension TreatmentCategoryResponseDTO {
     func toEntity() -> TreatmentCategoryEntity {
           return TreatmentCategoryEntity(
               id: id,
@@ -20,4 +20,3 @@ extension TreatmentCategoryDTO {
           )
       }
 }
-
