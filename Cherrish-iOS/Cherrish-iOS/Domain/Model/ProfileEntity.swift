@@ -10,5 +10,4 @@ import Foundation
 struct ProfileEntity {
     let id: Int
     let name: String
-    let createdDate: Date
 }
