@@ -34,15 +34,16 @@ struct DownTimeSettingView: View {
                         treatmentEntity: treatment,
                         isSelected: .constant(
                             selectedTreatment == treatment
+
                         ),
                         isCompleted: .constant(
                             false
                         ),
                         action: {
                             selectedTreatment = treatment
-                    
                         })
                 }
+                .padding(.top, 24.adjustedH)
                 
                 Spacer()
                     .frame(height: 14.adjustedH)

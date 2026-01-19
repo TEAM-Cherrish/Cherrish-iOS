@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SelectedTreatmentView: View {
+struct SelectedTreatmentSheetView: View {
     let selectedTreatments: [TreatmentEntity]
     let removeTreatment: (TreatmentEntity) -> Void
     
@@ -30,7 +30,7 @@ struct SelectedTreatmentView: View {
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
                     TypographyText("선택한 시술", style: .body1_sb_14, color: .gray600)
-                    
+                        .frame(height: 20.adjustedH)
                     Spacer()
                     
                 }
@@ -99,7 +99,7 @@ struct SelectedTreatmentView: View {
     }
 }
 
-extension SelectedTreatmentView {
+extension SelectedTreatmentSheetView {
     private var scrollViewTopMarkerView: some View {
         GeometryReader { proxy in
             Color.clear

@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct TreatmentView: View {
-    @StateObject private var viewModel: TreatmentViewModel
-    
-    init(viewModel: TreatmentViewModel = TreatmentViewModel()) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
+    @ObservedObject var viewModel: TreatmentViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -25,15 +21,12 @@ struct TreatmentView: View {
             Spacer().frame(height: 20.adjustedH)
             
             ProgressBar(
-                totalSteps: Treatment.allCases.count,
+                totalSteps: TreatmentStep.allCases.count,
                 currentStep: .constant(viewModel.step)
             )
-            .padding(.leading, 34.adjustedW)
-            .padding(.trailing, 33.adjustedW)
-            .padding(.bottom, 20.adjustedH)
+            .padding(.horizontal, 33.5.adjustedW)
             
             VStack(spacing: 0) {
-                contentView()
                 Spacer()
                 bottomView()
                 Spacer().frame(height: 38.adjustedH)
@@ -86,7 +79,7 @@ struct TreatmentView: View {
     private func bottomView() -> some View {
         VStack(spacing: 0) {
             if viewModel.state == .treatmentFilter, !viewModel.selectedTreatments.isEmpty {
-                SelectedTreatmentView(
+                SelectedTreatmentSheetView(
                     selectedTreatments: viewModel.selectedTreatments,
                     removeTreatment: viewModel.removeTreatment(_:)
                 )

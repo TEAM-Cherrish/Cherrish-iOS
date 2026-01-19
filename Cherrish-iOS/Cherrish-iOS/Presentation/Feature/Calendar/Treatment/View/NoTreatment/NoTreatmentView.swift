@@ -8,12 +8,8 @@
 import SwiftUI
 
 struct NoTreatmentView: View {
-    @StateObject private var viewModel: NoTreatmentViewModel
-
-    init(viewModel: NoTreatmentViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
-
+    @ObservedObject var viewModel: NoTreatmentViewModel
+    
     var body: some View {
         VStack(spacing: 0) {
             CherrishNavigationBar(
@@ -22,25 +18,29 @@ struct NoTreatmentView: View {
                 rightButtonAction: { }
             )
 
-            Spacer().frame(height: 20.adjustedH)
+            Spacer()
+                .frame(height: 20.adjustedH)
 
             ProgressBar(
-                totalSteps: NoTreatment.allCases.count,
+                totalSteps: NoTreatmentStep.allCases.count,
                 currentStep: .constant(viewModel.step)
             )
-            .padding(.leading, 34.adjustedW)
-            .padding(.trailing, 33.adjustedW)
+            .padding(.horizontal, 34.adjustedW)
             .padding(.bottom, 20.adjustedH)
 
             VStack(spacing: 0) {
                 contentView()
                 Spacer()
                 bottomView()          
-                Spacer().frame(height: 38.adjustedH)
+                Spacer()
+                    .frame(height: 38.adjustedH)
             }
             .id(viewModel.step)
         }
         .ignoresSafeArea(.keyboard)
+        .task {
+            await viewModel.loadCategories()
+        }
     }
 
     @ViewBuilder
@@ -48,8 +48,7 @@ struct NoTreatmentView: View {
         switch viewModel.state {
         case .treatmentSelectedCategory:
             TreatmentSelectedCategory(viewModel: viewModel)
-                .padding(.leading, 34.adjustedW)
-                .padding(.trailing, 33.adjustedW)
+                .padding(.horizontal, 34.adjustedW)
                 .id(String(describing: viewModel.state))
 
         case .targetDdaySetting:
@@ -59,8 +58,7 @@ struct NoTreatmentView: View {
                 month: $viewModel.month,
                 day: $viewModel.day
             )
-            .padding(.leading, 34.adjustedW)
-            .padding(.trailing, 33.adjustedW)
+            .padding(.horizontal, 34.adjustedW)
             .id(String(describing: viewModel.state))
 
         case .treatmentFilter:
@@ -88,7 +86,7 @@ struct NoTreatmentView: View {
     private func bottomView() -> some View {
         VStack(spacing: 0) {
             if viewModel.state == .treatmentFilter, !viewModel.selectedTreatments.isEmpty {
-                SelectedTreatmentView(
+                SelectedTreatmentSheetView(
                     selectedTreatments: viewModel.selectedTreatments,
                     removeTreatment: viewModel.removeTreatment(_:)
                 )
@@ -105,8 +103,6 @@ struct NoTreatmentView: View {
             }
             .padding(.horizontal, 25.adjustedW)
         }
-        .padding(.leading, 25.adjustedW)
-        .padding(.trailing, 24.adjustedW)
     }
 }
 
@@ -114,6 +110,7 @@ struct NoTreatmentView: View {
 
 private struct TreatmentSelectedCategory: View {
     @ObservedObject var viewModel: NoTreatmentViewModel
+    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -152,20 +149,20 @@ private struct TreatmentSelectedCategory: View {
             
             Spacer()
                 .frame(height: 40.adjustedH)
-            LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(TreatmentCategory.allCases) { category in
+            LazyVGrid(columns: columns, spacing: 12.adjustedH) {
+                ForEach(viewModel.categories, id: \.id) { category in
                     SelectionChip(
                         title: category.title,
                         isSelected: Binding(
                             get: {
-                                viewModel.treatmentCatagory == category
+                                viewModel.selectedCategory == category
                             },
                             set: {
                                 isSelected in
                                 guard isSelected else {
                                     return
                                 }
-                                viewModel.treatmentCatagory = category
+                                viewModel.selectCategory(category)
                             }
                         )
                     )
@@ -174,3 +171,4 @@ private struct TreatmentSelectedCategory: View {
         }
     }
 }
+

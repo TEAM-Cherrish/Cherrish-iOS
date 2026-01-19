@@ -8,8 +8,9 @@
 import Foundation
 
 final class NoTreatmentViewModel: ObservableObject{
-    @Published var state: NoTreatment = .treatmentSelectedCategory
-    @Published var treatmentCatagory: TreatmentCategory?
+    @Published var state: NoTreatmentStep = .treatmentSelectedCategory
+    @Published private(set) var categories: [TreatmentCategoryEntity] = []
+    @Published private(set) var selectedCategory: TreatmentCategoryEntity?
     @Published var dDay: DdayState?
     @Published var year: String = ""
     @Published var month: String = ""
@@ -17,12 +18,14 @@ final class NoTreatmentViewModel: ObservableObject{
     @Published var treatments: [TreatmentEntity] = TreatmentEntity.mockData
     @Published var selectedTreatments: [TreatmentEntity] = []
     
+    private let fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase
+    
     var step: Int { state.rawValue }
     
     var canProceed: Bool {
            switch state {
            case .treatmentSelectedCategory:
-               return treatmentCatagory != nil
+               return selectedCategory != nil
            case .targetDdaySetting:
                return isDateTextFieldNotEmpty()
            case .treatmentFilter:
@@ -31,6 +34,10 @@ final class NoTreatmentViewModel: ObservableObject{
                return true
            }
        }
+    
+    init(fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase) {
+            self.fetchCategoriesUseCase = fetchCategoriesUseCase
+        }
     
     var today: (year: Int, month: Int, day: Int) {
         let calendar = Calendar.current
@@ -49,6 +56,19 @@ final class NoTreatmentViewModel: ObservableObject{
     func previous() {
         state.previous()
     }
+    
+    @MainActor
+    func loadCategories() async {
+            do {
+                categories = try await fetchCategoriesUseCase.execute()
+            } catch {
+                
+            }
+        }
+    
+    func selectCategory(_ category: TreatmentCategoryEntity) {
+          selectedCategory = category
+      }
     
     func toInt(_ value: String) -> Int {
         Int(value) ?? 0
