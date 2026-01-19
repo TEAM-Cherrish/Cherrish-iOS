@@ -28,6 +28,8 @@ struct DownTimeSettingView: View {
                 
             }
             ScrollView(.vertical, showsIndicators: false) {
+                Spacer()
+                    .frame(height: 24.adjustedH)
                 ForEach(treatments, id: \.self) { treatment in
                     TreatmentRowView(
                         displayMode: .completeBoxView,
@@ -43,7 +45,6 @@ struct DownTimeSettingView: View {
                             selectedTreatment = treatment
                         })
                 }
-                .padding(.top, 24.adjustedH)
                 
                 Spacer()
                     .frame(height: 14.adjustedH)
