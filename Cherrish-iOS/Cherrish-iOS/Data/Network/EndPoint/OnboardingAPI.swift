@@ -1,5 +1,5 @@
 //
-//  OnboardingEndPoint.swift
+//  OnboardingAPI.swift
 //  Cherrish-iOS
 //
 //  Created by 송성용 on 1/18/26.
@@ -9,7 +9,7 @@ import Foundation
 
 import Alamofire
 
-enum OnboardingEndPoint: EndPoint {
+enum OnboardingAPI: EndPoint {
     case createProfile(request: CreateProfileRequestDTO)
     
     var basePath: String {
