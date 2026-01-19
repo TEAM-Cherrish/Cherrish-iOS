@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct DownTimeSettingView: View {
+    @State var selectedTreatment: TreatmentEntity? = nil
     var treatments: [TreatmentEntity]
-    
+    let setday: (year: Int, month: Int, day: Int)
+    let today: (year: Int, month: Int, day: Int)
     var body: some View {
         VStack {
             Spacer()
@@ -27,7 +29,19 @@ struct DownTimeSettingView: View {
             }
             ScrollView(.vertical, showsIndicators: false) {
                 ForEach(treatments, id: \.self) { treatment in
-                    TreatmentRowView(displayMode: .completeBoxView, treatmentEntity: treatment, isSelected: .constant(false), isCompleted: .constant(false), action: {})
+                    TreatmentRowView(
+                        displayMode: .completeBoxView,
+                        treatmentEntity: treatment,
+                        isSelected: .constant(
+                            selectedTreatment == treatment
+                        ),
+                        isCompleted: .constant(
+                            false
+                        ),
+                        action: {
+                            selectedTreatment = treatment
+                    
+                        })
                 }
                 
                 Spacer()
@@ -64,9 +78,18 @@ struct DownTimeSettingView: View {
                     Spacer()
                 }
             }
-           
+            
         }
         .padding(.horizontal, 25.adjustedW)
+        .sheet(item: $selectedTreatment) { treatment in
+            DowntimeBottomSheetView(
+                treatment: treatment,
+                today: today,
+                setday: setday
+            )
+            .presentationDetents([.extraLarge])
+            .presentationBackground(.gray0)
+            .presentationDragIndicator(.visible)
+        }
     }
-    
 }

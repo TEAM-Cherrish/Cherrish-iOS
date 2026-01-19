@@ -67,7 +67,20 @@ struct NoTreatmentView: View {
             NoTreatmentFilterView(viewModel: viewModel)
 
         case .downTimeSetting:
-            DownTimeSettingView(treatments: viewModel.selectedTreatments)
+            DownTimeSettingView(
+                treatments: viewModel.selectedTreatments,
+                setday: (
+                    viewModel.toInt(
+                        viewModel.year
+                    ),
+                    viewModel.toInt(
+                        viewModel.month
+                    ),
+                    viewModel.toInt(
+                        viewModel.day
+                    )
+                ), today: viewModel.today
+            )
         }
     }
 

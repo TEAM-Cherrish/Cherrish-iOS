@@ -79,6 +79,10 @@ extension PickerViewRepresentable {
         }
         
         func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+            pickerView.subviews.forEach { subview in
+                   subview.backgroundColor = .clear
+               }
+            
             let label = (view as? UILabel) ?? UILabel()
             label.text = "\(parent.range.lowerBound + row)"
             label.textAlignment = .center
