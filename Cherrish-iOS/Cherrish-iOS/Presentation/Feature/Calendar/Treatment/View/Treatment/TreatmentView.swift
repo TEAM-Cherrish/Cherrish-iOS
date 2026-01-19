@@ -24,12 +24,9 @@ struct TreatmentView: View {
                 totalSteps: TreatmentStep.allCases.count,
                 currentStep: .constant(viewModel.step)
             )
-            .padding(.leading, 34.adjustedW)
-            .padding(.trailing, 33.adjustedW)
-            .padding(.bottom, 20.adjustedH)
+            .padding(.horizontal, 33.5.adjustedW)
             
             VStack(spacing: 0) {
-                contentView()
                 Spacer()
                 bottomView()
                 Spacer().frame(height: 38.adjustedH)
