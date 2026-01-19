@@ -43,6 +43,7 @@ struct DownTimeSettingView: View {
                     
                         })
                 }
+                .padding(.top, 24.adjustedH)
                 
                 Spacer()
                     .frame(height: 14.adjustedH)
