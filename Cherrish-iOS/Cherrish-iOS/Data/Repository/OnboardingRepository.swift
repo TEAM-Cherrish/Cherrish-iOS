@@ -9,17 +9,20 @@ import Foundation
 
 struct DefaultOnboardingRepository: OnboardingInterface {
     private let networkService: NetworkService
+    private let userDefaultService: UserDefaultService
     
-    init(networkService: NetworkService) {
+    init(networkService: NetworkService, userDefaultService: UserDefaultService) {
         self.networkService = networkService
+        self.userDefaultService = userDefaultService
     }
     
-    func createProfile(name: String, age: Int) async throws -> ProfileEntity {
+    func createProfile(name: String, age: Int) async throws -> Int {
         let request = CreateProfileRequestDTO(name: name, age: age)
         let response = try await networkService.request(
-            OnboardingEndPoint.createProfile(request: request),
+            OnboardingAPI.createProfile(request: request),
             decodingType: CreateProfileResponseDTO.self
         )
-        return response.toEntity()
+        _ = userDefaultService.save(response.id, key: .userID)
+        return response.id
     }
 }

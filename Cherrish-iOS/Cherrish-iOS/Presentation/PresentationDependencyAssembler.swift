@@ -17,8 +17,13 @@ final class PresentationDependencyAssembler: DependencyAssembler {
     func assemble() {
         preAssembler.assemble()
         
+        guard let createProfileUseCase = DIContainer.shared.resolve(type: CreateProfileUseCase.self) else {
+            CherrishLogger.error(CherrishError.DIFailedError)
+            return
+        }
+        
         DIContainer.shared.register(type: OnboardingViewModel.self) {
-            return OnboardingViewModel()
+            return OnboardingViewModel(createProfileUseCase: createProfileUseCase)
         }
         
         guard let fetchProcedureCountOfMonthUseCase = DIContainer.shared.resolve(type: FetchProcedureCountOfMonth.self),
