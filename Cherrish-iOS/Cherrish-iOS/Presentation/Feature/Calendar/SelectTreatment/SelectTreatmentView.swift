@@ -29,12 +29,12 @@ struct SelectTreatmentView: View {
             Spacer()
                 .frame(height: 94.adjustedH)
             
-            TitleView()
+            titleView
             
             Spacer()
                 .frame(height: 40.adjustedH)
             
-            SelectChipsView(viewModel: viewModel)
+            selectChipsView
             
             Spacer()
             
@@ -57,9 +57,10 @@ struct SelectTreatmentView: View {
     }
 }
 
-private struct TitleView: View {
+extension SelectTreatmentView {
     
-    var body: some View {
+    @ViewBuilder
+    private var titleView: some View {
         HStack {
             VStack(alignment: .leading){
                 TypographyText("시술 일정을 추가해볼게요.", style: .title1_sb_18, color: .gray1000)
@@ -72,12 +73,9 @@ private struct TitleView: View {
             Spacer()
         }
     }
-}
-
-private struct SelectChipsView: View {
-    @ObservedObject var viewModel: SelectTreatmentViewModel
     
-    var body: some View {
+    @ViewBuilder
+    private var selectChipsView: some View {
         HStack(spacing: 12) {
             ForEach(TreatmentSelectionState.allCases, id: \.self) { state in
                 SelectionChip(
