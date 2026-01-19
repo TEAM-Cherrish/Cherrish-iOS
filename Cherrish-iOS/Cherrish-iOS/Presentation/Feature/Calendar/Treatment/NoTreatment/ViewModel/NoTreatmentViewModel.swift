@@ -8,7 +8,7 @@
 import Foundation
 
 final class NoTreatmentViewModel: ObservableObject{
-    @Published var state: NoTreatment = .treatmentSelectedCategory
+    @Published var state: NoTreatmentStep = .treatmentSelectedCategory
     @Published private(set) var categories: [TreatmentCategoryEntity] = []
     @Published private(set) var selectedCategory: TreatmentCategoryEntity?
     @Published var dDay: DdayState?
