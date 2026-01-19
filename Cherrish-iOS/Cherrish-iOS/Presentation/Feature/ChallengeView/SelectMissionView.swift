@@ -27,16 +27,11 @@ struct SelectMissionView: View {
     
     var body: some View {
         VStack {
-            Spacer()
-                .frame(height: 20.adjustedH)
             CherrishNavigationBar(
                 title: "TO-DO 미션 선택",
                 leftButtonAction: challengeCoordinator.pop,
                 rightButtonAction: challengeCoordinator.popToRoot
             )
-            .padding(.top, 20.adjustedH)
-            Spacer()
-                .frame(height: 48.adjustedH)
             VStack {
                 HStack {
                     VStack(alignment: .leading) {
@@ -56,8 +51,7 @@ struct SelectMissionView: View {
                     }
                     Spacer()
                 }
-                Spacer()
-                    .frame(height: 30.adjustedH)
+                .padding(.bottom, 30.adjustedH)
                 VStack(spacing: 10.adjustedH) {
                     ForEach(missions.indices, id: \.self) { index in
                         MissionCard(
@@ -68,10 +62,7 @@ struct SelectMissionView: View {
                 }
             }
             .padding(.horizontal, 34.adjustedW)
-            Spacer()
-                .frame(height: 48.adjustedH)
-            .padding(.horizontal, 33.adjustedW)
-            
+            .padding(.top, 48.adjustedH)
             CherrishButton(title: "플래너에 추가하기", type: .next, state: .constant(nextButtonState)){
                 challengeCoordinator.push(.challengeProgress)
             }
@@ -79,7 +70,7 @@ struct SelectMissionView: View {
             .padding(.top, 64.adjustedH)
             .padding(.bottom, 38.adjustedH)
         }
-        .padding(.top, 20.adjustedH)
+        .frame(maxHeight: .infinity)
         .onAppear {
             selectedStates = Array(repeating: false, count: missions.count)
         }
