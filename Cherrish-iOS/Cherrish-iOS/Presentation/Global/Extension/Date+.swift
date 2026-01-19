@@ -25,4 +25,18 @@ extension Date {
 
         return formatter.string(from: self)
     }
+    
+    static func daysBetween(
+        from: (year: Int, month: Int, day: Int),
+        to: (year: Int, month: Int, day: Int)
+    ) -> Int? {
+        let calendar = Calendar.current
+        
+        guard let fromDate = calendar.date(from: DateComponents(year: from.year, month: from.month, day: from.day)),
+              let toDate = calendar.date(from: DateComponents(year: to.year, month: to.month, day: to.day)) else {
+            return nil
+        }
+        
+        return abs(calendar.dateComponents([.day], from: fromDate, to: toDate).day ?? 0)
+    }
 }
