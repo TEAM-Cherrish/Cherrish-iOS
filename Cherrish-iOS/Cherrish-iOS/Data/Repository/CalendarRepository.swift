@@ -34,6 +34,7 @@ struct MockCalendarRepository: CalendarInterface {
                 procedureId: 1,
                 name: "레이저 토닝",
                 downtimeDays: 7,
+                recoveryTargetDate: "2026-01-24",
                 sensitiveDays: [
                     "2026-01-15",
                     "2026-01-16",
@@ -52,6 +53,7 @@ struct MockCalendarRepository: CalendarInterface {
                 procedureId: 2,
                 name: "보톡스",
                 downtimeDays: 3,
+                recoveryTargetDate: "2026-01-17",
                 sensitiveDays: [
                     "2026-01-15"
                 ],
@@ -66,6 +68,7 @@ struct MockCalendarRepository: CalendarInterface {
                 procedureId: 3,
                 name: "필러",
                 downtimeDays: 5,
+                recoveryTargetDate: "2026-01-17",
                 sensitiveDays: [
                     "2026-01-15",
                     "2026-01-16"
@@ -82,6 +85,7 @@ struct MockCalendarRepository: CalendarInterface {
                 procedureId: 4,
                 name: "IPL 레이저",
                 downtimeDays: 2,
+                recoveryTargetDate: "2026-01-18",
                 sensitiveDays: [
                     "2026-01-15"
                 ],
@@ -94,6 +98,7 @@ struct MockCalendarRepository: CalendarInterface {
                 procedureId: 5,
                 name: "윤곽 주사",
                 downtimeDays: 4,
+                recoveryTargetDate: "2026-01-19",
                 sensitiveDays: [
                     "2026-01-15",
                     "2026-01-16"
@@ -109,6 +114,7 @@ struct MockCalendarRepository: CalendarInterface {
                 procedureId: 6,
                 name: "피부 스케일링",
                 downtimeDays: 0,
+                recoveryTargetDate: "2026-01-16",
                 sensitiveDays: [
                     "2026-01-15"
                 ],
