@@ -15,14 +15,15 @@ struct Routine: Identifiable, Decodable, Equatable {
 
 final class SelectRoutineViewModel: ObservableObject {
     
-    @Published var routines: [Routine] = []
-    @Published var selectedRoutine: Routine?
+    @Published var routines: [RoutineEntity] = []
+    @Published var selectedRoutine: RoutineEntity?
     
     private let challengeRepository: ChallengeInterface
     
     init(
-        challengeRepository: ChallengeInterface = DIContainer.shared.resolve(type: ChallengeInterface.self)!
-    ) {
+        challengeRepository: ChallengeInterface = DIContainer.shared.resolve(type: ChallengeInterface.self) ?? DefaultChallengeRepository(networkService: DefaultNetworkService()
+        )
+    ){
         self.challengeRepository = challengeRepository
     }
     
@@ -30,7 +31,7 @@ final class SelectRoutineViewModel: ObservableObject {
         selectedRoutine == nil ? .normal : .active
     }
     
-    func select(_ routine: Routine) {
+    func select(_ routine: RoutineEntity) {
         selectedRoutine = routine
     }
     
@@ -38,15 +39,8 @@ final class SelectRoutineViewModel: ObservableObject {
         challengeRepository.fetchHomecareRoutines { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let dtos):
-                    self?.routines = dtos.map {
-                        Routine(
-                            id: $0.id,
-                            name: $0.name,
-                            description: $0.description
-                        )
-                    }
-
+                case .success(let routines):
+                    self?.routines = routines
                 case .failure(let error):
                     CherrishLogger.error(error)
                     self?.routines = []
@@ -54,5 +48,4 @@ final class SelectRoutineViewModel: ObservableObject {
             }
         }
     }
-
 }

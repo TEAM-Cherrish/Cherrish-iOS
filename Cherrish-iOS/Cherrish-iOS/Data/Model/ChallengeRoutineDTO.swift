@@ -12,3 +12,13 @@ struct ChallengeRoutineDTO: Decodable {
     let name: String
     let description: String
 }
+
+extension ChallengeRoutineDTO {
+    func toEntity() -> RoutineEntity {
+        RoutineEntity(
+            id: id,
+            name: name,
+            description: description
+        )        
+    }
+}
