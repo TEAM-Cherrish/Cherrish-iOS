@@ -42,7 +42,7 @@ final class DomainDependencyAssembler: DependencyAssembler {
         }
         
         DIContainer.shared.register(type: FetchTreatmentCategoriesUseCase.self) {
-            return FetchTreatmentCategoriesUseCaseImpl(repository: treatmentCategoryRepository)
+            return DefaultFetchTreatmentCategoriesUseCase(repository: treatmentCategoryRepository)
         }
     }
 }

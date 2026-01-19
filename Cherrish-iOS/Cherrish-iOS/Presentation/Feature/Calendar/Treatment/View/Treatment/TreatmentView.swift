@@ -26,15 +26,14 @@ struct TreatmentView: View {
                 totalSteps: TreatmentStep.allCases.count,
                 currentStep: .constant(viewModel.step)
             )
-            .padding( .horizontal, 33.5.adjustedW)
+            .padding(.horizontal, 33.5.adjustedW)
             
             VStack(spacing: 0){
                 Group {
                     switch viewModel.state {
                     case .targetDdaySetting:
                         TargetDdaySettingView(dDayState: $viewModel.dDay, year: $viewModel.year, month: $viewModel.month, day: $viewModel.day)
-                            .padding( .leading, 34.adjustedW)
-                            .padding( .trailing, 33.adjustedW)
+                            .padding(.horizontal, 34.adjustedW)
                             .id(viewModel.state)
                     case .treatmentFilter:
                         TreatmentFilterView(viewModel: viewModel)

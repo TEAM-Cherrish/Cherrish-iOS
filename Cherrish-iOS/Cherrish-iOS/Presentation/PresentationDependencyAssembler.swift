@@ -45,7 +45,7 @@ final class PresentationDependencyAssembler: DependencyAssembler {
         
         DIContainer.shared.register(type: NoTreatmentViewModel.self) {
             let repository = MockTreatmentRepository()
-            let useCase = FetchTreatmentCategoriesUseCaseImpl(repository: repository)
+            let useCase = DefaultFetchTreatmentCategoriesUseCase(repository: repository)
             return NoTreatmentViewModel(fetchCategoriesUseCase: useCase)
         }
     }
