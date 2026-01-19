@@ -10,7 +10,7 @@ import SwiftUI
 struct SelectTreatmentView: View {
     @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
     @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
-    @StateObject private var viewModel = SelectTreatmentViewModel()
+    @ObservedObject var viewModel: SelectTreatmentViewModel
     
     var body: some View {
         CherrishNavigationBar(

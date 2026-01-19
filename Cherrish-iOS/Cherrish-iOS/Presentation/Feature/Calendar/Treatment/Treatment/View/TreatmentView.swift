@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct TreatmentView: View {
-    @StateObject private var viewModel: TreatmentViewModel
+    @ObservedObject var viewModel: TreatmentViewModel
     
-    init(viewModel: TreatmentViewModel = TreatmentViewModel()) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
     var body: some View {
         VStack {
             CherrishNavigationBar(
