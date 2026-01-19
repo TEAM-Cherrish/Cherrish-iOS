@@ -12,6 +12,7 @@ protocol ViewFactoryProtocol {
     func makeInformationView() -> InformationView
     func makeHomeView() -> HomeView
     func makeNoTreatmentView() -> NoTreatmentView
+    func makeTreatmentView() -> TreatmentView
     func makeCalendarView() -> CalendarView
     func makeChallengeView() -> ChallengeView
     func makeMyPageView() -> MyPageView
@@ -73,6 +74,13 @@ final class ViewFactory: ViewFactoryProtocol {
             fatalError()
         }
         return NoTreatmentView(viewModel: viewModel)
+    }
+    
+    func makeTreatmentView() -> TreatmentView {
+        guard let viewModel = DIContainer.shared.resolve(type: TreatmentViewModel.self) else {
+            fatalError()
+        }
+        return TreatmentView(viewModel: viewModel)
     }
     
     func makeStartChallengeView() -> StartChallengeView {
