@@ -76,13 +76,11 @@ struct TargetDdaySettingView: View {
                     HStack(spacing: 0) {
                         switch state {
                         case .yes:
-                            TypographyText("언제까지 회복이 완료되면 좋을까요?", style: .title1_sb_18, color: .gray1000)
+                        TypographyText("언제까지 회복이 완료되면 좋을까요?", style: .title1_sb_18, color: .gray1000)
+                            .frame(height: 27.adjustedH)
                         case .no:
-                            TypographyText("대략적인 회복 목표일을 정해볼까요?", style: .title1_sb_18, color: .gray1000)
-                        }
-                        
-                        Spacer()
-
+                        TypographyText("대략적인 회복 목표일을 정해볼까요?", style: .title1_sb_18, color: .gray1000)
+                            .frame(height: 27.adjustedH)
                     }
                     .frame(height: 27.adjustedH)
                     
