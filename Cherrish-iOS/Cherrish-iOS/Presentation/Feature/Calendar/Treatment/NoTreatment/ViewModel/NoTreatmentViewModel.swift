@@ -57,6 +57,7 @@ final class NoTreatmentViewModel: ObservableObject{
         state.previous()
     }
     
+    @MainActor
     func loadCategories() async {
             do {
                 categories = try await fetchCategoriesUseCase.execute()
