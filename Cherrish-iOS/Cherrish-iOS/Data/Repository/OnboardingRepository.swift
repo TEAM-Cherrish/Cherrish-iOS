@@ -16,13 +16,14 @@ struct DefaultOnboardingRepository: OnboardingInterface {
         self.userDefaultService = userDefaultService
     }
     
-    func createProfile(name: String, age: Int) async throws -> Int {
+    func createProfile(name: String, age: Int) async throws -> ProfileEntity {
         let request = CreateProfileRequestDTO(name: name, age: age)
         let response = try await networkService.request(
             OnboardingAPI.createProfile(request: request),
             decodingType: CreateProfileResponseDTO.self
         )
-        _ = userDefaultService.save(response.id, key: .userID)
-        return response.id
+        let profile = ProfileEntity(id: response.id, name: response.name)
+        _ = userDefaultService.save(profile.id, key: .userID)
+        return profile
     }
 }

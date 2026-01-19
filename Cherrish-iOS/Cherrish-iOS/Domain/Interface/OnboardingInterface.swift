@@ -8,5 +8,5 @@
 import Foundation
 
 protocol OnboardingInterface {
-    func createProfile(name: String, age: Int) async throws -> Int
+    func createProfile(name: String, age: Int) async throws -> ProfileEntity
 }

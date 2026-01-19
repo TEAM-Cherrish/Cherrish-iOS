@@ -8,7 +8,7 @@
 import Foundation
 
 protocol CreateProfileUseCase {
-    func execute(name: String, age: Int) async throws -> Int
+    func execute(name: String, age: Int) async throws -> ProfileEntity
 }
 
 struct DefaultCreateProfileUseCase: CreateProfileUseCase {
@@ -18,7 +18,7 @@ struct DefaultCreateProfileUseCase: CreateProfileUseCase {
         self.repository = repository
     }
     
-    func execute(name: String, age: Int) async throws -> Int {
+    func execute(name: String, age: Int) async throws -> ProfileEntity {
         return try await repository.createProfile(name: name, age: age)
     }
 }
