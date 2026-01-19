@@ -37,7 +37,7 @@ final class DomainDependencyAssembler: DependencyAssembler {
             return DefaultFetchTodayProcedure(repository: calendarRepository)
         }
         
-        guard let treatmentCategoryRepository = DIContainer.shared.resolve(type: TreatmentCategoryInterface.self) else {
+        guard let treatmentCategoryRepository = DIContainer.shared.resolve(type: TreatmentInterface.self) else {
             return
         }
         
