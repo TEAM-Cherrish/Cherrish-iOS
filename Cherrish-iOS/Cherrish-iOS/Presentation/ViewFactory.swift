@@ -59,7 +59,10 @@ final class ViewFactory: ViewFactoryProtocol {
     }
     
     func makeSelectTreatmentView() -> SelectTreatmentView {
-        return SelectTreatmentView()
+        guard let viewModel = DIContainer.shared.resolve(type: SelectTreatmentViewModel.self) else {
+            fatalError()
+        }
+        return SelectTreatmentView(viewModel: viewModel)
     }
     
     func makeStartChallengeView() -> StartChallengeView {
