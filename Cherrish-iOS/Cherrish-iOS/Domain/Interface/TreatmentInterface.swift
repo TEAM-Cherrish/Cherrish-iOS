@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol TreatmentCategoryInterface {
+protocol TreatmentInterface {
     func fetchCategories() async throws -> [TreatmentCategoryEntity]
 }
