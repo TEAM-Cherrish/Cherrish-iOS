@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NoTreatmentView: View {
     @ObservedObject var viewModel: NoTreatmentViewModel
-
+    
     var body: some View {
         VStack(spacing: 0) {
             CherrishNavigationBar(
