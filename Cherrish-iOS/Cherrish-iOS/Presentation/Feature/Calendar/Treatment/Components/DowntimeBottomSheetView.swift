@@ -59,10 +59,10 @@ struct DowntimeBottomSheetView: View {
                 toMonth: today.month,
                 toDay: today.day
             )
-            rate = min(Double(selectedDowntime) / Double(betweenDays), 1.0)
+            rate = betweenDays > 0 ? min(Double(selectedDowntime) / Double(betweenDays), 1.0) : 1.0
         }
         .onChange(of: selectedDowntime) {
-            rate = min(Double(selectedDowntime) / Double(betweenDays), 1.0)
+            rate = betweenDays > 0 ? min(Double(selectedDowntime) / Double(betweenDays), 1.0) : 1.0
         }
     }
 }

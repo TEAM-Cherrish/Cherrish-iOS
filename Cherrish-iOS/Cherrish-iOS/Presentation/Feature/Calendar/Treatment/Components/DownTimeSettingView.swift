@@ -87,9 +87,9 @@ struct DownTimeSettingView: View {
                 today: today,
                 setday: setday
             )
-                    .presentationDetents([.extraLarge])
-                    .presentationBackground(.gray0)
-                    .presentationDragIndicator(.visible)
+            .presentationDetents([.extraLarge])
+            .presentationBackground(.gray0)
+            .presentationDragIndicator(.visible)
         }
     }
 }

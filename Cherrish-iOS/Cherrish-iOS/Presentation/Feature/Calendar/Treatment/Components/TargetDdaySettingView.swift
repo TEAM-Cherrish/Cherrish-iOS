@@ -84,6 +84,7 @@ struct TargetDdaySettingView: View {
                         Spacer()
 
                     }
+                    .frame(height: 27.adjustedH)
                     
                     Spacer()
                         .frame(height: 24.adjustedH)
