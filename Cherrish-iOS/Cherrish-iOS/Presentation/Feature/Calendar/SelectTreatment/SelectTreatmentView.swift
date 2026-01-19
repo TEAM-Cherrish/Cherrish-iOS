@@ -76,7 +76,7 @@ extension SelectTreatmentView {
     
     @ViewBuilder
     private var selectChipsView: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 12.adjustedW) {
             ForEach(TreatmentSelectionState.allCases, id: \.self) { state in
                 SelectionChip(
                     title: state.title,
