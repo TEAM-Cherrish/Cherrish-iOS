@@ -12,7 +12,7 @@ struct SelectedTreatmentSheetView: View {
     let removeTreatment: (TreatmentEntity) -> Void
     
     private let itemHeight: CGFloat = 34.adjustedH
-    private let spacing: CGFloat = 16.adjustedH
+    private let spacing: CGFloat = 8.adjustedH
     private let maxVisibleCount = 3
     
     private var scrollViewHeight: CGFloat {
@@ -53,9 +53,10 @@ struct SelectedTreatmentSheetView: View {
             ZStack {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: spacing) {
-                        scrollViewTopMarkerView
-                            .allowsHitTesting(false)
-                        
+                        if selectedTreatments.count > 3 {
+                            scrollViewTopMarkerView
+                                .allowsHitTesting(false)
+                        }
                         ForEach(selectedTreatments, id: \.id) { treatment in
                             TreatmentRowView(
                                 displayMode: .summary,
@@ -65,27 +66,31 @@ struct SelectedTreatmentSheetView: View {
                             )
                             .frame(height: itemHeight)
                         }
-                        
-                        scrollViewBottomMarkerView
-                            .allowsHitTesting(false)
+                        if selectedTreatments.count > 3 {
+                            scrollViewBottomMarkerView
+                                .allowsHitTesting(false)
+                        }
                     }
                     .padding(.vertical, 14.adjustedH)
                 }
+                if selectedTreatments.count > 3 {
+                    GradientBox(isTop: true)
+                        .frame(height: 42)
+                        .allowsHitTesting(false)
+                        .opacity(shouldShowGradientTop ? 1 : 0)
+                        .frame(maxHeight: .infinity, alignment: .top)
+                    
+                    GradientBox(isTop: false)
+                        .frame(height: 42)
+                        .allowsHitTesting(false)
+                        .opacity(shouldShowGradientBottom ? 1 : 0)
+                        .frame(maxHeight: .infinity, alignment: .bottom)
+                }
+                    
                 
-                GradientBox(isTop: true)
-                    .frame(height: 42)
-                    .allowsHitTesting(false)
-                    .opacity(shouldShowGradientTop ? 1 : 0)
-                    .frame(maxHeight: .infinity, alignment: .top)
                 
-                GradientBox(isTop: false)
-                    .frame(height: 42)
-                    .allowsHitTesting(false)
-                    .opacity(shouldShowGradientBottom ? 1 : 0)
-                    .frame(maxHeight: .infinity, alignment: .bottom)
             }
             .frame(height: scrollViewHeight)
-            .scrollDisabled(selectedTreatments.count <= maxVisibleCount)
             .padding(.horizontal, 24.5.adjustedW)
             .coordinateSpace(name: "SelectedTreatmentScroll")
             .onPreferenceChange(ScrollTopPreferenceKey.self) { minY in
