@@ -84,7 +84,7 @@ struct NoTreatmentView: View {
     private func bottomView() -> some View {
         VStack(spacing: 0) {
             if viewModel.state == .treatmentFilter, !viewModel.selectedTreatments.isEmpty {
-                SelectedTreatmentView(
+                SelectedTreatmentSheetView(
                     selectedTreatments: viewModel.selectedTreatments,
                     removeTreatment: viewModel.removeTreatment(_:)
                 )
