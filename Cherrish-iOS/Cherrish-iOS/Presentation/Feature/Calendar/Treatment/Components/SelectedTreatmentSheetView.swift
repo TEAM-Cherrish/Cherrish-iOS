@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SelectedTreatmentView: View {
+struct SelectedTreatmentSheetView: View {
     let selectedTreatments: [TreatmentEntity]
     let removeTreatment: (TreatmentEntity) -> Void
     
