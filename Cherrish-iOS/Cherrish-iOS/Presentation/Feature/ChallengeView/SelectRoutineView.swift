@@ -21,7 +21,7 @@ struct SelectRoutineView: View {
 
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack {
             CherrishNavigationBar(
                 title: "루틴 챌린지 선택",
                 leftButtonAction: {
