@@ -62,14 +62,14 @@ private struct TreatmentSummaryView: View {
                 color: .gray800
             )
             Spacer()
-                .frame(width: 12)
+                .frame(width: 12.adjustedW)
             TypographyText(
                 "|",
                 style: .body2_r_13,
                 color: .gray600
             )
             Spacer()
-                .frame(width: 12)
+                .frame(width: 12.adjustedW)
             TypographyText(
                 "다운타임*\(treatmentEntity.downtimeMin)-\(treatmentEntity.downtimeMax)일",
                 style: .body1_r_14,
@@ -82,9 +82,10 @@ private struct TreatmentSummaryView: View {
                     action()
                 }
         }
-        .padding(.leading, 17)
-        .padding(.trailing,10)
-        .padding(.vertical, 7)
+        .frame(height: 20.adjustedH)
+        .padding(.leading, 17.adjustedW)
+        .padding(.trailing, 10.adjustedW)
+        .padding(.vertical, 7.adjustedH)
         .background(
             RoundedRectangle(cornerRadius: 6)
                 .fill(.gray200)
@@ -119,6 +120,7 @@ private struct TreatmentCheckBoxView: View {
             HStack {
                 Text(treatmentEntity.name)
                     .typography(.title1_sb_18)
+                    .frame(height: 24.adjustedH)
                 Spacer()
                 if isCompletedView{
                     Image(isCompleted ? .checkCircular : .checkCircularGray)
@@ -128,6 +130,7 @@ private struct TreatmentCheckBoxView: View {
                 Text(treatmentEntity.benefits.joinedWithSeparator())
                     .typography(.body3_r_12)
                     .foregroundStyle(.gray700)
+                    .frame(height: 18.adjustedH)
                 Spacer()
             }
             
@@ -181,6 +184,7 @@ private struct DownTimeLabel: View {
                 style: .body2_r_13,
                 color: .gray700
             )
+            .frame(height: 18.adjustedH)
         }
     }
 }
