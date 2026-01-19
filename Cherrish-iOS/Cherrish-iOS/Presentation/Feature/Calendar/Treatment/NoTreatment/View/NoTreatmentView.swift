@@ -25,15 +25,15 @@ struct NoTreatmentView: View {
                 totalSteps: NoTreatmentStep.allCases.count,
                 currentStep: .constant(viewModel.step)
             )
-            .padding(.leading, 34.adjustedW)
-            .padding(.trailing, 33.adjustedW)
+            .padding(.horizontal, 34.adjustedW)
             .padding(.bottom, 20.adjustedH)
 
             VStack(spacing: 0) {
                 contentView()
                 Spacer()
                 bottomView()          
-                Spacer().frame(height: 38.adjustedH)
+                Spacer()
+                    .frame(height: 38.adjustedH)
             }
             .id(viewModel.step)
         }
@@ -48,8 +48,7 @@ struct NoTreatmentView: View {
         switch viewModel.state {
         case .treatmentSelectedCategory:
             TreatmentSelectedCategory(viewModel: viewModel)
-                .padding(.leading, 34.adjustedW)
-                .padding(.trailing, 33.adjustedW)
+                .padding(.horizontal, 34.adjustedW)
                 .id(String(describing: viewModel.state))
 
         case .targetDdaySetting:
@@ -59,8 +58,7 @@ struct NoTreatmentView: View {
                 month: $viewModel.month,
                 day: $viewModel.day
             )
-            .padding(.leading, 34.adjustedW)
-            .padding(.trailing, 33.adjustedW)
+            .padding(.horizontal, 34.adjustedW)
             .id(String(describing: viewModel.state))
 
         case .treatmentFilter:
@@ -105,8 +103,6 @@ struct NoTreatmentView: View {
             }
             .padding(.horizontal, 25.adjustedW)
         }
-        .padding(.leading, 25.adjustedW)
-        .padding(.trailing, 24.adjustedW)
     }
 }
 
@@ -152,7 +148,7 @@ private struct TreatmentSelectedCategory: View {
             
             Spacer()
                 .frame(height: 40.adjustedH)
-            LazyVGrid(columns: columns, spacing: 12) {
+            LazyVGrid(columns: columns, spacing: 12.adjustedH) {
                 ForEach(viewModel.categories, id: \.id) { category in
                     SelectionChip(
                         title: category.title,
