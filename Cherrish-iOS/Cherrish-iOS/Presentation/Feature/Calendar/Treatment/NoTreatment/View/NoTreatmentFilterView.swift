@@ -12,7 +12,7 @@ struct NoTreatmentFilterView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            TitleHeaderView(title: viewModel.treatmentCatagory?.title ?? "")
+            TitleHeaderView(title: viewModel.selectedCategory?.title ?? "")
             
             Spacer()
                 .frame(height: 10.adjustedH)
