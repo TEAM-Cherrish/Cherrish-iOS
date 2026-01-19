@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NoTreatmentView: View {
-    @ObservedObject private var viewModel: NoTreatmentViewModel
+    @ObservedObject var viewModel: NoTreatmentViewModel
 
     var body: some View {
         VStack(spacing: 0) {
@@ -18,7 +18,8 @@ struct NoTreatmentView: View {
                 rightButtonAction: { }
             )
 
-            Spacer().frame(height: 20.adjustedH)
+            Spacer()
+                .frame(height: 20.adjustedH)
 
             ProgressBar(
                 totalSteps: NoTreatment.allCases.count,
@@ -37,6 +38,9 @@ struct NoTreatmentView: View {
             .id(viewModel.step)
         }
         .ignoresSafeArea(.keyboard)
+        .task {
+            await viewModel.loadCategories()
+        }
     }
 
     @ViewBuilder
@@ -136,19 +140,19 @@ private struct TreatmentSelectedCategory: View {
             Spacer()
                 .frame(height: 40.adjustedH)
             LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(TreatmentCategory.allCases) { category in
+                ForEach(viewModel.categories, id: \.id) { category in
                     SelectionChip(
                         title: category.title,
                         isSelected: Binding(
                             get: {
-                                viewModel.treatmentCatagory == category
+                                viewModel.selectedCategory == category
                             },
                             set: {
                                 isSelected in
                                 guard isSelected else {
                                     return
                                 }
-                                viewModel.treatmentCatagory = category
+                                viewModel.selectCategory(category)
                             }
                         )
                     )
@@ -157,3 +161,4 @@ private struct TreatmentSelectedCategory: View {
         }
     }
 }
+
