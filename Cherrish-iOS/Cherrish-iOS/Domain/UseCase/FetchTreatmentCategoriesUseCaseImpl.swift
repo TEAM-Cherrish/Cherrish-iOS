@@ -12,9 +12,9 @@ protocol FetchTreatmentCategoriesUseCase {
 }
 
 struct FetchTreatmentCategoriesUseCaseImpl: FetchTreatmentCategoriesUseCase {
-    private let repository: TreatmentCategoryInterface
+    private let repository: TreatmentInterface
     
-    init(repository: TreatmentCategoryInterface) {
+    init(repository: TreatmentInterface) {
         self.repository = repository
     }
     

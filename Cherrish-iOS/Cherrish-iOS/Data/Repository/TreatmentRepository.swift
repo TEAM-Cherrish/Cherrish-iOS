@@ -1,5 +1,5 @@
 //
-//  TreatmentCategoryRepository.swift
+//  TreatmentRepository.swift
 //  Cherrish-iOS
 //
 //  Created by 어재선 on 1/19/26.
@@ -8,13 +8,13 @@
 import Foundation
 
 
-struct DefaultTreatmentCategoryRepository: TreatmentCategoryInterface {
+struct DefaultTreatmentRepository: TreatmentInterface {
     func fetchCategories() async throws -> [TreatmentCategoryEntity] {
         return []
     }
 }
 
-struct MockTreatmentCategoryRepository: TreatmentCategoryInterface {
+struct MockTreatmentRepository: TreatmentInterface {
     func fetchCategories() async throws -> [TreatmentCategoryEntity] {
         return [
             TreatmentCategoryEntity(id: 1, title: "피부결 ∙ 각질"),
