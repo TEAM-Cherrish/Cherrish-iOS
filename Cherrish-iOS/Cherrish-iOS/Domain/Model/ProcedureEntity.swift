@@ -11,6 +11,7 @@ struct ProcedureEntity: Hashable {
     let procedureId: Int
     let name: String
     let downtimeDays: Int
+    let recoveryTargetDate: String
     let sensitiveDays: [String]
     let cautionDays: [String]
     let recoveryDays: [String]

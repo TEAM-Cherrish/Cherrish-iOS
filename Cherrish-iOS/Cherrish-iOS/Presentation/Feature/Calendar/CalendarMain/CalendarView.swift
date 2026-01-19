@@ -108,6 +108,7 @@ extension CalendarView {
                         procedureCount: viewModel.getProcedureCount(for: value),
                         isSelected: viewModel.isSelected(value),
                         downtimeState: viewModel.getDowntimeState(for: value.date),
+                        isDDay: viewModel.isDDay(for: value.date, selectedProcedureID: selectedProcedureID ?? 0),
                         calendarMode: $calendarMode
                     )
                     .onTapGesture {

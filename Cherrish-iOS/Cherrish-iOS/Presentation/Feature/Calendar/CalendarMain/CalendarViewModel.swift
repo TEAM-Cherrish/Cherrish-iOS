@@ -70,6 +70,23 @@ final class CalendarViewModel: ObservableObject {
         return downtimeByDay[key] ?? .none
     }
     
+    func isDDay(for date: Date, selectedProcedureID: Int) -> Bool {
+        guard let procedure = procedureList.first(where: { $0.procedureId == selectedProcedureID }) else { return false }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+        
+        guard let targetDate = formatter.date(from: procedure.recoveryTargetDate) else { return false }
+        
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "Asia/Seoul")!
+        
+        let result = calendar.isDate(date, inSameDayAs: targetDate)
+        CherrishLogger.debug("타겟\(procedure.recoveryTargetDate) , 지금 \(date.toDateString()), result=\(result)")
+        return result
+    }
+    
     func isEmptyProcedureList() -> Bool {
         return procedureList.isEmpty
     }
@@ -82,6 +99,7 @@ final class CalendarViewModel: ObservableObject {
         let month = calendar.component(.month, from: targetDate)
         
         procedureCountOfMonth = try await fetchProcedureCountOfMonthUseCase.execute(year: year, month: month)
+        CherrishLogger.debug(procedureCountOfMonth)
     }
     
     @MainActor
@@ -115,21 +133,49 @@ extension CalendarViewModel {
     }
     
     private func extractDate(currentMonth: Int) -> [DateValue] {
-        let calendar = Calendar.current
+        //        let calendar = Calendar.current
+        //
+        //        let currentMonth = getCurrentMonth(addingMonth: currentMonth)
+        //        var days = currentMonth.getAllDates().compactMap { date -> DateValue in
+        //            let day = calendar.component(.day, from: date)
+        //            return DateValue(day: day, date: date)
+        //        }
+        //
+        //        let firstWeekday = calendar.component(.weekday, from: days.first?.date ?? Date())
+        //
+        //        for _ in 0 ..< firstWeekday - 1 {
+        //            days.insert(DateValue(day: -1, date: Date()), at: 0)
+        //        }
+        //
+        //        CherrishLogger.debug(days)
+        //        return days
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "Asia/Seoul")!
         
-        let currentMonth = getCurrentMonth(addingMonth: currentMonth)
-        var days = currentMonth.getAllDates().compactMap { date -> DateValue in
-            let day = calendar.component(.day, from: date)
+        let targetMonthDate = getCurrentMonth(addingMonth: currentMonth)
+        
+        // 해당 월 1일 (KST 기준)
+        let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: targetMonthDate))!
+        
+        // 1일의 요일 (일=1 ... 토=7) → 일요일 시작 기준 앞 패딩 수
+        let firstWeekday = calendar.component(.weekday, from: startOfMonth)
+        let leading = firstWeekday - 1
+        
+        // 그리드 첫 날짜(일요일)
+        let gridStart = calendar.date(byAdding: .day, value: -leading, to: startOfMonth)!
+        
+        
+        return (0..<42).map { i in
+            let raw = calendar.date(byAdding: .day, value: i, to: gridStart)!
+            let date = calendar.startOfDay(for: raw) // ✅ KST 자정으로 고정
+            
+            let isInTargetMonth = calendar.isDate(date, equalTo: targetMonthDate, toGranularity: .month)
+            let day = isInTargetMonth ? calendar.component(.day, from: date) : -1
+            
+            CherrishLogger.debug(DateValue(day: day, date: date))
+            
             return DateValue(day: day, date: date)
         }
-        
-        let firstWeekday = calendar.component(.weekday, from: days.first?.date ?? Date())
-        
-        for _ in 0 ..< firstWeekday - 1 {
-            days.insert(DateValue(day: -1, date: Date()), at: 0)
-        }
-        
-        return days
     }
     
     private func mapToDowntimeDays(procedure: ProcedureEntity) {
