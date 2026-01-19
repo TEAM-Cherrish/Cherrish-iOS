@@ -99,7 +99,7 @@ struct SelectedTreatmentSheetView: View {
     }
 }
 
-extension SelectedTreatmentView {
+extension SelectedTreatmentSheetView {
     private var scrollViewTopMarkerView: some View {
         GeometryReader { proxy in
             Color.clear
