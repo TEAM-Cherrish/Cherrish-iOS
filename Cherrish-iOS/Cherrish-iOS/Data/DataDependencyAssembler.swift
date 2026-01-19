@@ -26,10 +26,7 @@ final class DataDependencyAssembler: DependencyAssembler {
         }
         
         DIContainer.shared.register(type: OnboardingInterface.self) {
-            return DefaultOnboardingRepository(
-                networkService: self.networkService,
-                userDefaultService: self.userDefaultService
-            )
+            return DefaultOnboardingRepository(networkService: self.networkService)
         }
     }
 }
