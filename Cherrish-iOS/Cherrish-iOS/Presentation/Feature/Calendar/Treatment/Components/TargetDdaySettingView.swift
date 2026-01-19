@@ -41,10 +41,10 @@ struct TargetDdaySettingView: View {
                     TypographyText("중요한 일정이 있나요?", style: .title1_sb_18, color: .gray1000)
                     
                 }
+                .frame(height: 54.adjustedH)
                 
                 Spacer()
             }
-            .frame(height: 54.adjustedH)
             
             Spacer()
                 .frame(height: 40)
@@ -76,8 +76,10 @@ struct TargetDdaySettingView: View {
                     switch state {
                         case .yes:
                         TypographyText("언제까지 회복이 완료되면 좋을까요?", style: .title1_sb_18, color: .gray1000)
+                            .frame(height: 27.adjustedH)
                         case .no:
                         TypographyText("대략적인 회복 목표일을 정해볼까요?", style: .title1_sb_18, color: .gray1000)
+                            .frame(height: 27.adjustedH)
                     }
                     
                     Spacer()
