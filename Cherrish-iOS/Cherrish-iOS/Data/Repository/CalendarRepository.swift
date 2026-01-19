@@ -34,19 +34,19 @@ struct MockCalendarRepository: CalendarInterface {
                 procedureId: 1,
                 name: "레이저 토닝",
                 downtimeDays: 7,
-                recoveryTargetDate: "2026-01-24",
+                recoveryTargetDate: "2026-02-07",
                 sensitiveDays: [
-                    "2026-01-15",
-                    "2026-01-16",
-                    "2026-01-17"
+                    "2026-01-28",
+                    "2026-01-29",
+                    "2026-01-30"
                 ],
                 cautionDays: [
-                    "2026-01-18",
-                    "2026-01-19"
+                    "2026-01-31",
+                    "2026-02-01"
                 ],
                 recoveryDays: [
-                    "2026-01-20",
-                    "2026-01-21"
+                    "2026-02-02",
+                    "2026-02-02"
                 ]
             ),
             ProcedureEntity(
