@@ -144,7 +144,7 @@ private struct TreatmentSelectedCategory: View {
                     )
                     
                     TypographyText(
-                        "피부 고민은 무엇인가요?",
+                        "외모 고민은 무엇인가요?",
                         style: .title1_sb_18,
                         color: .gray1000
                     )
