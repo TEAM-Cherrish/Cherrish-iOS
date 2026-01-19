@@ -41,6 +41,7 @@ struct OnboardingPage1: View {
                     Rectangle()
                         .fill(Color.red700)
                         .frame(width: 252.adjustedW, height: 1.4)
+                        .padding(.leading, 4)
                     Rectangle()
                         .fill(Color.red700)	
                         .frame(width: 260.adjustedW, height: 1.4) 
