@@ -36,11 +36,16 @@ struct TreatmentView: View {
                 currentStep: .constant(viewModel.step)
             )
             .padding(.horizontal, 33.5.adjustedW)
+           
+            Spacer()
+                .frame(height: 20.adjustedH)
+            
             
             VStack(spacing: 0) {
                 contentView()
                 Spacer()
                 bottomView()
+                    
                 Spacer()
                     .frame(height: 38.adjustedH)
             }
@@ -67,7 +72,7 @@ struct TreatmentView: View {
             )
             .padding(.leading, 34.adjustedW)
             .padding(.trailing, 33.adjustedW)
-            .id(String(describing: viewModel.state))
+            .id(viewModel.state)
             
         case .treatmentFilter:
             TreatmentFilterView(viewModel: viewModel)
