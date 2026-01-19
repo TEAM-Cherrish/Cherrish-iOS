@@ -26,7 +26,7 @@ struct SelectedTreatmentSheetView: View {
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
                     TypographyText("선택한 시술", style: .body1_sb_14, color: .gray600)
-                    
+                        .frame(height: 20.adjustedH)
                     Spacer()
                     
                 }
