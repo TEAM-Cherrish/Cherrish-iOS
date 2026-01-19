@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct TreatmentView: View {
-    @StateObject private var viewModel: TreatmentViewModel
-    
-    init(viewModel: TreatmentViewModel = TreatmentViewModel()) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
+    @ObservedObject var viewModel: TreatmentViewModel
     
     var body: some View {
         VStack(spacing: 0) {
