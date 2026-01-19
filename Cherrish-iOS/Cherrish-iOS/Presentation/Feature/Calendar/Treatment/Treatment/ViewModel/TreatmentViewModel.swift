@@ -19,6 +19,8 @@ final class TreatmentViewModel: ObservableObject{
     @Published var searchText = ""
     @Published var filteredTreatments: [TreatmentEntity] = []
     
+    var step: Int { state.rawValue }
+    
     var cancellables = Set<AnyCancellable>()
     
     init() {
