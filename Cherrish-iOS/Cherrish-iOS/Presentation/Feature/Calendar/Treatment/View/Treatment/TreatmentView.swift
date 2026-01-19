@@ -8,17 +8,28 @@
 import SwiftUI
 
 struct TreatmentView: View {
+    @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
+    @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
     @ObservedObject var viewModel: TreatmentViewModel
     
     var body: some View {
         VStack(spacing: 0) {
             CherrishNavigationBar(
                 title: viewModel.state.title,
-                leftButtonAction: { viewModel.previous() },
-                rightButtonAction: { }
+                leftButtonAction: {
+                    if viewModel.step == 1 {
+                        calendarCoordinator.pop()
+                    }
+                    viewModel.previous()
+                },
+                rightButtonAction: {
+                    calendarCoordinator.popToRoot()
+                    tabBarCoordinator.isTabbarHidden = false
+                }
             )
             
-            Spacer().frame(height: 20.adjustedH)
+            Spacer()
+                .frame(height: 20.adjustedH)
             
             ProgressBar(
                 totalSteps: TreatmentStep.allCases.count,
@@ -27,15 +38,20 @@ struct TreatmentView: View {
             .padding(.horizontal, 33.5.adjustedW)
             
             VStack(spacing: 0) {
+                contentView()
                 Spacer()
                 bottomView()
-                Spacer().frame(height: 38.adjustedH)
+                Spacer()
+                    .frame(height: 38.adjustedH)
             }
             .id(viewModel.step)
         }
         .ignoresSafeArea(.keyboard,edges: .bottom)
         .onTapGesture {
             hideKeyboard()
+        }
+        .onAppear {
+            tabBarCoordinator.isTabbarHidden = true
         }
     }
     
