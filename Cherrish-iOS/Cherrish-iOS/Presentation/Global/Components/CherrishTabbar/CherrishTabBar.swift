@@ -71,7 +71,8 @@ struct CherrishTabBar: View {
         }
         .padding(.horizontal, 24.5.adjustedW)
         .padding(.top, 10.adjustedH)
+        .ignoresSafeArea()
+        .background(.gray0)
         .frame(height: 54.adjustedH)
-        
     }
 }
