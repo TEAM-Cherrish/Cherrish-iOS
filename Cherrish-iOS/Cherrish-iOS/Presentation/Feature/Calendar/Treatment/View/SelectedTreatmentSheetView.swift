@@ -38,7 +38,7 @@ struct SelectedTreatmentSheetView: View {
                 .padding(.vertical, 9.adjustedH)
                 
                 Rectangle()
-                    .frame(height: 1)
+                    .frame(height: 1.adjustedH)
                     .foregroundStyle(.gray400)
                 
             }
@@ -75,13 +75,13 @@ struct SelectedTreatmentSheetView: View {
                 }
                 if selectedTreatments.count > 3 {
                     GradientBox(isTop: true)
-                        .frame(height: 42)
+                        .frame(height: 42.adjustedH)
                         .allowsHitTesting(false)
                         .opacity(shouldShowGradientTop ? 1 : 0)
                         .frame(maxHeight: .infinity, alignment: .top)
                     
                     GradientBox(isTop: false)
-                        .frame(height: 42)
+                        .frame(height: 42.adjustedH)
                         .allowsHitTesting(false)
                         .opacity(shouldShowGradientBottom ? 1 : 0)
                         .frame(maxHeight: .infinity, alignment: .bottom)
