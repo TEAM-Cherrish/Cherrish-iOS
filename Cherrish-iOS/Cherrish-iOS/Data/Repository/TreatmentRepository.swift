@@ -26,9 +26,19 @@ struct DefaultTreatmentRepository: TreatmentInterface {
         )
         return response.map { $0.toEntity() }
     }
+    
+    func fetchTreatment(id: Int?, keyword: String?) async throws -> [TreatmentEntity] {
+        let userId: Int = userDefaultService.load(key: .userID) ?? 1
+        let response = try await networkService.request(TreatmentAPI.fetchProcedures(userId: userId,id: id, text: keyword), decodingType: ProceduresResponseDTO.self)
+        return response.procedures.map { $0.toEntity() }
+    }
 }
 
 struct MockTreatmentRepository: TreatmentInterface {
+    func fetchTreatment(id: Int?, keyword: String?) async throws -> [TreatmentEntity] {
+        return []
+    }
+    
     func fetchCategories() async throws -> [TreatmentCategoryEntity] {
         return [
             TreatmentCategoryEntity(id: 1, title: "피부결 ∙ 각질"),

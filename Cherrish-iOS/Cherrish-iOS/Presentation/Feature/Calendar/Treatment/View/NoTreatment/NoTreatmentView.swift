@@ -50,7 +50,7 @@ struct NoTreatmentView: View {
         }
         .ignoresSafeArea(.keyboard)
         .task {
-            await viewModel.loadCategories()
+            await viewModel.fetchCategories()
         }
         .onAppear {
             tabBarCoordinator.isTabbarHidden = true
@@ -80,7 +80,7 @@ struct NoTreatmentView: View {
             
         case .downTimeSetting:
             DownTimeSettingView(
-                treatments: viewModel.selectedTreatments,
+                treatments: $viewModel.selectedTreatments,
                 setday: (
                     viewModel.toInt(
                         viewModel.year

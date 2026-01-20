@@ -53,16 +53,21 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return
         }
         
+        guard let fetchTreatmentsUseCase = DIContainer.shared.resolve(type: FetchTreatmentsUseCase.self) else {
+            return
+        }
+        
         DIContainer.shared.register(type: SelectTreatmentViewModel.self) {
             return SelectTreatmentViewModel()
         }
         
         DIContainer.shared.register(type: NoTreatmentViewModel.self) {
-            return NoTreatmentViewModel(fetchCategoriesUseCase: fetchTreatmentCategoriesUseCase)
+            return NoTreatmentViewModel(fetchCategoriesUseCase: fetchTreatmentCategoriesUseCase, fetchTreatmentsUseCase: fetchTreatmentsUseCase)
         }
         
+        
         DIContainer.shared.register(type: TreatmentViewModel.self) {
-            return TreatmentViewModel()
+            return TreatmentViewModel(fetchTreatmentsUseCase: fetchTreatmentsUseCase)
         }
     }
 }

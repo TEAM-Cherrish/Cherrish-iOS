@@ -9,19 +9,22 @@ import SwiftUI
 import Combine
 
 final class TreatmentViewModel: ObservableObject{
+    @Published private(set) var treatments: [TreatmentEntity] = []
+    @Published var selectedTreatments: [TreatmentEntity] = []
     @Published var state: TreatmentStep = .targetDdaySetting
     @Published var dDay: DdayState?
     @Published var year: String = ""
     @Published var month: String = ""
     @Published var day: String = ""
-    @Published var treatments: [TreatmentEntity] = TreatmentEntity.mockData
-    @Published var selectedTreatments: [TreatmentEntity] = []
     @Published var searchText = ""
-    @Published var filteredTreatments: [TreatmentEntity] = []
+    
+    private let fetchTreatmentsUseCase: FetchTreatmentsUseCase
+    
+    init(fetchTreatmentsUseCase: FetchTreatmentsUseCase) {
+        self.fetchTreatmentsUseCase = fetchTreatmentsUseCase
+    }
     
     var step: Int { state.rawValue }
-    
-    var cancellables = Set<AnyCancellable>()
     
     var today: (year: Int, month: Int, day: Int) {
         let calendar = Calendar.current
@@ -33,10 +36,6 @@ final class TreatmentViewModel: ObservableObject{
         )
     }
     
-    init() {
-        filteredTreatments = treatments
-               setupSearch()
-    }
     var canProceed: Bool {
            switch state {
            case .targetDdaySetting:
@@ -44,9 +43,19 @@ final class TreatmentViewModel: ObservableObject{
            case .treatmentFilter:
                return !selectedTreatments.isEmpty
            case .downTimeSetting:
-               return true
+               return selectedTreatments.allSatisfy { $0.setDowntime != nil }
+                   
            }
        }
+    
+    @MainActor
+    func fetchTreatments() async throws {
+        do {
+           treatments = try await fetchTreatmentsUseCase.execute(id: nil, keyword: searchText)
+        } catch {
+            treatments = []
+        }
+    }
     
     func next() {
         state.next()
@@ -73,6 +82,20 @@ final class TreatmentViewModel: ObservableObject{
         return true
         
     }
+}
+
+
+extension TreatmentViewModel {
     
-    
+    func addTreatment(_ treatment: TreatmentEntity) {
+        guard !isSelected(treatment) else { return }
+        selectedTreatments.append(treatment)
+    }
+
+    func removeTreatment(_ treatment: TreatmentEntity) {
+        selectedTreatments.removeAll { $0.id == treatment.id }
+    }
+    func isSelected(_ treatment: TreatmentEntity) -> Bool {
+        selectedTreatments.contains(where: { $0.id == treatment.id })
+    }
 }
