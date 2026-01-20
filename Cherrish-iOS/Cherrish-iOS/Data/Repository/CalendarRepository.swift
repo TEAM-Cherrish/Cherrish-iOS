@@ -74,8 +74,19 @@ struct MockCalendarRepository: CalendarInterface {
     
     func fetchTodayProcedureList(date: String) -> [DailyProcedureEntity] {
         return [
-            
-           ]
+                DailyProcedureEntity(
+                    type: "PROCEDURE",
+                    procedureId: 123,
+                    name: "레이저 토닝",
+                    downtimeDays: 7
+                ),
+                DailyProcedureEntity(
+                    type: "PROCEDURE",
+                    procedureId: 124,
+                    name: "보톡스",
+                    downtimeDays: 3
+                )
+            ]
     }
     
     func fetchProcedureDowntime(id: Int) async throws -> ProcedureDowntimeEntity {
