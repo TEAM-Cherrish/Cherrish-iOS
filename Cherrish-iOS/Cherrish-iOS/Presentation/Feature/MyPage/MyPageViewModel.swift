@@ -17,6 +17,7 @@ final class MyPageViewModel: ObservableObject {
         self.fetchUserInfoUseCase = fetchUserInfoUseCase
     }
     
+    @MainActor
     func fetchUserInfo() async throws {
         let response = try await fetchUserInfoUseCase.execute()
         name = response.name
