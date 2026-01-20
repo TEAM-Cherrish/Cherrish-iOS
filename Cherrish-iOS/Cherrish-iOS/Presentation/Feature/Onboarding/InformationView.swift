@@ -77,8 +77,12 @@ struct InformationView: View {
                 leadingIcon: nil,
                 trailingIcon: nil
             ) {
-                appCoordinator.navigationToTabbar()
+                Task {
+                    guard let ageValue = Int(age) else { return }
+                    await viewModel.createProfile(name: name, age: ageValue)
+                }
             }
+            .disabled(viewModel.isLoading)
             .padding(.horizontal, 25.adjustedW)
             .padding(.bottom, 38.adjustedH)
         }
@@ -92,6 +96,11 @@ struct InformationView: View {
         .onChange(of: isAgeFocused) { focused in
             if !focused {
                 showAgeError = isAgeOverLimit
+            }
+        }
+        .onChange(of: viewModel.isOnboardingCompleted) { completed in
+            if completed {
+                appCoordinator.navigationToTabbar()
             }
         }
     }

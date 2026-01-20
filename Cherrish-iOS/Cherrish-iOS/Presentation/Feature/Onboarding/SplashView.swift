@@ -11,6 +11,12 @@ struct SplashView: View {
     @EnvironmentObject private var appCoordinator: AppCoordinator
     private let userDefaultService: UserDefaultService = DefaultUserDefaultService()
     
+    private let userDefaultService: UserDefaultService
+    
+    init(userDefaultService: UserDefaultService = DefaultUserDefaultService()) {
+        self.userDefaultService = userDefaultService
+    }
+    
     var body: some View {
         ZStack(alignment: .center) {
             LinearGradient(
@@ -34,8 +40,9 @@ struct SplashView: View {
     
     private func navigateBasedOnUserStatus() {
         let userID: Int? = userDefaultService.load(key: .userID)
+        let isOnboardingCompleted: Bool = userDefaultService.load(key: .isOnboardingCompleted) ?? false
         
-        if userID != nil {
+        if userID != nil && isOnboardingCompleted {
             appCoordinator.navigationToTabbar()
         } else {
             appCoordinator.navigationToOnboarding()

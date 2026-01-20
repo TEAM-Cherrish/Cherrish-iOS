@@ -8,50 +8,63 @@
 import SwiftUI
 
 struct NoTreatmentView: View {
-    @StateObject private var viewModel: NoTreatmentViewModel
-
-    init(viewModel: NoTreatmentViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
-
+    @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
+    @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
+    @StateObject var viewModel: NoTreatmentViewModel
+    
     var body: some View {
         VStack(spacing: 0) {
             CherrishNavigationBar(
                 title: viewModel.state.title,
-                leftButtonAction: { viewModel.previous() },
-                rightButtonAction: { }
+                leftButtonAction: {
+                    if viewModel.step == 1 {
+                        calendarCoordinator.pop()
+                    }
+                    viewModel.previous()
+                    
+                },
+                rightButtonAction: {
+                    calendarCoordinator.popToRoot()
+                    tabBarCoordinator.isTabbarHidden = false
+                }
             )
-
-            Spacer().frame(height: 20.adjustedH)
-
+            
+            Spacer()
+                .frame(height: 20.adjustedH)
+            
             ProgressBar(
-                totalSteps: NoTreatment.allCases.count,
+                totalSteps: NoTreatmentStep.allCases.count,
                 currentStep: .constant(viewModel.step)
             )
-            .padding(.leading, 34.adjustedW)
-            .padding(.trailing, 33.adjustedW)
+            .padding(.horizontal, 34.adjustedW)
             .padding(.bottom, 20.adjustedH)
-
+            
             VStack(spacing: 0) {
                 contentView()
                 Spacer()
-                bottomView()          
-                Spacer().frame(height: 38.adjustedH)
+                bottomView()
+                Spacer()
+                    .frame(height: 38.adjustedH)
             }
             .id(viewModel.step)
         }
         .ignoresSafeArea(.keyboard)
+        .task {
+            await viewModel.loadCategories()
+        }
+        .onAppear {
+            tabBarCoordinator.isTabbarHidden = true
+        }
     }
-
+    
     @ViewBuilder
     private func contentView() -> some View {
         switch viewModel.state {
         case .treatmentSelectedCategory:
             TreatmentSelectedCategory(viewModel: viewModel)
-                .padding(.leading, 34.adjustedW)
-                .padding(.trailing, 33.adjustedW)
+                .padding(.horizontal, 34.adjustedW)
                 .id(String(describing: viewModel.state))
-
+            
         case .targetDdaySetting:
             TargetDdaySettingView(
                 dDayState: $viewModel.dDay,
@@ -59,28 +72,40 @@ struct NoTreatmentView: View {
                 month: $viewModel.month,
                 day: $viewModel.day
             )
-            .padding(.leading, 34.adjustedW)
-            .padding(.trailing, 33.adjustedW)
+            .padding(.horizontal, 34.adjustedW)
             .id(String(describing: viewModel.state))
-
+            
         case .treatmentFilter:
             NoTreatmentFilterView(viewModel: viewModel)
-
+            
         case .downTimeSetting:
-            DownTimeSettingView(treatments: viewModel.selectedTreatments)
+            DownTimeSettingView(
+                treatments: viewModel.selectedTreatments,
+                setday: (
+                    viewModel.toInt(
+                        viewModel.year
+                    ),
+                    viewModel.toInt(
+                        viewModel.month
+                    ),
+                    viewModel.toInt(
+                        viewModel.day
+                    )
+                ), today: viewModel.today
+            )
         }
     }
-
+    
     @ViewBuilder
     private func bottomView() -> some View {
         VStack(spacing: 0) {
             if viewModel.state == .treatmentFilter, !viewModel.selectedTreatments.isEmpty {
-                SelectedTreatmentView(
+                SelectedTreatmentSheetView(
                     selectedTreatments: viewModel.selectedTreatments,
                     removeTreatment: viewModel.removeTreatment(_:)
                 )
             }
-
+            
             CherrishButton(
                 title: "다음",
                 type: .large,
@@ -92,8 +117,6 @@ struct NoTreatmentView: View {
             }
             .padding(.horizontal, 25.adjustedW)
         }
-        .padding(.leading, 25.adjustedW)
-        .padding(.trailing, 24.adjustedW)
     }
 }
 
@@ -101,6 +124,7 @@ struct NoTreatmentView: View {
 
 private struct TreatmentSelectedCategory: View {
     @ObservedObject var viewModel: NoTreatmentViewModel
+    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -120,7 +144,7 @@ private struct TreatmentSelectedCategory: View {
                     )
                     
                     TypographyText(
-                        "피부 고민은 무엇인가요?",
+                        "외모 고민은 무엇인가요?",
                         style: .title1_sb_18,
                         color: .gray1000
                     )
@@ -139,25 +163,28 @@ private struct TreatmentSelectedCategory: View {
             
             Spacer()
                 .frame(height: 40.adjustedH)
-            LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(TreatmentCategory.allCases) { category in
-                    SelectionChip(
-                        title: category.title,
-                        isSelected: Binding(
-                            get: {
-                                viewModel.treatmentCatagory == category
-                            },
-                            set: {
-                                isSelected in
-                                guard isSelected else {
-                                    return
+            ScrollView(.vertical, showsIndicators:false) {
+                LazyVGrid(columns: columns, spacing: 12.adjustedH) {
+                    ForEach(viewModel.categories, id: \.id) { category in
+                        SelectionChip(
+                            title: category.title,
+                            isSelected: Binding(
+                                get: {
+                                    viewModel.selectedCategory == category
+                                },
+                                set: {
+                                    isSelected in
+                                    guard isSelected else {
+                                        return
+                                    }
+                                    viewModel.selectCategory(category)
                                 }
-                                viewModel.treatmentCatagory = category
-                            }
+                            )
                         )
-                    )
+                    }
                 }
             }
         }
     }
 }
+
