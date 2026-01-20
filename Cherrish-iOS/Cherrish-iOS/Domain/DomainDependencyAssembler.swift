@@ -21,16 +21,28 @@ final class DomainDependencyAssembler: DependencyAssembler {
             return
         }
         
+        guard let homeRepository = DIContainer.shared.resolve(type: HomeInterface.self) else {
+            return
+        }
+        
+        guard let treatmentCategoryRepository = DIContainer.shared.resolve(type: TreatmentInterface.self) else {
+            return
+        }
+        
         DIContainer.shared.register(type: FetchProcedureCountOfMonth.self) {
             return DefaultFetchProcedureCountOfMonth(repository: calendarRepository)
         }
         
-        DIContainer.shared.register(type: FetchTodayProcedureList.self) {
-            return DefaultFetchTodayProcedure(repository: calendarRepository)
+        DIContainer.shared.register(type: FetchTodayProcedureListUseCase.self) {
+            return DefaultFetchTodayProcedureUseCase(repository: calendarRepository)
         }
         
         guard let homeRepository = DIContainer.shared.resolve(type: HomeInterface.self) else {
             return
+        }
+        
+        DIContainer.shared.register(type: FetchProcedureDowntimeUseCase.self) {
+            return DefaultFetchProcedureDowntimeUseCase(repository: calendarRepository)
         }
         
         DIContainer.shared.register(type: FetchDashboardData.self) {

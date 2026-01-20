@@ -43,8 +43,3 @@ struct MonthPlan: View {
         )
     }
 }
-
-#Preview {
-    MonthPlan(interaction: "복합 박피", dDay: 7, tag: "주의기")
-        .padding()
-}

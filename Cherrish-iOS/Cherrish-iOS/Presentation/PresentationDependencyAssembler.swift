@@ -31,7 +31,7 @@ final class PresentationDependencyAssembler: DependencyAssembler {
         }
         
         guard let fetchProcedureCountOfMonthUseCase = DIContainer.shared.resolve(type: FetchProcedureCountOfMonth.self),
-              let fetchTodayProcedureListUseCase = DIContainer.shared.resolve(type: FetchTodayProcedureList.self)
+            let fetchTodayProcedureListUseCase = DIContainer.shared.resolve(type: FetchTodayProcedureListUseCase.self),
         else {
             CherrishLogger.error(CherrishError.DIFailedError)
             return
@@ -46,7 +46,7 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return CalendarViewModel(
                 fetchProcedureCountOfMonthUseCase: fetchProcedureCountOfMonthUseCase,
                 fetchTodayProcedureListUseCase: fetchTodayProcedureListUseCase,
-                calendarTreatmentFlowState: calendarTreatmentFlowState
+                fetchProcedureDowntimeUseCase: fetchProcedureDowntimeUseCase
             )
         }
         
