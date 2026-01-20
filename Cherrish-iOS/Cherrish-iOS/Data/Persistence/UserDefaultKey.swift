@@ -9,4 +9,5 @@ import Foundation
 
 enum UserDefaultsKey: String, CaseIterable {
     case userID
+    case isOnboardingCompleted
 }

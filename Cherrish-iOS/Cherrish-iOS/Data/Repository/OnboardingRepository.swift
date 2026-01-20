@@ -24,6 +24,7 @@ struct DefaultOnboardingRepository: OnboardingInterface {
         )
         let profile = ProfileEntity(id: response.id, name: response.name)
         _ = userDefaultService.save(profile.id, key: .userID)
+        _ = userDefaultService.save(true, key: .isOnboardingCompleted)
         return profile
     }
 }
