@@ -14,7 +14,6 @@ protocol ViewFactoryProtocol {
     func makeNoTreatmentView() -> NoTreatmentView
     func makeTreatmentView() -> TreatmentView
     func makeCalendarView() -> CalendarView
-    func makeChallengeView() -> ChallengeView
     func makeMyPageView() -> MyPageView
     func makeSelectTreatmentView() -> SelectTreatmentView
     func makeStartChallengeView() -> StartChallengeView
@@ -53,11 +52,7 @@ final class ViewFactory: ViewFactoryProtocol {
         }
         return CalendarView(viewModel: viewModel)
     }
-    
-    func makeChallengeView() -> ChallengeView {
-        return ChallengeView()
-    }
-    
+        
     func makeMyPageView() -> MyPageView {
         return MyPageView()
     }
@@ -88,14 +83,14 @@ final class ViewFactory: ViewFactoryProtocol {
     }
     
     func makeSelectRoutineView() -> SelectRoutineView {
-        guard let viewModel = DIContainer.shared.resolve(type: SelectRoutineViewModel.self) else {
+        guard let viewModel = DIContainer.shared.resolve(type: MakeChallengeViewModel.self) else {
             fatalError()
         }
         return SelectRoutineView(viewModel: viewModel)
     }
     
     func makeSelectMissionView() -> SelectMissionView {
-        guard let viewModel = DIContainer.shared.resolve(type: SelectMissionViewModel.self) else {
+        guard let viewModel = DIContainer.shared.resolve(type: MakeChallengeViewModel.self) else {
             fatalError()
         }
         return SelectMissionView(viewModel: viewModel)
