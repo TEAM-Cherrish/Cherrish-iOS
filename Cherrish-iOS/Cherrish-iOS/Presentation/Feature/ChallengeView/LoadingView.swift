@@ -32,16 +32,4 @@ struct LoadingView: View {
         .frame(maxHeight: .infinity)
         .ignoresSafeArea(edges: .bottom)
    }
-//    
-//    private func moveNextAfterDelay() {
-//        Task {
-//            navigationTask = Task {
-//                try? await Task.sleep(nanoseconds: 3_000_000_000)
-//                guard !Task.isCancelled else { return }
-//                await MainActor.run {
-//                    challengeCoordinator.push(.selectMission)
-//                }
-//            }
-//        }
-//    }
 }
