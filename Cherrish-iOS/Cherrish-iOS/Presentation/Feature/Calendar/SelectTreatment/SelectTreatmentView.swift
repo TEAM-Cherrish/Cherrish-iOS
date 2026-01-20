@@ -44,7 +44,16 @@ struct SelectTreatmentView: View {
                 state: $viewModel.buttonState,
                 leadingIcon: nil,
                 trailingIcon: nil,
-                action: { })
+                action: {
+                    switch viewModel.treatmentSelectionState {
+                    case .notSelected:
+                        calendarCoordinator.push(.noTreatment)
+                    case .available:
+                        calendarCoordinator.push(.treatment)
+                    case .none:
+                        break
+                    }
+                })
             
             Spacer()
                 .frame(height: 72.adjustedH)
@@ -53,7 +62,6 @@ struct SelectTreatmentView: View {
         .ignoresSafeArea()
         .padding(.leading, 34.adjustedW)
         .padding(.trailing, 33.adjustedW)
-        
     }
 }
 

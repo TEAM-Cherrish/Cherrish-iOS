@@ -12,6 +12,7 @@ enum CalendarRoute: PresentationTypeProtocol {
     case root
     case selectTreatment
     case noTreatment
+    case treatment
 }
 
 final class CalendarCoordinator: CoordinatorProtocol {
