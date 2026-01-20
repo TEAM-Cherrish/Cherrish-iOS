@@ -195,6 +195,7 @@ extension CalendarView {
                 }
                 .coordinateSpace(name: "ProcedureScroll")
                 .onPreferenceChange(ScrollTopPreferenceKey.self) { v in
+                    if initialTopGlobalY == nil { initialTopGlobalY = v }
                     topGlobalY = (calendarMode == .none) ? v : 0
                 }
                 .onPreferenceChange(ScrollBottomPreferenceKey.self) { v in
@@ -297,14 +298,10 @@ extension CalendarView {
     private var scrollViewTopMarkerView: some View {
         GeometryReader { proxy in
             Color.clear
-                .onAppear {
-                    let v = proxy.frame(in: .global).minY
-                    topGlobalY = v
-                    if initialTopGlobalY == nil { initialTopGlobalY = v }
-                }
-                .onChange(of: proxy.frame(in: .global).minY) { v in
-                    topGlobalY = v
-                }
+                .preference(
+                    key: ScrollTopPreferenceKey.self,
+                    value: proxy.frame(in: .named("ProcedureScroll")).minY
+                )
         }
         .frame(height: 0)
     }
@@ -330,4 +327,4 @@ extension CalendarView {
         guard calendarMode == .none, let initial = initialTopGlobalY else { return false }
         return topGlobalY < initial - 0.1
     }
-}
+  }
