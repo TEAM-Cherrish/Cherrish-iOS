@@ -47,7 +47,7 @@ enum TreatmentAPI: EndPoint {
         }
     }
     
-    var queryParameters: [String : String]? {
+    var queryParameters: [String : Any]? {
         switch self {
         case .fetchCategories:
             return nil
