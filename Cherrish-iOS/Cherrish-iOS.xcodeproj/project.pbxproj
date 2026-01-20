@@ -272,9 +272,12 @@
 		};
 		51B5D3272F05143A0090B8B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 51B5D31A2F0514390090B8B4 /* Cherrish-iOS */;
+			baseConfigurationReferenceRelativePath = Core/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				BASE_URL = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -308,6 +311,8 @@
 		};
 		51B5D3282F05143A0090B8B4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 51B5D31A2F0514390090B8B4 /* Cherrish-iOS */;
+			baseConfigurationReferenceRelativePath = Core/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
