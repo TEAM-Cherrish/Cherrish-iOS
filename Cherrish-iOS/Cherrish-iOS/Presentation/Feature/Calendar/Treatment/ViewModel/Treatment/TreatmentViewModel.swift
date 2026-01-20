@@ -19,9 +19,14 @@ final class TreatmentViewModel: ObservableObject{
     @Published var searchText = ""
     
     private let fetchTreatmentsUseCase: FetchTreatmentsUseCase
+    private let calendarTreatmentFlowState: CalendarTreatmentFlowState
     
-    init(fetchTreatmentsUseCase: FetchTreatmentsUseCase) {
+    init(
+        fetchTreatmentsUseCase: FetchTreatmentsUseCase,
+        calendarTreatmentFlowState: CalendarTreatmentFlowState
+    ) {
         self.fetchTreatmentsUseCase = fetchTreatmentsUseCase
+        self.calendarTreatmentFlowState = calendarTreatmentFlowState
     }
     
     var step: Int { state.rawValue }
@@ -37,21 +42,21 @@ final class TreatmentViewModel: ObservableObject{
     }
     
     var canProceed: Bool {
-           switch state {
-           case .targetDdaySetting:
-               return isDateTextFieldNotEmpty()
-           case .treatmentFilter:
-               return !selectedTreatments.isEmpty
-           case .downTimeSetting:
-               return selectedTreatments.allSatisfy { $0.setDowntime != nil }
-                   
-           }
-       }
+        switch state {
+        case .targetDdaySetting:
+            return isDateTextFieldNotEmpty()
+        case .treatmentFilter:
+            return !selectedTreatments.isEmpty
+        case .downTimeSetting:
+            return selectedTreatments.allSatisfy { $0.setDowntime != nil }
+            
+        }
+    }
     
     @MainActor
     func fetchTreatments() async throws {
         do {
-           treatments = try await fetchTreatmentsUseCase.execute(id: nil, keyword: searchText)
+            treatments = try await fetchTreatmentsUseCase.execute(id: nil, keyword: searchText)
         } catch {
             treatments = []
         }
@@ -78,7 +83,7 @@ final class TreatmentViewModel: ObservableObject{
               let dayInt = Int(day), dayInt >= 1, dayInt <= 31 else {
             return false
         }
-
+        
         return true
         
     }
@@ -91,7 +96,7 @@ extension TreatmentViewModel {
         guard !isSelected(treatment) else { return }
         selectedTreatments.append(treatment)
     }
-
+    
     func removeTreatment(_ treatment: TreatmentEntity) {
         selectedTreatments.removeAll { $0.id == treatment.id }
     }

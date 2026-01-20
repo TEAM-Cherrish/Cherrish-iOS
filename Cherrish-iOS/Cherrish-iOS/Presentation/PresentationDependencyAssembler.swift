@@ -17,6 +17,10 @@ final class PresentationDependencyAssembler: DependencyAssembler {
     func assemble() {
         preAssembler.assemble()
         
+        DIContainer.shared.register(type: CalendarTreatmentFlowState.self) {
+            return CalendarTreatmentFlowState()
+        }
+        
         guard let createProfileUseCase = DIContainer.shared.resolve(type: CreateProfileUseCase.self) else {
             CherrishLogger.error(CherrishError.DIFailedError)
             return
@@ -27,8 +31,13 @@ final class PresentationDependencyAssembler: DependencyAssembler {
         }
         
         guard let fetchProcedureCountOfMonthUseCase = DIContainer.shared.resolve(type: FetchProcedureCountOfMonth.self),
-            let fetchTodayProcedureListUseCase = DIContainer.shared.resolve(type: FetchTodayProcedureList.self)
+              let fetchTodayProcedureListUseCase = DIContainer.shared.resolve(type: FetchTodayProcedureList.self)
         else {
+            CherrishLogger.error(CherrishError.DIFailedError)
+            return
+        }
+        
+        guard let calendarTreatmentFlowState = DIContainer.shared.resolve(type: CalendarTreatmentFlowState.self) else {
             CherrishLogger.error(CherrishError.DIFailedError)
             return
         }
@@ -36,7 +45,8 @@ final class PresentationDependencyAssembler: DependencyAssembler {
         DIContainer.shared.register(type: CalendarViewModel.self) {
             return CalendarViewModel(
                 fetchProcedureCountOfMonthUseCase: fetchProcedureCountOfMonthUseCase,
-                fetchTodayProcedureListUseCase: fetchTodayProcedureListUseCase
+                fetchTodayProcedureListUseCase: fetchTodayProcedureListUseCase,
+                calendarTreatmentFlowState: calendarTreatmentFlowState
             )
         }
         
@@ -62,12 +72,19 @@ final class PresentationDependencyAssembler: DependencyAssembler {
         }
         
         DIContainer.shared.register(type: NoTreatmentViewModel.self) {
-            return NoTreatmentViewModel(fetchCategoriesUseCase: fetchTreatmentCategoriesUseCase, fetchTreatmentsUseCase: fetchTreatmentsUseCase)
+            return NoTreatmentViewModel(
+                fetchCategoriesUseCase: fetchTreatmentCategoriesUseCase,
+                fetchTreatmentsUseCase: fetchTreatmentsUseCase,
+                calendarTreatmentFlowState: calendarTreatmentFlowState
+            )
         }
         
         
         DIContainer.shared.register(type: TreatmentViewModel.self) {
-            return TreatmentViewModel(fetchTreatmentsUseCase: fetchTreatmentsUseCase)
+            return TreatmentViewModel(
+                fetchTreatmentsUseCase: fetchTreatmentsUseCase,
+                calendarTreatmentFlowState: calendarTreatmentFlowState
+            )
         }
     }
 }

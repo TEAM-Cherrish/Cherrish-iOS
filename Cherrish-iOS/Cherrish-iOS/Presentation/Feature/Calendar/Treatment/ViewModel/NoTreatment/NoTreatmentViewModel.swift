@@ -20,10 +20,17 @@ final class NoTreatmentViewModel: ObservableObject{
     
     private let fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase
     private let fetchTreatmentsUseCase: FetchTreatmentsUseCase
+    private let calendarTreatmentFlowState: CalendarTreatmentFlowState
     
-    init(fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase, fetchTreatmentsUseCase: FetchTreatmentsUseCase) {
+    
+    init(
+        fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase,
+        fetchTreatmentsUseCase: FetchTreatmentsUseCase,
+        calendarTreatmentFlowState: CalendarTreatmentFlowState
+    ) {
         self.fetchCategoriesUseCase = fetchCategoriesUseCase
         self.fetchTreatmentsUseCase = fetchTreatmentsUseCase
+        self.calendarTreatmentFlowState = calendarTreatmentFlowState
     }
     
     var step: Int { state.rawValue }
@@ -64,7 +71,7 @@ final class NoTreatmentViewModel: ObservableObject{
         do {
             categories = try await fetchCategoriesUseCase.execute()
         } catch {
-            
+            CherrishLogger.debug(error)
         }
     }
     
@@ -74,6 +81,7 @@ final class NoTreatmentViewModel: ObservableObject{
             treatments = try await fetchTreatmentsUseCase.execute(id: selectedCategory?.id, keyword: "")
         } catch {
             treatments = []
+            CherrishLogger.debug(error)
         }
     }
     
