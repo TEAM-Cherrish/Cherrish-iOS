@@ -15,7 +15,7 @@ final class DataDependencyAssembler: DependencyAssembler {
         self.networkService = DefaultNetworkService()
         self.userDefaultService = DefaultUserDefaultService()
     }
-    
+
     func assemble() {
         DIContainer.shared.register(type: CalendarInterface.self) {
             return DefaultCalendarRepository(
@@ -23,7 +23,7 @@ final class DataDependencyAssembler: DependencyAssembler {
                 userDefaultService: self.userDefaultService
             )
         }
-        
+
         DIContainer.shared.register(type: HomeInterface.self) {
             return DefaultHomeRepository(
                 networkService: self.networkService,
@@ -40,6 +40,13 @@ final class DataDependencyAssembler: DependencyAssembler {
          
         DIContainer.shared.register(type: TreatmentInterface.self) {
             return DefaultTreatmentRepository(networkService: self.networkService, userDefaultService: self.userDefaultService)
+        }
+
+        DIContainer.shared.register(type: DemoInterface.self) {
+            return DefaultDemoRepository(
+                networkService: self.networkService,
+                userDefaultService: self.userDefaultService
+            )
         }
         
         DIContainer.shared.register(type: MyPageInterface.self) {

@@ -12,3 +12,13 @@ struct RoutineToggleResponseDTO: Decodable {
     let name: String
     let isComplete: Bool
 }
+
+extension RoutineToggleResponseDTO {
+    func toEntity() -> RoutineEntity {
+        .init(
+            routineID: routineId,
+            name: name,
+            isComplete: isComplete
+        )
+    }
+}
