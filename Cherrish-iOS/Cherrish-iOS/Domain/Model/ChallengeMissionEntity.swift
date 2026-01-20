@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ChallengeMissionEntity: Identifiable, Equatable {
-    let id: UUID = UUID()
+struct ChallengeMissionEntity: Identifiable, Equatable, Hashable {
+    let id: Int
     let title: String
 }
