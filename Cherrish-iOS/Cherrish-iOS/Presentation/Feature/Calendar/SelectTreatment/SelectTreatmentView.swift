@@ -10,7 +10,7 @@ import SwiftUI
 struct SelectTreatmentView: View {
     @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
     @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
-    @StateObject private var viewModel = SelectTreatmentViewModel()
+    @ObservedObject var viewModel: SelectTreatmentViewModel
     
     var body: some View {
         CherrishNavigationBar(
@@ -29,12 +29,12 @@ struct SelectTreatmentView: View {
             Spacer()
                 .frame(height: 94.adjustedH)
             
-            TitleView()
+            titleView
             
             Spacer()
                 .frame(height: 40.adjustedH)
             
-            SelectChipsView(viewModel: viewModel)
+            selectChipsView
             
             Spacer()
             
@@ -44,7 +44,16 @@ struct SelectTreatmentView: View {
                 state: $viewModel.buttonState,
                 leadingIcon: nil,
                 trailingIcon: nil,
-                action: { })
+                action: {
+                    switch viewModel.treatmentSelectionState {
+                    case .notSelected:
+                        calendarCoordinator.push(.noTreatment)
+                    case .available:
+                        calendarCoordinator.push(.treatment)
+                    case .none:
+                        break
+                    }
+                })
             
             Spacer()
                 .frame(height: 72.adjustedH)
@@ -53,13 +62,13 @@ struct SelectTreatmentView: View {
         .ignoresSafeArea()
         .padding(.leading, 34.adjustedW)
         .padding(.trailing, 33.adjustedW)
-        
     }
 }
 
-private struct TitleView: View {
+extension SelectTreatmentView {
     
-    var body: some View {
+    @ViewBuilder
+    private var titleView: some View {
         HStack {
             VStack(alignment: .leading){
                 TypographyText("시술 일정을 추가해볼게요.", style: .title1_sb_18, color: .gray1000)
@@ -72,13 +81,10 @@ private struct TitleView: View {
             Spacer()
         }
     }
-}
-
-private struct SelectChipsView: View {
-    @ObservedObject var viewModel: SelectTreatmentViewModel
     
-    var body: some View {
-        HStack(spacing: 12) {
+    @ViewBuilder
+    private var selectChipsView: some View {
+        HStack(spacing: 12.adjustedW) {
             ForEach(TreatmentSelectionState.allCases, id: \.self) { state in
                 SelectionChip(
                     title: state.title,

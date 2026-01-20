@@ -10,7 +10,9 @@ import SwiftUI
 
 enum CalendarRoute: PresentationTypeProtocol {
     case root
-    case selectTreatment // TODO: 추후 수정
+    case selectTreatment
+    case noTreatment
+    case treatment
 }
 
 final class CalendarCoordinator: CoordinatorProtocol {

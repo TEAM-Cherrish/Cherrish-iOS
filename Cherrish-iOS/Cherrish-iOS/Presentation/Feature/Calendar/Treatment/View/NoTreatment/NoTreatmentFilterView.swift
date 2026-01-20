@@ -12,7 +12,7 @@ struct NoTreatmentFilterView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            TitleHeaderView(title: viewModel.treatmentCatagory?.title ?? "")
+            TitleHeaderView(title: viewModel.selectedCategory?.title ?? "")
             
             Spacer()
                 .frame(height: 10.adjustedH)
@@ -28,8 +28,7 @@ struct NoTreatmentFilterView: View {
                         isSelected: .constant(viewModel.isSelected(treatment)),
                         action: { viewModel.addTreatment(treatment) }
                     )
-                    .padding(.leading, 34.adjustedW)
-                    .padding(.trailing, 33.adjustedW)
+                    .padding(.horizontal, 34.adjustedW)
                     
                 }
             }
@@ -41,20 +40,22 @@ private struct TitleHeaderView: View {
     let title: String
     
     var body: some View {
-        VStack {
+        VStack(spacing: 4.adjustedH) {
             VStack(alignment: .leading) {
-                HStack(spacing: 6) {
+                HStack(spacing: 6.adjustedW) {
                     TypographyText(title, style: .title1_sb_18, color: .gray1000)
                     
                     TypographyText("관련 시술 리스트", style: .title1_sb_18, color: .gray1000)
                 
                     Spacer()
-                    
+
                 }
-                HStack(spacing: 4) {
+                .frame(height: 27.adjustedH)
+                
+                HStack(spacing: 4.adjustedW) {
                     VStack {
                         TypographyText("◎", style: .body3_r_12, color: .gray600)
-                        
+                            .frame(height: 17.adjustedH)
                         Spacer()
                         
                     }
@@ -63,12 +64,11 @@ private struct TitleHeaderView: View {
                         
                         TypographyText("관련 시술 리스트", style: .body3_r_12, color: .gray600)
                         
-                        Spacer()
-                        
                     }
+                    .frame(height: 34.adjustedH)
                 }
             }
-            .padding(.leading, 25.adjustedW)
+            .padding(.horizontal, 25.adjustedW)
             .padding(.vertical, 20.adjustedH)
             
             Spacer()

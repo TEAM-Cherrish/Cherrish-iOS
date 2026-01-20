@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct DowntimeBottomSheetView: View {
-    @State var selectedDowntime: Int = 5
-    @State var rate: Double = 0.5
+    let treatment: TreatmentEntity
+    let today: (year: Int, month: Int, day: Int)
+    let setday: (year: Int, month: Int, day: Int)
+    @State private var selectedDowntime: Int = 1
+    @State private var rate: Double = 0.0
+    @State private var betweenDays: Int = 0
     
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
-                .frame(height: 25.adjustedH)
+                .frame(height: 35.adjustedH)
             
             TypographyText("개인 다운타임으로 설정해주세요.", style: .title1_sb_18, color: .gray1000)
                 .frame(height: 27.adjustedH)
@@ -34,17 +38,30 @@ struct DowntimeBottomSheetView: View {
             
             grayLineView
                 .padding(.horizontal, 25.adjustedW)
-
+            
             pickerView
             
             grayLineView
                 .padding(.horizontal, 25.adjustedW)
             
+            Spacer()
+                .frame(height: 44.adjustedH)
+            buttonView
+            
+        }
+        .onAppear {
+            selectedDowntime = treatment.downtimeMax
+            betweenDays = Date.daysBetween(from: setday, to: today) ?? 0
+            rate = betweenDays > 0 ? min(Double(selectedDowntime) / Double(betweenDays), 1.0) : 1.0
+        }
+        .onChange(of: selectedDowntime) {
+            rate = betweenDays > 0 ? min(Double(selectedDowntime) / Double(betweenDays), 1.0) : 1.0
         }
     }
 }
 
 extension DowntimeBottomSheetView {
+    
     private var speechBubble: some View {
         ZStack {
             Image(.speechBubble)
@@ -52,7 +69,21 @@ extension DowntimeBottomSheetView {
                 .scaledToFill()
                 .frame(height: 53.adjustedH)
             
-            TypographyText("회복 목표디데이로부터 약 7일 전에 안정될 수 있어요.", style: .body1_r_14, color: .gray1000)
+            Group {
+                if betweenDays - selectedDowntime < 1 {
+                    TypographyText(
+                        "설정한 다운타임은 목표일을 넘깁니다.",
+                        style: .body1_r_14,
+                        color: .gray1000
+                    )
+                } else {
+                    TypographyText(
+                        "회복 목표디데이로부터 약 \(betweenDays - selectedDowntime)일 전에 안정될 수 있어요.",
+                        style: .body1_r_14,
+                        color: .gray1000
+                    )
+                }
+            }
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
                 .padding(.horizontal, 18.adjustedW)
@@ -72,8 +103,7 @@ extension DowntimeBottomSheetView {
                 
                 Spacer ()
                 
-                TypographyText("여유기간 7일", style: .title2_m_16, color: .gray800)
-                
+                TypographyText("여유기간 \(betweenDays - selectedDowntime < 0 ? 0 : betweenDays - selectedDowntime)일", style: .title2_m_16, color: .gray800)
                 Spacer()
             }
             
@@ -96,12 +126,12 @@ extension DowntimeBottomSheetView {
             .padding(.horizontal, 25.adjustedW)
             
             HStack {
-                TypographyText("1월 2일", style: .body2_r_13, color: .gray700)
+                TypographyText("\(today.month)월 \(today.day)일", style: .body2_r_13, color: .gray700)
                     .frame(height: 18.adjustedH)
                 
                 Spacer()
                 
-                TypographyText("1월 14일", style: .body2_r_13, color: .gray700)
+                TypographyText("\(setday.month)월 \(setday.day)일", style: .body2_r_13, color: .gray700)
                     .frame(height: 18.adjustedH)
             }
             .padding(.horizontal, 25.adjustedW)
@@ -119,10 +149,19 @@ extension DowntimeBottomSheetView {
             Spacer()
             
             VStack(spacing: 0) {
-                TypographyText("다운타임", style: .headline_sb_20, color: .gray1000)
+                TypographyText(
+                    "다운타임",
+                    style: .headline_sb_20,
+                    color: .gray1000
+                )
                     .frame(height: 30.adjustedH)
                 
-                TypographyText("보통 3-5일", style: .title2_m_16, color: .gray600)
+                TypographyText(
+                    "보통 \(treatment.downtimeMin)-\(treatment.downtimeMax)일",
+                    style: .title2_m_16,
+                    color: .gray600
+                )
+                .frame(height: 24.adjustedH)
             }
             
             Spacer()
@@ -131,5 +170,38 @@ extension DowntimeBottomSheetView {
             
             Spacer()
         }
+    }
+    
+    private var buttonView: some View {
+        GeometryReader { geo in
+            HStack(spacing: 4.adjustedW) {
+                CherrishButton(
+                    title: "다운타임 없이 일정 추가",
+                    type: .addEvent,
+                    state: .constant(
+                        .normal
+                    ),
+                    leadingIcon: .none,
+                    trailingIcon: .none,
+                    action: { })
+                .frame(width: geo.size.width * 2/3 - 2)
+                
+                CherrishButton(
+                    title: "확인",
+                    type: .small,
+                    state: .constant(
+                        .normal
+                    ),
+                    leadingIcon: .none,
+                    trailingIcon: .none,
+                    action: { })
+                .frame(
+                    width: geo.size.width * 1/3 - 2
+                )
+                
+            }
+        }
+        .frame(height: 50.adjustedH)
+        .padding(.horizontal, 24.adjustedW)
     }
 }

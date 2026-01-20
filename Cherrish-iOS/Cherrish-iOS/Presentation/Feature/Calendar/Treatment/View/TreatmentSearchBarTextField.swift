@@ -14,13 +14,14 @@ struct TreatmentSearchBarTextField: View {
     var body: some View {
         
         VStack {
-           
             HStack{
                 ZStack {
                     if text.isEmpty {
                         HStack{
                             TypographyText("원하시는 시술을 적어주세요.", style: .body1_r_14, color: .gray600)
+                            
                             Spacer()
+                            
                         }
                     }
                     TextField("" ,text: $text)
@@ -32,8 +33,9 @@ struct TreatmentSearchBarTextField: View {
                             enter()
                         }
                 }
+                .frame(height: 20.adjustedH)
                 .padding(.vertical, 8.adjustedH)
-                .padding(.leading, 16.5.adjustedW)
+                
                 Button{
                     enter()
                 } label: {
@@ -41,11 +43,11 @@ struct TreatmentSearchBarTextField: View {
                         Image(.search)
                     }
                 }
-                .padding(.leading, 8)
+                .padding(.leading, 8.adjustedW)
                 .disabled(isDisabled)
             }
-            .padding(.trailing, 16.5.adjustedW)
         }
+        .padding(.horizontal, 16.5.adjustedW)
         .background{
             RoundedRectangle(cornerRadius: 30)
                 .foregroundStyle(.gray200)
