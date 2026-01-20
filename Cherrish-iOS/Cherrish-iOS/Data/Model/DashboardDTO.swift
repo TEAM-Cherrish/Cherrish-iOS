@@ -17,19 +17,6 @@ struct DashboardDTO: Decodable {
     let upcomingProcedures: [UpcomingProcedureDTO]
 }
 
-struct RecentProcedureDTO: Decodable {
-    let name: String
-    let daysSince: Int
-    let currentPhase: String
-}
-
-struct UpcomingProcedureDTO: Decodable {
-    let date: String
-    let name: String
-    let count: Int
-    let dDay: Int
-}
-
 extension DashboardDTO {
     func toEntity() -> DashboardEntity {
         DashboardEntity(
@@ -40,40 +27,6 @@ extension DashboardDTO {
             challengeRate: challengeRate,
             recentProcedures: recentProcedures.map { $0.toEntity() },
             upcomingProcedures: upcomingProcedures.map { $0.toEntity() }
-        )
-    }
-}
-
-extension RecentProcedureDTO {
-    func toEntity() -> RecentProcedureEntity {
-        RecentProcedureEntity(
-            name: name,
-            daysSince: daysSince,
-            currentPhase: convertToPhase(currentPhase)
-        )
-    }
-    
-    private func convertToPhase(_ phase: String) -> ProcedurePhase {
-        switch phase {
-        case "SENSITIVE":
-            return .sensitive
-        case "CAUTION":
-            return .caution
-        case "RECOVERY":
-            return .recovery
-        default:
-            return .sensitive
-        }
-    }
-}
-
-extension UpcomingProcedureDTO {
-    func toEntity() -> UpcomingProcedureEntity {
-        UpcomingProcedureEntity(
-            date: date,
-            name: name,
-            count: count,
-            dDay: dDay
         )
     }
 }
