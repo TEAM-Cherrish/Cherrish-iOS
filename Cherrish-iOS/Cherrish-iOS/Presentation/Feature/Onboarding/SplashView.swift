@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SplashView: View {
     @EnvironmentObject private var appCoordinator: AppCoordinator
+    private let userDefaultService: UserDefaultService = DefaultUserDefaultService()
     
     var body: some View {
         ZStack(alignment: .center) {
@@ -25,14 +26,19 @@ struct SplashView: View {
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                let userID = UserDefaults.standard.integer(forKey: UserDefaultsKey.userID.rawValue)
-                if userID != 0 {
-                    appCoordinator.navigationToTabbar()
-                } else {
-                    appCoordinator.navigationToOnboarding()
-                }
+                navigateBasedOnUserStatus()
             }
         }
         .ignoresSafeArea()
+    }
+    
+    private func navigateBasedOnUserStatus() {
+        let userID: Int? = userDefaultService.load(key: .userID)
+        
+        if userID != nil {
+            appCoordinator.navigationToTabbar()
+        } else {
+            appCoordinator.navigationToOnboarding()
+        }
     }
 }
