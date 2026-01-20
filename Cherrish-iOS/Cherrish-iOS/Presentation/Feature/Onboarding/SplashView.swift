@@ -9,8 +9,6 @@ import SwiftUI
 
 struct SplashView: View {
     @EnvironmentObject private var appCoordinator: AppCoordinator
-    private let userDefaultService: UserDefaultService = DefaultUserDefaultService()
-    
     private let userDefaultService: UserDefaultService
     
     init(userDefaultService: UserDefaultService = DefaultUserDefaultService()) {

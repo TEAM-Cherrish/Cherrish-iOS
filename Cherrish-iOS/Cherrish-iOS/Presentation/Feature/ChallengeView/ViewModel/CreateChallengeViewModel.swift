@@ -51,11 +51,11 @@ final class CreateChallengeViewModel: ObservableObject {
     @Published var missonsSelectedState: [ChallengeMissionEntity: Bool] = [:]
     
     private let fetchRoutineUseCase: FetchChllengeHomecareRoutinesUseCase
-    private let postChallengeRecommendUseCase: postChallengeRecommendUseCase
+    private let postChallengeRecommendUseCase: PostChallengeRecommendUseCase
     
     init(
         fetchRoutineUseCase: FetchChllengeHomecareRoutinesUseCase,
-        postChallengeRecommendUseCase: postChallengeRecommendUseCase
+        postChallengeRecommendUseCase: PostChallengeRecommendUseCase
     ) {
         self.fetchRoutineUseCase = fetchRoutineUseCase
         self.postChallengeRecommendUseCase = postChallengeRecommendUseCase

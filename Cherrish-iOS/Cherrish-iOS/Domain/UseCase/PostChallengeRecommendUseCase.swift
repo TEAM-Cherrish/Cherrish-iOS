@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol postChallengeRecommendUseCase {
+protocol PostChallengeRecommendUseCase {
     func excute(id: Int) async throws -> [ChallengeMissionEntity]
 }
 
-struct DefaultSubmitChallengRecommendUseCase: postChallengeRecommendUseCase {
+struct DefaultSubmitChallengRecommendUseCase: PostChallengeRecommendUseCase {
     
     private let repository: ChallengeInterface
     

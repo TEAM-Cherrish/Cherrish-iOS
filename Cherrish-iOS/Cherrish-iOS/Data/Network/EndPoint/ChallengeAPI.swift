@@ -54,7 +54,7 @@ enum ChallengeAPI: EndPoint {
         }
     }
     
-    var queryParameters: [String : String]? {
+    var queryParameters: [String : Any]? {
         switch self {
         case .fetchRoutines:
             return nil

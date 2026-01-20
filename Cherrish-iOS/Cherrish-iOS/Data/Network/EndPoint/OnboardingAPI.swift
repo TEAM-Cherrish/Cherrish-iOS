@@ -41,7 +41,7 @@ enum OnboardingAPI: EndPoint {
         return JSONEncoding.default
     }
     
-    var queryParameters: [String: String]? {
+    var queryParameters: [String: Any]? {
         return nil
     }
     
