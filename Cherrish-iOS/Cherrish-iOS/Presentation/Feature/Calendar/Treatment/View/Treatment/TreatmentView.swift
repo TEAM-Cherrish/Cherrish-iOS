@@ -10,7 +10,7 @@ import SwiftUI
 struct TreatmentView: View {
     @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
     @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
-    @ObservedObject var viewModel: TreatmentViewModel
+    @StateObject var viewModel: TreatmentViewModel
     
     var body: some View {
         VStack(spacing: 0) {
