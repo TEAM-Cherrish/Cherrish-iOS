@@ -6,10 +6,11 @@
 //
 
 import Foundation
+
 import Alamofire
 
 enum TreatmentAPI: EndPoint {
-    case fetchCategories
+    case fetchCategories(userId: Int)
     
     var basePath: String {
         switch self {
@@ -34,8 +35,8 @@ enum TreatmentAPI: EndPoint {
     
     var headers: HeaderType {
         switch self {
-        case .fetchCategories:
-            return .basic
+        case .fetchCategories(let userId):
+            return .withAuth(userID: userId)
         }
     }
     
