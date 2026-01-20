@@ -45,7 +45,7 @@ struct DownTimeSettingView: View {
                             selectedTreatment = treatment
                         })
                 }
-                
+
                 Spacer()
                     .frame(height: 14.adjustedH)
                 

@@ -239,7 +239,11 @@ extension CalendarView {
                 state: $buttonState,
                 leadingIcon: Image(.plus),
                 trailingIcon: nil,
-                action: { calendarCoordinator.push(.selectTreatment) }
+                action: {
+                    calendarCoordinator.push(
+                        .selectTreatment
+                    )
+                }
             )
             .padding(.horizontal, 24)
             
