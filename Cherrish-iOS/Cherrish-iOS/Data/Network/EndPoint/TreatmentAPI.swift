@@ -61,7 +61,5 @@ enum TreatmentAPI: EndPoint {
             return .none
         }
     }
-    
-    
 }
 
