@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MyPageView: View {
+    @StateObject var viewModel: MyPageViewModel
+    
     var body: some View {
         VStack {
             Spacer()
@@ -17,6 +19,13 @@ struct MyPageView: View {
             prepareView
                 .padding(.horizontal, 35)
             grayEmptyBar
+        }
+        .task {
+            do {
+                try await viewModel.fetchUserInfo()
+            } catch {
+                CherrishLogger.error(error)
+            }
         }
     }
 }
@@ -29,10 +38,10 @@ extension MyPageView {
                 .frame(width: 48.adjustedW, height: 48.adjustedH)
             
             VStack(alignment: .leading, spacing: 0){
-                TypographyText("안녕하세요, 김채채 님", style: .title1_sb_18, color: .gray1000)
+                TypographyText("안녕하세요, \(viewModel.name)님", style: .title1_sb_18, color: .gray1000)
                     .frame(height: 27.adjustedH)
                 
-                TypographyText("관리 시작 D + 13", style: .body1_m_14, color: .gray800)
+                TypographyText("관리 시작 D + \(viewModel.day)", style: .body1_m_14, color: .gray800)
                     .frame(height: 20.adjustedH)
             }
             
