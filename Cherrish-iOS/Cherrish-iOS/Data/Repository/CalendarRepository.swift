@@ -20,10 +20,10 @@ struct DefaultCalendarRepository: CalendarInterface {
     }
     
     func fetchProcedureCountOfMonth(year: Int, month: Int) async throws -> MonthlyEntity {
-//        let userID: Int = userDefaultService.load(key: .userID) ?? 1
+        let userID: Int = userDefaultService.load(key: .userID) ?? 1
         let response = try await networkService.request(
             CalendarAPI.monthly(
-                userID: 2,
+                userID: userID,
                 year: year,
                 month: month
             ),
@@ -33,13 +33,31 @@ struct DefaultCalendarRepository: CalendarInterface {
         return response.toEntity()
     }
     
-    func fetchTodayProcedureList(date: String) async throws -> [ProcedureEntity] {
-        return []
+    func fetchTodayProcedureList(date: String) async throws -> [DailyProcedureEntity] {
+        let userID: Int = userDefaultService.load(key: .userID) ?? 1
+        let response = try await networkService.request(
+            CalendarAPI.daily(
+                userID: userID,
+                date: date
+            )
+            , decodingType: CalendarDailyResponseDTO.self
+        )
+        
+        return response.toEntity()
     }
     
-    //    func fetchProcedureDowntime(id: Int) -> [] {
-    //        return []
-    //    }
+    func fetchProcedureDowntime(id: Int) async throws -> ProcedureDowntimeEntity {
+        let userID: Int = userDefaultService.load(key: .userID) ?? 1
+        let response = try await networkService.request(
+            CalendarAPI.downtime(
+                userID: userID,
+                id: id
+            )
+            , decodingType: CalendarDowntimeResponseDTO.self
+        )
+        
+        return response.toEntity()
+    }
 }
 
 struct MockCalendarRepository: CalendarInterface {
@@ -54,99 +72,27 @@ struct MockCalendarRepository: CalendarInterface {
         )
     }
     
-    func fetchTodayProcedureList(date: String) -> [ProcedureEntity] {
+    func fetchTodayProcedureList(date: String) -> [DailyProcedureEntity] {
         return [
-            ProcedureEntity(
-                procedureId: 1,
-                name: "레이저 토닝",
-                downtimeDays: 7,
-                recoveryTargetDate: "2026-02-07",
-                sensitiveDays: [
-                    "2026-01-28",
-                    "2026-01-29",
-                    "2026-01-30"
-                ],
-                cautionDays: [
-                    "2026-01-31",
-                    "2026-02-01"
-                ],
-                recoveryDays: [
-                    "2026-02-02",
-                    "2026-02-02"
-                ]
-            ),
-            ProcedureEntity(
-                procedureId: 2,
-                name: "보톡스",
-                downtimeDays: 3,
-                recoveryTargetDate: "2026-01-17",
-                sensitiveDays: [
-                    "2026-01-15"
-                ],
-                cautionDays: [
-                    "2026-01-16"
-                ],
-                recoveryDays: [
-                    "2026-01-17"
-                ]
-            ),
-            ProcedureEntity(
-                procedureId: 3,
-                name: "필러",
-                downtimeDays: 5,
-                recoveryTargetDate: "2026-01-17",
-                sensitiveDays: [
-                    "2026-01-15",
-                    "2026-01-16"
-                ],
-                cautionDays: [
-                    "2026-01-17",
-                    "2026-01-18"
-                ],
-                recoveryDays: [
-                    "2026-01-19"
-                ]
-            ),
-            ProcedureEntity(
-                procedureId: 4,
-                name: "IPL 레이저",
-                downtimeDays: 2,
-                recoveryTargetDate: "2026-01-18",
-                sensitiveDays: [
-                    "2026-01-15"
-                ],
-                cautionDays: [
-                    "2026-01-16"
-                ],
-                recoveryDays: []
-            ),
-            ProcedureEntity(
-                procedureId: 5,
-                name: "윤곽 주사",
-                downtimeDays: 4,
-                recoveryTargetDate: "2026-01-19",
-                sensitiveDays: [
-                    "2026-01-15",
-                    "2026-01-16"
-                ],
-                cautionDays: [
-                    "2026-01-17"
-                ],
-                recoveryDays: [
-                    "2026-01-18"
-                ]
-            ),
-            ProcedureEntity(
-                procedureId: 6,
-                name: "피부 스케일링",
-                downtimeDays: 0,
-                recoveryTargetDate: "2026-01-16",
-                sensitiveDays: [
-                    "2026-01-15"
-                ],
-                cautionDays: [],
-                recoveryDays: []
-            )
-        ]
+            
+           ]
+    }
+    
+    func fetchProcedureDowntime(id: Int) async throws -> ProcedureDowntimeEntity {
+        return ProcedureDowntimeEntity(
+            procedureId: 123,
+            downtimeDays: 7,
+            recoveryTargetDate: "2026-02-02",
+            sensitiveDays: [
+                "2026-01-29",
+                "2026-01-30"
+            ],
+            cautionDays: [
+                "2026-01-31",
+                "2026-02-01"
+            ],
+            recoveryDays: [
+                "2026-02-02"
+            ])
     }
 }

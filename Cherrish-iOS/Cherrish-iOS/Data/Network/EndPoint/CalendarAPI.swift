@@ -11,7 +11,7 @@ import Alamofire
 
 enum CalendarAPI {
     case monthly(userID: Int, year: Int, month: Int)
-    case daily(userID: Int)
+    case daily(userID: Int, date: String)
     case downtime(userID: Int, id: Int)
 }
 
@@ -42,7 +42,7 @@ extension CalendarAPI: EndPoint {
     var headers: HeaderType {
         switch self {
         case .monthly(let userID, _, _),
-                .daily(let userID),
+                .daily(let userID, _),
                 .downtime(let userID, _):
             return .withAuth(userID: userID)
         }
@@ -59,7 +59,9 @@ extension CalendarAPI: EndPoint {
         switch self {
         case .monthly(_, let year, let month):
             return ["year": year, "month": month]
-        case .daily, .downtime:
+        case .daily(_, let date):
+            return ["date": date]
+        case .downtime:
             return nil
         }
     }
