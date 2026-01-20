@@ -9,9 +9,11 @@ import Foundation
 
 final class DataDependencyAssembler: DependencyAssembler {
     private let networkService: NetworkService
+    private let userDefaultService: UserDefaultService
     
     init() {
         self.networkService = DefaultNetworkService()
+        self.userDefaultService = DefaultUserDefaultService()
     }
     
     func assemble() {
@@ -20,7 +22,10 @@ final class DataDependencyAssembler: DependencyAssembler {
         }
         
         DIContainer.shared.register(type: HomeInterface.self) {
-            return DefaultHomeRepository(networkService: self.networkService)
+            return DefaultHomeRepository(
+                networkService: self.networkService,
+                userDefaultService: self.userDefaultService
+            )
         }
     }
 }

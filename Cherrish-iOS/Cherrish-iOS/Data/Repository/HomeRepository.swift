@@ -9,14 +9,15 @@ import Foundation
 
 struct DefaultHomeRepository: HomeInterface {
     private let networkService: NetworkService
+    private let userDefaultService: UserDefaultService
     
-    init(networkService: NetworkService) {
+    init(networkService: NetworkService, userDefaultService: UserDefaultService) {
         self.networkService = networkService
+        self.userDefaultService = userDefaultService
     }
     
     func fetchDashboard() async throws -> DashboardEntity {
-        let userID = UserDefaults.standard.integer(forKey: UserDefaultsKey.userID.rawValue)
-        
+        let userID: Int = userDefaultService.load(key: .userID) ?? 1
         let dto = try await networkService.request(
             HomeAPI.fetchDashboard(userID: userID),
             decodingType: DashboardDTO.self
