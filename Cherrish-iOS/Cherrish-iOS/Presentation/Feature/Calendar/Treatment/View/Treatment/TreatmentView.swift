@@ -67,7 +67,7 @@ struct TreatmentView: View {
                 month: $viewModel.month,
                 day: $viewModel.day
             )
-            .padding(.horizontal, 34.adjustedW)
+          
 
             .id(viewModel.state)
             
