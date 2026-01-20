@@ -11,7 +11,15 @@ struct TreatmentFilterView: View {
     @ObservedObject var viewModel: TreatmentViewModel
     var body: some View {
         VStack {
-            TreatmentSearchBarTextField(text: $viewModel.searchText, enter: { }, isDisabled: !viewModel.searchText.isEmpty)
+            TreatmentSearchBarTextField(
+                text: $viewModel.searchText,
+                enter: {
+                    Task {
+                        await viewModel.fetchTreatments()
+                    }
+                },
+                isDisabled: true
+            )
             
             ScrollView(.vertical, showsIndicators: false) {
                 HStack(alignment: .top,spacing: 4) {
@@ -23,7 +31,7 @@ struct TreatmentFilterView: View {
                             style: .body3_r_12,
                             color: .gray600
                         )
-                            .lineLimit(2)
+                        .lineLimit(2)
                         
                     }
                     
@@ -31,29 +39,19 @@ struct TreatmentFilterView: View {
                     
                 }
                 .frame(height: 34.adjustedH)
-                
-                if viewModel.filteredTreatments.isEmpty {
-                    ForEach(viewModel.treatments, id: \.id) { treatment in
-                        TreatmentRowView(
-                            displayMode: .checkBoxView,
-                            treatmentEntity: treatment,
-                            isSelected: .constant(viewModel.isSelected(treatment)),
-                            action: { viewModel.addTreatment(treatment) }
-                        )
-                    }
-                } else {
-                    ForEach(viewModel.filteredTreatments, id: \.id) {
-                        treatment in
-                        TreatmentRowView(
-                            displayMode: .checkBoxView,
-                            treatmentEntity: treatment,
-                            isSelected: .constant(viewModel.isSelected(treatment)),
-                            action: { viewModel.addTreatment(treatment) }
-                        )
-                    }
+                ForEach(viewModel.treatments, id: \.id) { treatment in
+                    TreatmentRowView(
+                        displayMode: .checkBoxView,
+                        treatmentEntity: treatment,
+                        isSelected: .constant(viewModel.isSelected(treatment)),
+                        action: { viewModel.addTreatment(treatment) }
+                    )
                 }
             }
             
+        }
+        .task {
+            await viewModel.fetchTreatments()
         }
         .padding(.horizontal, 24.5.adjustedW)
     }

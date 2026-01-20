@@ -13,5 +13,12 @@ struct TreatmentEntity: Identifiable, Equatable, Hashable {
     let benefits: [String]
     let downtimeMin: Int
     let downtimeMax: Int
-    let setDowntime: Int?
+    var setDowntime: Int?
+    
+    mutating func updateDowntime(_ value: Int) {
+            setDowntime = value
+        }
 }
+
+
+

@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct DowntimeBottomSheetView: View {
-    let treatment: TreatmentEntity
+    @Binding var treatment: TreatmentEntity
+    @Binding var selectedTreatment: TreatmentEntity?
     let today: (year: Int, month: Int, day: Int)
     let setday: (year: Int, month: Int, day: Int)
     @State private var selectedDowntime: Int = 1
     @State private var rate: Double = 0.0
     @State private var betweenDays: Int = 0
+    
     
     var body: some View {
         VStack(spacing: 0) {
@@ -61,7 +63,7 @@ struct DowntimeBottomSheetView: View {
 }
 
 extension DowntimeBottomSheetView {
-    
+
     private var speechBubble: some View {
         ZStack {
             Image(.speechBubble)
@@ -183,7 +185,11 @@ extension DowntimeBottomSheetView {
                     ),
                     leadingIcon: .none,
                     trailingIcon: .none,
-                    action: { })
+                    action: {
+                        treatment.updateDowntime(0)
+                        selectedTreatment = nil
+                        
+                    })
                 .frame(width: geo.size.width * 2/3 - 2)
                 
                 CherrishButton(
@@ -194,7 +200,10 @@ extension DowntimeBottomSheetView {
                     ),
                     leadingIcon: .none,
                     trailingIcon: .none,
-                    action: { })
+                    action: {
+                            treatment.updateDowntime(selectedDowntime)
+                            selectedTreatment = nil
+                    })
                 .frame(
                     width: geo.size.width * 1/3 - 2
                 )

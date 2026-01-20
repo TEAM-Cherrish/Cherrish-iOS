@@ -8,18 +8,23 @@
 import Foundation
 
 final class NoTreatmentViewModel: ObservableObject{
-    @Published var state: NoTreatmentStep = .treatmentSelectedCategory
     @Published private(set) var categories: [TreatmentCategoryEntity] = []
     @Published private(set) var selectedCategory: TreatmentCategoryEntity?
+    @Published private(set) var treatments: [TreatmentEntity] = []
+    @Published var selectedTreatments: [TreatmentEntity] = []
+    @Published var state: NoTreatmentStep = .treatmentSelectedCategory
     @Published var dDay: DdayState?
     @Published var year: String = ""
     @Published var month: String = ""
     @Published var day: String = ""
-    @Published private(set) var treatments: [TreatmentEntity] = []
-    @Published private(set) var selectedTreatments: [TreatmentEntity] = []
     
     private let fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase
     private let fetchTreatmentsUseCase: FetchTreatmentsUseCase
+    
+    init(fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase, fetchTreatmentsUseCase: FetchTreatmentsUseCase) {
+        self.fetchCategoriesUseCase = fetchCategoriesUseCase
+        self.fetchTreatmentsUseCase = fetchTreatmentsUseCase
+    }
     
     var step: Int { state.rawValue }
     
@@ -35,12 +40,7 @@ final class NoTreatmentViewModel: ObservableObject{
             return true
         }
     }
-    
-    init(fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase, fetchTreatmentsUseCase: FetchTreatmentsUseCase) {
-        self.fetchCategoriesUseCase = fetchCategoriesUseCase
-        self.fetchTreatmentsUseCase = fetchTreatmentsUseCase
-    }
-    
+
     var today: (year: Int, month: Int, day: Int) {
         let calendar = Calendar.current
         let now = Date()
@@ -60,7 +60,7 @@ final class NoTreatmentViewModel: ObservableObject{
     }
     
     @MainActor
-    func loadCategories() async {
+    func fetchCategories() async {
         do {
             categories = try await fetchCategoriesUseCase.execute()
         } catch {
@@ -69,9 +69,9 @@ final class NoTreatmentViewModel: ObservableObject{
     }
     
     @MainActor
-    func testfetchTreatments() async {
+    func fetchNoTreatments() async {
         do {
-            treatments = try await fetchTreatmentsUseCase.execute(id: nil, keyword: "")
+            treatments = try await fetchTreatmentsUseCase.execute(id: selectedCategory?.id, keyword: "")
         } catch {
             treatments = []
         }

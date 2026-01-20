@@ -79,7 +79,7 @@ struct TreatmentView: View {
             
         case .downTimeSetting:
             DownTimeSettingView(
-                treatments: viewModel.selectedTreatments,
+                treatments: $viewModel.selectedTreatments,
                 setday: (
                     viewModel.toInt(
                         viewModel.year

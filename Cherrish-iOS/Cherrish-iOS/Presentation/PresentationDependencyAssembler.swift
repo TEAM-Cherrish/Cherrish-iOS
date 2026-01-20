@@ -59,8 +59,9 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return NoTreatmentViewModel(fetchCategoriesUseCase: useCase,fetchTreatmentsUseCase: fetchTreatmentsUseCase)
         }
         
+        
         DIContainer.shared.register(type: TreatmentViewModel.self) {
-            return TreatmentViewModel()
+            return TreatmentViewModel(fetchTreatmentsUseCase: fetchTreatmentsUseCase)
         }
     }
 }

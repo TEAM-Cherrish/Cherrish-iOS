@@ -10,7 +10,7 @@ import SwiftUI
 struct NoTreatmentView: View {
     @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
     @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
-    @ObservedObject var viewModel: NoTreatmentViewModel
+    @StateObject var viewModel: NoTreatmentViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -50,7 +50,7 @@ struct NoTreatmentView: View {
         }
         .ignoresSafeArea(.keyboard)
         .task {
-            await viewModel.loadCategories()
+            await viewModel.fetchCategories()
         }
         .onAppear {
             tabBarCoordinator.isTabbarHidden = true
@@ -77,10 +77,9 @@ struct NoTreatmentView: View {
 
         case .treatmentFilter:
             NoTreatmentFilterView(viewModel: viewModel)
-
         case .downTimeSetting:
             DownTimeSettingView(
-                treatments: viewModel.selectedTreatments,
+                treatments: $viewModel.selectedTreatments,
                 setday: (
                     viewModel.toInt(
                         viewModel.year

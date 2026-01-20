@@ -10,7 +10,7 @@ import Alamofire
 
 enum TreatmentAPI: EndPoint {
     case fetchCategories
-    case fetchProcedures(id: Int?, text: String?)
+    case fetchProcedures(id: Int? = nil, text: String? = nil)
     
     var basePath: String {
         switch self {
@@ -59,14 +59,14 @@ enum TreatmentAPI: EndPoint {
         }
     }
     
-    var queryParameters: [String : String]? {
+    var queryParameters: [String : Any]? {
         switch self {
         case .fetchCategories:
             return nil
         case .fetchProcedures(let id, let text):
-            var params: [String: String] = [:]
+            var params: [String: Any] = [:]
                if let id = id {
-                   params["worryId"] = "\(id)"
+                   params["worryId"] = id
                } 
                if let text = text {
                    params["keyword"] = "\(text)"
