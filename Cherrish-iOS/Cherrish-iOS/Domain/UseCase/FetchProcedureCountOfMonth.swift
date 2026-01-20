@@ -8,7 +8,7 @@
 import Foundation
 
 protocol FetchProcedureCountOfMonth {
-    func execute(year: Int, month: Int) async throws -> [Int: Int]
+    func execute(year: Int, month: Int) async throws -> MonthlyEntity
 }
 
 struct DefaultFetchProcedureCountOfMonth: FetchProcedureCountOfMonth {
@@ -18,7 +18,7 @@ struct DefaultFetchProcedureCountOfMonth: FetchProcedureCountOfMonth {
         self.repository = repository
     }
     
-    func execute(year: Int, month: Int) async throws -> [Int : Int] {
-        return repository.fetchProcedureCountOfMonth(year: year, month: month)
+    func execute(year: Int, month: Int) async throws -> MonthlyEntity {
+        return try await repository.fetchProcedureCountOfMonth(year: year, month: month)
     }
 }
