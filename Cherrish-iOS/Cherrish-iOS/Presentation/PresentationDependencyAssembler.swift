@@ -47,12 +47,16 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return
         }
         
+        DIContainer.shared.register(type: SelectTreatmentViewModel.self) {
+            return SelectTreatmentViewModel()
+        }
+        
         DIContainer.shared.register(type: NoTreatmentViewModel.self) {
             return NoTreatmentViewModel(fetchCategoriesUseCase: fetchTreatmentCategoriesUseCase)
         }
         
-
-        
-        
+        DIContainer.shared.register(type: TreatmentViewModel.self) {
+            return TreatmentViewModel()
+        }
     }
 }
