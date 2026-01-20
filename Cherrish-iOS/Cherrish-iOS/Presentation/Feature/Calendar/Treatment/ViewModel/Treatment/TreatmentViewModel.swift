@@ -1,28 +1,44 @@
 //
-//  NoTreatmentViewModel.swift
+//  TreatmentViewModel.swift
 //  Cherrish-iOS
 //
-//  Created by 어재선 on 1/15/26.
+//  Created by 어재선 on 1/16/26.
 //
 
-import Foundation
+import SwiftUI
+import Combine
 
-final class NoTreatmentViewModel: ObservableObject{
-    @Published var state: NoTreatment = .treatmentSelectedCategory
-    @Published var treatmentCatagory: TreatmentCategory?
+final class TreatmentViewModel: ObservableObject{
+    @Published var state: TreatmentStep = .targetDdaySetting
     @Published var dDay: DdayState?
     @Published var year: String = ""
     @Published var month: String = ""
     @Published var day: String = ""
     @Published var treatments: [TreatmentEntity] = TreatmentEntity.mockData
     @Published var selectedTreatments: [TreatmentEntity] = []
+    @Published var searchText = ""
+    @Published var filteredTreatments: [TreatmentEntity] = []
     
     var step: Int { state.rawValue }
     
+    var cancellables = Set<AnyCancellable>()
+    
+    var today: (year: Int, month: Int, day: Int) {
+        let calendar = Calendar.current
+        let now = Date()
+        return (
+            calendar.component(.year, from: now),
+            calendar.component(.month, from: now),
+            calendar.component(.day, from: now)
+        )
+    }
+    
+    init() {
+        filteredTreatments = treatments
+               setupSearch()
+    }
     var canProceed: Bool {
            switch state {
-           case .treatmentSelectedCategory:
-               return treatmentCatagory != nil
            case .targetDdaySetting:
                return isDateTextFieldNotEmpty()
            case .treatmentFilter:
@@ -40,25 +56,23 @@ final class NoTreatmentViewModel: ObservableObject{
         state.previous()
     }
     
+    func toInt(_ value: String) -> Int {
+        Int(value) ?? 0
+    }
+    
     func isDateTextFieldNotEmpty() -> Bool {
         guard !year.isEmpty, !month.isEmpty, !day.isEmpty else {
             return false
         }
-        
         guard let yearInt = Int(year), yearInt >= 2020,
-              let monthInt = Int(month), (1...12).contains(monthInt),
-              let dayInt = Int(day), (1...31).contains(dayInt) else {
+              let monthInt = Int(month), monthInt >= 1, monthInt <= 12,
+              let dayInt = Int(day), dayInt >= 1, dayInt <= 31 else {
             return false
         }
-        
-        let components = DateComponents(year: yearInt, month: monthInt, day: dayInt)
-        
-        guard let date = Calendar.current.date(from: components),
-              Calendar.current.dateComponents([.year, .month, .day], from: date) == components else {
-            return false
-        }
-        
-        return true
-    }
 
+        return true
+        
+    }
+    
+    
 }

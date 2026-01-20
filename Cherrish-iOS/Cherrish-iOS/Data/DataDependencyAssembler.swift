@@ -27,5 +27,16 @@ final class DataDependencyAssembler: DependencyAssembler {
                 userDefaultService: self.userDefaultService
             )
         }
+        
+        DIContainer.shared.register(type: OnboardingInterface.self) {
+            return DefaultOnboardingRepository(
+                networkService: self.networkService,
+                userDefaultService: self.userDefaultService
+            )
+        }
+         
+        DIContainer.shared.register(type: TreatmentInterface.self) {
+            return DefaultTreatmentRepository(networkService: self.networkService, userDefaultService: self.userDefaultService)
+        }
     }
 }
