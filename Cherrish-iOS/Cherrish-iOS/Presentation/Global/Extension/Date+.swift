@@ -22,7 +22,7 @@ extension Date {
     }
 }
 
-private extension Date {
+extension Date {
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"

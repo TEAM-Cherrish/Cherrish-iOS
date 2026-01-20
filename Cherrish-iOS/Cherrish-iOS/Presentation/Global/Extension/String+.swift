@@ -29,4 +29,16 @@ extension String {
 
         return String.outputFormatter.string(from: date)
     }
+    
+    var toKoreanMonthDay: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        guard let parsedDate = formatter.date(from: self) else {
+            return self
+        }
+        
+        formatter.dateFormat = "M월 d일"
+        return formatter.string(from: parsedDate)
+    }
 }
