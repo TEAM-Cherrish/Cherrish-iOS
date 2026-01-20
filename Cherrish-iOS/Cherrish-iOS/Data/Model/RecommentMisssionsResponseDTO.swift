@@ -10,3 +10,11 @@ import Foundation
 struct RecommentMisssionsResponseDTO: Decodable {
     let routines: [String]
 }
+
+extension RecommentMisssionsResponseDTO {
+    func toEntities() -> [ChallengeMissionEntity] {
+        return routines.enumerated().map { index, title in
+            ChallengeMissionEntity(id: index, title: title)
+        }
+    }
+}
