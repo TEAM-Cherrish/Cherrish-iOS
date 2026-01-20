@@ -49,7 +49,7 @@ final class TreatmentViewModel: ObservableObject{
        }
     
     @MainActor
-    func fetchTreatments() async {
+    func fetchTreatments() async throws {
         do {
            treatments = try await fetchTreatmentsUseCase.execute(id: nil, keyword: searchText)
         } catch {

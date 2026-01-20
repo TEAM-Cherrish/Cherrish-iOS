@@ -15,11 +15,12 @@ struct TreatmentFilterView: View {
                 text: $viewModel.searchText,
                 onTap: {
                     Task {
-                        await viewModel.fetchTreatments()
+                       try await viewModel.fetchTreatments()
                     }
                 },
                 isDisabled: false
             )
+            .padding(.horizontal, 25.adjustedW)
             
             ScrollView(.vertical, showsIndicators: false) {
                 HStack(alignment: .top,spacing: 4) {
@@ -39,6 +40,7 @@ struct TreatmentFilterView: View {
                     
                 }
                 .frame(height: 34.adjustedH)
+                .padding(.horizontal, 25.adjustedW)
                 ForEach(viewModel.treatments, id: \.id) { treatment in
                     TreatmentRowView(
                         displayMode: .checkBoxView,
@@ -46,13 +48,15 @@ struct TreatmentFilterView: View {
                         isSelected: .constant(viewModel.isSelected(treatment)),
                         action: { viewModel.addTreatment(treatment) }
                     )
-                }
+                } .padding(.horizontal, 24.adjustedW)
             }
             
         }
         .task {
-            await viewModel.fetchTreatments()
+            Task {
+                try await viewModel.fetchTreatments()
+            }
         }
-        .padding(.horizontal, 24.5.adjustedW)
+       
     }
 }
