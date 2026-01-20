@@ -10,3 +10,4 @@ import Foundation
 protocol HomeInterface {
     func fetchDashboard() async throws -> DashboardEntity
 }
+
