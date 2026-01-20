@@ -10,6 +10,8 @@ import SwiftUI
 struct SplashView: View {
     @EnvironmentObject private var appCoordinator: AppCoordinator
     
+    private let userDefaultService: UserDefaultService? = DIContainer.shared.resolve(type: UserDefaultService.self)
+    
     var body: some View {
         ZStack(alignment: .center) {
             LinearGradient(
@@ -25,9 +27,19 @@ struct SplashView: View {
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                appCoordinator.navigationToOnboarding()
+                navigateBasedOnUserStatus()
             }
         }
         .ignoresSafeArea()
+    }
+    
+    private func navigateBasedOnUserStatus() {
+        let userID: Int? = userDefaultService?.load(key: .userID)
+        
+        if userID != nil {
+            appCoordinator.navigationToTabbar()
+        } else {
+            appCoordinator.navigationToOnboarding()
+        }
     }
 }

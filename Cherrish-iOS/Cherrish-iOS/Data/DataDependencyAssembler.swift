@@ -17,6 +17,10 @@ final class DataDependencyAssembler: DependencyAssembler {
     }
     
     func assemble() {
+        DIContainer.shared.register(type: UserDefaultService.self) {
+            return self.userDefaultService
+        }
+        
         DIContainer.shared.register(type: CalendarInterface.self) {
             return MockCalendarRepository()
         }
