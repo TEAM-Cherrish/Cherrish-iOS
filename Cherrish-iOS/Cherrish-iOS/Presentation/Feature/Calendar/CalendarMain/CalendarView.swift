@@ -48,11 +48,13 @@ struct CalendarView: View {
             
         }
         .task (id: viewModel.currentMonth){
-            do {
-                try await viewModel.fetchProcedureCountsOfMonth()
-                try await viewModel.fetchTodayProcedureList()
-            } catch {
-                CherrishLogger.error(error)
+            if calendarMode == .none {
+                do {
+                    try await viewModel.fetchProcedureCountsOfMonth()
+                    try await viewModel.fetchTodayProcedureList()
+                } catch {
+                    CherrishLogger.error(error)
+                }
             }
         }
         .background(.gray0)
@@ -167,7 +169,7 @@ extension CalendarView {
                     ForEach(viewModel.procedureList, id: \.self) { procedure in
                         ProcedureView(
                             treatmentTitle: procedure.name,
-                            treatmentDate: viewModel.selectedDate.toDateString(),
+                            treatmentDate: viewModel.treatmentDate,
                             downTimeDays: procedure.downtimeDays,
                             calendarMode: $calendarMode,
                             isSelected: selectedProcedureID == procedure.procedureId
@@ -175,7 +177,15 @@ extension CalendarView {
                         .onTapGesture {
                             calendarMode.toggle()
                             selectedProcedureID = procedure.procedureId
-                            viewModel.fetchDowntimeByDay(procedureId: procedure.procedureId)
+                            
+                            Task {
+                                do {
+                                    try await viewModel.fetchDowntimeByDay(procedureId: procedure.procedureId)
+                                }
+                                catch {
+                                    CherrishLogger.error(error)
+                                }
+                            }
                         }
                     }
                     

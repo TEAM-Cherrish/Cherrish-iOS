@@ -18,18 +18,23 @@ final class CalendarViewModel: ObservableObject {
     @Published var currentMonth: Int = 0
     @Published var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @Published private(set) var procedureCountOfMonth: [Int: Int] = [:]
-    @Published private(set) var procedureList: [ProcedureEntity] = []
+    @Published private(set) var procedureList: [DailyProcedureEntity] = []
+    @Published private(set) var treatmentDate: String = ""
     @Published private(set) var downtimeByDay: [String : DowntimeDayState] = [:]
+    @Published private(set) var selectedDowntime: ProcedureDowntimeEntity?
     
     private let fetchProcedureCountOfMonthUseCase: FetchProcedureCountOfMonth
-    private let fetchTodayProcedureListUseCase: FetchTodayProcedureList
+    private let fetchTodayProcedureListUseCase: FetchTodayProcedureListUseCase
+    private let fetchProcedureDowntimeUseCase: FetchProcedureDowntimeUseCase
     
     init(
         fetchProcedureCountOfMonthUseCase: FetchProcedureCountOfMonth,
-        fetchTodayProcedureListUseCase: FetchTodayProcedureList
+        fetchTodayProcedureListUseCase: FetchTodayProcedureListUseCase,
+        fetchProcedureDowntimeUseCase: FetchProcedureDowntimeUseCase
     ) {
         self.fetchProcedureCountOfMonthUseCase = fetchProcedureCountOfMonthUseCase
         self.fetchTodayProcedureListUseCase = fetchTodayProcedureListUseCase
+        self.fetchProcedureDowntimeUseCase = fetchProcedureDowntimeUseCase
     }
     
     func select(date: Date) {
@@ -71,19 +76,17 @@ final class CalendarViewModel: ObservableObject {
     }
     
     func isDDay(for date: Date, selectedProcedureID: Int) -> Bool {
-        guard let procedure = procedureList.first(where: { $0.procedureId == selectedProcedureID }) else { return false }
+        guard let selectedDowntime, selectedDowntime.procedureId == selectedProcedureID else { return false }
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         formatter.locale = Locale(identifier: "ko_KR")
         formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
         
-        guard let targetDate = formatter.date(from: procedure.recoveryTargetDate) else { return false }
-        
+        guard let targetDate = formatter.date(from: selectedDowntime.recoveryTargetDate) else { return false }
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(identifier: "Asia/Seoul")!
         
         let result = calendar.isDate(date, inSameDayAs: targetDate)
-        CherrishLogger.debug("타겟\(procedure.recoveryTargetDate) , 지금 \(date.toDateString()), result=\(result)")
         return result
     }
     
@@ -98,28 +101,28 @@ final class CalendarViewModel: ObservableObject {
         let year = calendar.component(.year, from: targetDate)
         let month = calendar.component(.month, from: targetDate)
         
-        procedureCountOfMonth = try await fetchProcedureCountOfMonthUseCase.execute(year: year, month: month)
-        CherrishLogger.debug(procedureCountOfMonth)
+        let response = try await fetchProcedureCountOfMonthUseCase.execute(year: year, month: month)
+        procedureCountOfMonth = response.dailyProcedureCounts
     }
     
     @MainActor
     func fetchTodayProcedureList() async throws {
-        procedureList = try await fetchTodayProcedureListUseCase.execute(date: selectedDate.toDateString())
-        CherrishLogger.debug(procedureList)
+        treatmentDate = selectedDate.toDateString()
+        procedureList = try await fetchTodayProcedureListUseCase.execute(date: treatmentDate)
     }
     
-    func fetchDowntimeByDay(procedureId: Int) {
-        guard let procedure = procedureList.first(where: { $0.procedureId == procedureId }) else {
-            downtimeByDay = [:]
-            return
-        }
-        mapToDowntimeDays(procedure: procedure)
+    @MainActor
+    func fetchDowntimeByDay(procedureId: Int) async throws {
+        let downtimeList = try await fetchProcedureDowntimeUseCase.execute(id: procedureId)
+        selectedDowntime = downtimeList
+        mapToDowntimeDays(procedure: downtimeList)
     }
 }
 
 extension CalendarViewModel {
     private func getCurrentMonth(addingMonth: Int) -> Date {
-        let calendar = Calendar.current
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "Asia/Seoul")!
         
         guard let currentMonth = calendar.date(
             byAdding: .month,
@@ -133,57 +136,28 @@ extension CalendarViewModel {
     }
     
     private func extractDate(currentMonth: Int) -> [DateValue] {
-        //        let calendar = Calendar.current
-        //
-        //        let currentMonth = getCurrentMonth(addingMonth: currentMonth)
-        //        var days = currentMonth.getAllDates().compactMap { date -> DateValue in
-        //            let day = calendar.component(.day, from: date)
-        //            return DateValue(day: day, date: date)
-        //        }
-        //
-        //        let firstWeekday = calendar.component(.weekday, from: days.first?.date ?? Date())
-        //
-        //        for _ in 0 ..< firstWeekday - 1 {
-        //            days.insert(DateValue(day: -1, date: Date()), at: 0)
-        //        }
-        //
-        //        CherrishLogger.debug(days)
-        //        return days
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(identifier: "Asia/Seoul")!
+        let calendar = Calendar.current
         
-        let targetMonthDate = getCurrentMonth(addingMonth: currentMonth)
-        
-        // 해당 월 1일 (KST 기준)
-        let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: targetMonthDate))!
-        
-        // 1일의 요일 (일=1 ... 토=7) → 일요일 시작 기준 앞 패딩 수
-        let firstWeekday = calendar.component(.weekday, from: startOfMonth)
-        let leading = firstWeekday - 1
-        
-        // 그리드 첫 날짜(일요일)
-        let gridStart = calendar.date(byAdding: .day, value: -leading, to: startOfMonth)!
-        
-        
-        return (0..<42).map { i in
-            let raw = calendar.date(byAdding: .day, value: i, to: gridStart)!
-            let date = calendar.startOfDay(for: raw) // ✅ KST 자정으로 고정
-            
-            let isInTargetMonth = calendar.isDate(date, equalTo: targetMonthDate, toGranularity: .month)
-            let day = isInTargetMonth ? calendar.component(.day, from: date) : -1
-            
-            CherrishLogger.debug(DateValue(day: day, date: date))
-            
+        let currentMonth = getCurrentMonth(addingMonth: currentMonth)
+        var days = currentMonth.getAllDates().compactMap { date -> DateValue in
+            let day = calendar.component(.day, from: date)
             return DateValue(day: day, date: date)
         }
+        
+        let firstWeekday = calendar.component(.weekday, from: days.first?.date ?? Date())
+        
+        for _ in 0 ..< firstWeekday - 1 {
+            days.insert(DateValue(day: -1, date: Date()), at: 0)
+        }
+        
+        return days
     }
     
-    private func mapToDowntimeDays(procedure: ProcedureEntity) {
+    private func mapToDowntimeDays(procedure: ProcedureDowntimeEntity) {
         var map: [String : DowntimeDayState] = [:]
         procedure.sensitiveDays.forEach { map[$0] = .sensitive }
         procedure.cautionDays.forEach { map[$0] = .caution }
         procedure.recoveryDays.forEach { map[$0] = .recovery }
         downtimeByDay = map
-        CherrishLogger.debug(downtimeByDay)
     }
 }
