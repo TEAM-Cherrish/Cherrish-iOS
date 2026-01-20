@@ -25,7 +25,12 @@ struct SplashView: View {
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                appCoordinator.navigationToOnboarding()
+                let userID = UserDefaults.standard.integer(forKey: UserDefaultsKey.userID.rawValue)
+                if userID != 0 {
+                    appCoordinator.navigationToTabbar()
+                } else {
+                    appCoordinator.navigationToOnboarding()
+                }
             }
         }
         .ignoresSafeArea()

@@ -15,7 +15,8 @@ struct DefaultHomeRepository: HomeInterface {
     }
     
     func fetchDashboard() async throws -> DashboardEntity {
-        let userID = 2
+        let userID = UserDefaults.standard.integer(forKey: UserDefaultsKey.userID.rawValue)
+        
         let dto = try await networkService.request(
             HomeAPI.fetchDashboard(userID: userID),
             decodingType: DashboardDTO.self
