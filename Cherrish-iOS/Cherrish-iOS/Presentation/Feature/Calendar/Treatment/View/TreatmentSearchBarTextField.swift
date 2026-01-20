@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TreatmentSearchBarTextField: View {
     @Binding var text: String
-    let enter: () -> Void
+    let onTap: () -> Void
     var isDisabled: Bool
     var body: some View {
         
@@ -30,14 +30,14 @@ struct TreatmentSearchBarTextField: View {
                         .multilineTextAlignment(.leading)
                         .tint(.gray1000)
                         .onSubmit {
-                            enter()
+                            onTap()
                         }
                 }
                 .frame(height: 20.adjustedH)
                 .padding(.vertical, 8.adjustedH)
                 
                 Button{
-                    enter()
+                    onTap()
                 } label: {
                     ZStack {
                         Image(.search)

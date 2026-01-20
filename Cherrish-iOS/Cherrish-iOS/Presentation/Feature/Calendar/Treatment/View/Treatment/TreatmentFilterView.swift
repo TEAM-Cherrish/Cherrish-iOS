@@ -13,12 +13,12 @@ struct TreatmentFilterView: View {
         VStack {
             TreatmentSearchBarTextField(
                 text: $viewModel.searchText,
-                enter: {
+                onTap: {
                     Task {
                         await viewModel.fetchTreatments()
                     }
                 },
-                isDisabled: true
+                isDisabled: false
             )
             
             ScrollView(.vertical, showsIndicators: false) {
