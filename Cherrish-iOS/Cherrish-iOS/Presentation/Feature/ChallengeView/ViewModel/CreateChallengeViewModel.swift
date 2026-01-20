@@ -7,7 +7,41 @@
 
 import Foundation
 
-final class MakeChallengeViewModel: ObservableObject {
+enum challengeViewState: StepNavigatable {
+    case routine
+    case loding
+    case mission
+    
+    var title: String {
+        switch self {
+        case .routine:
+            return "루틴 챌린지 선택"
+        case .loding:
+            return ""
+        case .mission:
+            return "TO-DO 미션 선택"
+        }
+    }
+    
+    var isLeftButton: Bool {
+        return true
+    }
+    
+    var isRightButton: Bool {
+        switch self {
+        case .routine:
+            return true
+        case .loding:
+            return false
+        case .mission:
+            return true
+        }
+    }
+}
+
+
+final class CreateChallengeViewModel: ObservableObject {
+    @Published var viewState: challengeViewState = .routine
     @Published private(set) var routines: [RoutineEntity] = []
     @Published var selectedRoutine: RoutineEntity?
     @Published var isLoading: Bool = false
@@ -17,11 +51,11 @@ final class MakeChallengeViewModel: ObservableObject {
     @Published var missonsSelectedState: [ChallengeMissionEntity: Bool] = [:]
     
     private let fetchRoutineUseCase: FetchChllengeHomecareRoutinesUseCase
-    private let postChallengeRecommendUseCase: SubmitChallengRecommendUseCase
+    private let postChallengeRecommendUseCase: postChallengeRecommendUseCase
     
     init(
         fetchRoutineUseCase: FetchChllengeHomecareRoutinesUseCase,
-        postChallengeRecommendUseCase: SubmitChallengRecommendUseCase
+        postChallengeRecommendUseCase: postChallengeRecommendUseCase
     ) {
         self.fetchRoutineUseCase = fetchRoutineUseCase
         self.postChallengeRecommendUseCase = postChallengeRecommendUseCase
@@ -33,15 +67,22 @@ final class MakeChallengeViewModel: ObservableObject {
         CherrishLogger.debug("루틴 \(routines)")
     }
     
+    func next() {
+        viewState.next()
+    }
+    
+    func previous() {
+        viewState.previous()
+    }
+    
     func selectRoutine(id: Int) {
         guard let routine = routines.first(where: { $0.id == id }) else {
-           selectedRoutine = nil
-           nextButtonState = .normal
-           return
-       }
-
-       selectedRoutine = routine
-       nextButtonState = .active
+            selectedRoutine = nil
+            nextButtonState = .normal
+            return
+        }
+        selectedRoutine = routine
+        nextButtonState = .active
     }
     
     @MainActor
@@ -56,7 +97,7 @@ final class MakeChallengeViewModel: ObservableObject {
         missonsSelectedState[mission]?.toggle()
         CherrishLogger.debug("미션 체크 상태 \(missonsSelectedState)")
     }
-
+    
     @MainActor
     func makeChallenge() async throws {
         

@@ -7,11 +7,8 @@
 
 import SwiftUI
 
-struct SelectRoutineView: View {
-    @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
-    @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
-    
-    @StateObject var viewModel: MakeChallengeViewModel
+struct ChallengeSelectRoutineView: View {
+    @ObservedObject var viewModel: CreateChallengeViewModel
     
     private let columns = [
         GridItem(.flexible(), spacing: 12),
@@ -20,17 +17,6 @@ struct SelectRoutineView: View {
     
     var body: some View {
         VStack {
-            CherrishNavigationBar(
-                title: "루틴 챌린지 선택",
-                leftButtonAction: {
-                    challengeCoordinator.pop()
-                    tabBarCoordinator.isTabbarHidden = false
-                },
-                rightButtonAction: {
-                    challengeCoordinator.popToRoot()
-                    tabBarCoordinator.isTabbarHidden = false
-                }
-            )
             HStack{
                 VStack(alignment: .leading){
                     TypographyText("지금 나에게 가장 필요한\n관리 루틴을 선택해주세요.",
@@ -49,6 +35,7 @@ struct SelectRoutineView: View {
                         routineChip(routine)
                             .onTapGesture {
                                 viewModel.selectedRoutine = routine
+                                viewModel.nextButtonState = .active
                             }
                     }
                 }
@@ -69,7 +56,7 @@ struct SelectRoutineView: View {
                 guard let routineId = viewModel.selectedRoutine?.id else {
                     return
                 }
-                challengeCoordinator.push(.loading)
+                viewModel.next()
                 
                 Task {
                     do {
@@ -79,11 +66,10 @@ struct SelectRoutineView: View {
                         _ = try await (requestTask, minimumDelay)
                         
                         viewModel.isLoading = false
-                        challengeCoordinator.push(.selectMission)
+                        viewModel.next()
                     } catch {
                         CherrishLogger.error(error)
                     }
-                    
                 }
             }
             .padding(.bottom, 38.adjustedH)
@@ -101,7 +87,7 @@ struct SelectRoutineView: View {
     }
 }
 
-private extension SelectRoutineView {
+private extension ChallengeSelectRoutineView {
     @ViewBuilder
     func routineChip(_ routine: RoutineEntity) -> some View {
         SelectionChip(

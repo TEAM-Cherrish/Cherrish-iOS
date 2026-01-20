@@ -7,15 +7,10 @@
 
 import SwiftUI
 
-struct LoadingView: View {
-   @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
-    
+struct ChallengeLoadingView: View {
+   
     var body: some View {
         VStack {
-           CherrishNavigationBar(
-            isDisplayRightButton:false,
-            leftButtonAction: challengeCoordinator.pop
-           )
             VStack(spacing: 4.adjustedH) {
                highlight(highlightText: "피부 컨디션", normalText: "관리 방향을 바탕으로")
                    .padding(.top, 113.adjustedH)

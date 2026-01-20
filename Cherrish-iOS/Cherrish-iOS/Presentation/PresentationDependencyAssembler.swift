@@ -53,12 +53,12 @@ final class PresentationDependencyAssembler: DependencyAssembler {
         guard let fetchChallengeHomecareRoutines = DIContainer.shared.resolve(type: FetchChllengeHomecareRoutinesUseCase.self) else {
             return
         }
-        guard let submitChallengRecommendUseCase = DIContainer.shared.resolve(type: SubmitChallengRecommendUseCase.self) else {
+        guard let submitChallengRecommendUseCase = DIContainer.shared.resolve(type: postChallengeRecommendUseCase.self) else {
             return
         }
 
-        DIContainer.shared.register(type: MakeChallengeViewModel.self) {
-            return MakeChallengeViewModel(fetchRoutineUseCase: fetchChallengeHomecareRoutines, postChallengeRecommendUseCase: submitChallengRecommendUseCase)
+        DIContainer.shared.register(type: CreateChallengeViewModel.self) {
+            return CreateChallengeViewModel(fetchRoutineUseCase: fetchChallengeHomecareRoutines, postChallengeRecommendUseCase: submitChallengRecommendUseCase)
         }
     }
 

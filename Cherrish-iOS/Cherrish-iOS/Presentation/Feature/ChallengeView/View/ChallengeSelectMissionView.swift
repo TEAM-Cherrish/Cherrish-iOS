@@ -7,19 +7,15 @@
 
 import SwiftUI
 
-struct SelectMissionView: View {
+struct ChallengeSelectMissionView: View {
     
     @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
-    @StateObject var viewModel: MakeChallengeViewModel
+    @ObservedObject var viewModel: CreateChallengeViewModel
     
     
     var body: some View {
         VStack {
-            CherrishNavigationBar(
-                title: "TO-DO 미션 선택",
-                leftButtonAction: challengeCoordinator.pop,
-                rightButtonAction: challengeCoordinator.popToRoot
-            )
+           
             VStack {
                 HStack {
                     VStack(alignment: .leading) {
@@ -44,6 +40,7 @@ struct SelectMissionView: View {
                     ForEach(viewModel.missions, id: \.self) { mission in
                         MissionCard(
                             missionText: mission.title,
+                            
                             isSelected: Binding(
                                 get: {
                                     viewModel.missonsSelectedState[mission] ?? false
@@ -85,5 +82,12 @@ struct SelectMissionView: View {
         }
         .frame(maxHeight: .infinity)
         .ignoresSafeArea(edges: .bottom)
+        
+        .onAppear {
+            viewModel.missions.forEach { mission in
+                CherrishLogger.debug("mission: \(mission)")
+            }
+        }
+
     }
 }

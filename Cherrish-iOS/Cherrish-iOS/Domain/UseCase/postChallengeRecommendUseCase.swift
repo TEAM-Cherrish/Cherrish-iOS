@@ -1,5 +1,5 @@
 //
-//  SubmitChallengRecommendUseCase.swift
+//  PostChallengeRecommendUseCase.swift
 //  Cherrish-iOS
 //
 //  Created by sumin Kong on 1/20/26.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol SubmitChallengRecommendUseCase {
+protocol postChallengeRecommendUseCase {
     func excute(id: Int) async throws -> [ChallengeMissionEntity]
 }
 
-struct DefaultSubmitChallengRecommendUseCase: SubmitChallengRecommendUseCase {
+struct DefaultSubmitChallengRecommendUseCase: postChallengeRecommendUseCase {
     
     private let repository: ChallengeInterface
     

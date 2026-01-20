@@ -16,10 +16,8 @@ protocol ViewFactoryProtocol {
     func makeCalendarView() -> CalendarView
     func makeMyPageView() -> MyPageView
     func makeSelectTreatmentView() -> SelectTreatmentView
-    func makeStartChallengeView() -> StartChallengeView
-    func makeSelectRoutineView() -> SelectRoutineView
-    func makeSelectMissionView() -> SelectMissionView
-    func makeLoadingView() -> LoadingView
+    func makeStartChallengeView() -> ChallengeStartChallengeView
+    func makeCreateChallengeView() -> CreateChallengeView
     func makeChallengeProgressView() -> ChallengeProgressView
 }
 
@@ -78,28 +76,16 @@ final class ViewFactory: ViewFactoryProtocol {
         return TreatmentView(viewModel: viewModel)
     }
     
-    func makeStartChallengeView() -> StartChallengeView {
-        return StartChallengeView()
+    func makeStartChallengeView() -> ChallengeStartChallengeView {
+        return ChallengeStartChallengeView()
     }
     
-    func makeSelectRoutineView() -> SelectRoutineView {
-        guard let viewModel = DIContainer.shared.resolve(type: MakeChallengeViewModel.self) else {
+    func makeCreateChallengeView() -> CreateChallengeView {
+        guard let viewModel = DIContainer.shared.resolve(type: CreateChallengeViewModel.self) else {
             fatalError()
         }
-        return SelectRoutineView(viewModel: viewModel)
+        return CreateChallengeView(viewModel: viewModel)
     }
-    
-    func makeSelectMissionView() -> SelectMissionView {
-        guard let viewModel = DIContainer.shared.resolve(type: MakeChallengeViewModel.self) else {
-            fatalError()
-        }
-        return SelectMissionView(viewModel: viewModel)
-    }
-    
-    func makeLoadingView() -> LoadingView {
-        return LoadingView()
-    }
-    
     func makeChallengeProgressView() -> ChallengeProgressView {
         return ChallengeProgressView()
     }
