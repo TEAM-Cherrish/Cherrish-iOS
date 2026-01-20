@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject private var viewModel = DIContainer.shared.resolve(type: HomeViewModel.self)!
+    @StateObject var viewModel: HomeViewModel
     
     var body: some View {
         ZStack {
@@ -136,9 +136,9 @@ private struct ChallengeCardView: View {
             .padding(.leading, 18.adjustedW)
             
             HStack(spacing: 0) {
-                TypographyText("웰니스 • 마음챙김", style: .title2_m_16, color: .gray900)
+                TypographyText(challengeName, style: .title2_m_16, color: .gray900)
                 
-                TypographyText("80.9%", style: .body3_m_12, color: .red700)
+                TypographyText(challengeRate, style: .body3_m_12, color: .red700)
                     .frame(height: 19.adjustedH)
                     .padding(.horizontal, 7.adjustedW)
                     .background(
