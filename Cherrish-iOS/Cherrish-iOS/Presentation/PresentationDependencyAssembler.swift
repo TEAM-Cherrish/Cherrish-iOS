@@ -43,10 +43,16 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return HomeViewModel(fetchDashboardDataUseCase: fetchDashboardData)
         }
         
-        DIContainer.shared.register(type: NoTreatmentViewModel.self) {
-            let repository = MockTreatmentRepository()
-            let useCase = DefaultFetchTreatmentCategoriesUseCase(repository: repository)
-            return NoTreatmentViewModel(fetchCategoriesUseCase: useCase)
+        guard let fetchTreatmentCategoriesUseCase = DIContainer.shared.resolve(type: FetchTreatmentCategoriesUseCase.self) else {
+            return
         }
+        
+        DIContainer.shared.register(type: NoTreatmentViewModel.self) {
+            return NoTreatmentViewModel(fetchCategoriesUseCase: fetchTreatmentCategoriesUseCase)
+        }
+        
+
+        
+        
     }
 }
