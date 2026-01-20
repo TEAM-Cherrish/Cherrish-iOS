@@ -8,6 +8,6 @@
 import Foundation
 
 protocol CalendarInterface {
-    func fetchProcedureCountOfMonth(year: Int, month: Int) -> [Int : Int]
-    func fetchTodayProcedureList(date: String) -> [ProcedureEntity]
+    func fetchProcedureCountOfMonth(year: Int, month: Int) async throws -> MonthlyEntity
+    func fetchTodayProcedureList(date: String) async throws -> [ProcedureEntity]
 }

@@ -8,24 +8,50 @@
 import Foundation
 
 struct DefaultCalendarRepository: CalendarInterface {
-    func fetchProcedureCountOfMonth(year: Int, month: Int) -> [Int : Int] {
-        return [:]
+    private let networkService: NetworkService
+    private let userDefaultService: UserDefaultService
+    
+    init(
+        networkService: NetworkService,
+        userDefaultService: UserDefaultService
+    ) {
+        self.networkService = DefaultNetworkService()
+        self.userDefaultService = DefaultUserDefaultService()
     }
     
-    func fetchTodayProcedureList(date: String) -> [ProcedureEntity] {
+    func fetchProcedureCountOfMonth(year: Int, month: Int) async throws -> MonthlyEntity {
+//        let userID: Int = userDefaultService.load(key: .userID) ?? 1
+        let response = try await networkService.request(
+            CalendarAPI.monthly(
+                userID: 2,
+                year: year,
+                month: month
+            ),
+            decodingType: CalendarMonthlyResponseDTO.self
+        )
+        
+        return response.toEntity()
+    }
+    
+    func fetchTodayProcedureList(date: String) async throws -> [ProcedureEntity] {
         return []
     }
+    
+    //    func fetchProcedureDowntime(id: Int) -> [] {
+    //        return []
+    //    }
 }
 
 struct MockCalendarRepository: CalendarInterface {
-    func fetchProcedureCountOfMonth(year: Int, month: Int) -> [Int : Int] {
-        return [
-            1: 2,
-            7: 5,
-            15: 1,
-            23: 3,
-            31: 6
-        ]
+    func fetchProcedureCountOfMonth(year: Int, month: Int) -> MonthlyEntity {
+        return MonthlyEntity.init(
+            dailyProcedureCounts: [
+                1: 2,
+                7: 5,
+                15: 1,
+                23: 3,
+                31: 6]
+        )
     }
     
     func fetchTodayProcedureList(date: String) -> [ProcedureEntity] {

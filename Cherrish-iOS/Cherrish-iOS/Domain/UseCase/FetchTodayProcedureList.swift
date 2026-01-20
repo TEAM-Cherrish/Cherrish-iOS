@@ -19,7 +19,7 @@ struct DefaultFetchTodayProcedure: FetchTodayProcedureList {
     }
     
     func execute(date: String) async throws -> [ProcedureEntity] {
-        repository.fetchTodayProcedureList(date: date)
+        try await repository.fetchTodayProcedureList(date: date)
     }
 }
 

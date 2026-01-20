@@ -47,7 +47,7 @@ struct CalendarView: View {
             }
             
         }
-        .task {
+        .task (id: viewModel.currentMonth){
             do {
                 try await viewModel.fetchProcedureCountsOfMonth()
                 try await viewModel.fetchTodayProcedureList()
