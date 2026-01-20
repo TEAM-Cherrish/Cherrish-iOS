@@ -44,5 +44,13 @@ final class DomainDependencyAssembler: DependencyAssembler {
         DIContainer.shared.register(type: CreateProfileUseCase.self) {
             return DefaultCreateProfileUseCase(repository: onboardingRepository)
         }
+        
+        guard let treatmentCategoryRepository = DIContainer.shared.resolve(type: TreatmentInterface.self) else {
+            return
+        }
+        
+        DIContainer.shared.register(type: FetchTreatmentCategoriesUseCase.self) {
+            return DefaultFetchTreatmentCategoriesUseCase(repository: treatmentCategoryRepository)
+        }
     }
 }

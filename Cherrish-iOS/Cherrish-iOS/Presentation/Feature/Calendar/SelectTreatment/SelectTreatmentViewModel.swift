@@ -20,7 +20,8 @@ enum TreatmentSelectionState: CaseIterable {
         }
     }
 }
-class SelectTreatmentViewModel: ObservableObject {
+
+final class SelectTreatmentViewModel: ObservableObject {
     @Published var treatmentSelectionState: TreatmentSelectionState?
     @Published var buttonState: ButtonState = .normal
     

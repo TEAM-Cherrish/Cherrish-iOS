@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TreatmentEntity: Equatable, Hashable {
+struct TreatmentEntity: Identifiable, Equatable, Hashable {
     var id: Self { self }
     let name: String
     let benefits: [String]
