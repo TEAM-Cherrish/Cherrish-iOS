@@ -62,9 +62,6 @@ struct SelectTreatmentView: View {
         .ignoresSafeArea()
         .padding(.leading, 34.adjustedW)
         .padding(.trailing, 33.adjustedW)
-        .onAppear {
-                tabBarCoordinator.isTabbarHidden = true
-        }
     }
 }
 

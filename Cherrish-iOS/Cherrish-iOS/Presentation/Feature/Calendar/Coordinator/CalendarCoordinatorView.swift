@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CalendarCoordinatorView: View {
     @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
-    
+    @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
     var body: some View {
         NavigationStack(path: $calendarCoordinator.path) {
             ViewFactory.shared.makeCalendarView()
@@ -20,6 +20,9 @@ struct CalendarCoordinatorView: View {
                             ViewFactory.shared.makeHomeView()
                         case .selectTreatment:
                             ViewFactory.shared.makeSelectTreatmentView()
+                                .onAppear {
+                                        tabBarCoordinator.isTabbarHidden = true
+                                }
                         case .noTreatment:
                             ViewFactory.shared.makeNoTreatmentView()
                         case .treatment:
