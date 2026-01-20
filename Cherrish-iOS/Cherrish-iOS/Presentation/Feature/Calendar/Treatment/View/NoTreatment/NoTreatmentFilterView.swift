@@ -33,6 +33,9 @@ struct NoTreatmentFilterView: View {
                 }
             }
         }
+        .task {
+            await viewModel.testfetchTreatments()
+        }
     }
 }
 

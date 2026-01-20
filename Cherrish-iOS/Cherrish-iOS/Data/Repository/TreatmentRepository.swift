@@ -8,12 +8,28 @@
 import Foundation
 
 struct DefaultTreatmentRepository: TreatmentInterface {
+    
+    private let networkService: NetworkService
+    
+    init(networkService: NetworkService) {
+        self.networkService = networkService
+    }
+ 
     func fetchCategories() async throws -> [TreatmentCategoryEntity] {
         return []
+    }
+    
+    func fetchTreatment(id: Int?, keyword: String?) async throws -> [TreatmentEntity] {
+        let response = try await networkService.request(TreatmentAPI.fetchProcedures(id: id, text: keyword), decodingType: ProceduresResponseDTO.self)
+        return response.procedures.map { $0.toEntity() }
     }
 }
 
 struct MockTreatmentRepository: TreatmentInterface {
+    func fetchTreatment(id: Int?, keyword: String?) async throws -> [TreatmentEntity] {
+        return []
+    }
+    
     func fetchCategories() async throws -> [TreatmentCategoryEntity] {
         return [
             TreatmentCategoryEntity(id: 1, title: "피부결 ∙ 각질"),

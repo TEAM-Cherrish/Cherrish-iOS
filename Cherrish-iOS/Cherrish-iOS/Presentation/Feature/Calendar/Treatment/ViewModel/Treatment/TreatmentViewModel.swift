@@ -14,7 +14,7 @@ final class TreatmentViewModel: ObservableObject{
     @Published var year: String = ""
     @Published var month: String = ""
     @Published var day: String = ""
-    @Published var treatments: [TreatmentEntity] = TreatmentEntity.mockData
+    @Published var treatments: [TreatmentEntity] = []
     @Published var selectedTreatments: [TreatmentEntity] = []
     @Published var searchText = ""
     @Published var filteredTreatments: [TreatmentEntity] = []
