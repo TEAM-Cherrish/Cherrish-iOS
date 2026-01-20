@@ -71,5 +71,13 @@ final class PresentationDependencyAssembler: DependencyAssembler {
         DIContainer.shared.register(type: TreatmentViewModel.self) {
             return TreatmentViewModel(fetchTreatmentsUseCase: fetchTreatmentsUseCase)
         }
+        
+        guard let fetchUserInfoUseCase = DIContainer.shared.resolve(type: FetchUserInfoUseCase.self) else {
+            return
+        }
+        
+        DIContainer.shared.register(type: MyPageViewModel.self) {
+            return MyPageViewModel(fetchUserInfoUseCase: fetchUserInfoUseCase)
+        }
     }
 }
