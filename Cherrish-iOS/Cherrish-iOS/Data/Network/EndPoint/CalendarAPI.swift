@@ -51,7 +51,7 @@ extension CalendarAPI: EndPoint {
     var parameterEncoding: any Alamofire.ParameterEncoding {
         switch self {
         case .monthly, .daily, .downtime:
-            return JSONEncoding()
+            return URLEncoding.default
         }
     }
     
