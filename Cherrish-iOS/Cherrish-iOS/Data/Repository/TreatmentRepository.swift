@@ -8,8 +8,15 @@
 import Foundation
 
 struct DefaultTreatmentRepository: TreatmentInterface {
+    private let networkService: NetworkService
+    
+    init(networkService: NetworkService) {
+        self.networkService = networkService
+    }
+    
     func fetchCategories() async throws -> [TreatmentCategoryEntity] {
-        return []
+        let response = try await networkService.request(TreatmentAPI.fetchCategories, decodingType: [TreatmentCategoryResponseDTO].self)
+        return response.map { $0.toEntity() }
     }
 }
 
