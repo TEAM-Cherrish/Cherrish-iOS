@@ -9,8 +9,8 @@ import Foundation
 import Alamofire
 
 enum TreatmentAPI: EndPoint {
-    case fetchCategories
-    case fetchProcedures(id: Int? = nil, text: String? = nil)
+    case fetchCategories(userId: Int)
+    case fetchProcedures(userId: Int, id: Int? = nil, text: String? = nil)
     
     var basePath: String {
         switch self {
@@ -42,10 +42,10 @@ enum TreatmentAPI: EndPoint {
     
     var headers: HeaderType {
         switch self {
-        case .fetchCategories:
-            return .basic
-        case .fetchProcedures:
-            return .basic
+        case .fetchCategories(let userId):
+            return .withAuth(userID: userId)
+        case .fetchProcedures(let userId, _,  _):
+            return .withAuth(userID: userId)
         }
     }
     
@@ -53,9 +53,9 @@ enum TreatmentAPI: EndPoint {
     var parameterEncoding: any Alamofire.ParameterEncoding {
         switch self {
         case .fetchCategories:
-            return JSONEncoding.default
+            return URLEncoding.default
         case .fetchProcedures:
-            return JSONEncoding.default
+            return URLEncoding.default
         }
     }
     
@@ -63,7 +63,7 @@ enum TreatmentAPI: EndPoint {
         switch self {
         case .fetchCategories:
             return nil
-        case .fetchProcedures(let id, let text):
+        case .fetchProcedures(_, let id, let text):
             var params: [String: Any] = [:]
                if let id = id {
                    params["worryId"] = id

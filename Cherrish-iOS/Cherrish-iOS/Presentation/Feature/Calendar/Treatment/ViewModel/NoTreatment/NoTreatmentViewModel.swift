@@ -37,7 +37,7 @@ final class NoTreatmentViewModel: ObservableObject{
         case .treatmentFilter:
             return !selectedTreatments.isEmpty
         case .downTimeSetting:
-            return true
+            return selectedTreatments.allSatisfy { $0.setDowntime != nil }
         }
     }
 

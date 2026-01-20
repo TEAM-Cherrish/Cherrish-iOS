@@ -10,9 +10,11 @@ import Foundation
 struct DefaultTreatmentRepository: TreatmentInterface {
     
     private let networkService: NetworkService
+    private let userDefaultService: UserDefaultService
     
-    init(networkService: NetworkService) {
+    init(networkService: NetworkService, userDefaultService: UserDefaultService) {
         self.networkService = networkService
+        self.userDefaultService = userDefaultService
     }
  
     func fetchCategories() async throws -> [TreatmentCategoryEntity] {
@@ -20,7 +22,8 @@ struct DefaultTreatmentRepository: TreatmentInterface {
     }
     
     func fetchTreatment(id: Int?, keyword: String?) async throws -> [TreatmentEntity] {
-        let response = try await networkService.request(TreatmentAPI.fetchProcedures(id: id, text: keyword), decodingType: ProceduresResponseDTO.self)
+        let userId: Int = userDefaultService.load(key: .userID) ?? 1
+        let response = try await networkService.request(TreatmentAPI.fetchProcedures(userId: userId,id: id, text: keyword), decodingType: ProceduresResponseDTO.self)
         return response.procedures.map { $0.toEntity() }
     }
 }
