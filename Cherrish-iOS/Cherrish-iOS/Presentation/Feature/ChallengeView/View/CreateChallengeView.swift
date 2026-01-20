@@ -8,12 +8,29 @@
 import SwiftUI
 
 struct CreateChallengeView: View {
+    @EnvironmentObject var challengeCoordinator: ChallengeCoordinator
+    @EnvironmentObject var tabBarCoordinator: TabBarCoordinator
     @StateObject var viewModel: CreateChallengeViewModel
     
     var body: some View {
         VStack {
             CherrishNavigationBar(
-                isDisplayLeftButton: true, isDisplayRightButton: true, title: viewModel.viewState.title, leftButtonAction: {}, rightButtonAction: {}
+                isDisplayLeftButton: viewModel.viewState.isLeftButton,
+                isDisplayRightButton: viewModel.viewState.isRightButton,
+                title: viewModel.viewState.title,
+                leftButtonAction: {
+                    if viewModel.viewState == .routine {
+                        tabBarCoordinator.isTabbarHidden = false
+                        challengeCoordinator.popToRoot()
+                    } else {
+                        viewModel.previous()
+                    }
+                },
+                rightButtonAction: {
+                    tabBarCoordinator.isTabbarHidden = false
+                    challengeCoordinator.popToRoot()
+                    
+                }
             )
             switch viewModel.viewState {
             case .routine:

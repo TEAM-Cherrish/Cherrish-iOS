@@ -22,6 +22,9 @@ struct ChallengeCoordinatorView: View {
                             ViewFactory.shared.makeStartChallengeView()
                         case .createChallenge:
                             ViewFactory.shared.makeCreateChallengeView()
+                                .onAppear {
+                                    tabBarCoordinator.isTabbarHidden = true
+                                }
                         case .challengeProgress:
                             ViewFactory.shared.makeChallengeProgressView()
                                 .onAppear() {
