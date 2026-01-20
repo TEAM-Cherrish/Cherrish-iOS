@@ -18,7 +18,12 @@ struct DefaultTreatmentRepository: TreatmentInterface {
     
     func fetchCategories() async throws -> [TreatmentCategoryEntity] {
         let userId: Int = userDefaultService.load(key: .userID) ?? 1
-        let response = try await networkService.request(TreatmentAPI.fetchCategories(userId: userId), decodingType: [TreatmentCategoryResponseDTO].self)
+        let response = try await networkService.request(
+            TreatmentAPI.fetchCategories(
+                userId: userId
+            ),
+            decodingType: [TreatmentCategoryResponseDTO].self
+        )
         return response.map { $0.toEntity() }
     }
 }
