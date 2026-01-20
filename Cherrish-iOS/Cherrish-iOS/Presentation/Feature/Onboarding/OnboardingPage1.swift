@@ -41,10 +41,11 @@ struct OnboardingPage1: View {
                     Rectangle()
                         .fill(Color.red700)
                         .frame(width: 252.adjustedW, height: 1.4)
+                        .padding(.leading, 4.adjustedW)
                     Rectangle()
                         .fill(Color.red700)	
                         .frame(width: 260.adjustedW, height: 1.4) 
-                        .padding(.top, 3)
+                        .padding(.top, 3.adjustedH)
                     
                     TypographyText("일정을 한 눈에 정리해드려요", style: .title1_sb_18, color: .gray1000)
                         .padding(.top, 6.adjustedH)

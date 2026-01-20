@@ -43,6 +43,11 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return HomeViewModel(fetchDashboardDataUseCase: fetchDashboardData)
         }
         
+        guard let fetchTreatmentCategoriesUseCase = DIContainer.shared.resolve(type: FetchTreatmentCategoriesUseCase.self) else {
+            CherrishLogger.error(CherrishError.DIFailedError)
+            return
+        }
+        
         guard let fetchTreatmentsUseCase = DIContainer.shared.resolve(type: FetchTreatmentsUseCase.self) else {
             return
         }
@@ -52,10 +57,6 @@ final class PresentationDependencyAssembler: DependencyAssembler {
         }
         
         DIContainer.shared.register(type: NoTreatmentViewModel.self) {
-            let repository = MockTreatmentRepository()
-            let useCase = DefaultFetchTreatmentCategoriesUseCase(repository: repository)
-            
-            
             return NoTreatmentViewModel(fetchCategoriesUseCase: useCase,fetchTreatmentsUseCase: fetchTreatmentsUseCase)
         }
         
