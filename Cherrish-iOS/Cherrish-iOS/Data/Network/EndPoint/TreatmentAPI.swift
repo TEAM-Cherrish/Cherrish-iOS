@@ -43,7 +43,7 @@ enum TreatmentAPI: EndPoint {
     var parameterEncoding: any Alamofire.ParameterEncoding {
         switch self {
         case .fetchCategories:
-            return JSONEncoding.default
+            return URLEncoding.default
         }
     }
     
