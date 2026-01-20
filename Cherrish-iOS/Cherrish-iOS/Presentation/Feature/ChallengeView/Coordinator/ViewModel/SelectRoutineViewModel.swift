@@ -14,17 +14,17 @@ struct Routine: Identifiable, Decodable, Equatable {
 }
 
 final class SelectRoutineViewModel: ObservableObject {
-    
+    @Published private(set) var missions: [ChallengeMissionEntity] = []
     @Published var routines: [RoutineEntity] = []
     @Published var selectedRoutine: RoutineEntity?
+    @Published var isloading: Bool = false
     
-    private let challengeRepository: ChallengeInterface
+    private let fetchChallengeHomecareRoutines: FetchChllengeHomecareRoutinesUseCase
+    private let submitChallengRecommendUseCase: SubmitChallengRecommendUseCase
     
-    init(
-        challengeRepository: ChallengeInterface = DIContainer.shared.resolve(type: ChallengeInterface.self) ?? DefaultChallengeRepository(networkService: DefaultNetworkService()
-        )
-    ){
-        self.challengeRepository = challengeRepository
+    init(fetchChallengeHomecareRoutines: FetchChllengeHomecareRoutinesUseCase,submitChallengRecommendUseCase: SubmitChallengRecommendUseCase) {
+        self.fetchChallengeHomecareRoutines = fetchChallengeHomecareRoutines
+        self.submitChallengRecommendUseCase = submitChallengRecommendUseCase
     }
     
     var nextButtonState: ButtonState {
@@ -35,17 +35,23 @@ final class SelectRoutineViewModel: ObservableObject {
         selectedRoutine = routine
     }
     
-    func fetchRoutines() {
-        challengeRepository.fetchHomecareRoutines { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let routines):
-                    self?.routines = routines
-                case .failure(let error):
-                    CherrishLogger.error(error)
-                    self?.routines = []
-                }
-            }
+    @MainActor
+    func fetchRoutines() async {
+        do {
+            self.routines = try await fetchChallengeHomecareRoutines.excute()
+        } catch {
+            CherrishLogger.error(error)
+            routines = []
+        }
+    }
+    
+    @MainActor
+    func postChallengRecommend(id: Int) async {
+        do {
+            missions = try await submitChallengRecommendUseCase.excute(id: id)
+        } catch {
+            CherrishLogger.error(error)
+            missions = []
         }
     }
 }

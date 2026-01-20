@@ -9,33 +9,25 @@ import Foundation
 
 import Alamofire
 
-struct DefaultChallengeRepository: ChallengeInterface {
-    
-    private let networkService: NetworkService
+struct ChallengeRepository: ChallengeInterface {
 
+    private let networkService: NetworkService
+    
     init(networkService: NetworkService) {
         self.networkService = networkService
     }
+    
+    func fetchHomecareRoutines() async throws -> [RoutineEntity] {
+        let response = try await networkService.request(ChallengeAPI.fetchRoutines, decodingType: [ChallengeRoutineDTO].self)
+        
+        return response.map { $0.toEntity() }
+    }
+    
+    func aiRecommendations(id: Int) async throws -> [ChallengeMissionEntity] {
+        let response = try await networkService.request(ChallengeAPI.aiRecommendations(homecareRoutineId: id), decodingType: RecommentMisssionsResponseDTO.self)
+        return response.routines
+            .map { RecommendMissionsDTO(title: $0) }
+            .map { $0.toEntity() }
 
-    func fetchHomecareRoutines(
-        completion: @escaping (Result<[RoutineEntity], Error>) -> Void
-    ) {
-        let url = ChallengeAPI.homecareRoutines.url
-
-        AF.request((url), method: .get)
-            .validate()
-            .responseDecodable(
-                of: BaseResponseDTO<[ChallengeRoutineDTO]>.self
-            ) { response in
-                switch response.result {
-                case .success(let decoded):
-                    let entities: [RoutineEntity] = decoded.data?.map { $0.toEntity()} ?? []
-                    completion(.success(entities))
-
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            }
     }
 }
-

@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct SelectRoutineView: View {
-    
     @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
     @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
     
-    @StateObject private var viewModel = SelectRoutineViewModel()
+    @StateObject var viewModel: SelectRoutineViewModel
     
     private let columns = [
         GridItem(.flexible(), spacing: 12),
@@ -53,9 +52,7 @@ struct SelectRoutineView: View {
                 }
                 .padding(.horizontal, 33.adjustedW)
                 .padding(.top, 40.adjustedH)
-                .onAppear {
-                    viewModel.fetchRoutines()
-                }
+               
             }
             
             Spacer()
@@ -67,19 +64,32 @@ struct SelectRoutineView: View {
                 leadingIcon: nil,
                 trailingIcon: nil
             ){
+                guard let routineId = viewModel.selectedRoutine?.id else {
+                        return
+                    }
                 challengeCoordinator.push(.loading)
+                Task {
+                    await viewModel.postChallengRecommend(id: routineId)
                 }
+            }
             .padding(.bottom, 38.adjustedH)
             .padding(.horizontal, 24.adjustedW)
         }
         .ignoresSafeArea(edges: .bottom)
+        .onAppear {
+            Task {
+                await viewModel.fetchRoutines()
+            }
+        }
+        
     }
 }
 
 private extension SelectRoutineView {
+    @ViewBuilder
     func routineChip(_ routine: RoutineEntity) -> some View {
         SelectionChip(
-            title: routine.name,
+            title: routine.description,
             isSelected: Binding(
                 get: {viewModel.selectedRoutine == routine},
                 set: {isSelected in

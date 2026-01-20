@@ -48,5 +48,15 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             let useCase = DefaultFetchTreatmentCategoriesUseCase(repository: repository)
             return NoTreatmentViewModel(fetchCategoriesUseCase: useCase)
         }
+        
+        guard let fetchChallengeHomecareRoutines = DIContainer.shared.resolve(type: FetchChllengeHomecareRoutinesUseCase.self) else {
+            return
+        }
+        guard let submitChallengRecommendUseCase = DIContainer.shared.resolve(type: SubmitChallengRecommendUseCase.self) else {
+            return
+        }
+        DIContainer.shared.register(type: SelectRoutineViewModel.self) {
+            return SelectRoutineViewModel(fetchChallengeHomecareRoutines: fetchChallengeHomecareRoutines, submitChallengRecommendUseCase: submitChallengRecommendUseCase)
+        }
     }
 }

@@ -6,54 +6,71 @@
 //
 
 import Foundation
-
 import Alamofire
 
-enum ChallengeAPI {
-    case homecareRoutines
-}
+enum ChallengeAPI: EndPoint {
+    case fetchRoutines
+    case aiRecommendations(homecareRoutineId: Int)
     
-extension ChallengeAPI {
-    
-    var baseURL: String {
-        return Environment.baseURL
+    var basePath: String {
+        return "/api/challenges"
     }
     
     var path: String {
         switch self {
-        case .homecareRoutines:
-            return "/api/challenges/homecare-routines"
+        case .fetchRoutines:
+            return "/homecare-routines"
+        case .aiRecommendations:
+            return "/ai-recommendations"
         }
     }
     
-    var method: HTTPMethod {
+    
+    var method: Alamofire.HTTPMethod{
         switch self {
-        case .homecareRoutines:
+        case .fetchRoutines:
             return .get
+        case .aiRecommendations:
+            return .post
         }
     }
-    var headers: HTTPHeaders? {
+    
+    
+    var headers: HeaderType {
         switch self {
-        case .homecareRoutines:
+        case .fetchRoutines:
+            return .basic
+        case .aiRecommendations:
+            return .basic
+        }
+    }
+    
+    var parameterEncoding: any Alamofire.ParameterEncoding {
+        switch self {
+        case .fetchRoutines:
+            return JSONEncoding.default
+        case .aiRecommendations:
+            return JSONEncoding.default
+        }
+    }
+    
+    var queryParameters: [String : String]? {
+        switch self {
+        case .fetchRoutines:
             return nil
-        }
-    }
-        
-    var parameters: Parameters? {
-        switch self {
-        case .homecareRoutines:
+        case .aiRecommendations:
             return nil
         }
     }
     
-    var encoding: ParameterEncoding {
+    var bodyParameters: Alamofire.Parameters? {
         switch self {
-        case .homecareRoutines:
-            return URLEncoding.default
+        case .fetchRoutines:
+            return nil
+        case .aiRecommendations(let homecareRoutineId):
+            return ["homecareRoutineId" : homecareRoutineId]
         }
     }
     
-    var url: String {
-        return baseURL + path
-    }
+    
 }

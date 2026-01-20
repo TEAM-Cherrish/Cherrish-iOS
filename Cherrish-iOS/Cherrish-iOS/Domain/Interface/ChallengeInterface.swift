@@ -8,6 +8,6 @@
 import Foundation
 
 protocol ChallengeInterface {
-    func fetchHomecareRoutines(completion: @escaping (Result<[RoutineEntity], Error>) -> Void
-    )
-} 
+    func fetchHomecareRoutines() async throws -> [RoutineEntity]
+    func aiRecommendations(id: Int) async throws -> [ChallengeMissionEntity]
+}

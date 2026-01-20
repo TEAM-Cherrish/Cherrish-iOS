@@ -10,19 +10,11 @@ import SwiftUI
 struct SelectMissionView: View {
     
     @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
+    @ObservedObject var viewModel: SelectMissionViewModel
     
-    @State private var missions: [String] = [
-        "진정 토너 + 세럼",
-        "진정 토너 + 세럼",
-        "진정 토너 + 세럼",
-        "선크림 3번 바르기",
-        "선크림 3번 바르기",
-        "선크림 3번 바르기"
-    ]
-    @State private var selectedStates: [Bool] = Array(repeating: false, count: 6)
     
     private var nextButtonState: ButtonState {
-        selectedStates.contains(true) ? .active : .normal
+        viewModel.isNextButtonEnabled ? .active : .normal
     }
     
     var body: some View {
@@ -53,10 +45,10 @@ struct SelectMissionView: View {
                 }
                 .padding(.bottom, 30.adjustedH)
                 VStack(spacing: 10.adjustedH) {
-                    ForEach(missions.indices, id: \.self) { index in
+                    ForEach(viewModel.missions.indices, id: \.self) { index in
                         MissionCard(
-                            missionText: missions[index],
-                            isSelected: $selectedStates[index]
+                            missionText: viewModel.missions[index].title,
+                            isSelected: $viewModel.selectedStates[index]
                         )
                     }
                 }
@@ -65,6 +57,7 @@ struct SelectMissionView: View {
             .padding(.top, 48.adjustedH)
             Spacer()
             CherrishButton(title: "플래너에 추가하기", type: .large, state: .constant(nextButtonState), leadingIcon: nil, trailingIcon: nil){
+                let selected = viewModel.selectedMissions()
                 challengeCoordinator.push(.challengeProgress)
             }
             .padding(.horizontal, 24.adjustedW)
@@ -72,10 +65,10 @@ struct SelectMissionView: View {
         }
         .frame(maxHeight: .infinity)
         .onAppear {
-            selectedStates = Array(repeating: false, count: missions.count)
+            viewModel.selectedStates = Array(repeating: false, count: viewModel.missions.count)
         }
-        .onChange(of: missions) { newMissions in
-            selectedStates = Array(repeating: false, count: newMissions.count)
+        .onChange(of: viewModel.missions) { newMissions in
+            viewModel.selectedStates = Array(repeating: false, count: newMissions.count)
         }
         .ignoresSafeArea(edges: .bottom)
     }

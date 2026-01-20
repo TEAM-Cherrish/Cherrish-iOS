@@ -43,7 +43,6 @@ struct StartChallengeView: View {
                 leadingIcon: nil,
                 trailingIcon: nil
             ) {
-                
                 challengeCoordinator.push(.selectRoutine)
                 tabBarCoordinator.isTabbarHidden = true
             }

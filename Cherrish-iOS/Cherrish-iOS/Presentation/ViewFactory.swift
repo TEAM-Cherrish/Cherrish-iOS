@@ -88,11 +88,17 @@ final class ViewFactory: ViewFactoryProtocol {
     }
     
     func makeSelectRoutineView() -> SelectRoutineView {
-        return SelectRoutineView()
+        guard let viewModel = DIContainer.shared.resolve(type: SelectRoutineViewModel.self) else {
+            fatalError()
+        }
+        return SelectRoutineView(viewModel: viewModel)
     }
     
     func makeSelectMissionView() -> SelectMissionView {
-        return SelectMissionView()
+        guard let viewModel = DIContainer.shared.resolve(type: SelectMissionViewModel.self) else {
+            fatalError()
+        }
+        return SelectMissionView(viewModel: viewModel)
     }
     
     func makeLoadingView() -> LoadingView {
