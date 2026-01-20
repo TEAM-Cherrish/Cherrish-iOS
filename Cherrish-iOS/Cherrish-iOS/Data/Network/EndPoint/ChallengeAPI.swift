@@ -63,7 +63,7 @@ enum ChallengeAPI: EndPoint {
         }
     }
     
-    var bodyParameters: Alamofire.Parameters? {
+    var bodyParameters: Parameters? {
         switch self {
         case .fetchRoutines:
             return nil

@@ -24,10 +24,9 @@ struct ChallengeRepository: ChallengeInterface {
     }
     
     func aiRecommendations(id: Int) async throws -> [ChallengeMissionEntity] {
+        
         let response = try await networkService.request(ChallengeAPI.aiRecommendations(homecareRoutineId: id), decodingType: RecommentMisssionsResponseDTO.self)
-        return response.routines
-            .map { RecommendMissionsDTO(title: $0) }
-            .map { $0.toEntity() }
-
+        CherrishLogger.debug(response)
+        return response.toEntities()
     }
 }
