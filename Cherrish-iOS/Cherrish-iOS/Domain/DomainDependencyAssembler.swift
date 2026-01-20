@@ -33,8 +33,8 @@ final class DomainDependencyAssembler: DependencyAssembler {
             return DefaultFetchProcedureCountOfMonth(repository: calendarRepository)
         }
         
-        DIContainer.shared.register(type: FetchTodayProcedureList.self) {
-            return DefaultFetchTodayProcedure(repository: calendarRepository)
+        DIContainer.shared.register(type: FetchTodayProcedureListUseCase.self) {
+            return DefaultFetchTodayProcedureUseCase(repository: calendarRepository)
         }
         
         guard let homeRepository = DIContainer.shared.resolve(type: HomeInterface.self) else {
