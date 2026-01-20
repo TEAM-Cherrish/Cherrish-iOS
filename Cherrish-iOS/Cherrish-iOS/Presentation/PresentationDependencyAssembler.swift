@@ -44,6 +44,7 @@ final class PresentationDependencyAssembler: DependencyAssembler {
         }
         
         guard let fetchTreatmentCategoriesUseCase = DIContainer.shared.resolve(type: FetchTreatmentCategoriesUseCase.self) else {
+            CherrishLogger.error(CherrishError.DIFailedError)
             return
         }
         
