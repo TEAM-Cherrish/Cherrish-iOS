@@ -17,7 +17,7 @@ struct ChallengeCoordinatorView: View {
                     Group {
                         switch route {
                         case .root:
-                            ViewFactory.shared.makeChallengeView()
+                            ViewFactory.shared.makeChallengeProgressView()
                         case .startChallenge:
                             ViewFactory.shared.makeStartChallengeView()
                         case .selectRoutine:

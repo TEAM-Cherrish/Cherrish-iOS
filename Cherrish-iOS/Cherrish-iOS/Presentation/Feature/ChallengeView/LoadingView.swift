@@ -9,7 +9,6 @@ import SwiftUI
 
 struct LoadingView: View {
    @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
-   @State private var navigationTask: Task<Void, Never>?
     
     var body: some View {
         VStack {
@@ -31,24 +30,18 @@ struct LoadingView: View {
            }
        }
         .frame(maxHeight: .infinity)
-        .onAppear {
-            moveNextAfterDelay()
-        }
-        .onDisappear {
-            navigationTask?.cancel()
-        }
         .ignoresSafeArea(edges: .bottom)
    }
-    
-    private func moveNextAfterDelay() {
-        Task {
-            navigationTask = Task {
-                try? await Task.sleep(nanoseconds: 3_000_000_000)
-                guard !Task.isCancelled else { return }
-                await MainActor.run {
-                    challengeCoordinator.push(.selectMission)
-                }
-            }
-        }
-    }
+//    
+//    private func moveNextAfterDelay() {
+//        Task {
+//            navigationTask = Task {
+//                try? await Task.sleep(nanoseconds: 3_000_000_000)
+//                guard !Task.isCancelled else { return }
+//                await MainActor.run {
+//                    challengeCoordinator.push(.selectMission)
+//                }
+//            }
+//        }
+//    }
 }
