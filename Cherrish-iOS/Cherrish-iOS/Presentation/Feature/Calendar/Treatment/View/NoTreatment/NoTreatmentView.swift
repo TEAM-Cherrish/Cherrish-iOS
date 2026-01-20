@@ -62,7 +62,6 @@ struct NoTreatmentView: View {
         switch viewModel.state {
         case .treatmentSelectedCategory:
             TreatmentSelectedCategory(viewModel: viewModel)
-                .padding(.horizontal, 34.adjustedW)
                 .id(String(describing: viewModel.state))
             
         case .targetDdaySetting:
@@ -72,7 +71,6 @@ struct NoTreatmentView: View {
                 month: $viewModel.month,
                 day: $viewModel.day
             )
-            .padding(.horizontal, 34.adjustedW)
             .id(String(describing: viewModel.state))
             
         case .treatmentFilter:
@@ -160,7 +158,7 @@ private struct TreatmentSelectedCategory: View {
                 
                 Spacer()
             }
-            
+            .padding(.horizontal, 34.adjustedW)
             Spacer()
                 .frame(height: 40.adjustedH)
             ScrollView(.vertical, showsIndicators:false) {
@@ -182,7 +180,7 @@ private struct TreatmentSelectedCategory: View {
                             )
                         )
                     }
-                }
+                } .padding(.horizontal, 34.adjustedW)
             }
         }
     }
