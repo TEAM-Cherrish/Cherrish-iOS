@@ -82,7 +82,5 @@ enum TreatmentAPI: EndPoint {
         case .fetchProcedures:
             return .none
         }
-    }
-    
-    
+    }  
 }
