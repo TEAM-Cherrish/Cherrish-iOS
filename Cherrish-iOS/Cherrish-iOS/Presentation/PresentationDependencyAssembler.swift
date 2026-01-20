@@ -43,6 +43,7 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return HomeViewModel(fetchDashboardDataUseCase: fetchDashboardData)
         }
         
+        
         DIContainer.shared.register(type: NoTreatmentViewModel.self) {
             let repository = MockTreatmentRepository()
             let useCase = DefaultFetchTreatmentCategoriesUseCase(repository: repository)
@@ -55,8 +56,10 @@ final class PresentationDependencyAssembler: DependencyAssembler {
         guard let submitChallengRecommendUseCase = DIContainer.shared.resolve(type: SubmitChallengRecommendUseCase.self) else {
             return
         }
-        DIContainer.shared.register(type: SelectRoutineViewModel.self) {
-            return SelectRoutineViewModel(fetchChallengeHomecareRoutines: fetchChallengeHomecareRoutines, submitChallengRecommendUseCase: submitChallengRecommendUseCase)
+
+        DIContainer.shared.register(type: MakeChallengeViewModel.self) {
+            return MakeChallengeViewModel(fetchRoutineUseCase: fetchChallengeHomecareRoutines, postChallengeRecommendUseCase: submitChallengRecommendUseCase)
         }
     }
+
 }

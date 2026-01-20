@@ -27,7 +27,8 @@ final class DataDependencyAssembler: DependencyAssembler {
             return MockTreatmentRepository()
         }
         DIContainer.shared.register(type: ChallengeInterface.self) {
-            return ChallengeRepository(networkService: self.networkService)
+            return ChallengeRepository(
+                networkService: self.networkService)
         }
     }
 }
