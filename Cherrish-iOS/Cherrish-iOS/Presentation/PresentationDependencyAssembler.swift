@@ -47,12 +47,20 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return
         }
         
+        DIContainer.shared.register(type: SelectTreatmentViewModel.self) {
+            return SelectTreatmentViewModel()
+        }
+        
         DIContainer.shared.register(type: NoTreatmentViewModel.self) {
             let repository = MockTreatmentRepository()
             let useCase = DefaultFetchTreatmentCategoriesUseCase(repository: repository)
             
             
             return NoTreatmentViewModel(fetchCategoriesUseCase: useCase,fetchTreatmentsUseCase: fetchTreatmentsUseCase)
+        }
+        
+        DIContainer.shared.register(type: TreatmentViewModel.self) {
+            return TreatmentViewModel()
         }
     }
 }
