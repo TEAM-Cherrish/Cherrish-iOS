@@ -22,6 +22,11 @@ struct DefaultHomeRepository: HomeInterface {
             HomeAPI.fetchDashboard(userID: userID),
             decodingType: DashboardDTO.self
         )
+        
+        if dto.challengeName == nil {
+            _ = userDefaultService.save(false, key: .hasProgressChallenge)
+        }
+        CherrishLogger.debug(userDefaultService.load(key: .hasProgressChallenge) ?? false)
         return dto.toEntity()
     }
 

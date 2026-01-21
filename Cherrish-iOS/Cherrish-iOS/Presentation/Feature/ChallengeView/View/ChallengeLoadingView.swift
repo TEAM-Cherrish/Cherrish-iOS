@@ -13,7 +13,7 @@ struct ChallengeLoadingView: View {
     var body: some View {
         VStack {
             VStack(spacing: 4.adjustedH) {
-                highlight(highlightText: viewModel.selectedRoutine?.description ?? "", normalText: "관리 방향을 바탕으로")
+                highlight(highlightText: viewModel.selectedRoutine?.description ?? "", normalText: "방향을 바탕으로")
                     .padding(.top, 113.adjustedH)
                 TypographyText("TO-DO 미션을 만들고 있어요.", style: .title1_sb_18, color: .gray800)
                 Image(.loading)
