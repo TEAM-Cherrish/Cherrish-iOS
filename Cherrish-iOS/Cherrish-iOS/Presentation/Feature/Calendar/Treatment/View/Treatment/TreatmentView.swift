@@ -110,7 +110,15 @@ struct TreatmentView: View {
                 leadingIcon: nil,
                 trailingIcon: nil
             ) {
-                viewModel.next()
+                if viewModel.state == .downTimeSetting {
+                    Task {
+                        try await viewModel.createUserProcedure()
+                        tabBarCoordinator.isTabbarHidden = false
+                        calendarCoordinator.popToRoot()
+                    }
+                } else {
+                    viewModel.next()
+                }
             }
             .padding(.horizontal, 25.adjustedW)
         }

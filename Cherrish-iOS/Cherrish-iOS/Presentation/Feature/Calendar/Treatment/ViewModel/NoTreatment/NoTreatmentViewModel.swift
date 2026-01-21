@@ -21,16 +21,18 @@ final class NoTreatmentViewModel: ObservableObject{
     private let fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase
     private let fetchTreatmentsUseCase: FetchTreatmentsUseCase
     private let calendarTreatmentFlowState: CalendarTreatmentFlowState
-    
+    private let createUserProcedureUseCase: CreateUserProcedureUseCase
     
     init(
         fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase,
         fetchTreatmentsUseCase: FetchTreatmentsUseCase,
-        calendarTreatmentFlowState: CalendarTreatmentFlowState
+        calendarTreatmentFlowState: CalendarTreatmentFlowState,
+        createUserProcedureUseCase: CreateUserProcedureUseCase
     ) {
         self.fetchCategoriesUseCase = fetchCategoriesUseCase
         self.fetchTreatmentsUseCase = fetchTreatmentsUseCase
         self.calendarTreatmentFlowState = calendarTreatmentFlowState
+        self.createUserProcedureUseCase = createUserProcedureUseCase
     }
     
     var step: Int { state.rawValue }
@@ -82,6 +84,22 @@ final class NoTreatmentViewModel: ObservableObject{
         } catch {
             treatments = []
             CherrishLogger.debug(error)
+        }
+    }
+    
+    func createUserProcedure() async throws {
+        guard let scheduledDate = calendarTreatmentFlowState.selectedDaet else {
+            return
+        }
+        
+        guard let recoverDate = Date.from(year: year, month: month, day: day) else {
+            return
+        }
+        
+        do {
+            try await createUserProcedureUseCase.excute(scheduledDate: scheduledDate.toScheduledAtFormat, recoveryDate: recoverDate.toRecoveryDateFormat, treatments: selectedTreatments)
+        } catch {
+            CherrishLogger.network(CherrishError.networkRequestFailed)
         }
     }
     

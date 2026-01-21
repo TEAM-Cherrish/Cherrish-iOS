@@ -19,15 +19,20 @@ final class TreatmentViewModel: ObservableObject{
     @Published var searchText = ""
     
     private let fetchTreatmentsUseCase: FetchTreatmentsUseCase
+    private let createUserProcedureUseCase: CreateUserProcedureUseCase
     private let calendarTreatmentFlowState: CalendarTreatmentFlowState
+    
     
     init(
         fetchTreatmentsUseCase: FetchTreatmentsUseCase,
-        calendarTreatmentFlowState: CalendarTreatmentFlowState
+        calendarTreatmentFlowState: CalendarTreatmentFlowState,
+        createUserProcedureUseCase: CreateUserProcedureUseCase
     ) {
         self.fetchTreatmentsUseCase = fetchTreatmentsUseCase
+        self.createUserProcedureUseCase = createUserProcedureUseCase
         self.calendarTreatmentFlowState = calendarTreatmentFlowState
     }
+
     
     var step: Int { state.rawValue }
     
@@ -62,6 +67,23 @@ final class TreatmentViewModel: ObservableObject{
         }
     }
     
+    
+    func createUserProcedure() async throws {
+        guard let scheduledDate = calendarTreatmentFlowState.selectedDaet else {
+            return
+        }
+        
+        guard let recoverDate = Date.from(year: year, month: month, day: day) else {
+            return
+        }
+        
+        do {
+            try await createUserProcedureUseCase.excute(scheduledDate: scheduledDate.toScheduledAtFormat, recoveryDate: recoverDate.toRecoveryDateFormat, treatments: selectedTreatments)
+        } catch {
+            CherrishLogger.network(CherrishError.networkRequestFailed)
+        }
+    }
+    
     func next() {
         state.next()
     }
@@ -78,14 +100,21 @@ final class TreatmentViewModel: ObservableObject{
         guard !year.isEmpty, !month.isEmpty, !day.isEmpty else {
             return false
         }
+        
         guard let yearInt = Int(year), yearInt >= 2020,
-              let monthInt = Int(month), monthInt >= 1, monthInt <= 12,
-              let dayInt = Int(day), dayInt >= 1, dayInt <= 31 else {
+              let monthInt = Int(month), (1...12).contains(monthInt),
+              let dayInt = Int(day), (1...31).contains(dayInt) else {
+            return false
+        }
+        
+        let components = DateComponents(year: yearInt, month: monthInt, day: dayInt)
+        
+        guard let date = Calendar.current.date(from: components),
+              Calendar.current.dateComponents([.year, .month, .day], from: date) == components else {
             return false
         }
         
         return true
-        
     }
 }
 

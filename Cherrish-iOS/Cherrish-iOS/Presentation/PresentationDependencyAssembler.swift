@@ -32,6 +32,7 @@ final class PresentationDependencyAssembler: DependencyAssembler {
         
         guard let fetchProcedureCountOfMonthUseCase = DIContainer.shared.resolve(type: FetchProcedureCountOfMonth.self),
             let fetchTodayProcedureListUseCase = DIContainer.shared.resolve(type: FetchTodayProcedureListUseCase.self),
+              let fetchProcedureDowntimeUseCase = DIContainer.shared.resolve(type: FetchProcedureDowntimeUseCase.self)
         else {
             CherrishLogger.error(CherrishError.DIFailedError)
             return
@@ -46,7 +47,8 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return CalendarViewModel(
                 fetchProcedureCountOfMonthUseCase: fetchProcedureCountOfMonthUseCase,
                 fetchTodayProcedureListUseCase: fetchTodayProcedureListUseCase,
-                fetchProcedureDowntimeUseCase: fetchProcedureDowntimeUseCase
+                fetchProcedureDowntimeUseCase: fetchProcedureDowntimeUseCase,
+                calendarTreatmentFlowState: calendarTreatmentFlowState
             )
         }
         
@@ -71,19 +73,26 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return SelectTreatmentViewModel()
         }
         
+        
+        
+        guard let createUserProcedureUseCase = DIContainer.shared.resolve(type: CreateUserProcedureUseCase.self) else {
+            return
+        }
+        
         DIContainer.shared.register(type: NoTreatmentViewModel.self) {
             return NoTreatmentViewModel(
                 fetchCategoriesUseCase: fetchTreatmentCategoriesUseCase,
                 fetchTreatmentsUseCase: fetchTreatmentsUseCase,
-                calendarTreatmentFlowState: calendarTreatmentFlowState
+                calendarTreatmentFlowState: calendarTreatmentFlowState,
+                createUserProcedureUseCase: createUserProcedureUseCase
             )
         }
-        
         
         DIContainer.shared.register(type: TreatmentViewModel.self) {
             return TreatmentViewModel(
                 fetchTreatmentsUseCase: fetchTreatmentsUseCase,
-                calendarTreatmentFlowState: calendarTreatmentFlowState
+                calendarTreatmentFlowState: calendarTreatmentFlowState,
+                createUserProcedureUseCase: createUserProcedureUseCase,
             )
         }
     }

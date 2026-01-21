@@ -150,6 +150,7 @@ extension CalendarView {
                         .foregroundStyle(.gray600)
                         .frame(width: 24.adjustedW, height: 24.adjustedH)
                         .onTapGesture {
+                            viewModel.confirmDate()
                             calendarCoordinator.push(.selectTreatment)
                         }
                 case .selectedProcedure:
@@ -252,9 +253,11 @@ extension CalendarView {
                 leadingIcon: Image(.plus),
                 trailingIcon: nil,
                 action: {
+                    viewModel.confirmDate()
                     calendarCoordinator.push(
                         .selectTreatment
                     )
+                   
                 }
             )
             .padding(.horizontal, 24)

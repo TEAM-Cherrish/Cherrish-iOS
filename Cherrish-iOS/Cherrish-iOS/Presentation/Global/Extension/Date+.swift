@@ -45,3 +45,29 @@ extension Date {
         return abs(calendar.dateComponents([.day], from: fromDate, to: toDate).day ?? 0)
     }
 }
+
+extension Date {
+    var toScheduledAtFormat: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        return formatter.string(from: self)
+    }
+    
+    var toRecoveryDateFormat: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: self)
+    }
+    
+    static func from(year: String, month: String, day: String) -> Date? {
+        guard let y = Int(year),
+              let m = Int(month),
+              let d = Int(day) else { return nil }
+        
+        var components = DateComponents()
+        components.year = y
+        components.month = m
+        components.day = d
+        return Calendar.current.date(from: components)
+    }
+}

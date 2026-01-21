@@ -31,13 +31,17 @@ final class CalendarViewModel: ObservableObject {
     init(
         fetchProcedureCountOfMonthUseCase: FetchProcedureCountOfMonth,
         fetchTodayProcedureListUseCase: FetchTodayProcedureListUseCase,
-        fetchProcedureDowntimeUseCase: FetchProcedureDowntimeUseCase
+        fetchProcedureDowntimeUseCase: FetchProcedureDowntimeUseCase,
         calendarTreatmentFlowState: CalendarTreatmentFlowState
     ) {
         self.fetchProcedureCountOfMonthUseCase = fetchProcedureCountOfMonthUseCase
         self.fetchTodayProcedureListUseCase = fetchTodayProcedureListUseCase
         self.calendarTreatmentFlowState = calendarTreatmentFlowState
         self.fetchProcedureDowntimeUseCase = fetchProcedureDowntimeUseCase
+    }
+    
+    func confirmDate() {
+        calendarTreatmentFlowState.selectedDaet = selectedDate
     }
     
     func select(date: Date) {
