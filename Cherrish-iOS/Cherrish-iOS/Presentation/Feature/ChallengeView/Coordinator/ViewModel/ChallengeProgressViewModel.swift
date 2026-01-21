@@ -11,7 +11,13 @@ final class ChallengeProgressViewModel: ObservableObject {
     @Published private(set) var challengeData: ChallengeEntity?
     @Published private(set) var isLoading: Bool = false
     @Published private(set) var errorMessage: String?
-
+    @Published private(set) var cherryLevel: CherryLevel = .mong
+    @Published private(set) var remainMissions: Int = 0
+    @Published private(set) var progressRate = 0
+    @Published private(set) var currentDay: Int = 1
+    @Published private(set) var challengeTitle: String = "챌린지"
+    @Published private(set) var todayRoutines: [RoutineEntity] = []
+    
     private let fetchChallengeUseCase: FetchChallengeUseCase
     private let toggleRoutineUseCase: ToggleRoutineUseCase
     private let advanceDayUseCase: AdvanceDayUseCase
@@ -33,10 +39,10 @@ final class ChallengeProgressViewModel: ObservableObject {
 
         do {
             challengeData = try await fetchChallengeUseCase.execute()
+            updateInfo()
         } catch {
             errorMessage = error.localizedDescription
         }
-
         isLoading = false
     }
 
@@ -65,6 +71,7 @@ final class ChallengeProgressViewModel: ObservableObject {
                 remainingRoutinesToNextLevel: currentData.remainingRoutinesToNextLevel,
                 todayRoutines: updatedRoutines
             )
+            updateInfo()
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -82,5 +89,19 @@ final class ChallengeProgressViewModel: ObservableObject {
         }
 
         isLoading = false
+        updateInfo()
+    }
+}
+
+extension ChallengeProgressViewModel {
+    @MainActor
+    private func updateInfo() {
+        guard let challengeData else { return }
+        cherryLevel =  CherryLevel.from(progressRate: Double(challengeData.progressPercentage))
+        remainMissions = challengeData.remainingRoutinesToNextLevel
+        progressRate = challengeData.progressPercentage
+        currentDay = challengeData.currentDay
+        challengeTitle = challengeData.title
+        todayRoutines = challengeData.todayRoutines
     }
 }

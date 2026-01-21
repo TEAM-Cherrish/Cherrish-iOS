@@ -104,8 +104,11 @@ final class ViewFactory: ViewFactoryProtocol {
     func makeLoadingView() -> LoadingView {
         return LoadingView()
     }
-    
+
     func makeChallengeProgressView() -> ChallengeProgressView {
-        return ChallengeProgressView()
+        guard let viewModel = DIContainer.shared.resolve(type: ChallengeProgressViewModel.self) else {
+            fatalError()
+        }
+        return ChallengeProgressView(viewModel: viewModel)
     }
 }

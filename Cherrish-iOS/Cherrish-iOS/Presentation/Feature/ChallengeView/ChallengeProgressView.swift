@@ -48,53 +48,15 @@ enum CherryLevel: Int {
 }
 
 struct ChallengeProgressView: View {
-
-    @StateObject private var viewModel: ChallengeProgressViewModel
-
-    init() {
-        let fallbackRepository = DefaultDemoRepository(
-            networkService: DefaultNetworkService(),
-            userDefaultService: DefaultUserDefaultService()
-        )
-        let vm = DIContainer.shared.resolve(type: ChallengeProgressViewModel.self) ?? ChallengeProgressViewModel(
-            fetchChallengeUseCase: DefaultFetchChallengeUseCase(repository: fallbackRepository),
-            toggleRoutineUseCase: DefaultToggleRoutineUseCase(repository: fallbackRepository),
-            advanceDayUseCase: DefaultAdvanceDayUseCase(repository: fallbackRepository)
-        )
-        _viewModel = StateObject(wrappedValue: vm)
-    }
-
-    private var cherryLevel: CherryLevel {
-        CherryLevel.from(progressRate: Double(viewModel.challengeData?.progressPercentage ?? 0))
-    }
-
-    private var remainMissions: Int {
-        viewModel.challengeData?.remainingRoutinesToNextLevel ?? 0
-    }
-
-    private var progressRate: Int {
-        viewModel.challengeData?.progressPercentage ?? 0
-    }
-
-    private var currentDay: Int {
-        viewModel.challengeData?.currentDay ?? 1
-    }
-
-    private var challengeTitle: String {
-        viewModel.challengeData?.title ?? "챌린지"
-    }
-
-    private var todayRoutines: [RoutineEntity] {
-        viewModel.challengeData?.todayRoutines ?? []
-    }
-
+    @StateObject var viewModel: ChallengeProgressViewModel
+    
     let buttonState: ButtonState = .active
 
     var body: some View {
         ScrollView {
             VStack {
                 HStack {
-                    TypographyText(challengeTitle, style: .title1_sb_18, color: .gray1000)
+                    TypographyText(viewModel.challengeTitle, style: .title1_sb_18, color: .gray1000)
                         .padding(.trailing, 12.adjustedW)
                     TypographyText("7일 플랜", style: .body3_m_12, color: .gray700)
                         .padding(.horizontal, 8.adjustedW)
@@ -123,12 +85,12 @@ extension ChallengeProgressView {
         VStack {
             VStack {
                 HStack {
-                    TypographyText("Lv.\(cherryLevel.levelNumber) \(cherryLevel.name)", style: .body1_m_14, color: .gray900)
+                    TypographyText("Lv.\(viewModel.cherryLevel.levelNumber) \(viewModel.cherryLevel.name)", style: .body1_m_14, color: .gray900)
                     Spacer()
                 }
-                cherryLevel.cherryImage
+                viewModel.cherryLevel.cherryImage
                     .padding(.top, 14.adjustedH)
-                TypographyText("체리가 크려면 \(remainMissions)개의 미션을 수행해야 해요!", style: .body2_r_13, color: .gray800)
+                TypographyText("체리가 크려면 \(viewModel.remainMissions)개의 미션을 수행해야 해요!", style: .body2_r_13, color: .gray800)
                     .padding(.top, 14.adjustedH)
             }
             .padding(.horizontal, 25.adjustedW)
@@ -138,11 +100,11 @@ extension ChallengeProgressView {
                 .padding(.vertical, 14.adjustedH)
             VStack {
                 HStack {
-                    TypographyText("챌린지 달성률 \(progressRate)%", style: .body1_m_14, color: .gray900)
+                    TypographyText("챌린지 달성률 \(viewModel.progressRate)%", style: .body1_m_14, color: .gray900)
                     Spacer()
                 }
                 .padding(.bottom, 12.adjustedH)
-                cherryLevel.progressImage
+                viewModel.cherryLevel.progressImage
                     .padding(.bottom, 11.adjustedH)
             }
             .padding(.horizontal, 25.adjustedW)
@@ -166,12 +128,12 @@ extension ChallengeProgressView {
     private var CherryTodoView: some View {
         VStack {
             HStack {
-                TypographyText("\(currentDay)일차 TO-DO 미션", style: .body1_sb_14, color: .gray1000)
+                TypographyText("\(viewModel.currentDay)일차 TO-DO 미션", style: .body1_sb_14, color: .gray1000)
                 Spacer()
             }
             Spacer()
             VStack(spacing: 8.adjustedH) {
-                ForEach(todayRoutines, id: \.routineID) { routine in
+                ForEach(viewModel.todayRoutines, id: \.routineID) { routine in
                     CheckBoxComponent(
                         text: routine.name,
                         isChecked: Binding(
@@ -185,6 +147,7 @@ extension ChallengeProgressView {
                     )
                 }
             }
+            
             CherrishButton(
                 title: "오늘 미션 종료하기",
                 type: .small,
