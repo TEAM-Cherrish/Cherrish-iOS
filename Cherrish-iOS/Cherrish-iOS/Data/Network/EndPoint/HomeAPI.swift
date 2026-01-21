@@ -47,7 +47,7 @@ extension HomeAPI: EndPoint {
         }
     }
     
-    var queryParameters: [String: String]? {
+    var queryParameters: [String: Any]? {
         switch self {
         case .fetchDashboard:
             return nil
