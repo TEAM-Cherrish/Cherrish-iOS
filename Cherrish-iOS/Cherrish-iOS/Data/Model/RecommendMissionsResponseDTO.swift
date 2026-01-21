@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct RecommendMisssionsResponseDTO: Decodable {
+struct RecommendMissionsResponseDTO: Decodable {
     let routines: [String]
 }
 
-extension RecommendMisssionsResponseDTO {
+extension RecommendMissionsResponseDTO {
     func toEntities() -> [ChallengeMissionEntity] {
         return routines.enumerated().map { index, title in
             ChallengeMissionEntity(id: index, title: title)

@@ -42,7 +42,7 @@ final class DataDependencyAssembler: DependencyAssembler {
             return DefaultTreatmentRepository(networkService: self.networkService, userDefaultService: self.userDefaultService)
         }
         DIContainer.shared.register(type: ChallengeInterface.self) {
-            return ChallengeRepository(
+            return DefaultChallengeRepository(
                 networkService: self.networkService, userDefaultService: self.userDefaultService)
         }
         

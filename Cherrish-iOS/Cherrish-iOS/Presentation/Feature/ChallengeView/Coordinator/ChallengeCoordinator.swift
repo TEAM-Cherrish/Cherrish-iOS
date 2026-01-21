@@ -18,8 +18,6 @@ final class ChallengeCoordinator: CoordinatorProtocol {
     typealias RouteView = ChallengeRoute
     
     @Published var path: NavigationPath = NavigationPath()
-
-    var makeChallengeViewModel: CreateChallengeViewModel?
     
     func push(_ route: ChallengeRoute) {
         path.append(route)

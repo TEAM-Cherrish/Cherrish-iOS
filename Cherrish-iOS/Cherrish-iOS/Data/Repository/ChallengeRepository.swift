@@ -9,7 +9,7 @@ import Foundation
 
 import Alamofire
 
-struct ChallengeRepository: ChallengeInterface {
+struct DefaultChallengeRepository: ChallengeInterface {
     private let networkService: NetworkService
     private let userDefaultService: UserDefaultService
 
@@ -19,14 +19,15 @@ struct ChallengeRepository: ChallengeInterface {
     }
 
     func fetchHomecareRoutines() async throws -> [RoutineEntity] {
-        let response = try await networkService.request(ChallengeAPI.fetchRoutines, decodingType: [ChallengeRoutineDTO].self)
+        let response = try await networkService.request(ChallengeAPI.fetchRoutines, decodingType: [ChallengeRoutineRequestDTO].self)
 
         return response.map { $0.toEntity() }
     }
 
     func aiRecommendations(id: Int) async throws -> [ChallengeMissionEntity] {
-
-        let response = try await networkService.request(ChallengeAPI.aiRecommendations(homecareRoutineId: id), decodingType: RecommendMisssionsResponseDTO.self)
+        let response = try await
+        networkService.request(ChallengeAPI.aiRecommendations(homecareRoutineId: id),
+                               decodingType: RecommendMissionsResponseDTO.self)
         CherrishLogger.debug(response)
         return response.toEntities()
     }

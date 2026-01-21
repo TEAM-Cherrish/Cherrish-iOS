@@ -35,7 +35,7 @@ struct CreateChallengeView: View {
             switch viewModel.viewState {
             case .routine:
                 ChallengeSelectRoutineView(viewModel: viewModel)
-            case .loding:
+            case .loading:
                 ChallengeLoadingView(viewModel: viewModel)
             case .mission:
                 ChallengeSelectMissionView(viewModel: viewModel)

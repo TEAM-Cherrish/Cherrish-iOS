@@ -18,6 +18,7 @@ struct DefaultFetchChallengeHomecareRoutinesUseCase: FetchChllengeHomecareRoutin
     init(repository: ChallengeInterface) {
         self.repository = repository
     }
+    
     func excute() async throws -> [RoutineEntity] {
         return try await repository.fetchHomecareRoutines()
     }

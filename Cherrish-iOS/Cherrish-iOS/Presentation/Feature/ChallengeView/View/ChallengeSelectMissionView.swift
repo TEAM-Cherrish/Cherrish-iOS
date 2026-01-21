@@ -42,10 +42,10 @@ struct ChallengeSelectMissionView: View {
 
                             isSelected: Binding(
                                 get: {
-                                    viewModel.missonsSelectedState[mission] ?? false
+                                    viewModel.missionsSelectedState[mission] ?? false
                                 },
                                 set: { newValue in
-                                    viewModel.missonsSelectedState[mission] = newValue
+                                    viewModel.missionsSelectedState[mission] = newValue
                                 }
                             )
                         )

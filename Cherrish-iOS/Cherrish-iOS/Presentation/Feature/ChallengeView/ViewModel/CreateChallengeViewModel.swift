@@ -7,16 +7,16 @@
 
 import Foundation
 
-enum challengeViewState: StepNavigatable {
+enum ChallengeViewState: StepNavigatable {
     case routine
-    case loding
+    case loading
     case mission
 
     var title: String {
         switch self {
         case .routine:
             return "루틴 챌린지 선택"
-        case .loding:
+        case .loading:
             return ""
         case .mission:
             return "TO-DO 미션 선택"
@@ -31,7 +31,7 @@ enum challengeViewState: StepNavigatable {
         switch self {
         case .routine:
             return true
-        case .loding:
+        case .loading:
             return false
         case .mission:
             return true
@@ -39,16 +39,15 @@ enum challengeViewState: StepNavigatable {
     }
 }
 
-
 final class CreateChallengeViewModel: ObservableObject {
-    @Published var viewState: challengeViewState = .routine
+    @Published var viewState: ChallengeViewState = .routine
     @Published private(set) var routines: [RoutineEntity] = []
     @Published var selectedRoutine: RoutineEntity?
     @Published var isLoading: Bool = false
     @Published private(set) var missions: [ChallengeMissionEntity] = []
     @Published var nextButtonState: ButtonState = .normal
 
-    @Published var missonsSelectedState: [ChallengeMissionEntity: Bool] = [:]
+    @Published var missionsSelectedState: [ChallengeMissionEntity: Bool] = [:]
 
     private let fetchRoutineUseCase: FetchChllengeHomecareRoutinesUseCase
     private let postChallengeRecommendUseCase: PostChallengeRecommendUseCase
@@ -97,15 +96,15 @@ final class CreateChallengeViewModel: ObservableObject {
     }
 
     func selectMission(mission: ChallengeMissionEntity) {
-        missonsSelectedState[mission]?.toggle()
-        CherrishLogger.debug("미션 체크 상태 \(missonsSelectedState)")
+        missionsSelectedState[mission]?.toggle()
+        CherrishLogger.debug("미션 체크 상태 \(missionsSelectedState)")
     }
 
     @MainActor
     func makeChallenge() async throws {
         guard let selectedRoutine else { return }
 
-        let selectedMissionList = missonsSelectedState
+        let selectedMissionList = missionsSelectedState
             .filter(\.value)
             .map(\.key.title)
         CherrishLogger.debug("선택한 미션들: \(selectedMissionList)")

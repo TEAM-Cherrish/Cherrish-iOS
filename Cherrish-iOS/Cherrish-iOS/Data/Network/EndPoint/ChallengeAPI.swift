@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 import Alamofire
 
 enum ChallengeAPI: EndPoint {
@@ -48,7 +49,7 @@ enum ChallengeAPI: EndPoint {
     var parameterEncoding: any Alamofire.ParameterEncoding {
         switch self {
         case .fetchRoutines:
-            return JSONEncoding.default
+            return URLEncoding.default
         case .aiRecommendations:
             return JSONEncoding.default
         }

@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct RecommendMissionsRequestDTO: Decodable {
+struct RecommendMissionsRequestDTO: Encodable {
     let homecareRoutineId: Int
 }

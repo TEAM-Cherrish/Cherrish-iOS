@@ -19,6 +19,6 @@ struct DefaultCreateChallengeUseCase: CreateChallengeUseCase {
     }
 
     func execute(id: Int, routines: [String]) async throws {
-        let _ = try await repository.createChallenge(missionIds: id, routineNames: routines)
+        _ = try await repository.createChallenge(missionIds: id, routineNames: routines)
     }
 }
