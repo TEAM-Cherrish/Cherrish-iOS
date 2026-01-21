@@ -62,7 +62,10 @@ final class ViewFactory: ViewFactoryProtocol {
     }
     
     func makeMyPageView() -> MyPageView {
-        return MyPageView()
+        guard let viewModel = DIContainer.shared.resolve(type: MyPageViewModel.self) else {
+            fatalError()
+        }
+        return MyPageView(viewModel: viewModel)
     }
     
     func makeSelectTreatmentView() -> SelectTreatmentView {

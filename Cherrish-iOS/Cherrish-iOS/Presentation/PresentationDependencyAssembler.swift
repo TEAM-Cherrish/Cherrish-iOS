@@ -95,5 +95,13 @@ final class PresentationDependencyAssembler: DependencyAssembler {
                 createUserProcedureUseCase: createUserProcedureUseCase,
             )
         }
+        
+        guard let fetchUserInfoUseCase = DIContainer.shared.resolve(type: FetchUserInfoUseCase.self) else {
+            return
+        }
+        
+        DIContainer.shared.register(type: MyPageViewModel.self) {
+            return MyPageViewModel(fetchUserInfoUseCase: fetchUserInfoUseCase)
+        }
     }
 }

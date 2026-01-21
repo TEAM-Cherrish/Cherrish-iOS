@@ -41,5 +41,12 @@ final class DataDependencyAssembler: DependencyAssembler {
         DIContainer.shared.register(type: TreatmentInterface.self) {
             return DefaultTreatmentRepository(networkService: self.networkService, userDefaultService: self.userDefaultService)
         }
+        
+        DIContainer.shared.register(type: MyPageInterface.self) {
+            return DefaultMyPageRepository(
+                networkService: self.networkService,
+                userDefaultService: self.userDefaultService
+            )
+        }
     }
 }
