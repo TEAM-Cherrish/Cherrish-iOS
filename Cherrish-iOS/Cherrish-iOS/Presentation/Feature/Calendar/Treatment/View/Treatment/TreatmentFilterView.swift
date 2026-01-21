@@ -41,14 +41,21 @@ struct TreatmentFilterView: View {
                 }
                 .frame(height: 34.adjustedH)
                 .padding(.horizontal, 25.adjustedW)
-                ForEach(viewModel.treatments, id: \.id) { treatment in
-                    TreatmentRowView(
-                        displayMode: .checkBoxView,
-                        treatmentEntity: treatment,
-                        isSelected: .constant(viewModel.isSelected(treatment)),
-                        action: { viewModel.addTreatment(treatment) }
-                    )
-                } .padding(.horizontal, 24.adjustedW)
+                if viewModel.treatments.isEmpty {
+                    Spacer()
+                        .frame(height: 148.adjustedH)
+                    filterEmptyView
+                } else {
+                    ForEach(viewModel.treatments, id: \.id) { treatment in
+                        TreatmentRowView(
+                            displayMode: .checkBoxView,
+                            treatmentEntity: treatment,
+                            isSelected: .constant(viewModel.isSelected(treatment)),
+                            action: { viewModel.addTreatment(treatment) }
+                        )
+                    }
+                    .padding(.horizontal, 24.adjustedW)
+                }
             }
             
         }
@@ -58,5 +65,21 @@ struct TreatmentFilterView: View {
             }
         }
        
+    }
+}
+
+extension TreatmentFilterView {
+    
+    private var filterEmptyView: some View {
+        VStack(alignment: .center, spacing: 0) {
+            Image(.illustrationNosearch)
+            Spacer()
+                .frame(height: 16.adjustedH)
+            VStack(alignment: .center, spacing: 0) {
+                TypographyText("찾으시는 시술이 없습니다.", style: .body1_r_14, color: .gray600)
+                TypographyText("다른 시술명을 입력해보세요.", style: .body1_r_14, color: .gray600)
+            }
+            .frame(height: 40.adjustedH)
+        }
     }
 }
