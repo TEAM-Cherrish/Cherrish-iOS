@@ -48,10 +48,11 @@ final class ViewFactory: ViewFactoryProtocol {
     }
     
     func makeCalendarView() -> CalendarView {
-        guard let viewModel = DIContainer.shared.resolve(type: CalendarViewModel.self) else {
+        guard let viewModel = DIContainer.shared.resolve(type: CalendarViewModel.self),
+              let homeCalendarFlowState = DIContainer.shared.resolve(type: HomeCalendarFlowState.self) else {
             fatalError()
         }
-        return CalendarView(viewModel: viewModel)
+        return CalendarView(viewModel: viewModel, homeCalendarFlowState: homeCalendarFlowState)
     }
     
     func makeMyPageView() -> MyPageView {

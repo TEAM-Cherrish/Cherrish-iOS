@@ -13,9 +13,14 @@ final class HomeViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     private let fetchDashboardDataUseCase: FetchDashboardData
+    private let homeCalendarFlowState: HomeCalendarFlowState
     
-    init(fetchDashboardDataUseCase: FetchDashboardData) {
+    init(
+        fetchDashboardDataUseCase: FetchDashboardData,
+        homeCalendarFlowState: HomeCalendarFlowState
+    ) {
         self.fetchDashboardDataUseCase = fetchDashboardDataUseCase
+        self.homeCalendarFlowState = homeCalendarFlowState
     }
     
     @MainActor
@@ -31,6 +36,14 @@ final class HomeViewModel: ObservableObject {
         }
         
         isLoading = false
+    }
+    
+    func selectUpcomingDate(_ dateString: String) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        if let date = formatter.date(from: dateString) {
+            homeCalendarFlowState.treatmentDate = date
+        }
     }
     
     var formattedDate: String {

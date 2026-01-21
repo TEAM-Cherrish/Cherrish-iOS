@@ -124,6 +124,29 @@ final class CalendarViewModel: ObservableObject {
         selectedDowntime = downtimeList
         mapToDowntimeDays(procedure: downtimeList)
     }
+    
+    func updateDate(date: Date) {
+        selectedDate = date
+        
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: currentDate)
+        let currentMonthVal = calendar.component(.month, from: currentDate)
+        
+        let targetYear = calendar.component(.year, from: date)
+        let targetMonthVal = calendar.component(.month, from: date)
+        
+        let monthDiff = (targetYear - currentYear) * 12 + (targetMonthVal - currentMonthVal)
+        currentMonth = monthDiff
+        
+        Task {
+            do {
+                try await fetchProcedureCountsOfMonth()
+                try await fetchTodayProcedureList()
+            } catch {
+                CherrishLogger.error(error)
+            }
+        }
+    }
 }
 
 extension CalendarViewModel {

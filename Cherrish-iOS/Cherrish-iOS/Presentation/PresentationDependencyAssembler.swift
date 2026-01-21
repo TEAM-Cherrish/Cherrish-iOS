@@ -17,8 +17,14 @@ final class PresentationDependencyAssembler: DependencyAssembler {
     func assemble() {
         preAssembler.assemble()
         
+        let calendarTreatmentFlowState = CalendarTreatmentFlowState()
         DIContainer.shared.register(type: CalendarTreatmentFlowState.self) {
-            return CalendarTreatmentFlowState()
+            return calendarTreatmentFlowState
+        }
+        
+        let homeCalendarFlowState = HomeCalendarFlowState()
+        DIContainer.shared.register(type: HomeCalendarFlowState.self) {
+            return homeCalendarFlowState
         }
         
         guard let createProfileUseCase = DIContainer.shared.resolve(type: CreateProfileUseCase.self) else {
@@ -38,11 +44,6 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return
         }
         
-        guard let calendarTreatmentFlowState = DIContainer.shared.resolve(type: CalendarTreatmentFlowState.self) else {
-            CherrishLogger.error(CherrishError.DIFailedError)
-            return
-        }
-        
         DIContainer.shared.register(type: CalendarViewModel.self) {
             return CalendarViewModel(
                 fetchProcedureCountOfMonthUseCase: fetchProcedureCountOfMonthUseCase,
@@ -57,7 +58,10 @@ final class PresentationDependencyAssembler: DependencyAssembler {
         }
         
         DIContainer.shared.register(type: HomeViewModel.self) {
-            return HomeViewModel(fetchDashboardDataUseCase: fetchDashboardData)
+            return HomeViewModel(
+                fetchDashboardDataUseCase: fetchDashboardData,
+                homeCalendarFlowState: homeCalendarFlowState
+            )
         }
         
         guard let fetchTreatmentCategoriesUseCase = DIContainer.shared.resolve(type: FetchTreatmentCategoriesUseCase.self) else {
