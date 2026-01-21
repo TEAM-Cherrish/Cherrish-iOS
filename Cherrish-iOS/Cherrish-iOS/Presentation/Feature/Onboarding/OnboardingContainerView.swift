@@ -20,6 +20,7 @@ struct OnboardingContainerView: View {
                 TabView(selection: $currentPage) {
                     OnboardingPage1()
                         .tag(0)
+                        .padding(.bottom, 20.adjustedH)
                     OnboardingPage2()
                         .tag(1)
                 }
