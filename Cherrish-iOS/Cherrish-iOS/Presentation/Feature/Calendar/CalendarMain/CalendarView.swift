@@ -24,6 +24,7 @@ enum CalendarMode {
 struct CalendarView: View {
     @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
     @StateObject var viewModel: CalendarViewModel
+    @StateObject var homeCalendarFlowState: HomeCalendarFlowState
     @State private var topGlobalY: CGFloat = .zero
     @State private var initialTopGlobalY: CGFloat? = nil
     @State private var bottomOffsetY: CGFloat = .zero
@@ -63,6 +64,18 @@ struct CalendarView: View {
                 } catch {
                     CherrishLogger.error(error)
                 }
+            }
+        }
+        .onChange(of: homeCalendarFlowState.treatmentDate) { date in
+            if let date = date {
+                viewModel.updateDate(date: date)
+                homeCalendarFlowState.treatmentDate = nil // Reset to allow re-selection of same date if needed
+            }
+        }
+        .onAppear {
+            if let date = homeCalendarFlowState.treatmentDate {
+                viewModel.updateDate(date: date)
+                homeCalendarFlowState.treatmentDate = nil
             }
         }
         .background(.gray0)

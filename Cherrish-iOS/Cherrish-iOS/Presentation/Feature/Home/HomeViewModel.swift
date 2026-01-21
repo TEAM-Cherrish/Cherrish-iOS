@@ -38,10 +38,14 @@ final class HomeViewModel: ObservableObject {
         isLoading = false
     }
     
-//    func sendTreatmentDate() {
-//        homeCalendarFlowState.treatmentDate = dashboardData?.upcomingProcedures
-//    }
-//    
+    func selectUpcomingDate(_ dateString: String) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        if let date = formatter.date(from: dateString) {
+            homeCalendarFlowState.treatmentDate = date
+        }
+    }
+    
     var formattedDate: String {
         guard let date = dashboardData?.date else { return "" }
         let formatter = DateFormatter()

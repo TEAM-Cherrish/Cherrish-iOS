@@ -337,6 +337,7 @@ private struct UpcomingBoxView: View {
                     )
                 }
                 .onTapGesture {
+                    viewModel.selectUpcomingDate(item.date)
                     tabBarCoordinator.switchTab(tab: .calendar)
                 }
             }
