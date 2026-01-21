@@ -52,7 +52,7 @@ struct ChallengeProgressView: View {
     @StateObject var viewModel: ChallengeProgressViewModel
     
     let buttonState: ButtonState = .active
-
+    
     var body: some View {
         ScrollView {
             VStack {
@@ -91,8 +91,13 @@ extension ChallengeProgressView {
                 }
                 viewModel.cherryLevel.cherryImage
                     .padding(.top, 14.adjustedH)
-                TypographyText("체리가 크려면 \(viewModel.remainMissions)개의 미션을 수행해야 해요!", style: .body2_r_13, color: .gray800)
-                    .padding(.top, 14.adjustedH)
+                if viewModel.cherryLevel.levelNumber == 4 {
+                    TypographyText("챌린지 완료까지 \(viewModel.remainMissions)개의 미션을 수행해야 해요!", style: .body2_r_13, color: .gray800)
+                        .padding(.top, 14.adjustedH)
+                }else {
+                    TypographyText("체리가 크려면 \(viewModel.remainMissions)개의 미션을 수행해야 해요!", style: .body2_r_13, color: .gray800)
+                        .padding(.top, 14.adjustedH)
+                }
             }
             .padding(.horizontal, 25.adjustedW)
             Rectangle()

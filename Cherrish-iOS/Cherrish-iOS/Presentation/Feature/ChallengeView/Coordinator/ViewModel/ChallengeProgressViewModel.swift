@@ -105,7 +105,7 @@ extension ChallengeProgressViewModel {
         remainMissions = challengeData.remainingRoutinesToNextLevel
         progressRate = challengeData.progressPercentage
         currentDay = challengeData.currentDay
-        challengeTitle = challengeData.title
+        challengeTitle = challengeData.title + " 챌린지"
         todayRoutines = challengeData.todayRoutines
     }
 }
