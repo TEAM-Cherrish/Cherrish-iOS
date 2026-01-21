@@ -8,7 +8,6 @@
 import SwiftUI
 
 enum ChallengeRoute: PresentationTypeProtocol {
-    case root
     case startChallenge
     case createChallenge
     case challengeProgress
