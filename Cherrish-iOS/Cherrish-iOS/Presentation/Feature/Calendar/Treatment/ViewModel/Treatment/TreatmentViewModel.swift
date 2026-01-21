@@ -17,6 +17,7 @@ final class TreatmentViewModel: ObservableObject{
     @Published var month: String = ""
     @Published var day: String = ""
     @Published var searchText = ""
+    @Published private(set) var warning: TreatmentInputWarning = .none
     
     private let fetchTreatmentsUseCase: FetchTreatmentsUseCase
     private let createUserProcedureUseCase: CreateUserProcedureUseCase
@@ -57,6 +58,8 @@ final class TreatmentViewModel: ObservableObject{
             
         }
     }
+    
+    
     
     @MainActor
     func fetchTreatments() async throws {
@@ -102,24 +105,42 @@ final class TreatmentViewModel: ObservableObject{
     
     func isDateTextFieldNotEmpty() -> Bool {
         guard !year.isEmpty, !month.isEmpty, !day.isEmpty else {
+            Task { @MainActor in
+                updateWarning(state: .none)
+            }
             return false
         }
         
-        guard let yearInt = Int(year), yearInt >= 2020,
-              let monthInt = Int(month), (1...12).contains(monthInt),
-              let dayInt = Int(day), (1...31).contains(dayInt) else {
+        guard let y = Int(year), let m = Int(month), let d = Int(day) else {
+            updateWarning(state: .invalidFormat)
             return false
         }
-        
-        let components = DateComponents(year: yearInt, month: monthInt, day: dayInt)
+           
+        let components = DateComponents(year: y, month: m, day: d)
         
         guard let date = Calendar.current.date(from: components),
               Calendar.current.dateComponents([.year, .month, .day], from: date) == components else {
+            updateWarning(state: .invalidFormat)
             return false
         }
         
+        let today = Calendar.current.startOfDay(for: Date())
+        if date < today {
+            updateWarning(state: .pastDate)
+            return false
+        }
+        
+        updateWarning(state: .none)
         return true
     }
+    
+  
+    private func updateWarning(state: TreatmentInputWarning) {
+        Task { @MainActor in
+            warning = state
+        }
+    }
+    
 }
 
 

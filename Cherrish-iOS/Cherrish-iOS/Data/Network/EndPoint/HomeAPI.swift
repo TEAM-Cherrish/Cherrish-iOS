@@ -14,6 +14,7 @@ enum HomeAPI {
 }
 
 extension HomeAPI: EndPoint {
+    
     var basePath: String {
         "/api"
     }
