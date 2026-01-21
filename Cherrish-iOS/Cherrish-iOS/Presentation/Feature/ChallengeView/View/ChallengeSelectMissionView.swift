@@ -49,9 +49,6 @@ struct ChallengeSelectMissionView: View {
                                 }
                             )
                         )
-//                        .onTapGesture {
-//                            viewModel.selectMission(mission: mission)
-//                        }
                     }
                 }
             }
