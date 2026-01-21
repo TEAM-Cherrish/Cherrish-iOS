@@ -19,7 +19,16 @@ struct DefaultCreateUserProcedureUseCase: CreateUserProcedureUseCase {
         self.repository = repository
     }
     
-    func execute(scheduledDate: String, recoveryDate: String, treatments: [TreatmentEntity]) async throws {
-        return try await repository.createUserProcedure(scheduledDate: scheduledDate, recoveryDate: recoveryDate, treatments: treatments)
+    func execute(
+        scheduledDate: String,
+        recoveryDate: String,
+        treatments: [TreatmentEntity]
+    ) async throws {
+        return try await repository
+            .createUserProcedure(
+                scheduledDate: scheduledDate,
+                recoveryDate: recoveryDate,
+                treatments: treatments
+            )
     }
 }
