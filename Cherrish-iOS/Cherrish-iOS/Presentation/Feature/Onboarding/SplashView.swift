@@ -7,11 +7,13 @@
 
 import SwiftUI
 
+import Lottie
+
 struct SplashView: View {
     @EnvironmentObject private var appCoordinator: AppCoordinator
     
     private let userDefaultService: UserDefaultService
-    
+
     init(userDefaultService: UserDefaultService = DefaultUserDefaultService()) {
         self.userDefaultService = userDefaultService
     }
@@ -27,7 +29,8 @@ struct SplashView: View {
                 endPoint: .bottomTrailing
             )
             
-            Image(.appicon)
+            LottieView(animationName: "splash", loopMode: .playOnce)
+                .frame(width: 130.adjustedW, height: 154.adjustedH)
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
