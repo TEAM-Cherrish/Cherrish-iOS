@@ -14,7 +14,6 @@ enum HomeAPI {
 }
 
 extension HomeAPI: EndPoint {
-    
     var basePath: String {
         "/api"
     }
@@ -47,7 +46,7 @@ extension HomeAPI: EndPoint {
         }
     }
     
-    var queryParameters: [String: String]? {
+    var queryParameters: [String: Any]? {
         switch self {
         case .fetchDashboard:
             return nil
