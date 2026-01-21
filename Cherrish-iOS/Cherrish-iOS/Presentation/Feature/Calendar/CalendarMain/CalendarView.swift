@@ -69,7 +69,7 @@ struct CalendarView: View {
         .onChange(of: homeCalendarFlowState.treatmentDate) { date in
             if let date = date {
                 viewModel.updateDate(date: date)
-                homeCalendarFlowState.treatmentDate = nil // Reset to allow re-selection of same date if needed
+                homeCalendarFlowState.treatmentDate = nil
             }
         }
         .onAppear {
