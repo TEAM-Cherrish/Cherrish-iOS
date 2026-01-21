@@ -23,7 +23,7 @@ enum CalendarMode {
 
 struct CalendarView: View {
     @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
-    @ObservedObject var viewModel: CalendarViewModel
+    @StateObject var viewModel: CalendarViewModel
     @State private var topGlobalY: CGFloat = .zero
     @State private var initialTopGlobalY: CGFloat? = nil
     @State private var bottomOffsetY: CGFloat = .zero
@@ -32,20 +32,28 @@ struct CalendarView: View {
     @State private var buttonState: ButtonState = .active
     
     private let scrollAreaHeight: CGFloat = 184.adjustedH
+    private let calendarCellWidth: CGFloat = 40.adjustedW
+    private let calendarCellHeight: CGFloat = 40.adjustedH
+    private let calendarRowSpacing: CGFloat = 8.adjustedH
     
     let weekdays: [String] = ["일", "월", "화", "수", "목", "금", "토"]
-    let columns = Array(repeating: GridItem(.fixed(40), spacing: 8), count: 7)
+    let columns = Array(repeating: GridItem(.fixed(40.adjustedW), spacing: 8), count: 7)
     
     var body: some View {
         VStack {
+            Spacer()
+                .frame(height: 38.adjustedH)
+            
             calendarHeader
             dateGridsView
+            Spacer()
+            
             if viewModel.isEmptyProcedureList() {
                 emptyScheduleView
             } else {
                 scheduleListContainerView
             }
-            
+            Spacer()
         }
         .task (id: viewModel.currentMonth){
             if calendarMode == .none {
@@ -88,8 +96,6 @@ extension CalendarView {
                     }
             }
             .padding(.horizontal, 11)
-            .padding(.top, 38)
-            
             
             HStack(spacing: 8) {
                 ForEach(weekdays, id: \.self) { weekday in
@@ -102,8 +108,12 @@ extension CalendarView {
     }
     
     private var dateGridsView: some View {
-        LazyVGrid(columns: columns) {
-            ForEach(viewModel.getDatesArray()) { value in
+        let dates = viewModel.getDatesArray()
+        let rowCount = dates.count / 7
+        
+        return VStack(spacing: 0) {
+            LazyVGrid(columns: columns, spacing: calendarRowSpacing) {
+                ForEach(dates) { value in
                 if value.day != -1 {
                     CalendarCellView(
                         value: value,
@@ -127,8 +137,15 @@ extension CalendarView {
                         }
                     }
                 } else {
-                    Text("").hidden()
+                    Color.clear
+                        .frame(width: calendarCellWidth, height: calendarCellHeight)
                 }
+            }
+            }
+            
+            if rowCount == 4 {
+                Spacer()
+                    .frame(height: calendarCellHeight + calendarRowSpacing)
             }
         }
         .padding(.horizontal, 23)

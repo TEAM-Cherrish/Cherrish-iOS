@@ -136,21 +136,29 @@ extension CalendarViewModel {
     }
     
     private func extractDate(currentMonth: Int) -> [DateValue] {
-        let calendar = Calendar.current
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "Asia/Seoul")!
         
-        let currentMonth = getCurrentMonth(addingMonth: currentMonth)
-        var days = currentMonth.getAllDates().compactMap { date -> DateValue in
-            let day = calendar.component(.day, from: date)
+        let targetMonthDate = getCurrentMonth(addingMonth: currentMonth)
+        let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: targetMonthDate))!
+        let daysInMonth = calendar.range(of: .day, in: .month, for: startOfMonth)?.count ?? 0
+        
+        let firstWeekday = calendar.component(.weekday, from: startOfMonth)
+        let leading = firstWeekday - 1
+        let totalCells = leading + daysInMonth
+        let rows = Int(ceil(Double(totalCells) / 7.0))
+        
+        let gridStart = calendar.date(byAdding: .day, value: -leading, to: startOfMonth)!
+        
+        return (0..<(rows * 7)).map { i in
+            let raw = calendar.date(byAdding: .day, value: i, to: gridStart)!
+            let date = calendar.startOfDay(for: raw)
+            
+            let isInTargetMonth = calendar.isDate(date, equalTo: targetMonthDate, toGranularity: .month)
+            let day = isInTargetMonth ? calendar.component(.day, from: date) : -1
+            
             return DateValue(day: day, date: date)
         }
-        
-        let firstWeekday = calendar.component(.weekday, from: days.first?.date ?? Date())
-        
-        for _ in 0 ..< firstWeekday - 1 {
-            days.insert(DateValue(day: -1, date: Date()), at: 0)
-        }
-        
-        return days
     }
     
     private func mapToDowntimeDays(procedure: ProcedureDowntimeEntity) {
