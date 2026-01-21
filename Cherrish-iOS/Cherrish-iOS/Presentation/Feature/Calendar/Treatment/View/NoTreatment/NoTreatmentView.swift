@@ -180,9 +180,10 @@ private struct TreatmentSelectedCategory: View {
                 Spacer()
             }
             .padding(.horizontal, 34.adjustedW)
-            Spacer()
-                .frame(height: 40.adjustedH)
+            
             ScrollView(.vertical, showsIndicators:false) {
+                Spacer()
+                    .frame(height: 40.adjustedH)
                 LazyVGrid(columns: columns, spacing: 12.adjustedH) {
                     ForEach(viewModel.categories, id: \.id) { category in
                         SelectionChip(

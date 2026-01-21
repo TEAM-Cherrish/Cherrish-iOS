@@ -52,16 +52,16 @@ private struct TitleHeaderView: View {
     
     var body: some View {
         VStack(spacing: 4.adjustedH) {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
                 HStack(spacing: 6.adjustedW) {
                     TypographyText(title, style: .title1_sb_18, color: .gray1000)
-                    
+                        .frame(height: 27.adjustedH)
                     TypographyText("관련 시술 리스트", style: .title1_sb_18, color: .gray1000)
-                
+                        .frame(height: 27.adjustedH)
                     Spacer()
 
                 }
-                .frame(height: 27.adjustedH)
+                
                 
                 HStack(spacing: 4.adjustedW) {
                     VStack {
@@ -70,19 +70,16 @@ private struct TitleHeaderView: View {
                         Spacer()
                         
                     }
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .leading, spacing: 0) {
                         TypographyText("본 정보는 인터넷 빅테이터 검색 및 분석을 통해 수집된 정보이며, ", style: .body3_r_12, color: .gray600)
-                        
-                        TypographyText("관련 시술 리스트", style: .body3_r_12, color: .gray600)
-                        
+                            .frame(height: 17.adjustedH)
+                        TypographyText("공식적인 의료 정보가 아닙니다.", style: .body3_r_12, color: .gray600)
+                            .frame(height: 17.adjustedH)
                     }
-                    .frame(height: 34.adjustedH)
                 }
             }
             .padding(.horizontal, 25.adjustedW)
             .padding(.vertical, 20.adjustedH)
-            
-            Spacer()
             
         }
         .background(Color.gray100)
@@ -96,7 +93,7 @@ private struct TitleHeaderView: View {
                 .frame(height: 1.adjustedH)
                 .gray500()
         }
-        .frame(height: 105)
+        .frame(height: 105.adjustedH    )
           
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct TreatmentFilterView: View {
     @ObservedObject var viewModel: TreatmentViewModel
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             TreatmentSearchBarTextField(
                 text: $viewModel.searchText,
                 onTap: {
