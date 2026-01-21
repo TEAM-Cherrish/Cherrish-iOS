@@ -15,7 +15,6 @@ struct ChallengeSelectMissionView: View {
     
     var body: some View {
         VStack {
-           
             VStack {
                 HStack {
                     VStack(alignment: .leading) {
@@ -37,7 +36,7 @@ struct ChallengeSelectMissionView: View {
                 }
                 .padding(.bottom, 30.adjustedH)
                 VStack(spacing: 10.adjustedH) {
-                    ForEach(viewModel.missions, id: \.self) { mission in
+                    ForEach(viewModel.missions) { mission in
                         MissionCard(
                             missionText: mission.title,
                             
@@ -50,9 +49,9 @@ struct ChallengeSelectMissionView: View {
                                 }
                             )
                         )
-                        .onTapGesture {
-                            viewModel.selectMission(mission: mission)
-                        }
+//                        .onTapGesture {
+//                            viewModel.selectMission(mission: mission)
+//                        }
                     }
                 }
             }
@@ -82,12 +81,5 @@ struct ChallengeSelectMissionView: View {
         }
         .frame(maxHeight: .infinity)
         .ignoresSafeArea(edges: .bottom)
-        
-        .onAppear {
-            viewModel.missions.forEach { mission in
-                CherrishLogger.debug("mission: \(mission)")
-            }
-        }
-
     }
 }

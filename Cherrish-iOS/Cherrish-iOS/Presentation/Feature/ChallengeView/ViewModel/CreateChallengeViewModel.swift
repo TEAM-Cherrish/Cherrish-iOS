@@ -52,13 +52,16 @@ final class CreateChallengeViewModel: ObservableObject {
     
     private let fetchRoutineUseCase: FetchChllengeHomecareRoutinesUseCase
     private let postChallengeRecommendUseCase: PostChallengeRecommendUseCase
+    private let createChallengeUseCase: CreateChallengeUseCase
     
     init(
         fetchRoutineUseCase: FetchChllengeHomecareRoutinesUseCase,
-        postChallengeRecommendUseCase: PostChallengeRecommendUseCase
+        postChallengeRecommendUseCase: PostChallengeRecommendUseCase,
+        createChallengeUseCase: CreateChallengeUseCase
     ) {
         self.fetchRoutineUseCase = fetchRoutineUseCase
         self.postChallengeRecommendUseCase = postChallengeRecommendUseCase
+        self.createChallengeUseCase = createChallengeUseCase
     }
     
     @MainActor
@@ -100,6 +103,13 @@ final class CreateChallengeViewModel: ObservableObject {
     
     @MainActor
     func makeChallenge() async throws {
+        guard let selectedRoutine else { return }
         
+        let selectedMissionList = missonsSelectedState
+            .filter(\.value)
+            .map(\.key.title)
+        CherrishLogger.debug("선택한 미션들: \(selectedMissionList)")
+
+        try await createChallengeUseCase.execute(id: selectedRoutine.id, routines: selectedMissionList)
     }
 }

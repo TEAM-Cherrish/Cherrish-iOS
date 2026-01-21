@@ -40,7 +40,7 @@ final class DataDependencyAssembler: DependencyAssembler {
         }
         DIContainer.shared.register(type: ChallengeInterface.self) {
             return ChallengeRepository(
-                networkService: self.networkService)
+                networkService: self.networkService, userDefaultService: self.userDefaultService)
         }
     }
 }

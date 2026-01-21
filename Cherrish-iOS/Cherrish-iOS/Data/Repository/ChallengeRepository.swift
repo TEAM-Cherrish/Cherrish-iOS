@@ -10,11 +10,12 @@ import Foundation
 import Alamofire
 
 struct ChallengeRepository: ChallengeInterface {
-
     private let networkService: NetworkService
+    private let userDefaultService: UserDefaultService
     
-    init(networkService: NetworkService) {
+    init(networkService: NetworkService, userDefaultService: UserDefaultService) {
         self.networkService = networkService
+        self.userDefaultService = userDefaultService
     }
     
     func fetchHomecareRoutines() async throws -> [RoutineEntity] {
@@ -25,8 +26,20 @@ struct ChallengeRepository: ChallengeInterface {
     
     func aiRecommendations(id: Int) async throws -> [ChallengeMissionEntity] {
         
-        let response = try await networkService.request(ChallengeAPI.aiRecommendations(homecareRoutineId: id), decodingType: RecommentMisssionsResponseDTO.self)
+        let response = try await networkService.request(ChallengeAPI.aiRecommendations(homecareRoutineId: id), decodingType: RecommendMisssionsResponseDTO.self)
         CherrishLogger.debug(response)
         return response.toEntities()
+    }
+    
+    func createChallenge(missionIds: Int, routineNames: [String]) async throws  {
+        let userID: Int = userDefaultService.load(key: .userID) ?? 1
+        let response: () = try await networkService.request(
+            ChallengeDemoAPI.createChallenge(userID: userID, requestDTO:
+                    .init(
+                        homecareRoutineId: missionIds,
+                        routineNames: routineNames
+                    )
+            )
+        )
     }
 }

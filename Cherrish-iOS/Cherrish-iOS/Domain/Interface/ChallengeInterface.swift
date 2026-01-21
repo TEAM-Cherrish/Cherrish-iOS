@@ -10,4 +10,5 @@ import Foundation
 protocol ChallengeInterface {
     func fetchHomecareRoutines() async throws -> [RoutineEntity]
     func aiRecommendations(id: Int) async throws -> [ChallengeMissionEntity]
+    func createChallenge(missionIds: Int, routineNames: [String]) async throws
 }

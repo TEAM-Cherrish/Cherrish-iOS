@@ -66,5 +66,8 @@ final class DomainDependencyAssembler: DependencyAssembler {
             return DefaultSubmitChallengRecommendUseCase(repository: challengeRepository)
         }
         
+        DIContainer.shared.register(type: CreateChallengeUseCase.self) {
+            return DefaultCreateChallengeUseCase(repository: challengeRepository)
+        }
     }
 }
