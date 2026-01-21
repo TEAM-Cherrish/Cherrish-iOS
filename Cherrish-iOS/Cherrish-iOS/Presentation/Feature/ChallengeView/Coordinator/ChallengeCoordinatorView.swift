@@ -17,22 +17,12 @@ struct ChallengeCoordinatorView: View {
                     Group {
                         switch route {
                         case .root:
-                            ViewFactory.shared.makeChallengeView()
+                            ViewFactory.shared.makeHomeView()
                         case .startChallenge:
                             ViewFactory.shared.makeStartChallengeView()
-                        case .selectRoutine:
-                            ViewFactory.shared.makeSelectRoutineView()
-                                .onAppear() {
-                                    tabBarCoordinator.isTabbarHidden = true
-                                }
-                        case .loading:
-                            ViewFactory.shared.makeLoadingView()
-                                .onAppear() {
-                                    tabBarCoordinator.isTabbarHidden = true
-                                }
-                        case .selectMission:
-                            ViewFactory.shared.makeSelectMissionView()
-                                .onAppear() {
+                        case .createChallenge:
+                            ViewFactory.shared.makeCreateChallengeView()
+                                .onAppear {
                                     tabBarCoordinator.isTabbarHidden = true
                                 }
                         case .challengeProgress:

@@ -13,6 +13,7 @@ enum DemoAPI {
     case fetchChallenges(userID: Int)
     case advance(userID: Int)
     case routineToggle(userID: Int, routineID: Int)
+    case createChallenge(userID: Int, requestDTO: MakeChallengeRequestDTO)
 }
 
 extension DemoAPI: EndPoint {
@@ -22,7 +23,7 @@ extension DemoAPI: EndPoint {
     
     var path: String {
         switch self {
-        case .fetchChallenges:
+        case .fetchChallenges, .createChallenge:
             return ""
         case .advance:
             return "/advance-day"
@@ -35,7 +36,7 @@ extension DemoAPI: EndPoint {
         switch self {
         case .fetchChallenges:
             return .get
-        case .advance:
+        case .advance, .createChallenge:
             return .post
         case .routineToggle(_, let routineID):
             return .patch
@@ -46,7 +47,8 @@ extension DemoAPI: EndPoint {
         switch self {
         case .fetchChallenges(let userID),
                 .advance(let userID),
-                .routineToggle(let userID, _):
+                .routineToggle(let userID, _),
+                .createChallenge(let userID, _):
             return .withAuth(userID: userID)
         }
     }
@@ -55,7 +57,7 @@ extension DemoAPI: EndPoint {
         switch self {
         case .fetchChallenges:
             return URLEncoding.default
-        case .advance, .routineToggle:
+        case .advance, .routineToggle, .createChallenge:
             return JSONEncoding.default
         }
     }
@@ -65,8 +67,11 @@ extension DemoAPI: EndPoint {
     }
     
     var bodyParameters: Alamofire.Parameters? {
-        return nil
+        switch self {
+        case .createChallenge(_, let dto):
+            return try? dto.toDictionary()
+        case .fetchChallenges, .advance, .routineToggle:
+            return nil
+        }
     }
-    
-    
 }

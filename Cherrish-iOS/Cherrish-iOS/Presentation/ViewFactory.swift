@@ -14,13 +14,10 @@ protocol ViewFactoryProtocol {
     func makeNoTreatmentView() -> NoTreatmentView
     func makeTreatmentView() -> TreatmentView
     func makeCalendarView() -> CalendarView
-    func makeChallengeView() -> ChallengeView
     func makeMyPageView() -> MyPageView
     func makeSelectTreatmentView() -> SelectTreatmentView
-    func makeStartChallengeView() -> StartChallengeView
-    func makeSelectRoutineView() -> SelectRoutineView
-    func makeSelectMissionView() -> SelectMissionView
-    func makeLoadingView() -> LoadingView
+    func makeStartChallengeView() -> ChallengeStartChallengeView
+    func makeCreateChallengeView() -> CreateChallengeView
     func makeChallengeProgressView() -> ChallengeProgressView
 }
 
@@ -57,10 +54,6 @@ final class ViewFactory: ViewFactoryProtocol {
         return CalendarView(viewModel: viewModel)
     }
     
-    func makeChallengeView() -> ChallengeView {
-        return ChallengeView()
-    }
-    
     func makeMyPageView() -> MyPageView {
         guard let viewModel = DIContainer.shared.resolve(type: MyPageViewModel.self) else {
             fatalError()
@@ -89,20 +82,15 @@ final class ViewFactory: ViewFactoryProtocol {
         return TreatmentView(viewModel: viewModel)
     }
     
-    func makeStartChallengeView() -> StartChallengeView {
-        return StartChallengeView()
+    func makeStartChallengeView() -> ChallengeStartChallengeView {
+        return ChallengeStartChallengeView()
     }
     
-    func makeSelectRoutineView() -> SelectRoutineView {
-        return SelectRoutineView()
-    }
-    
-    func makeSelectMissionView() -> SelectMissionView {
-        return SelectMissionView()
-    }
-    
-    func makeLoadingView() -> LoadingView {
-        return LoadingView()
+    func makeCreateChallengeView() -> CreateChallengeView {
+        guard let viewModel = DIContainer.shared.resolve(type: CreateChallengeViewModel.self) else {
+            fatalError()
+        }
+        return CreateChallengeView(viewModel: viewModel)
     }
 
     func makeChallengeProgressView() -> ChallengeProgressView {

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StartChallengeView: View {
+struct ChallengeStartChallengeView: View {
     @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
     @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
     
@@ -43,8 +43,7 @@ struct StartChallengeView: View {
                 leadingIcon: nil,
                 trailingIcon: nil
             ) {
-                
-                challengeCoordinator.push(.selectRoutine)
+                challengeCoordinator.push(.createChallenge)
                 tabBarCoordinator.isTabbarHidden = true
             }
             .padding(.horizontal, 24.adjustedW)

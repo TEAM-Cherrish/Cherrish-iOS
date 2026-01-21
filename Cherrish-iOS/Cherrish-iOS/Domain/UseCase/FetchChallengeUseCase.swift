@@ -8,7 +8,7 @@
 import Foundation
 
 protocol FetchChallengeUseCase {
-    func execute() async throws -> ChallengeEntity
+    func execute() async throws -> ProgressChallengeEntity
 }
 
 struct DefaultFetchChallengeUseCase: FetchChallengeUseCase {
@@ -18,7 +18,7 @@ struct DefaultFetchChallengeUseCase: FetchChallengeUseCase {
         self.repository = repository
     }
     
-    func execute() async throws -> ChallengeEntity {
+    func execute() async throws -> ProgressChallengeEntity {
         try await repository.fetchChallenges()
     }
 }

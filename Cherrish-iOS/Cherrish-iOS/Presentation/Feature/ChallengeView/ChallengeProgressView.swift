@@ -60,7 +60,7 @@ struct ChallengeProgressView: View {
                         .padding(.trailing, 12.adjustedW)
                     TypographyText("7일 플랜", style: .body3_m_12, color: .gray700)
                         .padding(.horizontal, 8.adjustedW)
-                        .padding(.vertical, 4.adjustedH)
+                        .padding(.vertical, 3.adjustedH)
                         .overlay(
                             RoundedRectangle(cornerRadius: 4)
                                 .stroke(.gray700, lineWidth: 1)
