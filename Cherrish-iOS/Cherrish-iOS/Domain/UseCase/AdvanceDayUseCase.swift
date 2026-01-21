@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AdvanceDayUseCase {
-    func execute() async throws -> ChallengeEntity
+    func execute() async throws -> ProgressChallengeEntity
 }
 
 struct DefaultAdvanceDayUseCase: AdvanceDayUseCase {
@@ -18,7 +18,7 @@ struct DefaultAdvanceDayUseCase: AdvanceDayUseCase {
         self.repository = repository
     }
 
-    func execute() async throws -> ChallengeEntity {
+    func execute() async throws -> ProgressChallengeEntity {
         try await repository.advance()
     }
 }

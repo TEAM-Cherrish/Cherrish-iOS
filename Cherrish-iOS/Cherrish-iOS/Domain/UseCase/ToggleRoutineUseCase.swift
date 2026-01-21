@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ToggleRoutineUseCase {
-    func execute(routineID: Int) async throws -> RoutineEntity
+    func execute(routineID: Int) async throws -> ProgressRoutineEntity
 }
 
 struct DefaultToggleRoutineUseCase: ToggleRoutineUseCase {
@@ -18,7 +18,7 @@ struct DefaultToggleRoutineUseCase: ToggleRoutineUseCase {
         self.repository = repository
     }
 
-    func execute(routineID: Int) async throws -> RoutineEntity {
+    func execute(routineID: Int) async throws -> ProgressRoutineEntity {
         try await repository.toggleRoutine(routineID: routineID)
     }
 }

@@ -19,7 +19,7 @@ struct DefaultDemoRepository: DemoInterface {
         self.userDefaultService = userDefaultService
     }
     
-    func fetchChallenges() async throws -> ChallengeEntity {
+    func fetchChallenges() async throws -> ProgressChallengeEntity {
         let userID: Int = userDefaultService.load(key: .userID) ?? 1
         let response = try await networkService.request(
             DemoAPI.fetchChallenges(userID: userID),
@@ -29,7 +29,7 @@ struct DefaultDemoRepository: DemoInterface {
         return response.toEntity()
     }
     
-    func advance() async throws -> ChallengeEntity {
+    func advance() async throws -> ProgressChallengeEntity {
         let userID: Int = userDefaultService.load(key: .userID) ?? 1
         let response = try await networkService.request(
             DemoAPI.advance(userID: userID),
@@ -37,13 +37,25 @@ struct DefaultDemoRepository: DemoInterface {
         )
         return response.toEntity()
     }
-
-    func toggleRoutine(routineID: Int) async throws -> RoutineEntity {
+    
+    func toggleRoutine(routineID: Int) async throws -> ProgressRoutineEntity {
         let userID: Int = userDefaultService.load(key: .userID) ?? 1
         let response = try await networkService.request(
             DemoAPI.routineToggle(userID: userID, routineID: routineID),
             decodingType: RoutineToggleResponseDTO.self
         )
         return response.toEntity()
+    }
+    
+    func createChallenge(missionIds: Int, routineNames: [String]) async throws  {
+        let userID: Int = userDefaultService.load(key: .userID) ?? 1
+        let response: () = try await networkService.request(
+            DemoAPI.createChallenge(userID: userID, requestDTO:
+                    .init(
+                        homecareRoutineId: missionIds,
+                        routineNames: routineNames
+                    )
+            )
+        )
     }
 }

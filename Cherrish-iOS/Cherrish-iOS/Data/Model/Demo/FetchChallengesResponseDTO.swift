@@ -28,7 +28,7 @@ struct RoutineResponseDTO: Decodable {
 }
 
 extension FetchChallengesResponseDTO {
-    func toEntity() -> ChallengeEntity {
+    func toEntity() -> ProgressChallengeEntity {
         .init(
             challengeID: challengeId,
             title: title,
@@ -44,7 +44,7 @@ extension FetchChallengesResponseDTO {
 }
 
 extension RoutineResponseDTO {
-    func toEntity() -> RoutineEntity {
+    func toEntity() -> ProgressRoutineEntity {
         .init(
             routineID: routineId,
             name: name,

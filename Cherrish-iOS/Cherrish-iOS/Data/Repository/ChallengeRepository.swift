@@ -31,16 +31,4 @@ struct DefaultChallengeRepository: ChallengeInterface {
         CherrishLogger.debug(response)
         return response.toEntities()
     }
-
-    func createChallenge(missionIds: Int, routineNames: [String]) async throws  {
-        let userID: Int = userDefaultService.load(key: .userID) ?? 1
-        let response: () = try await networkService.request(
-            ChallengeDemoAPI.createChallenge(userID: userID, requestDTO:
-                    .init(
-                        homecareRoutineId: missionIds,
-                        routineNames: routineNames
-                    )
-            )
-        )
-    }
 }

@@ -12,9 +12,9 @@ protocol CreateChallengeUseCase {
 }
 
 struct DefaultCreateChallengeUseCase: CreateChallengeUseCase {
-    private let repository: ChallengeInterface
+    private let repository: DemoInterface
 
-    init(repository: ChallengeInterface) {
+    init(repository: DemoInterface) {
         self.repository = repository
     }
 
