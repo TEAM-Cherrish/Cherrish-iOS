@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5131A5B82F120ED2004214DF /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 5131A5B72F120ED2004214DF /* Alamofire */; };
+		51DB7DE72F211C9D003095AC /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 51DB7DE62F211C9D003095AC /* Lottie */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5131A5B82F120ED2004214DF /* Alamofire in Frameworks */,
+				51DB7DE72F211C9D003095AC /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +86,7 @@
 			name = "Cherrish-iOS";
 			packageProductDependencies = (
 				5131A5B72F120ED2004214DF /* Alamofire */,
+				51DB7DE62F211C9D003095AC /* Lottie */,
 			);
 			productName = "Cherrish-iOS";
 			productReference = 51B5D3182F0514390090B8B4 /* Cherrish-iOS.app */;
@@ -115,6 +118,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				5131A5B62F120ED2004214DF /* XCRemoteSwiftPackageReference "Alamofire" */,
+				51DB7DE52F211C9D003095AC /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 51B5D3192F0514390090B8B4 /* Products */;
@@ -378,6 +382,14 @@
 				minimumVersion = 5.11.0;
 			};
 		};
+		51DB7DE52F211C9D003095AC /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.6.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -385,6 +397,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5131A5B62F120ED2004214DF /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		51DB7DE62F211C9D003095AC /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 51DB7DE52F211C9D003095AC /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
