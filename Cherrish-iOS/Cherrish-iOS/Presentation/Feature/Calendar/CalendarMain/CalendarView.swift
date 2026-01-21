@@ -74,7 +74,7 @@ extension CalendarView {
         VStack {
             HStack {
                 Image(.chevronLeft)
-                    .frame(width: 40, height: 40)
+                    .frame(width: 40.adjustedW, height: 40.adjustedH)
                     .scaledToFit()
                     .onTapGesture {
                         viewModel.currentMonth -= 1
@@ -88,22 +88,22 @@ extension CalendarView {
                 Spacer()
                 
                 Image(.chevronRight)
-                    .frame(width: 40, height: 40)
+                    .frame(width: 40.adjustedW, height: 40.adjustedH)
                     .scaledToFit()
                     .onTapGesture {
                         viewModel.currentMonth += 1
                         viewModel.selectedDate = viewModel.firstDateOfCurrentMonth()
                     }
             }
-            .padding(.horizontal, 11)
+            .padding(.horizontal, 11.adjustedW)
             
             HStack(spacing: 8) {
                 ForEach(weekdays, id: \.self) { weekday in
                     TypographyText(weekday, style: .body1_r_14, color: .gray800)
-                        .frame(width: 40, height: 40)
+                        .frame(width: 40.adjustedW, height: 40.adjustedH)
                 }
             }
-            .padding(.horizontal, 23)
+            .padding(.horizontal, 23.adjustedH)
         }
     }
     
@@ -148,7 +148,7 @@ extension CalendarView {
                     .frame(height: calendarCellHeight + calendarRowSpacing)
             }
         }
-        .padding(.horizontal, 23)
+        .padding(.horizontal, 23.adjustedW)
     }
     
     private var scheduleListContainerView: some View {
@@ -174,7 +174,7 @@ extension CalendarView {
                 }
             }
             .frame(height: 40.adjustedH)
-            .padding(.horizontal, 20)
+            .padding(.horizontal, 20.adjustedW)
             .padding(.top, 8)
             
             ZStack {
@@ -220,31 +220,31 @@ extension CalendarView {
                 }
                 
                 GradientBox(isTop: true)
-                    .frame(height: 56)
+                    .frame(height: 56.adjustedH)
                     .allowsHitTesting(false)
                     .opacity(shouldShowGradientTop ? 1 : 0)
                     .frame(maxHeight: .infinity, alignment: .top)
                 
                 GradientBox(isTop: false)
-                    .frame(height: 92)
+                    .frame(height: 92.adjustedH)
                     .allowsHitTesting(false)
                     .opacity(shouldShowGradientBottom ? 1 : 0)
                     .frame(maxHeight: .infinity, alignment: .bottom)
             }
             
             .frame(height: scrollAreaHeight.adjustedH)
-            .padding(.top, 6)
-            .padding(.horizontal, 19)
-            .padding(.bottom, 12)
+            .padding(.top, 6.adjustedW)
+            .padding(.horizontal, 19.adjustedW)
+            .padding(.bottom, 12.adjustedH)
         }
         .background(
             RoundedRectangle(cornerRadius: 10)
                 .fill(.gray0)
                 .cherrishShadow()
         )
-        .padding(.top, 20)
-        .padding(.horizontal, 25)
-        .padding(.bottom, 18)
+        .padding(.top, 20.adjustedH)
+        .padding(.horizontal, 25.adjustedW)
+        .padding(.bottom, 18.adjustedH)
     }
     
     private var emptyScheduleView: some View {
@@ -256,8 +256,8 @@ extension CalendarView {
                 
                 TypographyText("오늘 예정된 일정이 없어요.", style: .body1_r_14, color: .gray600)
             }
-            .padding(.top, 50)
-            .padding(.horizontal, 65)
+            .padding(.top, 50.adjustedH)
+            .padding(.horizontal, 65.adjustedW)
             
             Spacer()
                 .frame(height: 38.adjustedH)
@@ -274,7 +274,7 @@ extension CalendarView {
                     )
                 }
             )
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 24.adjustedW)
             
             Spacer()
                 .frame(height: 24.adjustedH)
@@ -285,9 +285,9 @@ extension CalendarView {
                 .cherrishShadow()
         )
         .frame(width: 326.adjustedW, height: 264.adjustedH)
-        .padding(.top, 20)
-        .padding(.horizontal, 25)
-        .padding(.bottom, 30)
+        .padding(.top, 20.adjustedH)
+        .padding(.horizontal, 25.adjustedW)
+        .padding(.bottom, 30.adjustedH)
     }
     
     private var downTimeRangeIcons: some View {
