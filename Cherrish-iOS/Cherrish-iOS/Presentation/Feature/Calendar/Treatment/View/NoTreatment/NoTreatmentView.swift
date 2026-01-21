@@ -55,6 +55,9 @@ struct NoTreatmentView: View {
         .onAppear {
             tabBarCoordinator.isTabbarHidden = true
         }
+        .onTapGesture {
+            hideKeyboard()
+        }
     }
     
     @ViewBuilder

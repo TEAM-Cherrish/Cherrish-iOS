@@ -8,7 +8,7 @@
 import Foundation
 
 protocol CreateUserProcedureUseCase {
-    func excute(scheduledDate: String, recoveryDate: String, treatments: [TreatmentEntity]) async throws
+    func execute(scheduledDate: String, recoveryDate: String, treatments: [TreatmentEntity]) async throws
 }
 
 struct DefaultCreateUserProcedureUseCase: CreateUserProcedureUseCase {
@@ -19,7 +19,7 @@ struct DefaultCreateUserProcedureUseCase: CreateUserProcedureUseCase {
         self.repository = repository
     }
     
-    func excute(scheduledDate: String, recoveryDate: String, treatments: [TreatmentEntity]) async throws {
+    func execute(scheduledDate: String, recoveryDate: String, treatments: [TreatmentEntity]) async throws {
         return try await repository.createUserProcedure(scheduledDate: scheduledDate, recoveryDate: recoveryDate, treatments: treatments)
     }
 }

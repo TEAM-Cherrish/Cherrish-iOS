@@ -31,7 +31,14 @@ struct DefaultTreatmentRepository: TreatmentInterface {
     
     func fetchTreatment(id: Int?, keyword: String?) async throws -> [TreatmentEntity] {
         let userId: Int = userDefaultService.load(key: .userID) ?? 1
-        let response = try await networkService.request(TreatmentAPI.fetchProcedures(userId: userId,id: id, text: keyword), decodingType: ProceduresResponseDTO.self)
+        let response = try await networkService.request(
+            TreatmentAPI.fetchProcedures(
+                userId: userId,
+                id: id,
+                text: keyword
+            ),
+            decodingType: ProceduresResponseDTO.self
+        )
         return response.procedures.map { $0.toEntity() }
     }
     
@@ -42,7 +49,13 @@ struct DefaultTreatmentRepository: TreatmentInterface {
             recoveryTargetDate: recoveryDate,
             procedures: treatments.compactMap { $0.toRequestDTO() }
         )
-        let _ = try await networkService.request(TreatmentAPI.createUserProcedure(userId: userId, request: request), decodingType: UserProcedureItemRequestDTO.self)
+        let _ = try await networkService.request(
+            TreatmentAPI.createUserProcedure(
+                userId: userId,
+                request: request
+            ),
+            decodingType: CreateProfileResponseDTO.self
+        )
     }
 }
 

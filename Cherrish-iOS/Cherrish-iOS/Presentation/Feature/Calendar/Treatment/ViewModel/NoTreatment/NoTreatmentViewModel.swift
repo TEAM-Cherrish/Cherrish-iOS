@@ -97,9 +97,9 @@ final class NoTreatmentViewModel: ObservableObject{
         }
         
         do {
-            try await createUserProcedureUseCase.excute(scheduledDate: scheduledDate.toScheduledAtFormat, recoveryDate: recoverDate.toRecoveryDateFormat, treatments: selectedTreatments)
+            try await createUserProcedureUseCase.execute(scheduledDate: scheduledDate.toScheduledAtFormat, recoveryDate: recoverDate.toRecoveryDateFormat, treatments: selectedTreatments)
         } catch {
-            CherrishLogger.network(CherrishError.networkRequestFailed)
+            CherrishLogger.network(error)
         }
     }
     

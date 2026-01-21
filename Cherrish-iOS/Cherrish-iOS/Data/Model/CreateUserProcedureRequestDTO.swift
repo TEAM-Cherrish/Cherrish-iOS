@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct UserProcedureItemRequestDTO: Encodable, Decodable {
+struct UserProcedureItemRequestDTO: Encodable {
     let procedureId: Int
     let downtimeDays: Int
 }
 
-struct CreateUserProcedureRequestDTO: Encodable, Decodable {
+struct CreateUserProcedureRequestDTO: Encodable {
     let scheduledAt: String
     let recoveryTargetDate: String
     let procedures: [UserProcedureItemRequestDTO]

@@ -47,16 +47,23 @@ extension Date {
 }
 
 extension Date {
-    var toScheduledAtFormat: String {
+    private static let scheduledAtFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        return formatter.string(from: self)
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+        return formatter
+    }()
+}
+
+
+extension Date {
+    var toScheduledAtFormat: String {
+        return Date.scheduledAtFormatter.string(from: self)
     }
     
     var toRecoveryDateFormat: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter.string(from: self)
+        return Date.dateFormatter.string(from: self)
     }
     
     static func from(year: String, month: String, day: String) -> Date? {
