@@ -14,12 +14,12 @@ struct NoTreatmentFilterView: View {
         VStack(spacing: 0) {
             TitleHeaderView(title: viewModel.selectedCategory?.title ?? "")
             
-            Spacer()
-                .frame(height: 10.adjustedH)
+//            Spacer()
+//                .frame(height: 18.adjustedH)
             
             ScrollView(.vertical, showsIndicators: false){
                 Spacer()
-                    .frame(height: 10.adjustedH)
+                    .frame(height: 18.adjustedH)
                 
                 ForEach(viewModel.treatments, id: \.id) { treatment in
                     TreatmentRowView(
@@ -32,11 +32,10 @@ struct NoTreatmentFilterView: View {
                             } else {
                                 viewModel.addTreatment(treatment)
                                 
-                            }
-                            
+                            }   
                         }
                     )
-                    .padding(.horizontal, 34.adjustedW)
+                    .padding(.horizontal, 25.adjustedW)
                     
                 }
             }
