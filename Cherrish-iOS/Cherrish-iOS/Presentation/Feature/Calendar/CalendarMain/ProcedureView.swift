@@ -61,14 +61,13 @@ extension ProcedureView {
             
             VStack(alignment: .trailing, spacing: 1) {
                 TypographyText(treatmentDate.dateFormatter(), style: .body3_r_12, color: status.downtimeTextColor)
-                if status == .active {
-                    if downTimeDays == 0 {
-                        TypographyText("-", style: .body3_r_12, color: status.downtimeTextColor)
-                    }
-                    else {
-                        TypographyText("다운타임 \(downTimeDays)일", style: .body3_r_12, color: status.downtimeTextColor)
-                    }
+                if downTimeDays == 0 {
+                    TypographyText("-", style: .body3_r_12, color: status.downtimeTextColor)
                 }
+                else {
+                    TypographyText("다운타임 \(downTimeDays)일", style: .body3_r_12, color: status.downtimeTextColor)
+                }
+                
             }
             .padding(.trailing, 10)
         }
