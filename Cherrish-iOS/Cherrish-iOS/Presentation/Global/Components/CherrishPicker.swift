@@ -10,7 +10,7 @@ import UIKit
 
 struct CherrishPicker: View {
     @Binding var selection: Int
-    let range: ClosedRange<Int>
+    var range: ClosedRange<Int> = 0...30
     var width: CGFloat = 74.adjustedW
 
     var body: some View {
