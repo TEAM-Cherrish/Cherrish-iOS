@@ -1,8 +1,19 @@
 {
   "images" : [
     {
-      "filename" : "cherry3.png",
-      "idiom" : "universal"
+      "filename" : "home_lv.3.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "home_lv.3@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "home_lv.3@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {

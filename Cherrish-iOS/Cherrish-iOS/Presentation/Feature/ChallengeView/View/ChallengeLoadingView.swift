@@ -18,7 +18,7 @@ struct ChallengeLoadingView: View {
                 TypographyText("TO-DO 미션을 만들고 있어요.", style: .title1_sb_18, color: .gray800)
                 Image(.loading)
                     .padding(.top, 17.adjustedH)
-                TypographyText("잠시만 기다려주세요!", style: .title2_sb_16, color: .gray800)
+                TypographyText("잠시만 기다려주세요!", style: .title2_m_16, color: .gray800)
                     .padding(.top, 17.adjustedH)
                 Spacer()
                 TypographyText("AI가 맞춤형 루틴을 제작하고 있어요.", style: .body3_m_12, color: .gray600)

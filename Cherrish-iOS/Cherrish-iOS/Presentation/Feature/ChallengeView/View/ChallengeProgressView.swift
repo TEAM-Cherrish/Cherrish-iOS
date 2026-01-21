@@ -83,8 +83,8 @@ struct ChallengeProgressView: View {
 
 extension ChallengeProgressView {
     private var CherryGrowthView: some View {
-        VStack {
-            VStack {
+        VStack(spacing: 0) {
+            VStack(spacing: 0) {
                 HStack {
                     TypographyText("Lv.\(viewModel.cherryLevel.levelNumber)", style: .body1_m_14, color: .gray900)
                     TypographyText("\(viewModel.cherryLevel.name)", style: .body1_m_14, color: .gray900)
@@ -92,20 +92,21 @@ extension ChallengeProgressView {
                     Spacer()
                 }
                 viewModel.cherryLevel.cherryImage
-                    .padding(.top, 14.adjustedH)
+                    .frame(width: 154.adjustedW, height: 154.adjustedW)
+                    .padding(.bottom, 5.adjustedH)
                 if viewModel.cherryLevel.levelNumber == 4 {
                     TypographyText("챌린지 완료까지 \(viewModel.remainMissions)개의 미션을 수행해야 해요!", style: .body2_r_13, color: .gray800)
-                        .padding(.top, 14.adjustedH)
+                        .padding(.bottom, 14.adjustedH)
                 }else {
                     TypographyText("체리가 크려면 \(viewModel.remainMissions)개의 미션을 수행해야 해요!", style: .body2_r_13, color: .gray800)
-                        .padding(.top, 14.adjustedH)
+                        .padding(.bottom, 14.adjustedH)
                 }
             }
             .padding(.horizontal, 25.adjustedW)
             Rectangle()
                 .fill(.gray300)
                 .frame(height: 1)
-                .padding(.vertical, 14.adjustedH)
+                .padding(.bottom, 14.adjustedH)
             VStack {
                 HStack {
                     TypographyText("챌린지 달성률 \(viewModel.progressRate)%", style: .body1_m_14, color: .gray900)
