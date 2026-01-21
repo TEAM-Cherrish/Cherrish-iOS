@@ -8,7 +8,7 @@
 import Foundation
 
 final class ChallengeProgressViewModel: ObservableObject {
-    @Published private(set) var challengeData: ChallengeEntity?
+    @Published private(set) var challengeData: ProgressChallengeEntity?
     @Published private(set) var isLoading: Bool = false
     @Published private(set) var errorMessage: String?
     @Published private(set) var cherryLevel: CherryLevel = .mong
@@ -16,7 +16,7 @@ final class ChallengeProgressViewModel: ObservableObject {
     @Published private(set) var progressRate = 0
     @Published private(set) var currentDay: Int = 1
     @Published private(set) var challengeTitle: String = "챌린지"
-    @Published private(set) var todayRoutines: [RoutineEntity] = []
+    @Published private(set) var todayRoutines: [ProgressRoutineEntity] = []
     
     private let fetchChallengeUseCase: FetchChallengeUseCase
     private let toggleRoutineUseCase: ToggleRoutineUseCase
@@ -60,7 +60,7 @@ final class ChallengeProgressViewModel: ObservableObject {
                 return routine
             }
 
-            challengeData = ChallengeEntity(
+            challengeData = ProgressChallengeEntity(
                 challengeID: currentData.challengeID,
                 title: currentData.title,
                 currentDay: currentData.currentDay,

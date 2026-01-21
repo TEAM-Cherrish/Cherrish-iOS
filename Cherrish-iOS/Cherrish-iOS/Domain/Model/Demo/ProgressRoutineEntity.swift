@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RoutineEntity {
+struct ProgressRoutineEntity {
     let routineID: Int
     let name: String
     let isComplete: Bool

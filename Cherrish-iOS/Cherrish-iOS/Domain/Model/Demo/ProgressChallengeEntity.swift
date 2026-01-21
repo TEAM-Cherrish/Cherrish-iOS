@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ChallengeEntity {
+struct ProgressChallengeEntity {
     let challengeID: Int
     let title: String
     let currentDay: Int
@@ -16,5 +16,5 @@ struct ChallengeEntity {
     let cherryLevelName: String
     let progressToNextLevel: Double
     let remainingRoutinesToNextLevel: Int
-    let todayRoutines: [RoutineEntity]
+    let todayRoutines: [ProgressRoutineEntity]
 }
