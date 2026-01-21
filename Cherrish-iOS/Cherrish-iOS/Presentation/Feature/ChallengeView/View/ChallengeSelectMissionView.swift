@@ -18,11 +18,7 @@ struct ChallengeSelectMissionView: View {
             VStack {
                 HStack {
                     VStack(alignment: .leading) {
-                        TypographyText("챌린지 기간 동안",
-                                       style: .title1_sb_18,
-                                       color: .gray1000
-                        )
-                        TypographyText("진행할 미션을 선택해주세요.",
+                        TypographyText("챌린지 기간 동안\n진행할 미션을 선택해주세요.",
                                        style: .title1_sb_18,
                                        color: .gray1000
                         )

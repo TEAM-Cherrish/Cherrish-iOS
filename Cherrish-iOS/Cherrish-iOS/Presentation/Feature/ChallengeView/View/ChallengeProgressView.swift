@@ -86,7 +86,9 @@ extension ChallengeProgressView {
         VStack {
             VStack {
                 HStack {
-                    TypographyText("Lv.\(viewModel.cherryLevel.levelNumber) \(viewModel.cherryLevel.name)", style: .body1_m_14, color: .gray900)
+                    TypographyText("Lv.\(viewModel.cherryLevel.levelNumber)", style: .body1_m_14, color: .gray900)
+                    TypographyText("\(viewModel.cherryLevel.name)", style: .body1_m_14, color: .gray900)
+                        .padding(.leading, 6.adjustedW)
                     Spacer()
                 }
                 viewModel.cherryLevel.cherryImage

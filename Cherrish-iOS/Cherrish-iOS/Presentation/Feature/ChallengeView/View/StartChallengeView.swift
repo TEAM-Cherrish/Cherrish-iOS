@@ -30,11 +30,11 @@ struct ChallengeStartChallengeView: View {
                 .padding(.top, 10.adjustedH)
                 .padding(.horizontal, 24.adjustedW)
             
-            HStack(spacing: 12) {
+            HStack(spacing: 0) {
                 Image("info")
                 TypographyText("이 챌린지는 설정 시점부터 7일간 진행됩니다.", style: .body3_m_12, color: .gray600)
             }
-            .padding(.bottom, 12.adjustedH)
+            .padding(.top, 20.adjustedH)
             
             CherrishButton(
                 title: "챌린지 시작하기",
