@@ -88,11 +88,14 @@ final class NoTreatmentViewModel: ObservableObject{
     
     func isDateTextFieldNotEmpty() -> Bool {
         guard !year.isEmpty, !month.isEmpty, !day.isEmpty else {
+            Task { @MainActor in
+                updateWarning(state: .none)
+            }
             return false
         }
         
         guard let y = Int(year), let m = Int(month), let d = Int(day) else {
-            warning = .invalidFormat
+            updateWarning(state: .invalidFormat)
             return false
         }
            
@@ -100,18 +103,25 @@ final class NoTreatmentViewModel: ObservableObject{
         
         guard let date = Calendar.current.date(from: components),
               Calendar.current.dateComponents([.year, .month, .day], from: date) == components else {
-            warning = .invalidFormat
+            updateWarning(state: .invalidFormat)
             return false
         }
         
         let today = Calendar.current.startOfDay(for: Date())
         if date < today {
-            warning = .pastDate
+            updateWarning(state: .pastDate)
             return false
         }
         
+        updateWarning(state: .none)
         return true
-        
+    }
+    
+  
+    private func updateWarning(state: TreatmentInputWarning) {
+        Task { @MainActor in
+            warning = state
+        }
     }
     
 }
