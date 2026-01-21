@@ -13,9 +13,14 @@ final class HomeViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     private let fetchDashboardDataUseCase: FetchDashboardData
+    private let homeCalendarFlowState: HomeCalendarFlowState
     
-    init(fetchDashboardDataUseCase: FetchDashboardData) {
+    init(
+        fetchDashboardDataUseCase: FetchDashboardData,
+        homeCalendarFlowState: HomeCalendarFlowState
+    ) {
         self.fetchDashboardDataUseCase = fetchDashboardDataUseCase
+        self.homeCalendarFlowState = homeCalendarFlowState
     }
     
     @MainActor
@@ -33,6 +38,10 @@ final class HomeViewModel: ObservableObject {
         isLoading = false
     }
     
+//    func sendTreatmentDate() {
+//        homeCalendarFlowState.treatmentDate = dashboardData?.upcomingProcedures
+//    }
+//    
     var formattedDate: String {
         guard let date = dashboardData?.date else { return "" }
         let formatter = DateFormatter()

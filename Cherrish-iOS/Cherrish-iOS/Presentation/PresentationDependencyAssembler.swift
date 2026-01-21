@@ -21,6 +21,10 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return CalendarTreatmentFlowState()
         }
         
+        DIContainer.shared.register(type: HomeCalendarFlowState.self) {
+            return HomeCalendarFlowState()
+        }
+        
         guard let createProfileUseCase = DIContainer.shared.resolve(type: CreateProfileUseCase.self) else {
             CherrishLogger.error(CherrishError.DIFailedError)
             return

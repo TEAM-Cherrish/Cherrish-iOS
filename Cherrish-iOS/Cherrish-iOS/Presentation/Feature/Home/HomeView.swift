@@ -313,7 +313,6 @@ private struct UpcomingBoxView: View {
         )
         .cherrishShadow()
         .padding(.horizontal, 24.adjustedW)
-        
     }
     
     private var upcomingListView: some View {
@@ -336,6 +335,9 @@ private struct UpcomingBoxView: View {
                         count: item.count,
                         dDay: item.dDay
                     )
+                }
+                .onTapGesture {
+                    tabBarCoordinator.switchTab(tab: .calendar)
                 }
             }
         }
