@@ -20,10 +20,20 @@ final class TreatmentViewModel: ObservableObject{
     @Published private(set) var warning: TreatmentInputWarning = .none
     
     private let fetchTreatmentsUseCase: FetchTreatmentsUseCase
+    private let createUserProcedureUseCase: CreateUserProcedureUseCase
+    private let calendarTreatmentFlowState: CalendarTreatmentFlowState
     
-    init(fetchTreatmentsUseCase: FetchTreatmentsUseCase) {
+    
+    init(
+        fetchTreatmentsUseCase: FetchTreatmentsUseCase,
+        calendarTreatmentFlowState: CalendarTreatmentFlowState,
+        createUserProcedureUseCase: CreateUserProcedureUseCase
+    ) {
         self.fetchTreatmentsUseCase = fetchTreatmentsUseCase
+        self.createUserProcedureUseCase = createUserProcedureUseCase
+        self.calendarTreatmentFlowState = calendarTreatmentFlowState
     }
+
     
     var step: Int { state.rawValue }
     
@@ -38,25 +48,42 @@ final class TreatmentViewModel: ObservableObject{
     }
     
     var canProceed: Bool {
-           switch state {
-           case .targetDdaySetting:
-               return isDateTextFieldNotEmpty()
-           case .treatmentFilter:
-               return !selectedTreatments.isEmpty
-           case .downTimeSetting:
-               return selectedTreatments.allSatisfy { $0.setDowntime != nil }
-                   
-           }
-       }
+        switch state {
+        case .targetDdaySetting:
+            return isDateTextFieldNotEmpty()
+        case .treatmentFilter:
+            return !selectedTreatments.isEmpty
+        case .downTimeSetting:
+            return selectedTreatments.allSatisfy { $0.setDowntime != nil }
+            
+        }
+    }
     
     
     
     @MainActor
     func fetchTreatments() async throws {
         do {
-           treatments = try await fetchTreatmentsUseCase.execute(id: nil, keyword: searchText)
+            treatments = try await fetchTreatmentsUseCase.execute(id: nil, keyword: searchText)
         } catch {
             treatments = []
+        }
+    }
+    
+    
+    func createUserProcedure() async throws {
+        guard let scheduledDate = calendarTreatmentFlowState.selectedDate else {
+            return
+        }
+        
+        guard let recoverDate = Date.from(year: year, month: month, day: day) else {
+            return
+        }
+        
+        do {
+            try await createUserProcedureUseCase.execute(scheduledDate: scheduledDate.toScheduledAtFormat, recoveryDate: recoverDate.toRecoveryDateFormat, treatments: selectedTreatments)
+        } catch {
+            CherrishLogger.network(error)
         }
     }
     
@@ -119,7 +146,7 @@ extension TreatmentViewModel {
         guard !isSelected(treatment) else { return }
         selectedTreatments.append(treatment)
     }
-
+    
     func removeTreatment(_ treatment: TreatmentEntity) {
         selectedTreatments.removeAll { $0.id == treatment.id }
     }

@@ -111,7 +111,20 @@ struct TreatmentView: View {
                 leadingIcon: nil,
                 trailingIcon: nil
             ) {
-                viewModel.next()
+                if viewModel.state == .downTimeSetting {
+                    Task {
+                        do {
+                            try await viewModel.createUserProcedure()
+                        } catch {
+                            CherrishLogger.error(error)
+                        }
+                        
+                        tabBarCoordinator.isTabbarHidden = false
+                        calendarCoordinator.popToRoot()
+                    }
+                } else {
+                    viewModel.next()
+                }
             }
             .padding(.horizontal, 25.adjustedW)
         }

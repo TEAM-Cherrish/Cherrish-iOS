@@ -55,6 +55,9 @@ struct NoTreatmentView: View {
         .onAppear {
             tabBarCoordinator.isTabbarHidden = true
         }
+        .onTapGesture {
+            hideKeyboard()
+        }
     }
     
     @ViewBuilder
@@ -62,7 +65,6 @@ struct NoTreatmentView: View {
         switch viewModel.state {
         case .treatmentSelectedCategory:
             TreatmentSelectedCategory(viewModel: viewModel)
-                .padding(.horizontal, 34.adjustedW)
                 .id(String(describing: viewModel.state))
             
         case .targetDdaySetting:
@@ -73,7 +75,6 @@ struct NoTreatmentView: View {
                 day: $viewModel.day,
                 warningMessage: .constant(viewModel.warning.message)
             )
-            .padding(.horizontal, 34.adjustedW)
             .id(String(describing: viewModel.state))
             
         case .treatmentFilter:
@@ -114,7 +115,20 @@ struct NoTreatmentView: View {
                 leadingIcon: nil,
                 trailingIcon: nil
             ) {
-                viewModel.next()
+                if viewModel.state == .downTimeSetting {
+                    Task {
+                        do {
+                            try await viewModel.createUserProcedure()
+                        } catch {
+                            CherrishLogger.error(error)
+                        }
+                      
+                        tabBarCoordinator.isTabbarHidden = false
+                        calendarCoordinator.popToRoot()
+                    }
+                } else {
+                    viewModel.next()
+                }
             }
             .padding(.horizontal, 25.adjustedW)
         }
@@ -161,7 +175,7 @@ private struct TreatmentSelectedCategory: View {
                 
                 Spacer()
             }
-            
+            .padding(.horizontal, 34.adjustedW)
             Spacer()
                 .frame(height: 40.adjustedH)
             ScrollView(.vertical, showsIndicators:false) {
@@ -183,7 +197,7 @@ private struct TreatmentSelectedCategory: View {
                             )
                         )
                     }
-                }
+                } .padding(.horizontal, 34.adjustedW)
             }
         }
     }

@@ -79,15 +79,17 @@ private struct HeaderLogoView: View {
 }
 
 private struct ChallengeCardEmptyView: View {
+    
     let challengeBarImageName: String
     private let buttonState: ButtonState = .active
+    @EnvironmentObject var tabBarCoordinator: TabBarCoordinator
     
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 TypographyText("챌린지를 시작해봐요!", style: .body1_m_14, color: .gray700)
                     .padding(.top, 18.adjustedH)
-
+                
                 Spacer()
             }
             .padding(.leading, 18.adjustedW)
@@ -103,7 +105,7 @@ private struct ChallengeCardEmptyView: View {
                 leadingIcon: nil,
                 trailingIcon: nil
             ) {
-               
+                tabBarCoordinator.switchTab(tab: .challenge)
             }
             .padding(.horizontal, 24.adjustedW)
             .padding(.top, 10.adjustedH)
@@ -235,7 +237,7 @@ private struct PlanBoxView: View {
                 .cherrishShadow()
         )
         .padding(.horizontal, 24.adjustedW)
-
+        
     }
     
     private var emptyStateView: some View {
@@ -251,14 +253,15 @@ private struct PlanBoxView: View {
             RoundedRectangle(cornerRadius: 10.adjustedW)
                 .strokeBorder(.gray400, lineWidth: 1.adjustedW)
         )
-                    .padding(.top, 8.adjustedH)
-                    .padding(.horizontal, 15.adjustedW)
+        .padding(.top, 8.adjustedH)
+        .padding(.horizontal, 15.adjustedW)
     }
 }
 
 private struct UpcomingBoxView: View {
     @ObservedObject var viewModel: HomeViewModel
     private let buttonState: ButtonState = .active
+    @EnvironmentObject var tabBarCoordinator: TabBarCoordinator
     
     private func pinStyle(for index: Int, totalCount: Int) -> (circleColor: Color, lineTopColor: Color, lineBottomColor: Color) {
         let red600 = Color.red600
@@ -275,7 +278,7 @@ private struct UpcomingBoxView: View {
         case 1:
             let lineBottomColor = totalCount >= 3 ? red300 : gray0
             result = (red500, red500, lineBottomColor)
-        default: 
+        default:
             result = (red300, red300, gray0)
         }
         
@@ -310,9 +313,9 @@ private struct UpcomingBoxView: View {
         )
         .cherrishShadow()
         .padding(.horizontal, 24.adjustedW)
-
+        
     }
-
+    
     private var upcomingListView: some View {
         VStack(spacing: 0) {
             ForEach(Array(viewModel.upcomingItems.enumerated()), id: \.element.id) { index, item in
@@ -339,8 +342,9 @@ private struct UpcomingBoxView: View {
         .padding(.top, 11.adjustedH)
         .padding(.bottom, 12.adjustedH)
     }
-
+    
     private var emptyStateView: some View {
+        
         VStack(spacing: 0) {
             Image("illustration_noschedule")
                 .padding(.top, 24.adjustedH)
@@ -354,7 +358,7 @@ private struct UpcomingBoxView: View {
                 leadingIcon: nil,
                 trailingIcon: nil
             ) {
-               
+                tabBarCoordinator.switchTab(tab: .calendar)
             }
             .padding(.horizontal, 24.adjustedW)
             .padding(.top, 32.adjustedH)

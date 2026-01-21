@@ -17,6 +17,10 @@ final class PresentationDependencyAssembler: DependencyAssembler {
     func assemble() {
         preAssembler.assemble()
         
+        DIContainer.shared.register(type: CalendarTreatmentFlowState.self) {
+            return CalendarTreatmentFlowState()
+        }
+        
         guard let createProfileUseCase = DIContainer.shared.resolve(type: CreateProfileUseCase.self) else {
             CherrishLogger.error(CherrishError.DIFailedError)
             return
@@ -34,11 +38,17 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return
         }
         
+        guard let calendarTreatmentFlowState = DIContainer.shared.resolve(type: CalendarTreatmentFlowState.self) else {
+            CherrishLogger.error(CherrishError.DIFailedError)
+            return
+        }
+        
         DIContainer.shared.register(type: CalendarViewModel.self) {
             return CalendarViewModel(
                 fetchProcedureCountOfMonthUseCase: fetchProcedureCountOfMonthUseCase,
                 fetchTodayProcedureListUseCase: fetchTodayProcedureListUseCase,
-                fetchProcedureDowntimeUseCase: fetchProcedureDowntimeUseCase
+                fetchProcedureDowntimeUseCase: fetchProcedureDowntimeUseCase,
+                calendarTreatmentFlowState: calendarTreatmentFlowState
             )
         }
         
@@ -63,13 +73,27 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return SelectTreatmentViewModel()
         }
         
-        DIContainer.shared.register(type: NoTreatmentViewModel.self) {
-            return NoTreatmentViewModel(fetchCategoriesUseCase: fetchTreatmentCategoriesUseCase, fetchTreatmentsUseCase: fetchTreatmentsUseCase)
+        
+        
+        guard let createUserProcedureUseCase = DIContainer.shared.resolve(type: CreateUserProcedureUseCase.self) else {
+            return
         }
         
+        DIContainer.shared.register(type: NoTreatmentViewModel.self) {
+            return NoTreatmentViewModel(
+                fetchCategoriesUseCase: fetchTreatmentCategoriesUseCase,
+                fetchTreatmentsUseCase: fetchTreatmentsUseCase,
+                calendarTreatmentFlowState: calendarTreatmentFlowState,
+                createUserProcedureUseCase: createUserProcedureUseCase
+            )
+        }
         
         DIContainer.shared.register(type: TreatmentViewModel.self) {
-            return TreatmentViewModel(fetchTreatmentsUseCase: fetchTreatmentsUseCase)
+            return TreatmentViewModel(
+                fetchTreatmentsUseCase: fetchTreatmentsUseCase,
+                calendarTreatmentFlowState: calendarTreatmentFlowState,
+                createUserProcedureUseCase: createUserProcedureUseCase
+            )
         }
         
         guard let fetchUserInfoUseCase = DIContainer.shared.resolve(type: FetchUserInfoUseCase.self) else {
@@ -78,6 +102,22 @@ final class PresentationDependencyAssembler: DependencyAssembler {
         
         DIContainer.shared.register(type: MyPageViewModel.self) {
             return MyPageViewModel(fetchUserInfoUseCase: fetchUserInfoUseCase)
+        }
+
+        guard let fetchChallengeUseCase = DIContainer.shared.resolve(type: FetchChallengeUseCase.self),
+              let toggleRoutineUseCase = DIContainer.shared.resolve(type: ToggleRoutineUseCase.self),
+              let advanceDayUseCase = DIContainer.shared.resolve(type: AdvanceDayUseCase.self)
+        else {
+            CherrishLogger.error(CherrishError.DIFailedError)
+            return
+        }
+
+        DIContainer.shared.register(type: ChallengeProgressViewModel.self) {
+            return ChallengeProgressViewModel(
+                fetchChallengeUseCase: fetchChallengeUseCase,
+                toggleRoutineUseCase: toggleRoutineUseCase,
+                advanceDayUseCase: advanceDayUseCase
+            )
         }
     }
 }

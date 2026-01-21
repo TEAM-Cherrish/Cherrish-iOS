@@ -8,6 +8,8 @@
 import Foundation
 
 struct DefaultTreatmentRepository: TreatmentInterface {
+    
+    
     private let networkService: NetworkService
     private let userDefaultService: UserDefaultService
     
@@ -29,12 +31,40 @@ struct DefaultTreatmentRepository: TreatmentInterface {
     
     func fetchTreatment(id: Int?, keyword: String?) async throws -> [TreatmentEntity] {
         let userId: Int = userDefaultService.load(key: .userID) ?? 1
-        let response = try await networkService.request(TreatmentAPI.fetchProcedures(userId: userId,id: id, text: keyword), decodingType: ProceduresResponseDTO.self)
+        let response = try await networkService.request(
+            TreatmentAPI.fetchProcedures(
+                userId: userId,
+                id: id,
+                text: keyword
+            ),
+            decodingType: ProceduresResponseDTO.self
+        )
         return response.procedures.map { $0.toEntity() }
+    }
+    
+    func createUserProcedure(scheduledDate: String, recoveryDate: String, treatments: [TreatmentEntity]) async throws {
+        let userId: Int = userDefaultService.load(key: .userID) ?? 1
+        let request = CreateUserProcedureRequestDTO(
+            scheduledAt: scheduledDate,
+            recoveryTargetDate: recoveryDate,
+            procedures: treatments.compactMap { $0.toRequestDTO() }
+        )
+        let _ = try await networkService.request(
+            TreatmentAPI.createUserProcedure(
+                userId: userId,
+                request: request
+            ),
+            decodingType: CreateProfileResponseDTO.self
+        )
     }
 }
 
 struct MockTreatmentRepository: TreatmentInterface {
+    
+    func createUserProcedure(scheduledDate: String, recoveryDate: String, treatments: [TreatmentEntity]) {
+        
+    }
+    
     func fetchTreatment(id: Int?, keyword: String?) async throws -> [TreatmentEntity] {
         return []
     }

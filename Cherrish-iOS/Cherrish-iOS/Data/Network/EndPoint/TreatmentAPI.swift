@@ -11,13 +11,15 @@ import Alamofire
 enum TreatmentAPI: EndPoint {
     case fetchCategories(userId: Int)
     case fetchProcedures(userId: Int, id: Int? = nil, text: String? = nil)
+    case createUserProcedure(userId: Int, request: CreateUserProcedureRequestDTO)
     
     var basePath: String {
         switch self {
         case .fetchCategories:
             return "/api"
-            
         case .fetchProcedures:
+            return "/api"
+        case .createUserProcedure:
             return "/api"
         }
     }
@@ -28,6 +30,8 @@ enum TreatmentAPI: EndPoint {
             return "/worries"
         case .fetchProcedures:
             return "/procedures"
+        case .createUserProcedure:
+            return "/user-procedures"
         }
     }
     
@@ -37,6 +41,8 @@ enum TreatmentAPI: EndPoint {
             return .get
         case .fetchProcedures:
             return .get
+        case .createUserProcedure:
+            return .post
         }
     }
     
@@ -46,6 +52,9 @@ enum TreatmentAPI: EndPoint {
             return .withAuth(userID: userId)
         case .fetchProcedures(let userId, _,  _):
             return .withAuth(userID: userId)
+        case .createUserProcedure(let userId, _):
+            return .withAuth(userID: userId)
+            
         }
     }
     
@@ -56,6 +65,8 @@ enum TreatmentAPI: EndPoint {
             return URLEncoding.default
         case .fetchProcedures:
             return URLEncoding.default
+        case .createUserProcedure:
+            return JSONEncoding.default
         }
     }
     
@@ -65,15 +76,18 @@ enum TreatmentAPI: EndPoint {
             return nil
         case .fetchProcedures(_, let id, let text):
             var params: [String: Any] = [:]
-               if let id = id {
-                   params["worryId"] = id
-               } 
-               if let text = text {
-                   params["keyword"] = "\(text)"
-               }
-               return params
+            if let id = id {
+                params["worryId"] = id
+            }
+            if let text = text {
+                params["keyword"] = "\(text)"
+            }
+            return params
+        case .createUserProcedure:
+            return nil
         }
     }
+    
     
     var bodyParameters: Alamofire.Parameters? {
         switch self {
@@ -81,6 +95,17 @@ enum TreatmentAPI: EndPoint {
             return .none
         case .fetchProcedures:
             return .none
+        case .createUserProcedure(_, let request):
+            return [
+                "scheduledAt": request.scheduledAt,
+                "recoveryTargetDate": request.recoveryTargetDate,
+                "procedures": request.procedures.map {
+                    [
+                        "procedureId": $0.procedureId,
+                        "downtimeDays": $0.downtimeDays
+                    ]
+                }
+            ]
         }
-    }  
+    }
 }
