@@ -14,7 +14,7 @@ struct RoutineToggleResponseDTO: Decodable {
 }
 
 extension RoutineToggleResponseDTO {
-    func toEntity() -> RoutineEntity {
+    func toEntity() -> ProgressRoutineEntity {
         .init(
             routineID: routineId,
             name: name,
