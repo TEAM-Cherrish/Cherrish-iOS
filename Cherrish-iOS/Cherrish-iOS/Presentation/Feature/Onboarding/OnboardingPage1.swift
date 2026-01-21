@@ -18,7 +18,7 @@ struct OnboardingPage1: View {
                     Image(.illustrationOnboardingCh)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 120.adjustedW)
+                        .frame(width: 152.adjustedW)
                         .offset(x: 152.adjustedW, y: 180.adjustedH)
                 }
                 .padding(.top, 92.adjustedH)
