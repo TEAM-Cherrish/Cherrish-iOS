@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct ChallengeLoadingView: View {
-   
+    @ObservedObject var viewModel: CreateChallengeViewModel   
+    
     var body: some View {
         VStack {
             VStack(spacing: 4.adjustedH) {
-               highlight(highlightText: "피부 컨디션", normalText: "관리 방향을 바탕으로")
+               highlight(highlightText: viewModel.selectedRoutine?.description ?? "", normalText: "관리 방향을 바탕으로")
                    .padding(.top, 113.adjustedH)
                TypographyText("TO-DO 미션을 만들고 있어요.", style: .title1_sb_18, color: .gray800)
                 Image(.loading)

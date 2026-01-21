@@ -36,7 +36,7 @@ struct CreateChallengeView: View {
             case .routine:
                 ChallengeSelectRoutineView(viewModel: viewModel)
             case .loding:
-                ChallengeLoadingView()
+                ChallengeLoadingView(viewModel: viewModel)
             case .mission:
                 ChallengeSelectMissionView(viewModel: viewModel)
             }
