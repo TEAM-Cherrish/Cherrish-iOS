@@ -48,6 +48,7 @@ enum CherryLevel: Int {
 }
 
 struct ChallengeProgressView: View {
+    @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
     @StateObject var viewModel: ChallengeProgressViewModel
     
     let buttonState: ButtonState = .active
@@ -149,14 +150,21 @@ extension ChallengeProgressView {
             }
             
             CherrishButton(
-                title: "오늘 미션 종료하기",
+                title: viewModel.isChallengeCompleted ? "챌린지 종료하기":"오늘 미션 종료하기",
                 type: .small,
                 state: .constant(buttonState),
                 leadingIcon: nil,
                 trailingIcon: nil
             ) {
-                Task {
-                    await viewModel.advanceDay()
+                if viewModel.isChallengeCompleted {
+                    Task {
+                        await viewModel.advanceDay()
+                        challengeCoordinator.push(.startChallenge)
+                    }
+                }else {
+                    Task {
+                        await viewModel.advanceDay()
+                    }
                 }
             }
             .padding(.top, 10.adjustedH)
