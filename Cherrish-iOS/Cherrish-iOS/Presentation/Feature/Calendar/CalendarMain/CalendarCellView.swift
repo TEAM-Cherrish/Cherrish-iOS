@@ -45,11 +45,7 @@ struct CalendarCellView: View {
                     .padding(.top, 36.adjustedH)
             }
             
-            TypographyText(
-                "\(value.day)",
-                style: .body1_r_14,
-                color: calendarMode == .selectedProcedure && isDDay ? .red700 : .gray1000
-            )
+            TypographyText("\(value.day)", style: .body1_r_14, color: dayTextColor)
             
             if procedureCount > 0 && calendarMode == .none {
                 let displayCount = min(procedureCount, 3)
@@ -74,6 +70,16 @@ struct CalendarCellView: View {
     }
 }
 extension CalendarCellView {
+    private var dayTextColor: Color {
+        if calendarMode == .selectedProcedure && downtimeState != .none {
+            return .gray1000
+        }
+        if calendarMode == .selectedProcedure && isDDay {
+            return .red700
+        }
+        return .gray800
+    }
+    
     private var scheduleCircle: some View {
         Circle()
             .fill(.red700)
