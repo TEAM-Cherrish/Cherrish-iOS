@@ -20,10 +20,19 @@ final class NoTreatmentViewModel: ObservableObject{
     
     private let fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase
     private let fetchTreatmentsUseCase: FetchTreatmentsUseCase
+    private let calendarTreatmentFlowState: CalendarTreatmentFlowState
+    private let createUserProcedureUseCase: CreateUserProcedureUseCase
     
-    init(fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase, fetchTreatmentsUseCase: FetchTreatmentsUseCase) {
+    init(
+        fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase,
+        fetchTreatmentsUseCase: FetchTreatmentsUseCase,
+        calendarTreatmentFlowState: CalendarTreatmentFlowState,
+        createUserProcedureUseCase: CreateUserProcedureUseCase
+    ) {
         self.fetchCategoriesUseCase = fetchCategoriesUseCase
         self.fetchTreatmentsUseCase = fetchTreatmentsUseCase
+        self.calendarTreatmentFlowState = calendarTreatmentFlowState
+        self.createUserProcedureUseCase = createUserProcedureUseCase
     }
     
     var step: Int { state.rawValue }
@@ -64,7 +73,7 @@ final class NoTreatmentViewModel: ObservableObject{
         do {
             categories = try await fetchCategoriesUseCase.execute()
         } catch {
-            
+            CherrishLogger.debug(error)
         }
     }
     
@@ -74,6 +83,23 @@ final class NoTreatmentViewModel: ObservableObject{
             treatments = try await fetchTreatmentsUseCase.execute(id: selectedCategory?.id, keyword: "")
         } catch {
             treatments = []
+            CherrishLogger.debug(error)
+        }
+    }
+    
+    func createUserProcedure() async throws {
+        guard let scheduledDate = calendarTreatmentFlowState.selectedDate else {
+            return
+        }
+        
+        guard let recoverDate = Date.from(year: year, month: month, day: day) else {
+            return
+        }
+        
+        do {
+            try await createUserProcedureUseCase.execute(scheduledDate: scheduledDate.toScheduledAtFormat, recoveryDate: recoverDate.toRecoveryDateFormat, treatments: selectedTreatments)
+        } catch {
+            CherrishLogger.network(error)
         }
     }
     

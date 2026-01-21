@@ -25,10 +25,6 @@ final class DomainDependencyAssembler: DependencyAssembler {
             return
         }
         
-        guard let treatmentCategoryRepository = DIContainer.shared.resolve(type: TreatmentInterface.self) else {
-            return
-        }
-        
         DIContainer.shared.register(type: FetchProcedureCountOfMonth.self) {
             return DefaultFetchProcedureCountOfMonth(repository: calendarRepository)
         }
@@ -75,6 +71,10 @@ final class DomainDependencyAssembler: DependencyAssembler {
         
         DIContainer.shared.register(type: FetchUserInfoUseCase.self) {
             return DefaultFetchUserInfoUserCase(repository: myPageRepository)
+        }
+        
+        DIContainer.shared .register(type: CreateUserProcedureUseCase.self) {
+            return DefaultCreateUserProcedureUseCase(repository: treatmentRepository)
         }
     }
 }

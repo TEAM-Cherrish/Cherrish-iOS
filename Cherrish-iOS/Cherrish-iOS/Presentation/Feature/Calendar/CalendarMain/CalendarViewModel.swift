@@ -26,14 +26,17 @@ final class CalendarViewModel: ObservableObject {
     private let fetchProcedureCountOfMonthUseCase: FetchProcedureCountOfMonth
     private let fetchTodayProcedureListUseCase: FetchTodayProcedureListUseCase
     private let fetchProcedureDowntimeUseCase: FetchProcedureDowntimeUseCase
+    private let calendarTreatmentFlowState: CalendarTreatmentFlowState
     
     init(
         fetchProcedureCountOfMonthUseCase: FetchProcedureCountOfMonth,
         fetchTodayProcedureListUseCase: FetchTodayProcedureListUseCase,
-        fetchProcedureDowntimeUseCase: FetchProcedureDowntimeUseCase
+        fetchProcedureDowntimeUseCase: FetchProcedureDowntimeUseCase,
+        calendarTreatmentFlowState: CalendarTreatmentFlowState
     ) {
         self.fetchProcedureCountOfMonthUseCase = fetchProcedureCountOfMonthUseCase
         self.fetchTodayProcedureListUseCase = fetchTodayProcedureListUseCase
+        self.calendarTreatmentFlowState = calendarTreatmentFlowState
         self.fetchProcedureDowntimeUseCase = fetchProcedureDowntimeUseCase
     }
     
@@ -92,6 +95,10 @@ final class CalendarViewModel: ObservableObject {
     
     func isEmptyProcedureList() -> Bool {
         return procedureList.isEmpty
+    }
+    
+    func sendDateToTreatmentView() {
+        calendarTreatmentFlowState.selectedDate = selectedDate
     }
     
     @MainActor
