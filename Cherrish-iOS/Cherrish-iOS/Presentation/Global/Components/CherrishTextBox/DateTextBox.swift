@@ -16,6 +16,7 @@ struct DateTextBox: View {
         VStack(spacing: 8) {
             HStack(spacing: 0) {
                 TypographyText("날짜", style: .body1_sb_14, color: .gray1000)
+                    .frame(height: 20.adjustedH)
                 Spacer()
             }
             HStack(spacing: 14){

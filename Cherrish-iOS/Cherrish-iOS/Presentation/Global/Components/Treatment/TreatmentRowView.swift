@@ -71,10 +71,13 @@ private struct TreatmentSummaryView: View {
             Spacer()
                 .frame(width: 12.adjustedW)
             TypographyText(
-                "다운타임* \(treatmentEntity.downtimeMin)-\(treatmentEntity.downtimeMax)일",
+                treatmentEntity.downtimeMin == 0 && treatmentEntity.downtimeMax == 0 ?
+                "다운타임* 0일" :
+                "다운타임*  \(treatmentEntity.downtimeMin)-\(treatmentEntity.downtimeMax)일",
                 style: .body1_r_14,
                 color: .gray700
             )
+            
             
             Spacer()
             Image(.deletebox)
@@ -118,8 +121,7 @@ private struct TreatmentCheckBoxView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text(treatmentEntity.name)
-                    .typography(.title1_sb_18)
+                TypographyText(treatmentEntity.name, style: .title1_sb_18, color: .gray1000)
                     .frame(height: 24.adjustedH)
                 Spacer()
                 if isCompletedView{
@@ -127,19 +129,21 @@ private struct TreatmentCheckBoxView: View {
                 }
             }
             HStack(spacing: 0) {
-                Text(treatmentEntity.benefits.joinedWithSeparator())
-                    .typography(.body3_r_12)
-                    .foregroundStyle(.gray700)
-                    .frame(height: 18.adjustedH)
+                TypographyText(
+                    treatmentEntity.benefits.joinedWithSeparator(),
+                    style: .body3_r_12,
+                    color: .gray700
+                )
+                .frame(height: 18.adjustedH)
                 Spacer()
             }
             
             Spacer()
             DownTimeLabel(downtimeMin: treatmentEntity.downtimeMin, downtimeMax: treatmentEntity.downtimeMax)
         }
-        .padding(.vertical, 12)
-        .padding(.horizontal, 14)
-        .frame(height: 100)
+        .padding(.vertical, 12.adjustedH)
+        .padding(.horizontal, 14.adjustedW)
+        .frame(height: 100.adjustedH)
         .background {
             if isCompleted {
                 RoundedRectangle(cornerRadius: 10)
@@ -175,12 +179,15 @@ private struct DownTimeLabel: View {
     let downtimeMin: Int
     let downtimeMax: Int
     var body: some View {
-        HStack(spacing: 0){
+        HStack(alignment: .center, spacing: 0){
             Spacer()
             Image(.clock)
                 .gray700()
+                .frame(width: 24.adjustedH, height: 24.adjustedH)
             TypographyText(
-                "다운타임* \(downtimeMin)-\(downtimeMax)일",
+                downtimeMin == 0 && downtimeMax == 0 ?
+                "다운타임* 0일" :
+                "다운타임*  \(downtimeMin)-\(downtimeMax)일",
                 style: .body2_r_13,
                 color: .gray700
             )

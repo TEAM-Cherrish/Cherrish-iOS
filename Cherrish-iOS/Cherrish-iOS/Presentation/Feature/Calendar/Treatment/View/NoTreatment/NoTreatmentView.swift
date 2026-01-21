@@ -157,18 +157,22 @@ private struct TreatmentSelectedCategory: View {
                         style: .title1_sb_18,
                         color: .gray1000
                     )
+                    .frame(height: 27.adjustedH)
                     
                     TypographyText(
                         "외모 고민은 무엇인가요?",
                         style: .title1_sb_18,
                         color: .gray1000
                     )
-                    
+                    .frame(height: 27.adjustedH)
+                    Spacer()
+                        .frame(height: 4.adjustedH)
                     TypographyText(
                         "선택한 고민을 기준으로 시술 정보를 정리해줘요.",
                         style: .body1_m_14,
                         color: .gray700
                     )
+                    .frame(height: 20.adjustedH)
                     
                 }
                 .frame(height: 78.adjustedH)
