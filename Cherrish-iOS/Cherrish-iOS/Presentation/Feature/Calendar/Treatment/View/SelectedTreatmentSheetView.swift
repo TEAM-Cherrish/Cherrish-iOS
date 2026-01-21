@@ -24,6 +24,7 @@ struct SelectedTreatmentSheetView: View {
     @State private var topGlobalY: CGFloat = .zero
     @State private var initialTopGlobalY: CGFloat? = nil
     @State private var bottomOffsetY: CGFloat = .zero
+    @State private var scrollTargetID: UUID?
     
     var body: some View {
         VStack(spacing: 0) {
@@ -51,28 +52,44 @@ struct SelectedTreatmentSheetView: View {
                 y: -5
             )
             ZStack {
-                ScrollView(.vertical, showsIndicators: false) {
-                    VStack(spacing: spacing) {
-                        if selectedTreatments.count > 3 {
-                            scrollViewTopMarkerView
-                                .allowsHitTesting(false)
+                ScrollViewReader { proxy in
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack(spacing: spacing) {
+                            if selectedTreatments.count > 3 {
+                                scrollViewTopMarkerView
+                                    .allowsHitTesting(false)
+                            }
+                            ForEach(selectedTreatments, id: \.id) { treatment in
+                                TreatmentRowView(
+                                    displayMode: .summary,
+                                    treatmentEntity: treatment,
+                                    isSelected: .constant(true),
+                                    action: { removeTreatment(treatment) }
+                                )
+                                .id(treatment.id)
+                                .frame(height: itemHeight)
+                            }
+                            if selectedTreatments.count > 3 {
+                                scrollViewBottomMarkerView
+                                    .allowsHitTesting(false)
+                            }
+                            
+                            // 스크롤 앵커용 더미 뷰
+                            Color.clear
+                                .frame(height: 1)
+                                .id("scrollBottom")
                         }
-                        ForEach(selectedTreatments, id: \.id) { treatment in
-                            TreatmentRowView(
-                                displayMode: .summary,
-                                treatmentEntity: treatment,
-                                isSelected: .constant(true),
-                                action: { removeTreatment(treatment) }
-                            )
-                            .frame(height: itemHeight)
-                        }
-                        if selectedTreatments.count > 3 {
-                            scrollViewBottomMarkerView
-                                .allowsHitTesting(false)
+                        .padding(.vertical, 14.adjustedH)
+                    }
+                    .onChange(of: selectedTreatments.count) { oldCount, newCount in
+                        if newCount > oldCount {
+                            withAnimation {
+                                proxy.scrollTo("scrollBottom", anchor: .bottom)
+                            }
                         }
                     }
-                    .padding(.vertical, 14.adjustedH)
                 }
+                
                 if selectedTreatments.count > 3 {
                     GradientBox(isTop: true)
                         .frame(height: 42.adjustedH)
@@ -86,9 +103,6 @@ struct SelectedTreatmentSheetView: View {
                         .opacity(shouldShowGradientBottom ? 1 : 0)
                         .frame(maxHeight: .infinity, alignment: .bottom)
                 }
-                    
-                
-                
             }
             .frame(height: scrollViewHeight)
             .padding(.horizontal, 24.5.adjustedW)
