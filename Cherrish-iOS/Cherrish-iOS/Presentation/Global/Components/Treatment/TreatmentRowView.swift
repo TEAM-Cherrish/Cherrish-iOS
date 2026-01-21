@@ -71,7 +71,7 @@ private struct TreatmentSummaryView: View {
             Spacer()
                 .frame(width: 12.adjustedW)
             TypographyText(
-                "다운타임*\(treatmentEntity.downtimeMin)-\(treatmentEntity.downtimeMax)일",
+                "다운타임* \(treatmentEntity.downtimeMin)-\(treatmentEntity.downtimeMax)일",
                 style: .body1_r_14,
                 color: .gray700
             )
@@ -180,7 +180,7 @@ private struct DownTimeLabel: View {
             Image(.clock)
                 .gray700()
             TypographyText(
-                "다운타임*\(downtimeMin)-\(downtimeMax)일",
+                "다운타임* \(downtimeMin)-\(downtimeMax)일",
                 style: .body2_r_13,
                 color: .gray700
             )

@@ -51,7 +51,12 @@ struct TreatmentFilterView: View {
                             displayMode: .checkBoxView,
                             treatmentEntity: treatment,
                             isSelected: .constant(viewModel.isSelected(treatment)),
-                            action: { viewModel.addTreatment(treatment) }
+                            action: {  if viewModel.isSelected(treatment) {
+                                viewModel.removeTreatment(treatment)
+                            } else {
+                                viewModel.addTreatment(treatment)
+                                
+                            } }
                         )
                     }
                     .padding(.horizontal, 24.adjustedW)
