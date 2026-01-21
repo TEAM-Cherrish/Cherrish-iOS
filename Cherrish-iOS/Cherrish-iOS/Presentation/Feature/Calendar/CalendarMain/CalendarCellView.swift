@@ -39,7 +39,7 @@ struct CalendarCellView: View {
             }
             
             if calendarMode == .selectedProcedure && isDDay {
-                Image(.dday)
+                Image(.calendarDDay)
                     .resizable()
                     .frame(width: 38.adjustedW, height: 16.adjustedH)
                     .padding(.top, 36.adjustedH)
