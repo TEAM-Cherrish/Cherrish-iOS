@@ -17,6 +17,7 @@ final class NoTreatmentViewModel: ObservableObject{
     @Published var year: String = ""
     @Published var month: String = ""
     @Published var day: String = ""
+    @Published private(set) var warning: TreatmentInputWarning = .none
     
     private let fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase
     private let fetchTreatmentsUseCase: FetchTreatmentsUseCase
@@ -90,20 +91,27 @@ final class NoTreatmentViewModel: ObservableObject{
             return false
         }
         
-        guard let yearInt = Int(year), yearInt >= 2020,
-              let monthInt = Int(month), (1...12).contains(monthInt),
-              let dayInt = Int(day), (1...31).contains(dayInt) else {
+        guard let y = Int(year), let m = Int(month), let d = Int(day) else {
+            warning = .invalidFormat
             return false
         }
-        
-        let components = DateComponents(year: yearInt, month: monthInt, day: dayInt)
+           
+        let components = DateComponents(year: y, month: m, day: d)
         
         guard let date = Calendar.current.date(from: components),
               Calendar.current.dateComponents([.year, .month, .day], from: date) == components else {
+            warning = .invalidFormat
+            return false
+        }
+        
+        let today = Calendar.current.startOfDay(for: Date())
+        if date < today {
+            warning = .pastDate
             return false
         }
         
         return true
+        
     }
     
 }

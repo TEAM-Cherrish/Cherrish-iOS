@@ -70,7 +70,8 @@ struct NoTreatmentView: View {
                 dDayState: $viewModel.dDay,
                 year: $viewModel.year,
                 month: $viewModel.month,
-                day: $viewModel.day
+                day: $viewModel.day,
+                warningMessage: .constant(viewModel.warning.message)
             )
             .padding(.horizontal, 34.adjustedW)
             .id(String(describing: viewModel.state))

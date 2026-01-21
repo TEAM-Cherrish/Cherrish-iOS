@@ -28,7 +28,7 @@ struct TargetDdaySettingView: View {
     @Binding var year: String
     @Binding var month: String
     @Binding var day: String
-    
+    @Binding var warningMessage: String
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {
@@ -92,7 +92,8 @@ struct TargetDdaySettingView: View {
                         .frame(height: 24.adjustedH)
                     
                     DateTextBox(year: $year, month: $month, day: $day)
-                        .padding(.bottom, 20.adjustedH)
+                        .padding(.bottom, 12.adjustedH)
+                    TreatmentWarningMessgeView(text: warningMessage)
                     Spacer()
                 }
             }

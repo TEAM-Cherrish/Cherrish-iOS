@@ -17,6 +17,7 @@ final class TreatmentViewModel: ObservableObject{
     @Published var month: String = ""
     @Published var day: String = ""
     @Published var searchText = ""
+    @Published private(set) var warning: TreatmentInputWarning = .none
     
     private let fetchTreatmentsUseCase: FetchTreatmentsUseCase
     
@@ -48,6 +49,8 @@ final class TreatmentViewModel: ObservableObject{
            }
        }
     
+    
+    
     @MainActor
     func fetchTreatments() async throws {
         do {
@@ -71,16 +74,41 @@ final class TreatmentViewModel: ObservableObject{
     
     func isDateTextFieldNotEmpty() -> Bool {
         guard !year.isEmpty, !month.isEmpty, !day.isEmpty else {
+            Task { @MainActor in
+                warning = .none
+            }
             return false
         }
-        guard let yearInt = Int(year), yearInt >= 2020,
-              let monthInt = Int(month), monthInt >= 1, monthInt <= 12,
-              let dayInt = Int(day), dayInt >= 1, dayInt <= 31 else {
-            return false
-        }
-
-        return true
         
+        guard let y = Int(year), let m = Int(month), let d = Int(day) else {
+            Task { @MainActor in
+                warning = .invalidFormat
+            }
+            return false
+        }
+           
+        let components = DateComponents(year: y, month: m, day: d)
+        
+        guard let date = Calendar.current.date(from: components),
+              Calendar.current.dateComponents([.year, .month, .day], from: date) == components else {
+            Task { @MainActor in
+                warning = .invalidFormat
+            }
+            return false
+        }
+        
+        let today = Calendar.current.startOfDay(for: Date())
+        if date < today {
+            Task { @MainActor in
+                warning = .pastDate
+            }
+            return false
+        }
+        
+        Task { @MainActor in
+            warning = .none
+        }
+        return true
     }
 }
 
