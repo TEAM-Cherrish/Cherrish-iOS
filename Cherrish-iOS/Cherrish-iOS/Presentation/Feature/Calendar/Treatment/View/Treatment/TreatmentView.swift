@@ -10,8 +10,8 @@ import SwiftUI
 struct TreatmentView: View {
     @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
     @EnvironmentObject private var tabBarCoordinator: TabBarCoordinator
-    @ObservedObject var viewModel: TreatmentViewModel
-    
+    @StateObject var viewModel: TreatmentViewModel
+
     var body: some View {
         VStack(spacing: 0) {
             CherrishNavigationBar(
@@ -36,7 +36,7 @@ struct TreatmentView: View {
                 currentStep: .constant(viewModel.step)
             )
             .padding(.horizontal, 33.5.adjustedW)
-           
+            
             Spacer()
                 .frame(height: 20.adjustedH)
             
@@ -51,12 +51,9 @@ struct TreatmentView: View {
             }
             .id(viewModel.step)
         }
-        .ignoresSafeArea(.keyboard,edges: .bottom)
+        .ignoresSafeArea(.keyboard ,edges: .bottom)
         .onTapGesture {
             hideKeyboard()
-        }
-        .onAppear {
-            tabBarCoordinator.isTabbarHidden = true
         }
     }
     
@@ -70,8 +67,8 @@ struct TreatmentView: View {
                 month: $viewModel.month,
                 day: $viewModel.day
             )
-            .padding(.leading, 34.adjustedW)
-            .padding(.trailing, 33.adjustedW)
+          
+
             .id(viewModel.state)
             
         case .treatmentFilter:
@@ -79,7 +76,7 @@ struct TreatmentView: View {
             
         case .downTimeSetting:
             DownTimeSettingView(
-                treatments: viewModel.selectedTreatments,
+                treatments: $viewModel.selectedTreatments,
                 setday: (
                     viewModel.toInt(
                         viewModel.year

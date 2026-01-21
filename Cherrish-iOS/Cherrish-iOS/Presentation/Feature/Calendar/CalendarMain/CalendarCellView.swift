@@ -19,11 +19,11 @@ enum DowntimeDayState: CaseIterable, Hashable {
 }
 
 struct CalendarCellView: View {
-    
     let value: DateValue
     let procedureCount: Int
     let isSelected: Bool
     let downtimeState: DowntimeDayState
+    var isDDay: Bool
     @Binding var calendarMode: CalendarMode
     
     var body: some View {
@@ -38,7 +38,18 @@ struct CalendarCellView: View {
                     .frame(width: 40.adjustedW, height: 40.adjustedH)
             }
             
-            TypographyText("\(value.day)", style: .body1_r_14, color: .gray1000)
+            if calendarMode == .selectedProcedure && isDDay {
+                Image(.dday)
+                    .resizable()
+                    .frame(width: 38.adjustedW, height: 16.adjustedH)
+                    .padding(.top, 36.adjustedH)
+            }
+            
+            TypographyText(
+                "\(value.day)",
+                style: .body1_r_14,
+                color: calendarMode == .selectedProcedure && isDDay ? .red700 : .gray1000
+            )
             
             if procedureCount > 0 && calendarMode == .none {
                 let displayCount = min(procedureCount, 3)

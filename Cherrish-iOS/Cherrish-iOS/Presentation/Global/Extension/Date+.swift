@@ -18,13 +18,18 @@ extension Date {
     }
     
     func toDateString() -> String {
+        return Date.dateFormatter.string(from: self)
+    }
+}
+
+extension Date {
+    static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         formatter.locale = Locale(identifier: "ko_KR")
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-
-        return formatter.string(from: self)
-    }
+        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+        return formatter
+    }()
     
     static func daysBetween(
         from: (year: Int, month: Int, day: Int),

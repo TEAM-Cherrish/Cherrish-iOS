@@ -8,37 +8,39 @@
 import Foundation
 
 final class NoTreatmentViewModel: ObservableObject{
-    @Published var state: NoTreatmentStep = .treatmentSelectedCategory
     @Published private(set) var categories: [TreatmentCategoryEntity] = []
     @Published private(set) var selectedCategory: TreatmentCategoryEntity?
+    @Published private(set) var treatments: [TreatmentEntity] = []
+    @Published var selectedTreatments: [TreatmentEntity] = []
+    @Published var state: NoTreatmentStep = .treatmentSelectedCategory
     @Published var dDay: DdayState?
     @Published var year: String = ""
     @Published var month: String = ""
     @Published var day: String = ""
-    @Published var treatments: [TreatmentEntity] = TreatmentEntity.mockData
-    @Published var selectedTreatments: [TreatmentEntity] = []
     
     private let fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase
+    private let fetchTreatmentsUseCase: FetchTreatmentsUseCase
+    
+    init(fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase, fetchTreatmentsUseCase: FetchTreatmentsUseCase) {
+        self.fetchCategoriesUseCase = fetchCategoriesUseCase
+        self.fetchTreatmentsUseCase = fetchTreatmentsUseCase
+    }
     
     var step: Int { state.rawValue }
     
     var canProceed: Bool {
-           switch state {
-           case .treatmentSelectedCategory:
-               return selectedCategory != nil
-           case .targetDdaySetting:
-               return isDateTextFieldNotEmpty()
-           case .treatmentFilter:
-               return !selectedTreatments.isEmpty
-           case .downTimeSetting:
-               return true
-           }
-       }
-    
-    init(fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase) {
-            self.fetchCategoriesUseCase = fetchCategoriesUseCase
+        switch state {
+        case .treatmentSelectedCategory:
+            return selectedCategory != nil
+        case .targetDdaySetting:
+            return isDateTextFieldNotEmpty()
+        case .treatmentFilter:
+            return !selectedTreatments.isEmpty
+        case .downTimeSetting:
+            return selectedTreatments.allSatisfy { $0.setDowntime != nil }
         }
-    
+    }
+
     var today: (year: Int, month: Int, day: Int) {
         let calendar = Calendar.current
         let now = Date()
@@ -58,17 +60,26 @@ final class NoTreatmentViewModel: ObservableObject{
     }
     
     @MainActor
-    func loadCategories() async {
-            do {
-                categories = try await fetchCategoriesUseCase.execute()
-            } catch {
-                
-            }
+    func fetchCategories() async {
+        do {
+            categories = try await fetchCategoriesUseCase.execute()
+        } catch {
+            
         }
+    }
+    
+    @MainActor
+    func fetchNoTreatments() async {
+        do {
+            treatments = try await fetchTreatmentsUseCase.execute(id: selectedCategory?.id, keyword: "")
+        } catch {
+            treatments = []
+        }
+    }
     
     func selectCategory(_ category: TreatmentCategoryEntity) {
-          selectedCategory = category
-      }
+        selectedCategory = category
+    }
     
     func toInt(_ value: String) -> Int {
         Int(value) ?? 0
@@ -94,5 +105,21 @@ final class NoTreatmentViewModel: ObservableObject{
         
         return true
     }
+    
+}
 
+
+extension NoTreatmentViewModel {
+    
+    func addTreatment(_ treatment: TreatmentEntity) {
+        guard !isSelected(treatment) else { return }
+        selectedTreatments.append(treatment)
+    }
+    
+    func removeTreatment(_ treatment: TreatmentEntity) {
+        selectedTreatments.removeAll { $0.id == treatment.id }
+    }
+    func isSelected(_ treatment: TreatmentEntity) -> Bool {
+        selectedTreatments.contains(where: { $0.id == treatment.id })
+    }
 }

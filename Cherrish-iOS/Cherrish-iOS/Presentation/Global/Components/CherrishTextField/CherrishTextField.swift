@@ -79,7 +79,7 @@ enum CherrishTextFieldStyle {
         case .plain, .number:
             return 16.adjustedW
         case .date:
-            return 18.5.adjustedW
+            return 0
         }
     }
     
@@ -158,6 +158,7 @@ struct CherrishTextField: View {
                     .tint(style.textColor)
             }
             .frame(height: style.fontHeight)
+            .padding(.horizontal, style.horizontalPadding)
         }
         .padding(.vertical, style.verticalPadding)
         .background {

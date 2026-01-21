@@ -9,7 +9,8 @@ import SwiftUI
 
 struct SplashView: View {
     @EnvironmentObject private var appCoordinator: AppCoordinator
-    
+    private let userDefaultService: UserDefaultService = DefaultUserDefaultService()
+ 
     var body: some View {
         ZStack(alignment: .center) {
             LinearGradient(
@@ -25,9 +26,20 @@ struct SplashView: View {
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                appCoordinator.navigationToOnboarding()
+                navigateBasedOnUserStatus()
             }
         }
         .ignoresSafeArea()
+    }
+    
+    private func navigateBasedOnUserStatus() {
+        let userID: Int? = userDefaultService.load(key: .userID)
+        let isOnboardingCompleted: Bool = userDefaultService.load(key: .isOnboardingCompleted) ?? false
+        
+        if userID != nil && isOnboardingCompleted {
+            appCoordinator.navigationToTabbar()
+        } else {
+            appCoordinator.navigationToOnboarding()
+        }
     }
 }

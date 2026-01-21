@@ -96,6 +96,7 @@ struct TargetDdaySettingView: View {
                     Spacer()
                 }
             }
+            .padding(.horizontal, 34.adjustedW)
         }
         .scrollDismissesKeyboard(.interactively)
     }

@@ -8,7 +8,7 @@
 import Foundation
 
 struct FetchChallengesResponseDTO: Decodable {
-    let challengeID: Int
+    let challengeId: Int
     let title: String
     let currentDay: Int
     let progressPercentage: Int
@@ -17,11 +17,11 @@ struct FetchChallengesResponseDTO: Decodable {
     let progressToNextLevel: Double
     let remainingRoutinesToNextLevel: Int
     let todayRoutines: [RoutineResponseDTO]
-    let cherringMesssage: String
+    let cheeringMessage: String
 }
 
 struct RoutineResponseDTO: Decodable {
-    let routineID: Int
+    let routineId: Int
     let name: String
     let scheduledDate: String
     let isComplete: Bool
@@ -30,7 +30,7 @@ struct RoutineResponseDTO: Decodable {
 extension FetchChallengesResponseDTO {
     func toEntity() -> ChallengeEntity {
         .init(
-            challengeID: challengeID,
+            challengeID: challengeId,
             title: title,
             currentDay: currentDay,
             progressPercentage: progressPercentage,
@@ -46,7 +46,7 @@ extension FetchChallengesResponseDTO {
 extension RoutineResponseDTO {
     func toEntity() -> RoutineEntity {
         .init(
-            routineID: routineID,
+            routineID: routineId,
             name: name,
             isComplete: isComplete
         )

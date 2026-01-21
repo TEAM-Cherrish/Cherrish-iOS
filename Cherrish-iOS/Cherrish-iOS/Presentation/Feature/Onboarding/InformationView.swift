@@ -23,8 +23,13 @@ struct InformationView: View {
         name.count > 7
     }
     
+    private var ageNumericValue: Int? {
+        let numericString = age.replacingOccurrences(of: " 세", with: "")
+        return Int(numericString)
+    }
+    
     private var isAgeOverLimit: Bool {
-        guard let ageValue = Int(age) else { return false }
+        guard let ageValue = ageNumericValue else { return false }
         return ageValue > 100
     }
 
@@ -54,10 +59,10 @@ struct InformationView: View {
                             .offset(y: 24.adjustedH)
                     }
                 }
-                .padding(.top, 70.adjustedH)
+                .padding(.top, 70.adjustedH)    
                 .padding(.horizontal, 34.adjustedW)
             
-            CherrishTextBox(title: "나이",text: $age, placeholder: "20", isNumberField: true)
+            CherrishTextBox(title: "나이",text: $age, placeholder: "20 세", isNumberField: true)
                 .focused($isAgeFocused)
                 .overlay(alignment: .bottomLeading) {
                     if showAgeError {
@@ -77,8 +82,12 @@ struct InformationView: View {
                 leadingIcon: nil,
                 trailingIcon: nil
             ) {
-                appCoordinator.navigationToTabbar()
+                Task {
+                    guard let ageValue = ageNumericValue else { return }
+                    await viewModel.createProfile(name: name, age: ageValue)
+                }
             }
+            .disabled(viewModel.isLoading)
             .padding(.horizontal, 25.adjustedW)
             .padding(.bottom, 38.adjustedH)
         }
@@ -91,7 +100,15 @@ struct InformationView: View {
         .onChange(of: age) { _ in updateButtonState() }
         .onChange(of: isAgeFocused) { focused in
             if !focused {
+                if let numericValue = ageNumericValue, !age.hasSuffix(" 세") {
+                    age = "\(numericValue) 세"
+                }
                 showAgeError = isAgeOverLimit
+            }
+        }
+        .onChange(of: viewModel.isOnboardingCompleted) { completed in
+            if completed {
+                appCoordinator.navigationToTabbar()
             }
         }
     }

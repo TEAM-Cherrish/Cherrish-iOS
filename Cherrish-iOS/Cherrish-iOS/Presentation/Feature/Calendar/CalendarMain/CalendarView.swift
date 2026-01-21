@@ -47,12 +47,14 @@ struct CalendarView: View {
             }
             
         }
-        .task {
-            do {
-                try await viewModel.fetchProcedureCountsOfMonth()
-                try await viewModel.fetchTodayProcedureList()
-            } catch {
-                CherrishLogger.error(error)
+        .task (id: viewModel.currentMonth){
+            if calendarMode == .none {
+                do {
+                    try await viewModel.fetchProcedureCountsOfMonth()
+                    try await viewModel.fetchTodayProcedureList()
+                } catch {
+                    CherrishLogger.error(error)
+                }
             }
         }
         .background(.gray0)
@@ -108,6 +110,7 @@ extension CalendarView {
                         procedureCount: viewModel.getProcedureCount(for: value),
                         isSelected: viewModel.isSelected(value),
                         downtimeState: viewModel.getDowntimeState(for: value.date),
+                        isDDay: viewModel.isDDay(for: value.date, selectedProcedureID: selectedProcedureID ?? 0),
                         calendarMode: $calendarMode
                     )
                     .onTapGesture {
@@ -166,7 +169,7 @@ extension CalendarView {
                     ForEach(viewModel.procedureList, id: \.self) { procedure in
                         ProcedureView(
                             treatmentTitle: procedure.name,
-                            treatmentDate: viewModel.selectedDate.toDateString(),
+                            treatmentDate: viewModel.treatmentDate,
                             downTimeDays: procedure.downtimeDays,
                             calendarMode: $calendarMode,
                             isSelected: selectedProcedureID == procedure.procedureId
@@ -174,7 +177,15 @@ extension CalendarView {
                         .onTapGesture {
                             calendarMode.toggle()
                             selectedProcedureID = procedure.procedureId
-                            viewModel.fetchDowntimeByDay(procedureId: procedure.procedureId)
+                            
+                            Task {
+                                do {
+                                    try await viewModel.fetchDowntimeByDay(procedureId: procedure.procedureId)
+                                }
+                                catch {
+                                    CherrishLogger.error(error)
+                                }
+                            }
                         }
                     }
                     
@@ -184,6 +195,7 @@ extension CalendarView {
                 }
                 .coordinateSpace(name: "ProcedureScroll")
                 .onPreferenceChange(ScrollTopPreferenceKey.self) { v in
+                    if initialTopGlobalY == nil { initialTopGlobalY = v }
                     topGlobalY = (calendarMode == .none) ? v : 0
                 }
                 .onPreferenceChange(ScrollBottomPreferenceKey.self) { v in
@@ -286,14 +298,10 @@ extension CalendarView {
     private var scrollViewTopMarkerView: some View {
         GeometryReader { proxy in
             Color.clear
-                .onAppear {
-                    let v = proxy.frame(in: .global).minY
-                    topGlobalY = v
-                    if initialTopGlobalY == nil { initialTopGlobalY = v }
-                }
-                .onChange(of: proxy.frame(in: .global).minY) { v in
-                    topGlobalY = v
-                }
+                .preference(
+                    key: ScrollTopPreferenceKey.self,
+                    value: proxy.frame(in: .named("ProcedureScroll")).minY
+                )
         }
         .frame(height: 0)
     }
@@ -319,4 +327,4 @@ extension CalendarView {
         guard calendarMode == .none, let initial = initialTopGlobalY else { return false }
         return topGlobalY < initial - 0.1
     }
-}
+  }

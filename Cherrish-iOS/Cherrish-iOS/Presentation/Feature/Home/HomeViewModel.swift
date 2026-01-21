@@ -25,6 +25,7 @@ final class HomeViewModel: ObservableObject {
         
         do {
             dashboardData = try await fetchDashboardDataUseCase.execute()
+
         } catch {
             errorMessage = error.localizedDescription
         }

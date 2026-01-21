@@ -29,5 +29,21 @@ struct DefaultDemoRepository: DemoInterface {
         return response.toEntity()
     }
     
-    
+    func advance() async throws -> ChallengeEntity {
+        let userID: Int = userDefaultService.load(key: .userID) ?? 1
+        let response = try await networkService.request(
+            DemoAPI.advance(userID: userID),
+            decodingType: FetchChallengesResponseDTO.self
+        )
+        return response.toEntity()
+    }
+
+    func toggleRoutine(routineID: Int) async throws -> RoutineEntity {
+        let userID: Int = userDefaultService.load(key: .userID) ?? 1
+        let response = try await networkService.request(
+            DemoAPI.routineToggle(userID: userID, routineID: routineID),
+            decodingType: RoutineToggleResponseDTO.self
+        )
+        return response.toEntity()
+    }
 }

@@ -9,22 +9,51 @@ import Foundation
 
 final class DataDependencyAssembler: DependencyAssembler {
     private let networkService: NetworkService
+    private let userDefaultService: UserDefaultService
     
     init() {
         self.networkService = DefaultNetworkService()
+        self.userDefaultService = DefaultUserDefaultService()
     }
-    
+
     func assemble() {
         DIContainer.shared.register(type: CalendarInterface.self) {
-            return MockCalendarRepository()
+            return DefaultCalendarRepository(
+                networkService: self.networkService,
+                userDefaultService: self.userDefaultService
+            )
         }
-        
+
         DIContainer.shared.register(type: HomeInterface.self) {
-            return MockHomeRepository(networkService: self.networkService)
+            return DefaultHomeRepository(
+                networkService: self.networkService,
+                userDefaultService: self.userDefaultService
+            )
         }
         
+        DIContainer.shared.register(type: OnboardingInterface.self) {
+            return DefaultOnboardingRepository(
+                networkService: self.networkService,
+                userDefaultService: self.userDefaultService
+            )
+        }
+         
         DIContainer.shared.register(type: TreatmentInterface.self) {
-            return MockTreatmentRepository()
+            return DefaultTreatmentRepository(networkService: self.networkService, userDefaultService: self.userDefaultService)
+        }
+
+        DIContainer.shared.register(type: DemoInterface.self) {
+            return DefaultDemoRepository(
+                networkService: self.networkService,
+                userDefaultService: self.userDefaultService
+            )
+        }
+        
+        DIContainer.shared.register(type: MyPageInterface.self) {
+            return DefaultMyPageRepository(
+                networkService: self.networkService,
+                userDefaultService: self.userDefaultService
+            )
         }
     }
 }
