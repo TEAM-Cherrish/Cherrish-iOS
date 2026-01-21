@@ -56,9 +56,25 @@ final class DomainDependencyAssembler: DependencyAssembler {
         guard let treatmentRepository = DIContainer.shared.resolve(type: TreatmentInterface.self) else {
             return
         }
-        
+
         DIContainer.shared.register(type: FetchTreatmentCategoriesUseCase.self) {
             return DefaultFetchTreatmentCategoriesUseCase(repository: treatmentRepository)
+        }
+
+        guard let demoRepository = DIContainer.shared.resolve(type: DemoInterface.self) else {
+            return
+        }
+
+        DIContainer.shared.register(type: FetchChallengeUseCase.self) {
+            return DefaultFetchChallengeUseCase(repository: demoRepository)
+        }
+
+        DIContainer.shared.register(type: ToggleRoutineUseCase.self) {
+            return DefaultToggleRoutineUseCase(repository: demoRepository)
+        }
+
+        DIContainer.shared.register(type: AdvanceDayUseCase.self) {
+            return DefaultAdvanceDayUseCase(repository: demoRepository)
         }
         
         DIContainer.shared.register(type: FetchTreatmentsUseCase.self) {

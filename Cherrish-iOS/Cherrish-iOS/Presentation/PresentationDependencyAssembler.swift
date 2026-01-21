@@ -103,5 +103,21 @@ final class PresentationDependencyAssembler: DependencyAssembler {
         DIContainer.shared.register(type: MyPageViewModel.self) {
             return MyPageViewModel(fetchUserInfoUseCase: fetchUserInfoUseCase)
         }
+
+        guard let fetchChallengeUseCase = DIContainer.shared.resolve(type: FetchChallengeUseCase.self),
+              let toggleRoutineUseCase = DIContainer.shared.resolve(type: ToggleRoutineUseCase.self),
+              let advanceDayUseCase = DIContainer.shared.resolve(type: AdvanceDayUseCase.self)
+        else {
+            CherrishLogger.error(CherrishError.DIFailedError)
+            return
+        }
+
+        DIContainer.shared.register(type: ChallengeProgressViewModel.self) {
+            return ChallengeProgressViewModel(
+                fetchChallengeUseCase: fetchChallengeUseCase,
+                toggleRoutineUseCase: toggleRoutineUseCase,
+                advanceDayUseCase: advanceDayUseCase
+            )
+        }
     }
 }
