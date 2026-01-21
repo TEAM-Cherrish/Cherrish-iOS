@@ -92,7 +92,7 @@ final class PresentationDependencyAssembler: DependencyAssembler {
             return TreatmentViewModel(
                 fetchTreatmentsUseCase: fetchTreatmentsUseCase,
                 calendarTreatmentFlowState: calendarTreatmentFlowState,
-                createUserProcedureUseCase: createUserProcedureUseCase,
+                createUserProcedureUseCase: createUserProcedureUseCase
             )
         }
         

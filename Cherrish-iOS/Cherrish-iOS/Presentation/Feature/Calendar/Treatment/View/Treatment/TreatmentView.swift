@@ -112,7 +112,12 @@ struct TreatmentView: View {
             ) {
                 if viewModel.state == .downTimeSetting {
                     Task {
-                        try await viewModel.createUserProcedure()
+                        do {
+                            try await viewModel.createUserProcedure()
+                        } catch {
+                            CherrishLogger.error(error)
+                        }
+                        
                         tabBarCoordinator.isTabbarHidden = false
                         calendarCoordinator.popToRoot()
                     }

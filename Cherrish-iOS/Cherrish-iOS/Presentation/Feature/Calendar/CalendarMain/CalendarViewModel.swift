@@ -40,10 +40,6 @@ final class CalendarViewModel: ObservableObject {
         self.fetchProcedureDowntimeUseCase = fetchProcedureDowntimeUseCase
     }
     
-    func confirmDate() {
-        calendarTreatmentFlowState.selectedDaet = selectedDate
-    }
-    
     func select(date: Date) {
         selectedDate = date
     }
@@ -102,7 +98,7 @@ final class CalendarViewModel: ObservableObject {
     }
     
     func sendDateToTreatmentView() {
-        calendarTreatmentFlowState.selectedDaet = selectedDate
+        calendarTreatmentFlowState.selectedDate = selectedDate
     }
     
     @MainActor

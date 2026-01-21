@@ -69,7 +69,7 @@ final class TreatmentViewModel: ObservableObject{
     
     
     func createUserProcedure() async throws {
-        guard let scheduledDate = calendarTreatmentFlowState.selectedDaet else {
+        guard let scheduledDate = calendarTreatmentFlowState.selectedDate else {
             return
         }
         

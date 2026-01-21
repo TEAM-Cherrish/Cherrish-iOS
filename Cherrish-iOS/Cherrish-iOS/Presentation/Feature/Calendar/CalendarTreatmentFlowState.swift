@@ -8,5 +8,5 @@
 import Foundation
 
 final class CalendarTreatmentFlowState: ObservableObject {
-    @Published var selectedDaet: Date?
+    @Published var selectedDate: Date?
 }
