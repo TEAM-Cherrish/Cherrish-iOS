@@ -10,4 +10,5 @@ import Foundation
 protocol TreatmentInterface {
     func fetchCategories() async throws -> [TreatmentCategoryEntity]
     func fetchTreatment(id: Int?, keyword: String?) async throws -> [TreatmentEntity]
+    func createUserProcedure(scheduledDate: String, recoveryDate: String, treatments: [TreatmentEntity]) async throws
 }

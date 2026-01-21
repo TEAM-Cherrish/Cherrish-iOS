@@ -20,5 +20,13 @@ struct TreatmentEntity: Identifiable, Equatable, Hashable {
         }
 }
 
-
+extension TreatmentEntity {
+    func toRequestDTO() -> UserProcedureItemRequestDTO? {
+        guard let downtime = setDowntime else { return nil }
+        return UserProcedureItemRequestDTO(
+            procedureId: id,
+            downtimeDays: downtime
+        )
+    }
+}
 

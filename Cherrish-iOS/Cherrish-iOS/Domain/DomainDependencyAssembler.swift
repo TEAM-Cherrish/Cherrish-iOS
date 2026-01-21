@@ -25,10 +25,6 @@ final class DomainDependencyAssembler: DependencyAssembler {
             return
         }
         
-        guard let treatmentCategoryRepository = DIContainer.shared.resolve(type: TreatmentInterface.self) else {
-            return
-        }
-        
         DIContainer.shared.register(type: FetchProcedureCountOfMonth.self) {
             return DefaultFetchProcedureCountOfMonth(repository: calendarRepository)
         }
@@ -60,9 +56,25 @@ final class DomainDependencyAssembler: DependencyAssembler {
         guard let treatmentRepository = DIContainer.shared.resolve(type: TreatmentInterface.self) else {
             return
         }
-        
+
         DIContainer.shared.register(type: FetchTreatmentCategoriesUseCase.self) {
             return DefaultFetchTreatmentCategoriesUseCase(repository: treatmentRepository)
+        }
+
+        guard let demoRepository = DIContainer.shared.resolve(type: DemoInterface.self) else {
+            return
+        }
+
+        DIContainer.shared.register(type: FetchChallengeUseCase.self) {
+            return DefaultFetchChallengeUseCase(repository: demoRepository)
+        }
+
+        DIContainer.shared.register(type: ToggleRoutineUseCase.self) {
+            return DefaultToggleRoutineUseCase(repository: demoRepository)
+        }
+
+        DIContainer.shared.register(type: AdvanceDayUseCase.self) {
+            return DefaultAdvanceDayUseCase(repository: demoRepository)
         }
         
         DIContainer.shared.register(type: FetchTreatmentsUseCase.self) {
@@ -75,6 +87,10 @@ final class DomainDependencyAssembler: DependencyAssembler {
         
         DIContainer.shared.register(type: FetchUserInfoUseCase.self) {
             return DefaultFetchUserInfoUserCase(repository: myPageRepository)
+        }
+        
+        DIContainer.shared .register(type: CreateUserProcedureUseCase.self) {
+            return DefaultCreateUserProcedureUseCase(repository: treatmentRepository)
         }
 
         guard let challengeRepository = DIContainer.shared.resolve(type: ChallengeInterface.self) else {
