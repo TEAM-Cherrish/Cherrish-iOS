@@ -14,14 +14,19 @@ struct ChallengeLoadingView: View {
         VStack {
             VStack(spacing: 4.adjustedH) {
                 highlight(highlightText: viewModel.selectedRoutine?.description ?? "", normalText: "방향을 바탕으로")
-                    .padding(.top, 113.adjustedH)
+                    .frame(height: 27.adjustedH)
+                    .padding(.top, 94.adjustedH)
                 TypographyText("TO-DO 미션을 만들고 있어요.", style: .title1_sb_18, color: .gray800)
+                    .frame(height: 27.adjustedH)
                 Image(.loading)
+                    .frame(height: 364.adjustedH)
                     .padding(.top, 17.adjustedH)
                 TypographyText("잠시만 기다려주세요!", style: .title2_m_16, color: .gray800)
+                    .frame(height: 24.adjustedH)
                     .padding(.top, 17.adjustedH)
                 Spacer()
                 TypographyText("AI가 맞춤형 루틴을 제작하고 있어요.", style: .body3_m_12, color: .gray600)
+                    .frame(height: 17.adjustedH)
                     .padding(.bottom, 30.adjustedH)
             }
         }

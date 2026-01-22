@@ -19,10 +19,16 @@ struct ChallengeSelectRoutineView: View {
         VStack {
             HStack{
                 VStack(alignment: .leading, spacing: 0){
-                    TypographyText("지금 나에게 가장 필요한\n관리 루틴을 선택해주세요.",
+                    TypographyText("지금 나에게 가장 필요한",
                                    style: .title1_sb_18,
                                    color: .gray1000
                     )
+                    .frame(height: 27.adjustedH)
+                    TypographyText("관리 루틴을 선택해주세요.",
+                                   style: .title1_sb_18,
+                                   color: .gray1000
+                    )
+                    .frame(height: 27.adjustedH)
                 }
                 Spacer()
             }

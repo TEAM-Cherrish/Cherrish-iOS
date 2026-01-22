@@ -58,8 +58,10 @@ struct ChallengeProgressView: View {
             VStack {
                 HStack {
                     TypographyText(viewModel.challengeTitle, style: .title1_sb_18, color: .gray1000)
+                        .frame(height: 27.adjustedH)
                         .padding(.trailing, 12.adjustedW)
                     TypographyText("7일 플랜", style: .body3_m_12, color: .gray700)
+                        .frame(height: 17.adjustedH)
                         .padding(.horizontal, 8.adjustedW)
                         .padding(.vertical, 3.adjustedH)
                         .overlay(
@@ -87,7 +89,9 @@ extension ChallengeProgressView {
             VStack(spacing: 0) {
                 HStack {
                     TypographyText("Lv.\(viewModel.cherryLevel.levelNumber)", style: .body1_m_14, color: .gray900)
+                        .frame(height: 20.adjustedH)
                     TypographyText("\(viewModel.cherryLevel.name)", style: .body1_m_14, color: .gray900)
+                        .frame(height: 20.adjustedH)
                         .padding(.leading, 6.adjustedW)
                     Spacer()
                 }
@@ -96,9 +100,11 @@ extension ChallengeProgressView {
                     .padding(.bottom, 5.adjustedH)
                 if viewModel.cherryLevel.levelNumber == 4 {
                     TypographyText("챌린지 완료까지 \(viewModel.remainMissions)개의 미션을 수행해야 해요!", style: .body2_r_13, color: .gray800)
+                        .frame(height: 18.adjustedH)
                         .padding(.bottom, 14.adjustedH)
                 }else {
                     TypographyText("체리가 크려면 \(viewModel.remainMissions)개의 미션을 수행해야 해요!", style: .body2_r_13, color: .gray800)
+                        .frame(height: 18.adjustedH)
                         .padding(.bottom, 14.adjustedH)
                 }
             }
@@ -110,6 +116,7 @@ extension ChallengeProgressView {
             VStack {
                 HStack {
                     TypographyText("챌린지 달성률 \(viewModel.progressRate)%", style: .body1_m_14, color: .gray900)
+                        .frame(height: 20.adjustedH)
                     Spacer()
                 }
                 .padding(.bottom, 12.adjustedH)
@@ -138,6 +145,7 @@ extension ChallengeProgressView {
         VStack {
             HStack {
                 TypographyText("\(viewModel.currentDay)일차 TO-DO 미션", style: .body1_sb_14, color: .gray1000)
+                    .frame(height: 20.adjustedH)
                 Spacer()
             }
             Spacer()
