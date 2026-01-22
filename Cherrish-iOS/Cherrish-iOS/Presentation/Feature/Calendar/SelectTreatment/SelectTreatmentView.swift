@@ -13,6 +13,9 @@ struct SelectTreatmentView: View {
     @ObservedObject var viewModel: SelectTreatmentViewModel
     
     var body: some View {
+        Spacer()
+            .frame(height: 20.adjustedH)
+        
         CherrishNavigationBar(
             title: "시술 여부 선택",
             leftButtonAction: {
