@@ -20,15 +20,18 @@ struct OnboardingContainerView: View {
                 TabView(selection: $currentPage) {
                     OnboardingPage1()
                         .tag(0)
-                        .padding(.bottom, 40.adjustedH)
+                        .padding(.horizontal, 25.adjustedW)
+
                     OnboardingPage2()
                         .tag(1)
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 
+                
+                Spacer()
+                    .frame(height: 40.adjustedH)
+                
                 PageIndicator(currentPage: currentPage, totalPages: 2)
-                    .padding(.top, 46.adjustedH)
-                    .padding(.bottom, 22.adjustedH)
                 
                 CherrishButton(
                     title: "시작하기",
@@ -39,10 +42,12 @@ struct OnboardingContainerView: View {
                 ) {
                     onboardingCoordinator.push(.information)
                 }
+                .padding(.top, 21.adjustedH)
                 .padding(.horizontal, 25.adjustedW)
-                .padding(.bottom, 57.adjustedH)
                 .opacity(currentPage == 1 ? 1 : 0)
                 .animation(.easeInOut(duration: 0.3), value: currentPage)
+                
+                Spacer()
             }
             
             Image(.close)
@@ -61,11 +66,11 @@ struct OnboardingContainerView: View {
         .background(
             VStack(spacing: 0) {
                 LinearGradient(
-                    colors: [.homeGradient1, .homeGradient2],
+                    colors: [.homeGradient1Onboarding, .homeGradient2],
                     startPoint: .top,
                     endPoint: .bottom
                 )
-                .frame(height: 310)
+                .frame(height: 310.adjustedH)
                 
                 Color.homeGradient2
             }
