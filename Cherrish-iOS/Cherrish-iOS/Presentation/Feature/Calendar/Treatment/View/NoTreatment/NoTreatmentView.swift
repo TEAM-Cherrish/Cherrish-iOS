@@ -79,6 +79,15 @@ struct NoTreatmentView: View {
             
         case .treatmentFilter:
             NoTreatmentFilterView(viewModel: viewModel)
+                .overlay(alignment: .bottom) {
+                    if viewModel.state == .treatmentFilter, !viewModel.selectedTreatments.isEmpty {
+                        SelectedTreatmentSheetView(
+                            selectedTreatments: viewModel.selectedTreatments,
+                            removeTreatment: viewModel.removeTreatment(_:)
+                        )
+                    
+                    }
+                }
             
         case .downTimeSetting:
             DownTimeSettingView(
@@ -101,13 +110,6 @@ struct NoTreatmentView: View {
     @ViewBuilder
     private func bottomView() -> some View {
         VStack(spacing: 0) {
-            if viewModel.state == .treatmentFilter, !viewModel.selectedTreatments.isEmpty {
-                SelectedTreatmentSheetView(
-                    selectedTreatments: viewModel.selectedTreatments,
-                    removeTreatment: viewModel.removeTreatment(_:)
-                )
-            }
-            
             CherrishButton(
                 title: "다음",
                 type: .large,

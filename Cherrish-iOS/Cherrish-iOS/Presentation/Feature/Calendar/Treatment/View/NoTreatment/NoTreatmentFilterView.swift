@@ -14,9 +14,6 @@ struct NoTreatmentFilterView: View {
         VStack(spacing: 0) {
             TitleHeaderView(title: viewModel.selectedCategory?.title ?? "")
             
-//            Spacer()
-//                .frame(height: 18.adjustedH)
-            
             ScrollView(.vertical, showsIndicators: false){
                 Spacer()
                     .frame(height: 18.adjustedH)
@@ -38,7 +35,10 @@ struct NoTreatmentFilterView: View {
                     .padding(.horizontal, 25.adjustedW)
                     
                 }
+                Spacer()
+                    .frame(height: 198.adjustedH)
             }
+           
         }
         .task {
             await viewModel.fetchNoTreatments()

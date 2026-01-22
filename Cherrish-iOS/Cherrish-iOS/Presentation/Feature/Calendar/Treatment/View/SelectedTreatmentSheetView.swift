@@ -69,12 +69,13 @@ struct SelectedTreatmentSheetView: View {
                                 .id(treatment.id)
                                 .frame(height: itemHeight)
                             }
+                            .padding(.horizontal, 24.5.adjustedW)
                             if selectedTreatments.count > 3 {
                                 scrollViewBottomMarkerView
                                     .allowsHitTesting(false)
                             }
                             
-                            // 스크롤 앵커용 더미 뷰
+                
                             Color.clear
                                 .frame(height: 1)
                                 .id("scrollBottom")
@@ -104,8 +105,9 @@ struct SelectedTreatmentSheetView: View {
                         .frame(maxHeight: .infinity, alignment: .bottom)
                 }
             }
+            .background(.gray0)
             .frame(height: scrollViewHeight)
-            .padding(.horizontal, 24.5.adjustedW)
+            
             .coordinateSpace(name: "SelectedTreatmentScroll")
             .onPreferenceChange(ScrollTopPreferenceKey.self) { minY in
                 if initialTopGlobalY == nil { initialTopGlobalY = minY }
@@ -114,7 +116,9 @@ struct SelectedTreatmentSheetView: View {
             .onPreferenceChange(ScrollBottomPreferenceKey.self) { height in
                 bottomOffsetY = height
             }
+            
         }
+        
     }
 }
 
