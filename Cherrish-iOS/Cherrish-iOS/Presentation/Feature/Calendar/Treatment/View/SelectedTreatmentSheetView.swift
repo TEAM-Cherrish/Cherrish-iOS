@@ -24,7 +24,6 @@ struct SelectedTreatmentSheetView: View {
     @State private var topGlobalY: CGFloat = .zero
     @State private var initialTopGlobalY: CGFloat? = nil
     @State private var bottomOffsetY: CGFloat = .zero
-    @State private var scrollTargetID: UUID?
     
     var body: some View {
         VStack(spacing: 0) {
