@@ -10,7 +10,7 @@ import SwiftUI
 struct TreatmentFilterView: View {
     @ObservedObject var viewModel: TreatmentViewModel
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             TreatmentSearchBarTextField(
                 text: $viewModel.searchText,
                 onTap: {
@@ -21,7 +21,7 @@ struct TreatmentFilterView: View {
                 isDisabled: false
             )
             .padding(.horizontal, 25.adjustedW)
-            
+            .padding(.bottom, 8.adjustedH)
             ScrollView(.vertical, showsIndicators: false) {
                 HStack(alignment: .top,spacing: 4) {
                     TypographyText("◎", style: .body3_r_12, color: .gray600)
@@ -51,11 +51,18 @@ struct TreatmentFilterView: View {
                             displayMode: .checkBoxView,
                             treatmentEntity: treatment,
                             isSelected: .constant(viewModel.isSelected(treatment)),
-                            action: { viewModel.addTreatment(treatment) }
+                            action: {  if viewModel.isSelected(treatment) {
+                                viewModel.removeTreatment(treatment)
+                            } else {
+                                viewModel.addTreatment(treatment)
+                                
+                            } }
                         )
                     }
                     .padding(.horizontal, 24.adjustedW)
                 }
+                Spacer()
+                    .frame(height: 198.adjustedH)
             }
             
         }

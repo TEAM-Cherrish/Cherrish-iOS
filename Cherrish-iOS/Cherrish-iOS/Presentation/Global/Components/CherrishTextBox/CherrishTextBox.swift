@@ -17,6 +17,7 @@ struct CherrishTextBox: View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 TypographyText(title, style: .body1_sb_14,color: .gray1000)
+                .frame(height: 20.adjustedH)
                 Spacer()
             }
             Spacer()
