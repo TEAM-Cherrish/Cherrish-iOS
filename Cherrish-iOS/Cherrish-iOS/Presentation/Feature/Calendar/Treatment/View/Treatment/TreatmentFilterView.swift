@@ -9,13 +9,24 @@ import SwiftUI
 
 struct TreatmentFilterView: View {
     @ObservedObject var viewModel: TreatmentViewModel
+    
+    private let itemHeight: CGFloat = 34.adjustedH
+    private let spacing: CGFloat = 8.adjustedH
+    private let maxVisibleCount = 3
+    
+    private var scrollViewHeight: CGFloat {
+        let count = min(viewModel.selectedTreatments.count, maxVisibleCount)
+        let contentHeight = CGFloat(count) * itemHeight + CGFloat(max(count - 1, 0)) * spacing
+        return contentHeight + 24.adjustedH + 40.adjustedH
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             TreatmentSearchBarTextField(
                 text: $viewModel.searchText,
                 onTap: {
                     Task {
-                       try await viewModel.fetchTreatments()
+                        try await viewModel.fetchTreatments()
                     }
                 },
                 isDisabled: false
@@ -64,7 +75,10 @@ struct TreatmentFilterView: View {
                     .padding(.horizontal, 24.adjustedW)
                 }
                 Spacer()
-                    .frame(height: 198.adjustedH)
+                    .frame(
+                        height: viewModel.selectedTreatments.isEmpty ?
+                        24.adjustedH : scrollViewHeight.adjustedH + 24.adjustedH
+                    )
             }
             
         }
@@ -73,7 +87,7 @@ struct TreatmentFilterView: View {
                 try await viewModel.fetchTreatments()
             }
         }
-       
+        
     }
 }
 
