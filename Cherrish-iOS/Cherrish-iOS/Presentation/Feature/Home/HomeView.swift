@@ -73,8 +73,8 @@ private struct HeaderLogoView: View {
                 .frame(width: 116.adjustedW, height: 40.adjustedH)
             Spacer()
         }
-        .padding(.leading, 32.adjustedW)
-        .padding(.top, 40.adjustedH)
+        .padding(.leading, 25.adjustedW)
+        .padding(.top, 26.adjustedH)
     }
 }
 
@@ -95,6 +95,8 @@ private struct ChallengeCardEmptyView: View {
             .padding(.leading, 18.adjustedW)
             
             Image(challengeBarImageName)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
                 .padding(.top, 10.adjustedH)
                 .padding(.horizontal, 18.adjustedW)
             
@@ -155,7 +157,10 @@ private struct ChallengeCardView: View {
             .padding(.leading, 18.adjustedW)
             
             Image(challengeBarImageName)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
                 .padding(.top, 16.adjustedH)
+                .padding(.horizontal, 18.adjustedW)
         }
         .frame(height: 131.adjustedH)
         .frame(maxWidth: .infinity)
@@ -242,7 +247,7 @@ private struct PlanBoxView: View {
     
     private var emptyStateView: some View {
         HStack {
-            TypographyText("진행 중인 일정이 없어요", style: .body1_r_14, color: .gray600)
+            TypographyText("진행 중인 일정이 없어요", style: .body1_m_14, color: .gray600)
             Spacer()
         }
         .padding(.vertical, 12.adjustedH)
