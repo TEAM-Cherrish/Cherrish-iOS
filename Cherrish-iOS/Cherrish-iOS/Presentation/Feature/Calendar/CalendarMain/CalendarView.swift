@@ -127,33 +127,33 @@ extension CalendarView {
         return VStack(spacing: 0) {
             LazyVGrid(columns: columns, spacing: calendarRowSpacing) {
                 ForEach(dates) { value in
-                if value.day != -1 {
-                    CalendarCellView(
-                        value: value,
-                        procedureCount: viewModel.getProcedureCount(for: value),
-                        isSelected: viewModel.isSelected(value),
-                        downtimeState: viewModel.getDowntimeState(for: value.date),
-                        isDDay: viewModel.isDDay(for: value.date, selectedProcedureID: selectedProcedureID ?? 0),
-                        calendarMode: $calendarMode
-                    )
-                    .onTapGesture {
-                        viewModel.select(date: value.date)
-                        calendarMode = .none
-                        selectedProcedureID = nil
-                        
-                        Task {
-                            do {
-                                try await viewModel.fetchTodayProcedureList()
-                            } catch {
-                                CherrishLogger.error(error)
+                    if value.day != -1 {
+                        CalendarCellView(
+                            value: value,
+                            procedureCount: viewModel.getProcedureCount(for: value),
+                            isSelected: viewModel.isSelected(value),
+                            downtimeState: viewModel.getDowntimeState(for: value.date),
+                            isDDay: viewModel.isDDay(for: value.date, selectedProcedureID: selectedProcedureID ?? 0),
+                            calendarMode: $calendarMode
+                        )
+                        .onTapGesture {
+                            viewModel.select(date: value.date)
+                            calendarMode = .none
+                            selectedProcedureID = nil
+                            
+                            Task {
+                                do {
+                                    try await viewModel.fetchTodayProcedureList()
+                                } catch {
+                                    CherrishLogger.error(error)
+                                }
                             }
                         }
+                    } else {
+                        Color.clear
+                            .frame(width: calendarCellWidth, height: calendarCellHeight)
                     }
-                } else {
-                    Color.clear
-                        .frame(width: calendarCellWidth, height: calendarCellHeight)
                 }
-            }
             }
             
             if rowCount == 4 {
@@ -290,7 +290,7 @@ extension CalendarView {
                     calendarCoordinator.push(
                         .selectTreatment
                     )
-                   
+                    
                 }
             )
             .padding(.horizontal, 24.adjustedW)
@@ -363,4 +363,4 @@ extension CalendarView {
         guard calendarMode == .none, let initial = initialTopGlobalY else { return false }
         return topGlobalY < initial - 0.1
     }
-  }
+}

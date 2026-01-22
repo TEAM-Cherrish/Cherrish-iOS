@@ -10,7 +10,7 @@ import SwiftUI
 struct ScrollTopPreferenceKey: PreferenceKey {
     static var defaultValue: CGFloat = .zero
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = max(value, nextValue())
+        value = min(value, nextValue())
     }
 }
 
