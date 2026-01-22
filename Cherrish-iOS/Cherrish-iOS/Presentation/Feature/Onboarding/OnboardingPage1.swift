@@ -7,15 +7,6 @@
 
 import SwiftUI
 
-private struct Line1WidthKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
-
-
-
 struct OnboardingPage1: View {
     @State private var line1Width: CGFloat = 0
     
