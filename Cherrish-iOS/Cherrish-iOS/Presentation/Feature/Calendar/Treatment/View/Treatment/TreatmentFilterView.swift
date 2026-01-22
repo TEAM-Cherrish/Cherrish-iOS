@@ -21,7 +21,8 @@ struct TreatmentFilterView: View {
                 isDisabled: false
             )
             .padding(.horizontal, 25.adjustedW)
-            .padding(.bottom, 8.adjustedH)
+            Spacer()
+                .frame(height: 8.adjustedH)
             ScrollView(.vertical, showsIndicators: false) {
                 HStack(alignment: .top,spacing: 4) {
                     TypographyText("◎", style: .body3_r_12, color: .gray600)
@@ -33,14 +34,15 @@ struct TreatmentFilterView: View {
                             color: .gray600
                         )
                         .lineLimit(2)
-                        
                     }
-                    
                     Spacer()
-                    
                 }
                 .frame(height: 34.adjustedH)
                 .padding(.horizontal, 25.adjustedW)
+                
+                Spacer()
+                    .frame(height: 20.adjustedH)
+                
                 if viewModel.treatments.isEmpty {
                     Spacer()
                         .frame(height: 148.adjustedH)

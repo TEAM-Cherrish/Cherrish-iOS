@@ -76,12 +76,10 @@ extension SelectTreatmentView {
             VStack(alignment: .leading, spacing: 0){
 
                     TypographyText("시술 일정을 추가해볼게요.", style: .title1_sb_18, color: .gray1000)
-                        .frame(height: 27.adjustedH)
+                        .frame(height: 30.adjustedH)
                     TypographyText("이미 생각해둔 시술이 있나요?", style: .title1_sb_18, color: .gray1000)
-                        .frame(height: 27.adjustedH)
+                        .frame(height: 30.adjustedH)
             
-               
-                
                 Spacer()
                     .frame(height: 4.adjustedH)
                 TypographyText("시술을 선택하셨는지 확인할게요.", style: .body1_r_14, color: .gray700)
