@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "home_lv.0.png",
+      "filename" : "calendar_D-day.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "home_lv.0@2x.png",
+      "filename" : "calendar_D-day@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "home_lv.0@3x.png",
+      "filename" : "calendar_D-day@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

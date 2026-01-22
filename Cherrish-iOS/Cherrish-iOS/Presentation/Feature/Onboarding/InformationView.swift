@@ -91,6 +91,7 @@ struct InformationView: View {
             .padding(.horizontal, 25.adjustedW)
             .padding(.bottom, 38.adjustedH)
         }
+        .ignoresSafeArea(.keyboard)
         .contentShape(Rectangle())
         .onTapGesture {
             isNameFocused = false

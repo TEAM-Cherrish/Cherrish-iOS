@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import Lottie
+
 struct ChallengeLoadingView: View {
     @ObservedObject var viewModel: CreateChallengeViewModel   
 
@@ -17,14 +19,20 @@ struct ChallengeLoadingView: View {
                     .frame(height: 27.adjustedH)
                     .padding(.top, 94.adjustedH)
                 TypographyText("TO-DO 미션을 만들고 있어요.", style: .title1_sb_18, color: .gray800)
-                    .frame(height: 27.adjustedH)
-                Image(.loading)
-                    .frame(height: 364.adjustedH)
-                    .padding(.top, 17.adjustedH)
+                
+                LottieView(animationName: "splash", loopMode: .loop)
+                    .frame(width: 130.adjustedW, height: 154.adjustedH)
+                    .padding(.top, 60.adjustedH)
+                
+                Spacer()
+                    .frame(height: 80.adjustedH)
+                
                 TypographyText("잠시만 기다려주세요!", style: .title2_m_16, color: .gray800)
                     .frame(height: 24.adjustedH)
                     .padding(.top, 17.adjustedH)
+                
                 Spacer()
+                
                 TypographyText("AI가 맞춤형 루틴을 제작하고 있어요.", style: .body3_m_12, color: .gray600)
                     .frame(height: 17.adjustedH)
                     .padding(.bottom, 30.adjustedH)

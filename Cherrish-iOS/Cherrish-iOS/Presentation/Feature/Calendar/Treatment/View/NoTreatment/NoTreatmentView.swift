@@ -79,6 +79,15 @@ struct NoTreatmentView: View {
             
         case .treatmentFilter:
             NoTreatmentFilterView(viewModel: viewModel)
+                .overlay(alignment: .bottom) {
+                    if viewModel.state == .treatmentFilter, !viewModel.selectedTreatments.isEmpty {
+                        SelectedTreatmentSheetView(
+                            selectedTreatments: viewModel.selectedTreatments,
+                            removeTreatment: viewModel.removeTreatment(_:)
+                        )
+                    
+                    }
+                }
             
         case .downTimeSetting:
             DownTimeSettingView(
@@ -101,13 +110,6 @@ struct NoTreatmentView: View {
     @ViewBuilder
     private func bottomView() -> some View {
         VStack(spacing: 0) {
-            if viewModel.state == .treatmentFilter, !viewModel.selectedTreatments.isEmpty {
-                SelectedTreatmentSheetView(
-                    selectedTreatments: viewModel.selectedTreatments,
-                    removeTreatment: viewModel.removeTreatment(_:)
-                )
-            }
-            
             CherrishButton(
                 title: "다음",
                 type: .large,
@@ -157,18 +159,22 @@ private struct TreatmentSelectedCategory: View {
                         style: .title1_sb_18,
                         color: .gray1000
                     )
+                    .frame(height: 27.adjustedH)
                     
                     TypographyText(
                         "외모 고민은 무엇인가요?",
                         style: .title1_sb_18,
                         color: .gray1000
                     )
-                    
+                    .frame(height: 27.adjustedH)
+                    Spacer()
+                        .frame(height: 4.adjustedH)
                     TypographyText(
                         "선택한 고민을 기준으로 시술 정보를 정리해줘요.",
                         style: .body1_m_14,
                         color: .gray700
                     )
+                    .frame(height: 20.adjustedH)
                     
                 }
                 .frame(height: 78.adjustedH)
@@ -176,9 +182,10 @@ private struct TreatmentSelectedCategory: View {
                 Spacer()
             }
             .padding(.horizontal, 34.adjustedW)
-            Spacer()
-                .frame(height: 40.adjustedH)
+            
             ScrollView(.vertical, showsIndicators:false) {
+                Spacer()
+                    .frame(height: 40.adjustedH)
                 LazyVGrid(columns: columns, spacing: 12.adjustedH) {
                     ForEach(viewModel.categories, id: \.id) { category in
                         SelectionChip(

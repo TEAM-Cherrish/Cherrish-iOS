@@ -8,8 +8,8 @@
 import SwiftUI
 
 enum DdayState: CaseIterable {
-    case yes
     case no
+    case yes
     var id: Self { self }
     
     var title: String {
@@ -38,17 +38,14 @@ struct TargetDdaySettingView: View {
                 HStack(spacing:0){
                     VStack(alignment: .leading, spacing: 0) {
                         TypographyText("회복을 계획할 때 고려해야 할", style: .title1_sb_18, color: .gray1000)
-                        
+                            .frame(height: 27.adjustedH)
                         TypographyText("중요한 일정이 있나요?", style: .title1_sb_18, color: .gray1000)
-                        
+                            .frame(height: 27.adjustedH)
                     }
-                    
                     Spacer()
                 }
-                .frame(height: 54.adjustedH)
-                
                 Spacer()
-                    .frame(height: 40)
+                    .frame(height: 40.adjustedH)
                 
                 HStack(spacing: 12.adjustedW) {
                     ForEach(DdayState.allCases, id: \.self) { state in

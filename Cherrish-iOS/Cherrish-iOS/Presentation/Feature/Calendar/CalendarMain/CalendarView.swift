@@ -168,7 +168,7 @@ extension CalendarView {
         let procedureCount = viewModel.procedureList.count
         return VStack(spacing: 0) {
             HStack {
-                TypographyText("일정 ・ \(procedureCount)개", style: .body1_r_14, color: .gray1000)
+                TypographyText("일정 ・ \(procedureCount)개", style: .body1_m_14, color: .gray1000)
                 
                 Spacer()
                 
@@ -263,14 +263,17 @@ extension CalendarView {
     
     private var emptyScheduleView: some View {
         VStack(alignment: .center) {
-            VStack(spacing: 8){
+            Spacer()
+                .frame(height: 50.adjustedH)
+            
+            VStack(alignment: .center, spacing: 8){
                 Image(.illustrationNoschedule)
                     .resizable()
-                    .frame(width: 148.adjustedW, height: 108.adjustedH)
+                    .frame(width: 98.adjustedW, height: 80.adjustedH)
                 
                 TypographyText("오늘 예정된 일정이 없어요.", style: .body1_r_14, color: .gray600)
             }
-            .padding(.top, 50.adjustedH)
+            .frame(width: 148.adjustedW, height: 108.adjustedH)
             .padding(.horizontal, 65.adjustedW)
             
             Spacer()
@@ -318,7 +321,7 @@ extension CalendarView {
                         )
                         .frame(width: 12.adjustedW, height: 12.adjustedH)
                     
-                    TypographyText("\(state.title)", style: .body3_r_12, color: .gray800)
+                    TypographyText("\(state.title)", style: .body3_m_12, color: .gray800)
                 }
                 .frame(width: 44.adjustedW, height: 20.adjustedH)
             }

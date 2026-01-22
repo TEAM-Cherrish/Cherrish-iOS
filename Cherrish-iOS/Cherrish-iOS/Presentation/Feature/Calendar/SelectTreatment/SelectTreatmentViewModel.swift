@@ -8,8 +8,8 @@
 import SwiftUI
 
 enum TreatmentSelectionState: CaseIterable {
-    case notSelected
     case available
+    case notSelected
     
     var title: String {
         switch self {

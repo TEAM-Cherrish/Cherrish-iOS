@@ -20,3 +20,10 @@ struct ScrollBottomPreferenceKey: PreferenceKey {
         value = max(value, nextValue())
     }
 }
+
+struct Line1WidthKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}

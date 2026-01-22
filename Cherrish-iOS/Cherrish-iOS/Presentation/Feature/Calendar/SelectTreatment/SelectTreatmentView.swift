@@ -69,15 +69,22 @@ extension SelectTreatmentView {
     
     @ViewBuilder
     private var titleView: some View {
-        HStack {
-            VStack(alignment: .leading){
-                TypographyText("시술 일정을 추가해볼게요.", style: .title1_sb_18, color: .gray1000)
+        HStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 0){
+
+                    TypographyText("시술 일정을 추가해볼게요.", style: .title1_sb_18, color: .gray1000)
+                        .frame(height: 27.adjustedH)
+                    TypographyText("이미 생각해둔 시술이 있나요?", style: .title1_sb_18, color: .gray1000)
+                        .frame(height: 27.adjustedH)
+            
+               
                 
-                TypographyText("이미 생각해둔 시술이 있나요?", style: .title1_sb_18, color: .gray1000)
-                
+                Spacer()
+                    .frame(height: 4.adjustedH)
                 TypographyText("시술을 선택하셨는지 확인할게요.", style: .body1_r_14, color: .gray700)
-                
+                    .frame(height: 20.adjustedH)
             }
+            .frame(height: 78.adjustedH)
             Spacer()
         }
     }

@@ -17,22 +17,26 @@ struct OnboardingPage2: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                TypographyText("원하는 추구미에 도달할 수 있도록\nTO-DO 루틴을 제시해줘요", style: .title1_m_18, color: .gray1000)
+                TypographyText("원하는 추구미에 도달할 수 있도록\nTO-DO 루틴을 제시해줘요", style: .title1_sb_18, color: .gray1000)
+                    .fixedSize(horizontal: false, vertical: true)
             
                 Spacer()
             }
             .padding(.horizontal, 42.adjustedW)
-            .padding(.top, 104.adjustedH)
+            .padding(.top, 124.adjustedH)
+            
+            Spacer()
+                .frame(height: 40.adjustedH)
             
             Image(.onboarding2)
                 .resizable()
                 .scaledToFit()
-                .padding(.top, 40.adjustedH)
+                .frame(width: 293.adjustedW, height: 202.adjustedH)
                 .padding(.horizontal, 41.adjustedW)
                         
             InfiniteLevelCarousel(levelImages: levelImages, animationDuration: animationDuration)
                 .frame(height: 89.adjustedH)
-                .padding(.top, 20.adjustedH)
+                .padding(.top, 12.adjustedH)
 
             TypographyText("TO-DO 미션을 채울때마다 아리가 변화해요!", style: .title2_r_16, color: .gray600)
                 .padding(.top, 30.adjustedH)
