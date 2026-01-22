@@ -69,11 +69,11 @@ struct SelectedTreatmentSheetView: View {
                                 .frame(height: itemHeight)
                             }
                             .padding(.horizontal, 24.5.adjustedW)
+                            
                             if selectedTreatments.count > 3 {
                                 scrollViewBottomMarkerView
                                     .allowsHitTesting(false)
                             }
-                            
                 
                             Color.clear
                                 .frame(height: 1)
