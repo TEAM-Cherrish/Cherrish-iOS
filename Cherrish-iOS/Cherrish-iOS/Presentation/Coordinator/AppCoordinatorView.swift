@@ -15,6 +15,8 @@ struct AppCoordinatorView: View {
             switch appCoordinator.appState {
             case .splash:
                 SplashView()
+                    .transition(.opacity)
+                    .animation(.easeOut(duration: 0.7).delay(0.2), value: appCoordinator.appState)
             case .onboarding:
                 OnboardingCoordinatorView()
             case .home:

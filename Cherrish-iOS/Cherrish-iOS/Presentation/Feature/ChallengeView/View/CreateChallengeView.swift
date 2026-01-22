@@ -14,6 +14,9 @@ struct CreateChallengeView: View {
     
     var body: some View {
         VStack {
+            Spacer()
+                .frame(height: 20.adjustedH)
+            
             CherrishNavigationBar(
                 isDisplayLeftButton: viewModel.viewState.isLeftButton,
                 isDisplayRightButton: viewModel.viewState.isRightButton,
