@@ -62,8 +62,8 @@ final class HomeViewModel: ObservableObject {
         return String(format: "%.0f%%", rate)
     }
     
-    var challengeName: String {
-        dashboardData?.challengeName ?? "챌린지"
+    var challengeName: String? {
+        return dashboardData?.challengeName
     }
     
     var cherryLevel: Int {
@@ -71,12 +71,12 @@ final class HomeViewModel: ObservableObject {
     }
     
     var challengeBarImageName: String {
-        let level = min(max(cherryLevel, 0), 4)
+        let level = cherryLevel 
         return "home_chellenge_bar\(level)"
     }
     
     var cherryLevelImageName: String {
-        let level = min(max(cherryLevel, 0), 4)
+        let level = cherryLevel == 0 ? 1 : cherryLevel
         return "home_lv.\(level)"
     }
     

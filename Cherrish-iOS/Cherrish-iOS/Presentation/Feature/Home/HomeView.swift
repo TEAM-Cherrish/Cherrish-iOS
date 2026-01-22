@@ -18,13 +18,13 @@ struct HomeView: View {
                 VStack(spacing: 0) {
                     HeaderLogoView()
                     ZStack(alignment: .topTrailing) {
-                        if viewModel.cherryLevel == 0 {
+                        if viewModel.challengeName == nil {
                             ChallengeCardEmptyView(
                                 challengeBarImageName: viewModel.challengeBarImageName
                             )
                         } else {
                             ChallengeCardView(
-                                challengeName: viewModel.challengeName,
+                                challengeName: viewModel.challengeName ?? "챌린지",
                                 challengeRate: viewModel.challengeRateText,
                                 challengeBarImageName: viewModel.challengeBarImageName
                             )
