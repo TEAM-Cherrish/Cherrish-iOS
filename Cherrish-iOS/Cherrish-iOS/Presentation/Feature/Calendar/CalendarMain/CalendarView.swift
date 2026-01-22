@@ -168,7 +168,7 @@ extension CalendarView {
         let procedureCount = viewModel.procedureList.count
         return VStack(spacing: 0) {
             HStack {
-                TypographyText("일정 ・ \(procedureCount)개", style: .body1_r_14, color: .gray1000)
+                TypographyText("일정 ・ \(procedureCount)개", style: .body1_m_14, color: .gray1000)
                 
                 Spacer()
                 
@@ -321,7 +321,7 @@ extension CalendarView {
                         )
                         .frame(width: 12.adjustedW, height: 12.adjustedH)
                     
-                    TypographyText("\(state.title)", style: .body3_r_12, color: .gray800)
+                    TypographyText("\(state.title)", style: .body3_m_12, color: .gray800)
                 }
                 .frame(width: 44.adjustedW, height: 20.adjustedH)
             }

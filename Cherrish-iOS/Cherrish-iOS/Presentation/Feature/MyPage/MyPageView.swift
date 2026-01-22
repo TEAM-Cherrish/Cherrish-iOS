@@ -61,7 +61,7 @@ extension MyPageView {
                 .resizable()
                 .frame(width: 308.adjustedW, height: 250.adjustedH)
             
-            TypographyText("앗! 아직 준비 중이에요.", style: .body1_m_14, color: .gray500)
+            TypographyText("앗! 아직 준비 중이에요.", style: .body1_m_14, color: .gray600)
             
             Spacer()
                 .frame(height: 110.adjustedH)
