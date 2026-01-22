@@ -66,7 +66,7 @@ struct CalendarView: View {
                 }
             }
         }
-        .onChange(of: homeCalendarFlowState.treatmentDate) { date in
+        .onChange(of: homeCalendarFlowState.treatmentDate) { _, date in
             if let date = date {
                 viewModel.updateDate(date: date)
                 homeCalendarFlowState.treatmentDate = nil

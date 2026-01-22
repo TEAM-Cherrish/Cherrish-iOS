@@ -58,7 +58,7 @@ struct CalendarCellView: View {
                                 scheduleCircle
                             }
                         }
-                        .padding(.bottom, 4.adjustedH)
+                        .padding(.bottom, 6.adjustedH)
                         .padding(.top, 19.adjustedH)
                     }
                 }
