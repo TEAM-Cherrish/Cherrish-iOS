@@ -14,6 +14,9 @@ struct TreatmentView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            Spacer()
+                .frame(height: 20.adjustedH)
+            
             CherrishNavigationBar(
                 title: viewModel.state.title,
                 leftButtonAction: {
