@@ -18,7 +18,9 @@ struct ChallengeStartChallengeView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     TypographyText("이번엔 어떤 루틴으로 관리할까요?", style: .headline_sb_20, color: .gray1000)
+                        .frame(height: 30.adjustedH)
                     TypographyText("루틴을 지킬수록 체리가 성장해요.", style: .title2_m_16, color: .gray800)
+                        .frame(height: 24.adjustedH)
                 }
                 Spacer()
             }
@@ -30,11 +32,12 @@ struct ChallengeStartChallengeView: View {
                 .padding(.top, 10.adjustedH)
                 .padding(.horizontal, 24.adjustedW)
             
-            HStack(spacing: 12) {
+            HStack(spacing: 0) {
                 Image("info")
                 TypographyText("이 챌린지는 설정 시점부터 7일간 진행됩니다.", style: .body3_m_12, color: .gray600)
+                    .frame(height: 24.adjustedH)
             }
-            .padding(.bottom, 12.adjustedH)
+            .padding(.top, 20.adjustedH)
             
             CherrishButton(
                 title: "챌린지 시작하기",

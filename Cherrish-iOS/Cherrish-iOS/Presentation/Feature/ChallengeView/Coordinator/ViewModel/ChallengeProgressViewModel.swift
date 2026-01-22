@@ -15,7 +15,7 @@ final class ChallengeProgressViewModel: ObservableObject {
     @Published private(set) var remainMissions: Int = 0
     @Published private(set) var progressRate = 0
     @Published private(set) var currentDay: Int = 1
-    @Published private(set) var challengeTitle: String = "챌린지"
+    @Published private(set) var challengeTitle: String = ""
     @Published private(set) var todayRoutines: [ProgressRoutineEntity] = []
     
     private let fetchChallengeUseCase: FetchChallengeUseCase
@@ -94,6 +94,10 @@ final class ChallengeProgressViewModel: ObservableObject {
 }
 
 extension ChallengeProgressViewModel {
+    var isChallengeCompleted: Bool {
+        currentDay == 7
+    }
+    
     @MainActor
     private func updateInfo() {
         guard let challengeData else { return }
@@ -101,7 +105,7 @@ extension ChallengeProgressViewModel {
         remainMissions = challengeData.remainingRoutinesToNextLevel
         progressRate = challengeData.progressPercentage
         currentDay = challengeData.currentDay
-        challengeTitle = challengeData.title
+        challengeTitle = challengeData.title + " 챌린지"
         todayRoutines = challengeData.todayRoutines
     }
 }

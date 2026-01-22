@@ -17,20 +17,17 @@ struct ChallengeSelectMissionView: View {
         VStack {
             VStack {
                 HStack {
-                    VStack(alignment: .leading) {
-                        TypographyText("챌린지 기간 동안",
+                    VStack(alignment: .leading, spacing: 4.adjustedH) {
+                        TypographyText("챌린지 기간 동안\n진행할 미션을 선택해주세요.",
                                        style: .title1_sb_18,
                                        color: .gray1000
                         )
-                        TypographyText("진행할 미션을 선택해주세요.",
-                                       style: .title1_sb_18,
-                                       color: .gray1000
-                        )
+                        .frame(height: 54.adjustedH)
                         TypographyText("복수 선택이 가능해요.",
                                        style: .body1_r_14,
                                        color: .gray700
                         )
-                        .padding(.top, 4.adjustedH)
+                        .frame(height: 20.adjustedH)
                     }
                     Spacer()
                 }
