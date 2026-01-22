@@ -45,19 +45,22 @@ struct CalendarCellView: View {
                     .padding(.top, 36.adjustedH)
             }
             
-            TypographyText("\(value.day)", style: .body1_r_14, color: dayTextColor)
-            
-            if procedureCount > 0 && calendarMode == .none {
-                let displayCount = min(procedureCount, 3)
+            ZStack {
+                TypographyText("\(value.day)", style: .body1_r_14, color: dayTextColor)
                 
-                VStack {
-                    Spacer()
-                    HStack(spacing: 4) {
-                        ForEach(0..<displayCount, id: \.self) { _ in
-                            scheduleCircle
+                if procedureCount > 0 && calendarMode == .none {
+                    let displayCount = min(procedureCount, 3)
+                    
+                    VStack {
+                        Spacer()
+                        HStack(spacing: 4) {
+                            ForEach(0..<displayCount, id: \.self) { _ in
+                                scheduleCircle
+                            }
                         }
+                        .padding(.bottom, 4.adjustedH)
+                        .padding(.top, 19.adjustedH)
                     }
-                    .padding(.bottom, 4)
                 }
             }
             

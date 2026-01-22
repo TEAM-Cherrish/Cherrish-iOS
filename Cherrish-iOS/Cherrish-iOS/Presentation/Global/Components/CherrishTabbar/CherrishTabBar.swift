@@ -52,7 +52,7 @@ struct CherrishTabBar: View {
     @Binding var selectedTab: CherrishTab
     
     var body: some View {
-        HStack {
+        HStack(spacing: 50.adjustedW) {
             ForEach(CherrishTab.allCases, id: \.self) { tab in
                 Button {
                     selectedTab = tab
