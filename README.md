@@ -1,28 +1,32 @@
-# 🍒 Cherrish
+# <img width="200" height="100" alt="logo" src="https://github.com/user-attachments/assets/7cde32c0-f76c-4cf0-b3bf-260befb360a1" />
+  
+<p align="center">  
+  <img width="800" height="400" alt="image" src="https://github.com/user-attachments/assets/7f0e0645-fdf2-43a7-ab38-86f08377e466" />  
+</p>  
 
-## ✨ 서비스 소개 
-미용 의료부터 관리 루틴까지, 개인의 추구미에 맞는 관리의 방향을 정리하고, 다운타임&일정 중복을 방지하는 뷰티 캘린더
+# <img src="https://github.com/user-attachments/assets/b7c69bb0-3579-4074-8eca-e7966128fffb" height="50"/> Cherrish 서비스 소개
+> 미용 의료부터 관리 루틴까지, 개인의 추구미에 맞는 관리의 방향을 정리하고, 다운타임&일정 중복을 방지하는 뷰티 캘린더
 
+
+<br/>
+
+## <img src="https://github.com/user-attachments/assets/ac0bd614-bf51-4fde-9727-f6f3d70dafa2" height="40"/>Cherrish 주요 기능
+- 피부 고민 키워드 기반 시술 리스트
+- 시술 다운타임 설정 및 디데이 여유기간 시각화
+- AI가 짜주는 챌린지 루틴 추천
+- 챌린지 기반 체리 게이미피케이션
 <br />
 
 ## 🍎 iOS Developers
+| <img src = "https://github.com/user-attachments/assets/2fc03587-f05a-45ee-a69f-288c1a978746" height = "25"> 이나연(Lead)<br/>[@Lee Nayeon](https://github.com/y-eonee) | <img src = "https://github.com/user-attachments/assets/175d7547-646a-48a8-95c8-4b8285012ad4" height = "25"> 공수민<br/>[@sum130](https://github.com/sum130) | <img src = "https://github.com/user-attachments/assets/53b25645-c9db-449c-9a6d-711fefdaa1c4" height = "25"> 어재선<br/>[@JaeSun](https://github.com/wotjs020708) | <img src = "https://github.com/user-attachments/assets/1f68623f-42e6-4f4d-a027-b3b1816f9a0a" height = "25"> 송성용<br/>[@soseoyo](https://github.com/soseoyo12) |
+| :---: | :---: | :---: | :---: |
 | <p align="center"><img src="https://github.com/user-attachments/assets/00617dc1-3de8-4583-85fc-230b49d9c253" width="260"/></p> | <p align="center"><img src="https://github.com/user-attachments/assets/66c10d29-37cd-4eeb-be02-9d14e2704cd7" width="260"/></p> | <p align="center"><img src="https://github.com/user-attachments/assets/73f0f19c-ff71-429f-8fb9-87763f712cef" width="260"/></p> | <p align="center"><img src="https://github.com/user-attachments/assets/c44d4de2-f5e8-4f5b-9ed4-a88f295dfd5a" width="260"/></p> |
-| --- | --- | --- | --- |
-| <p align="center">[이나연(Lead)](https://github.com/y-eonee)</p> | <p align="center">[공수민](https://github.com/sum130)</p> | <p align="center">[어재선](https://github.com/wotjs020708)</p> | <p align="center">[송성용](https://github.com/soseoyo12)</p> |
+| `캘린더` `마이` | `챌린지` | `시술` | `홈` `온보딩` |
+<br />
 
 <br />
 
-## 🧑‍💻역할 분배 
-
-| 이나연 (lead) | 아키텍처 및 DIContainer 설계, 탭바 및 네트워크 세팅, `캘린더` , `마이페이지` 구현  |
-| --- | --- |
-| 공수민 | `챌린지` 페이지 구현 |
-| 송성용 | `Home`, `Onboarding`, `Information View` 구현, `CustomPicker`구현 |
-| 어재선 | `시술 일정 추가 화면`  구현 |
-
-<br />
-
-## ⚒️ Tech Stack
+## <img src = "https://github.com/user-attachments/assets/175d7547-646a-48a8-95c8-4b8285012ad4" height = "40"> Tech Stack
 | 기술/도구 | 선정 이유 |
 | --- | --- |
 | SwiftUI | 코드의 간결성과 직관성을 통해 빠르고 쉽게 사용자 인터페이스를 설계하고 유지보수가 가능 |
@@ -31,7 +35,7 @@
 
 <br />
 
-## 🔀 Git Flow 
+## <img src = "https://github.com/user-attachments/assets/53b25645-c9db-449c-9a6d-711fefdaa1c4" height = "40"> Git Flow 
 1. Issue를 생성한다.
 2. 현재 브랜치가 아닌 main 브랜치에서 Branch Naming Rule을 따르는 브랜치를 생성한다.
 3. 이슈에 작성한 내용을 기반으로 기능을 구현한다. (+ 커밋)
@@ -41,7 +45,7 @@
 
 <br />
  
-## 📌 Convention
+## <img src = "https://github.com/user-attachments/assets/1f68623f-42e6-4f4d-a027-b3b1816f9a0a" height = "40"> Convention
 ### Code Style
 [Swift 스타일 쉐어 가이드](https://github.com/StyleShare/swift-style-guide)를 따릅니다.
 
@@ -71,8 +75,7 @@ add: #2 이미지 에셋 추가
 <br/>
 <br/>
 
-
-## 📂 Foldering
+## <img src="https://github.com/user-attachments/assets/dda04d78-e3c9-4d87-ad1f-3f0bd94b1d5c" height = "40"> 📂 Foldering
 ```
 🍒 Cherrish-iOS
 ├── 📁 Cherrish-iOS
