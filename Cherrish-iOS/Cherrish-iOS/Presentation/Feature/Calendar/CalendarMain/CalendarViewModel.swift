@@ -22,6 +22,7 @@ final class CalendarViewModel: ObservableObject {
     @Published private(set) var treatmentDate: String = ""
     @Published private(set) var downtimeByDay: [String : DowntimeDayState] = [:]
     @Published private(set) var selectedDowntime: ProcedureDowntimeEntity?
+    @Published private(set) var isLoading: Bool = true
     
     private let fetchProcedureCountOfMonthUseCase: FetchProcedureCountOfMonth
     private let fetchTodayProcedureListUseCase: FetchTodayProcedureListUseCase
@@ -103,26 +104,46 @@ final class CalendarViewModel: ObservableObject {
     
     @MainActor
     func fetchProcedureCountsOfMonth() async throws {
+        isLoading = true
         let calendar = Calendar.current
         let targetDate = getCurrentMonth(addingMonth: currentMonth)
         let year = calendar.component(.year, from: targetDate)
         let month = calendar.component(.month, from: targetDate)
         
-        let response = try await fetchProcedureCountOfMonthUseCase.execute(year: year, month: month)
-        procedureCountOfMonth = response.dailyProcedureCounts
+        do {
+            let response = try await fetchProcedureCountOfMonthUseCase.execute(year: year, month: month)
+            isLoading = false
+            procedureCountOfMonth = response.dailyProcedureCounts
+        } catch {
+            CherrishLogger.error(error)
+        }
     }
     
     @MainActor
     func fetchTodayProcedureList() async throws {
+        isLoading = true
         treatmentDate = selectedDate.toDateString()
-        procedureList = try await fetchTodayProcedureListUseCase.execute(date: treatmentDate)
+        
+        do {
+            procedureList = try await fetchTodayProcedureListUseCase.execute(date: treatmentDate)
+            isLoading = false
+        } catch {
+            CherrishLogger.error(error)
+        }
     }
     
     @MainActor
     func fetchDowntimeByDay(procedureId: Int) async throws {
-        let downtimeList = try await fetchProcedureDowntimeUseCase.execute(id: procedureId)
-        selectedDowntime = downtimeList
-        mapToDowntimeDays(procedure: downtimeList)
+        isLoading = true
+        
+        do {
+            let downtimeList = try await fetchProcedureDowntimeUseCase.execute(id: procedureId)
+            isLoading = false 
+            selectedDowntime = downtimeList
+            mapToDowntimeDays(procedure: downtimeList)
+        } catch {
+            CherrishLogger.error(error)
+        }
     }
     
     func updateDate(date: Date) {

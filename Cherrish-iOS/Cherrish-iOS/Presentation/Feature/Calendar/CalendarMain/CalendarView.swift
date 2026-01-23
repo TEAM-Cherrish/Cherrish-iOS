@@ -25,36 +25,21 @@ struct CalendarView: View {
     @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
     @StateObject var viewModel: CalendarViewModel
     @StateObject var homeCalendarFlowState: HomeCalendarFlowState
-    @State private var topGlobalY: CGFloat = .zero
-    @State private var initialTopGlobalY: CGFloat? = nil
-    @State private var bottomOffsetY: CGFloat = .zero
-    @State private var calendarMode: CalendarMode = .none
-    @State private var selectedProcedureID: Int? = nil
-    @State private var buttonState: ButtonState = .active
-    
-    private let scrollAreaHeight: CGFloat = 184.adjustedH
-    private let calendarCellWidth: CGFloat = 40.adjustedW
-    private let calendarCellHeight: CGFloat = 40.adjustedH
-    private let calendarRowSpacing: CGFloat = 8.adjustedH
-    
-    let weekdays: [String] = ["일", "월", "화", "수", "목", "금", "토"]
-    let columns = Array(repeating: GridItem(.fixed(40.adjustedW), spacing: 8), count: 7)
+    @State var calendarMode: CalendarMode = .none
+    @State var selectedProcedureID: Int? = nil
     
     var body: some View {
-        VStack {
-            Spacer()
-                .frame(height: 38.adjustedH)
-            
-            calendarHeader
-            dateGridsView
-            Spacer()
-            
-            if viewModel.isEmptyProcedureList() {
-                emptyScheduleView
+        ZStack {
+            if viewModel.isLoading {
+                CherrishLoadingView()
             } else {
-                scheduleListContainerView
+                CalendarContentView(
+                    viewModel: viewModel,
+                    homeCalendarFlowState: homeCalendarFlowState,
+                    calendarMode: $calendarMode,
+                    selectedProcedureID: $selectedProcedureID
+                )
             }
-            Spacer()
         }
         .task (id: viewModel.currentMonth){
             if calendarMode == .none {
@@ -78,11 +63,49 @@ struct CalendarView: View {
                 homeCalendarFlowState.treatmentDate = nil
             }
         }
-        .background(.gray0)
     }
 }
 
-extension CalendarView {
+private struct CalendarContentView: View {
+    @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
+    @ObservedObject var viewModel: CalendarViewModel
+    @ObservedObject var homeCalendarFlowState: HomeCalendarFlowState
+    @State private var topGlobalY: CGFloat = .zero
+    @State private var initialTopGlobalY: CGFloat? = nil
+    @State private var bottomOffsetY: CGFloat = .zero
+    @Binding var calendarMode: CalendarMode
+    @Binding var selectedProcedureID: Int?
+    @State private var buttonState: ButtonState = .active
+    
+    private let scrollAreaHeight: CGFloat = 184.adjustedH
+    private let calendarCellWidth: CGFloat = 40.adjustedW
+    private let calendarCellHeight: CGFloat = 40.adjustedH
+    private let calendarRowSpacing: CGFloat = 8.adjustedH
+    
+    let weekdays: [String] = ["일", "월", "화", "수", "목", "금", "토"]
+    let columns = Array(repeating: GridItem(.fixed(40.adjustedW), spacing: 8), count: 7)
+    
+    
+    var body: some View {
+        VStack {
+            Spacer()
+                .frame(height: 38.adjustedH)
+            
+            calendarHeader
+            dateGridsView
+            Spacer()
+            
+            if viewModel.isEmptyProcedureList() {
+                emptyScheduleView
+            } else {
+                scheduleListContainerView
+            }
+            Spacer()
+        }
+        .background(.gray0)
+    }
+}
+extension CalendarContentView {
     private var calendarHeader: some View {
         VStack {
             HStack {
@@ -330,7 +353,7 @@ extension CalendarView {
     
 }
 
-extension CalendarView {
+extension CalendarContentView {
     private var scrollViewTopMarkerView: some View {
         GeometryReader { proxy in
             Color.clear

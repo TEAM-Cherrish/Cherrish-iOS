@@ -151,63 +151,67 @@ private struct TreatmentSelectedCategory: View {
     ]
     
     var body: some View {
-        VStack(spacing: 0) {
-            Spacer()
-                .frame(height: 50.adjustedH)
-            
-            HStack(spacing: 0) {
-                VStack(alignment: .leading, spacing: 0) {
-                    TypographyText(
-                        "요즘 가장 신경 쓰이는 ",
-                        style: .title1_sb_18,
-                        color: .gray1000
-                    )
-                    .frame(height: 27.adjustedH)
-                    
-                    TypographyText(
-                        "외모 고민은 무엇인가요?",
-                        style: .title1_sb_18,
-                        color: .gray1000
-                    )
-                    .frame(height: 27.adjustedH)
-                    Spacer()
-                        .frame(height: 4.adjustedH)
-                    TypographyText(
-                        "선택한 고민을 기준으로 시술 정보를 정리해줘요.",
-                        style: .body1_m_14,
-                        color: .gray700
-                    )
-                    .frame(height: 20.adjustedH)
-                    
-                }
-                .frame(height: 78.adjustedH)
+        if viewModel.isLoading {
+            CherrishLoadingView()
+        } else {
+            VStack(spacing: 0) {
+                Spacer()
+                    .frame(height: 50.adjustedH)
                 
-                Spacer()
-            }
-            .padding(.horizontal, 34.adjustedW)
-            
-            ScrollView(.vertical, showsIndicators:false) {
-                Spacer()
-                    .frame(height: 40.adjustedH)
-                LazyVGrid(columns: columns, spacing: 12.adjustedH) {
-                    ForEach(viewModel.categories, id: \.id) { category in
-                        SelectionChip(
-                            title: category.title,
-                            isSelected: Binding(
-                                get: {
-                                    viewModel.selectedCategory == category
-                                },
-                                set: {
-                                    isSelected in
-                                    guard isSelected else {
-                                        return
-                                    }
-                                    viewModel.selectCategory(category)
-                                }
-                            )
+                HStack(spacing: 0) {
+                    VStack(alignment: .leading, spacing: 0) {
+                        TypographyText(
+                            "요즘 가장 신경 쓰이는 ",
+                            style: .title1_sb_18,
+                            color: .gray1000
                         )
+                        .frame(height: 27.adjustedH)
+                        
+                        TypographyText(
+                            "외모 고민은 무엇인가요?",
+                            style: .title1_sb_18,
+                            color: .gray1000
+                        )
+                        .frame(height: 27.adjustedH)
+                        Spacer()
+                            .frame(height: 4.adjustedH)
+                        TypographyText(
+                            "선택한 고민을 기준으로 시술 정보를 정리해줘요.",
+                            style: .body1_m_14,
+                            color: .gray700
+                        )
+                        .frame(height: 20.adjustedH)
+                        
                     }
-                } .padding(.horizontal, 34.adjustedW)
+                    .frame(height: 78.adjustedH)
+                    
+                    Spacer()
+                }
+                .padding(.horizontal, 34.adjustedW)
+                
+                ScrollView(.vertical, showsIndicators:false) {
+                    Spacer()
+                        .frame(height: 40.adjustedH)
+                    LazyVGrid(columns: columns, spacing: 12.adjustedH) {
+                        ForEach(viewModel.categories, id: \.id) { category in
+                            SelectionChip(
+                                title: category.title,
+                                isSelected: Binding(
+                                    get: {
+                                        viewModel.selectedCategory == category
+                                    },
+                                    set: {
+                                        isSelected in
+                                        guard isSelected else {
+                                            return
+                                        }
+                                        viewModel.selectCategory(category)
+                                    }
+                                )
+                            )
+                        }
+                    } .padding(.horizontal, 34.adjustedW)
+                }
             }
         }
     }

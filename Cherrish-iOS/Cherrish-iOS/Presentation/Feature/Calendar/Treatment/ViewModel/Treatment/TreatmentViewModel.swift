@@ -18,6 +18,7 @@ final class TreatmentViewModel: ObservableObject{
     @Published var day: String = ""
     @Published var searchText = ""
     @Published private(set) var warning: TreatmentInputWarning = .none
+    @Published private(set) var isLoading: Bool = false
     
     private let fetchTreatmentsUseCase: FetchTreatmentsUseCase
     private let createUserProcedureUseCase: CreateUserProcedureUseCase
@@ -63,10 +64,13 @@ final class TreatmentViewModel: ObservableObject{
     
     @MainActor
     func fetchTreatments() async throws {
+        isLoading = true
         do {
             treatments = try await fetchTreatmentsUseCase.execute(id: nil, keyword: searchText)
+            isLoading = false
         } catch {
             treatments = []
+            CherrishLogger.network(error)
         }
     }
     

@@ -28,6 +28,7 @@ struct TreatmentFilterView: View {
                     Task {
                         try await viewModel.fetchTreatments()
                     }
+                    self.hideKeyboard()
                 },
                 isDisabled: false
             )
@@ -50,35 +51,32 @@ struct TreatmentFilterView: View {
                 }
                 .frame(height: 34.adjustedH)
                 .padding(.horizontal, 25.adjustedW)
-                
-                Spacer()
-                    .frame(height: 20.adjustedH)
-                
-                if viewModel.treatments.isEmpty {
-                    Spacer()
-                        .frame(height: 148.adjustedH)
-                    filterEmptyView
+                if viewModel.isLoading {
+                    CherrishLoadingView()
                 } else {
-                    ForEach(viewModel.treatments, id: \.id) { treatment in
-                        TreatmentRowView(
-                            displayMode: .checkBoxView,
-                            treatmentEntity: treatment,
-                            isSelected: .constant(viewModel.isSelected(treatment)),
-                            action: {  if viewModel.isSelected(treatment) {
-                                viewModel.removeTreatment(treatment)
-                            } else {
-                                viewModel.addTreatment(treatment)
-                                
-                            } }
-                        )
+                    if viewModel.treatments.isEmpty {
+                        Spacer()
+                            .frame(height: 148.adjustedH)
+                        filterEmptyView
+                    } else {
+                        ForEach(viewModel.treatments, id: \.id) { treatment in
+                            TreatmentRowView(
+                                displayMode: .checkBoxView,
+                                treatmentEntity: treatment,
+                                isSelected: .constant(viewModel.isSelected(treatment)),
+                                action: {  if viewModel.isSelected(treatment) {
+                                    viewModel.removeTreatment(treatment)
+                                } else {
+                                    viewModel.addTreatment(treatment)
+                                    
+                                } }
+                            )
+                        }
+                        .padding(.horizontal, 24.adjustedW)
                     }
-                    .padding(.horizontal, 24.adjustedW)
+                    Spacer()
+                        .frame(height: 198.adjustedH)
                 }
-                Spacer()
-                    .frame(
-                        height: viewModel.selectedTreatments.isEmpty ?
-                        24.adjustedH : scrollViewHeight.adjustedH + 24.adjustedH
-                    )
             }
             
         }
