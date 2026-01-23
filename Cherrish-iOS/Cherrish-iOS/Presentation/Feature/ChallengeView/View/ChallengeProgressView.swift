@@ -7,46 +7,6 @@
 
 import SwiftUI
 
-enum CherryLevel: Int {
-    case mong = 1
-    case bbo
-    case pang
-    case ggu
-
-    var levelNumber: Int { rawValue }
-
-    static func from(progressRate: Double) -> CherryLevel {
-        switch progressRate {
-        case 0.0..<25.0:
-            return .mong
-        case 25.0..<50.0:
-            return .bbo
-        case 50.0..<75.0:
-            return .pang
-        case 75.0...100.0:
-            return .ggu
-        default:
-            return .mong
-        }
-    }
-
-    var name: String {
-        switch self {
-        case .mong: return "몽롱체리"
-        case .bbo: return "뽀득체리"
-        case .pang: return "팡팡체리"
-        case .ggu: return "꾸꾸체리"
-        }
-    }
-
-    var cherryImage: Image {
-        Image("cherry\(rawValue)")
-    }
-    var progressImage: Image {
-        Image("challenge_gaugebar_\(levelNumber)")
-    }
-}
-
 struct ChallengeProgressView: View {
     @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
     @StateObject var viewModel: ChallengeProgressViewModel

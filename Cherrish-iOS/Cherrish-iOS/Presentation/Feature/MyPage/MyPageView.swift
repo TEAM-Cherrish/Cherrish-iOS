@@ -70,7 +70,7 @@ extension MyPageView {
     
     private var grayEmptyBar: some View {
         Rectangle()
-            .fill(.gray100)
+            .fill(.gray200)
             .frame(height: 10.adjustedH)
     }
 }
