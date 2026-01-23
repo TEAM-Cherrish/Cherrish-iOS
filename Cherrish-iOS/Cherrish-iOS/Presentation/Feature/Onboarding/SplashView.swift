@@ -11,7 +11,8 @@ import Lottie
 
 struct SplashView: View {
     @EnvironmentObject private var appCoordinator: AppCoordinator
-
+    private let userDefaultService = DefaultUserDefaultService()
+    
     var body: some View {
         ZStack(alignment: .center) {
             LinearGradient(
@@ -28,7 +29,11 @@ struct SplashView: View {
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                appCoordinator.navigationToOnboarding()
+                if userDefaultService.load(key: .isOnboardingCompleted) ?? false {
+                    appCoordinator.navigationToTabbar()
+                } else {
+                    appCoordinator.navigationToOnboarding()
+                }
             }
         }
         .ignoresSafeArea()
