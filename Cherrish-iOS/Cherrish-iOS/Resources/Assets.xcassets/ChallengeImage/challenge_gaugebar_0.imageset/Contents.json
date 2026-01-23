@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "challenge_gaugebar_4.png",
+      "filename" : "home_chellenge_bar0.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "challenge_gaugebar_4@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "challenge_gaugebar_4@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

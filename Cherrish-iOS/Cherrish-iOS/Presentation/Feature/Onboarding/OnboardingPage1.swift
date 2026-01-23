@@ -12,6 +12,9 @@ struct OnboardingPage1: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            Spacer()
+                .frame(height: 120.adjustedH)
+            
             Image(.illustrationOnboardingCal)
                 .resizable()
                 .scaledToFit()
@@ -22,16 +25,14 @@ struct OnboardingPage1: View {
                         .scaledToFit()
                         .frame(width: 152.adjustedW, height: 204.adjustedH)
                         .offset(x: 152.adjustedW, y: 209.adjustedH)
-                }
-                .padding(.top, 102.adjustedH)
+                }    
             
             HStack(spacing: 0) {
                 Image(.comment)
                     .resizable()
-                    .scaledToFit()
+                    .scaledToFill()
                     .frame(width: 100.adjustedW, height: 44.adjustedH)
                     .padding(.top, 120.adjustedH)
-                    .padding(.leading, 30.adjustedW)
                 
                 Spacer()
             }
@@ -52,7 +53,6 @@ struct OnboardingPage1: View {
                     TypographyText("일정을 한 눈에 정리해드려요", style: .title1_sb_18, color: .gray1000)
                         .padding(.top, 6.adjustedH)
                 }
-                .frame(maxWidth: .infinity)
                 .background(
                     VStack(alignment: .leading, spacing: 0) {
                         TypographyText("시술 후 불편감이 남을 수 있는 기간", style: .title1_sb_18, color: .clear)
@@ -62,7 +62,6 @@ struct OnboardingPage1: View {
                                 }
                             )
                     }
-                    .opacity(0)
                 )
                 .onPreferenceChange(Line1WidthKey.self) { width in
                     line1Width = width

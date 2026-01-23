@@ -25,11 +25,56 @@ struct CalendarView: View {
     @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
     @StateObject var viewModel: CalendarViewModel
     @StateObject var homeCalendarFlowState: HomeCalendarFlowState
+    @State var calendarMode: CalendarMode = .none
+    @State var selectedProcedureID: Int? = nil
+    
+    var body: some View {
+        ZStack {
+            if viewModel.isLoading {
+                CherrishLoadingView()
+            } else {
+                CalendarContentView(
+                    viewModel: viewModel,
+                    homeCalendarFlowState: homeCalendarFlowState,
+                    calendarMode: $calendarMode,
+                    selectedProcedureID: $selectedProcedureID
+                )
+            }
+        }
+        .task (id: viewModel.currentMonth){
+            if calendarMode == .none {
+                do {
+                    try await viewModel.fetchProcedureCountsOfMonth()
+                    try await viewModel.fetchTodayProcedureList()
+                } catch {
+                    CherrishLogger.error(error)
+                }
+            }
+        }
+        .onChange(of: homeCalendarFlowState.treatmentDate) { _, date in
+            if let date = date {
+                viewModel.updateDate(date: date)
+                homeCalendarFlowState.treatmentDate = nil
+            }
+        }
+        .onAppear {
+            if let date = homeCalendarFlowState.treatmentDate {
+                viewModel.updateDate(date: date)
+                homeCalendarFlowState.treatmentDate = nil
+            }
+        }
+    }
+}
+
+private struct CalendarContentView: View {
+    @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
+    @ObservedObject var viewModel: CalendarViewModel
+    @ObservedObject var homeCalendarFlowState: HomeCalendarFlowState
     @State private var topGlobalY: CGFloat = .zero
     @State private var initialTopGlobalY: CGFloat? = nil
     @State private var bottomOffsetY: CGFloat = .zero
-    @State private var calendarMode: CalendarMode = .none
-    @State private var selectedProcedureID: Int? = nil
+    @Binding var calendarMode: CalendarMode
+    @Binding var selectedProcedureID: Int?
     @State private var buttonState: ButtonState = .active
     
     private let scrollAreaHeight: CGFloat = 184.adjustedH
@@ -39,6 +84,7 @@ struct CalendarView: View {
     
     let weekdays: [String] = ["일", "월", "화", "수", "목", "금", "토"]
     let columns = Array(repeating: GridItem(.fixed(40.adjustedW), spacing: 8), count: 7)
+    
     
     var body: some View {
         VStack {
@@ -56,33 +102,10 @@ struct CalendarView: View {
             }
             Spacer()
         }
-        .task (id: viewModel.currentMonth){
-            if calendarMode == .none {
-                do {
-                    try await viewModel.fetchProcedureCountsOfMonth()
-                    try await viewModel.fetchTodayProcedureList()
-                } catch {
-                    CherrishLogger.error(error)
-                }
-            }
-        }
-        .onChange(of: homeCalendarFlowState.treatmentDate) { date in
-            if let date = date {
-                viewModel.updateDate(date: date)
-                homeCalendarFlowState.treatmentDate = nil
-            }
-        }
-        .onAppear {
-            if let date = homeCalendarFlowState.treatmentDate {
-                viewModel.updateDate(date: date)
-                homeCalendarFlowState.treatmentDate = nil
-            }
-        }
         .background(.gray0)
     }
 }
-
-extension CalendarView {
+extension CalendarContentView {
     private var calendarHeader: some View {
         VStack {
             HStack {
@@ -127,33 +150,33 @@ extension CalendarView {
         return VStack(spacing: 0) {
             LazyVGrid(columns: columns, spacing: calendarRowSpacing) {
                 ForEach(dates) { value in
-                if value.day != -1 {
-                    CalendarCellView(
-                        value: value,
-                        procedureCount: viewModel.getProcedureCount(for: value),
-                        isSelected: viewModel.isSelected(value),
-                        downtimeState: viewModel.getDowntimeState(for: value.date),
-                        isDDay: viewModel.isDDay(for: value.date, selectedProcedureID: selectedProcedureID ?? 0),
-                        calendarMode: $calendarMode
-                    )
-                    .onTapGesture {
-                        viewModel.select(date: value.date)
-                        calendarMode = .none
-                        selectedProcedureID = nil
-                        
-                        Task {
-                            do {
-                                try await viewModel.fetchTodayProcedureList()
-                            } catch {
-                                CherrishLogger.error(error)
+                    if value.day != -1 {
+                        CalendarCellView(
+                            value: value,
+                            procedureCount: viewModel.getProcedureCount(for: value),
+                            isSelected: viewModel.isSelected(value),
+                            downtimeState: viewModel.getDowntimeState(for: value.date),
+                            isDDay: viewModel.isDDay(for: value.date, selectedProcedureID: selectedProcedureID ?? 0),
+                            calendarMode: $calendarMode
+                        )
+                        .onTapGesture {
+                            viewModel.select(date: value.date)
+                            calendarMode = .none
+                            selectedProcedureID = nil
+                            
+                            Task {
+                                do {
+                                    try await viewModel.fetchTodayProcedureList()
+                                } catch {
+                                    CherrishLogger.error(error)
+                                }
                             }
                         }
+                    } else {
+                        Color.clear
+                            .frame(width: calendarCellWidth, height: calendarCellHeight)
                     }
-                } else {
-                    Color.clear
-                        .frame(width: calendarCellWidth, height: calendarCellHeight)
                 }
-            }
             }
             
             if rowCount == 4 {
@@ -290,7 +313,7 @@ extension CalendarView {
                     calendarCoordinator.push(
                         .selectTreatment
                     )
-                   
+                    
                 }
             )
             .padding(.horizontal, 24.adjustedW)
@@ -330,7 +353,7 @@ extension CalendarView {
     
 }
 
-extension CalendarView {
+extension CalendarContentView {
     private var scrollViewTopMarkerView: some View {
         GeometryReader { proxy in
             Color.clear
@@ -363,4 +386,4 @@ extension CalendarView {
         guard calendarMode == .none, let initial = initialTopGlobalY else { return false }
         return topGlobalY < initial - 0.1
     }
-  }
+}

@@ -11,7 +11,7 @@ final class ChallengeProgressViewModel: ObservableObject {
     @Published private(set) var challengeData: ProgressChallengeEntity?
     @Published private(set) var isLoading: Bool = false
     @Published private(set) var errorMessage: String?
-    @Published private(set) var cherryLevel: CherryLevel = .mong
+    @Published private(set) var cherryLevel: CherryLevel = .level1
     @Published private(set) var remainMissions: Int = 0
     @Published private(set) var progressRate = 0
     @Published private(set) var currentDay: Int = 1

@@ -16,6 +16,9 @@ struct OnboardingPage2: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            Spacer()
+                .frame(height: 168.adjustedH)
+            
             HStack(spacing: 0) {
                 TypographyText("원하는 추구미에 도달할 수 있도록\nTO-DO 루틴을 제시해줘요", style: .title1_sb_18, color: .gray1000)
                     .fixedSize(horizontal: false, vertical: true)
@@ -23,7 +26,6 @@ struct OnboardingPage2: View {
                 Spacer()
             }
             .padding(.horizontal, 42.adjustedW)
-            .padding(.top, 124.adjustedH)
             
             Spacer()
                 .frame(height: 40.adjustedH)
@@ -31,15 +33,20 @@ struct OnboardingPage2: View {
             Image(.onboarding2)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 293.adjustedW, height: 202.adjustedH)
-                .padding(.horizontal, 41.adjustedW)
-                        
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 42.adjustedW)
+
+            Spacer()
+                .frame(height: 12.adjustedH)
+            
             InfiniteLevelCarousel(levelImages: levelImages, animationDuration: animationDuration)
                 .frame(height: 89.adjustedH)
-                .padding(.top, 12.adjustedH)
 
+            Spacer()
+                .frame(height: 20.adjustedH)
+            
             TypographyText("TO-DO 미션을 채울때마다 아리가 변화해요!", style: .title2_r_16, color: .gray600)
-                .padding(.top, 30.adjustedH)
+                .padding(.horizontal, 42.adjustedW)
             
             Spacer()
         }

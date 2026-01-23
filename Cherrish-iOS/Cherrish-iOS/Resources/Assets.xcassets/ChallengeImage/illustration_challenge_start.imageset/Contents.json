@@ -1,8 +1,19 @@
 {
   "images" : [
     {
-      "filename" : "illustration_challenge_start-1.svg",
-      "idiom" : "universal"
+      "filename" : "illustration_challenge_start.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "illustration_challenge_start@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "illustration_challenge_start@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {

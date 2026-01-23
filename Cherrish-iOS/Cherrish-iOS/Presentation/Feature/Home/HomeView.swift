@@ -12,19 +12,36 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
+            if viewModel.isLoading {
+                CherrishLoadingView()
+            } else {
+                HomeContentView(viewModel: viewModel)
+            }
+        }
+        .task {
+            await viewModel.loadDashboard()
+        }
+    }
+}
+
+private struct HomeContentView: View {
+    @ObservedObject var viewModel: HomeViewModel
+    
+    var body: some View {
+        ZStack {
             BackgroundGradientView()
             
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
                     HeaderLogoView()
                     ZStack(alignment: .topTrailing) {
-                        if viewModel.cherryLevel == 0 {
+                        if viewModel.challengeName == nil {
                             ChallengeCardEmptyView(
                                 challengeBarImageName: viewModel.challengeBarImageName
                             )
                         } else {
                             ChallengeCardView(
-                                challengeName: viewModel.challengeName,
+                                challengeName: viewModel.challengeName ?? "챌린지",
                                 challengeRate: viewModel.challengeRateText,
                                 challengeBarImageName: viewModel.challengeBarImageName
                             )
@@ -32,7 +49,7 @@ struct HomeView: View {
                         
                         if viewModel.cherryLevel != 0 {
                             Image(viewModel.cherryLevelImageName)
-                                .offset(x: -10.adjustedW, y: -67.adjustedH)
+                                .offset(x: -20.adjustedW, y: -57.adjustedH)
                         }
                     }
                     PlanBoxView(viewModel: viewModel)
@@ -43,9 +60,6 @@ struct HomeView: View {
                 }
                 .padding(.bottom, 20.adjustedH)
             }
-        }
-        .task {
-            await viewModel.loadDashboard()
         }
     }
 }

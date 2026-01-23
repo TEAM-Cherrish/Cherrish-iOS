@@ -7,49 +7,29 @@
 
 import SwiftUI
 
-enum CherryLevel: Int {
-    case mong = 1
-    case bbo
-    case pang
-    case ggu
-
-    var levelNumber: Int { rawValue }
-
-    static func from(progressRate: Double) -> CherryLevel {
-        switch progressRate {
-        case 0.0..<25.0:
-            return .mong
-        case 25.0..<50.0:
-            return .bbo
-        case 50.0..<75.0:
-            return .pang
-        case 75.0...100.0:
-            return .ggu
-        default:
-            return .mong
-        }
-    }
-
-    var name: String {
-        switch self {
-        case .mong: return "몽롱체리"
-        case .bbo: return "뽀득체리"
-        case .pang: return "팡팡체리"
-        case .ggu: return "꾸꾸체리"
-        }
-    }
-
-    var cherryImage: Image {
-        Image("cherry\(rawValue)")
-    }
-    var progressImage: Image {
-        Image("challenge_gaugebar_\(levelNumber)")
-    }
-}
-
 struct ChallengeProgressView: View {
     @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
     @StateObject var viewModel: ChallengeProgressViewModel
+    
+    var body: some View {
+        ZStack {
+            if viewModel.isLoading {
+                CherrishLoadingView()
+            }
+            else {
+                ChallengeProgressContentView(viewModel: viewModel)
+            }
+        }
+        .task {
+            await viewModel.loadChallenge()
+        }
+    }
+}
+
+
+private struct ChallengeProgressContentView: View {
+    @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
+    @ObservedObject var viewModel: ChallengeProgressViewModel
     
     let buttonState: ButtonState = .active
     
@@ -77,13 +57,9 @@ struct ChallengeProgressView: View {
             .padding(.vertical, 24.adjustedH)
         }
         .scrollIndicators(.hidden)
-        .task {
-            await viewModel.loadChallenge()
-        }
     }
 }
-
-extension ChallengeProgressView {
+extension ChallengeProgressContentView {
     private var CherryGrowthView: some View {
         VStack(spacing: 0) {
             VStack(spacing: 0) {
@@ -125,6 +101,7 @@ extension ChallengeProgressView {
             }
             .padding(.horizontal, 25.adjustedW)
         }
+        .frame(width: 326.adjustedW, height: 320.adjustedH)
         .padding(.top, 16.adjustedH)
         .background(
             RoundedRectangle(cornerRadius: 10)
@@ -138,9 +115,7 @@ extension ChallengeProgressView {
         )
         .cherrishShadow()
     }
-}
-
-extension ChallengeProgressView {
+    
     private var CherryTodoView: some View {
         VStack {
             HStack {

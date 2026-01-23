@@ -18,6 +18,7 @@ final class NoTreatmentViewModel: ObservableObject{
     @Published var month: String = ""
     @Published var day: String = ""
     @Published private(set) var warning: TreatmentInputWarning = .none
+    @Published private(set) var isLoading: Bool = false
     
     private let fetchCategoriesUseCase: FetchTreatmentCategoriesUseCase
     private let fetchTreatmentsUseCase: FetchTreatmentsUseCase
@@ -71,8 +72,10 @@ final class NoTreatmentViewModel: ObservableObject{
     
     @MainActor
     func fetchCategories() async {
+        isLoading = true
         do {
             categories = try await fetchCategoriesUseCase.execute()
+            isLoading = false
         } catch {
             CherrishLogger.debug(error)
         }
@@ -80,8 +83,10 @@ final class NoTreatmentViewModel: ObservableObject{
     
     @MainActor
     func fetchNoTreatments() async {
+        isLoading = true
         do {
             treatments = try await fetchTreatmentsUseCase.execute(id: selectedCategory?.id, keyword: "")
+            isLoading = false
         } catch {
             treatments = []
             CherrishLogger.debug(error)
