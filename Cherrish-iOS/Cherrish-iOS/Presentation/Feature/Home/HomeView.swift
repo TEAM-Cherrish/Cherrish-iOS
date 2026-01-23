@@ -12,6 +12,23 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
+            if viewModel.isLoading {
+                CherrishLoadingView()
+            } else {
+                HomeContentView(viewModel: viewModel)
+            }
+        }
+        .task {
+            await viewModel.loadDashboard()
+        }
+    }
+}
+
+private struct HomeContentView: View {
+    @ObservedObject var viewModel: HomeViewModel
+    
+    var body: some View {
+        ZStack {
             BackgroundGradientView()
             
             ScrollView(showsIndicators: false) {
@@ -43,9 +60,6 @@ struct HomeView: View {
                 }
                 .padding(.bottom, 20.adjustedH)
             }
-        }
-        .task {
-            await viewModel.loadDashboard()
         }
     }
 }

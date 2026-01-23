@@ -12,7 +12,6 @@ struct ChallengeSelectMissionView: View {
     @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
     @ObservedObject var viewModel: CreateChallengeViewModel
 
-
     var body: some View {
         VStack {
             VStack {

@@ -11,6 +11,26 @@ struct ChallengeProgressView: View {
     @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
     @StateObject var viewModel: ChallengeProgressViewModel
     
+    var body: some View {
+        ZStack {
+            if viewModel.isLoading {
+                CherrishLoadingView()
+            }
+            else {
+                ChallengeProgressContentView(viewModel: viewModel)
+            }
+        }
+        .task {
+            await viewModel.loadChallenge()
+        }
+    }
+}
+
+
+private struct ChallengeProgressContentView: View {
+    @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
+    @ObservedObject var viewModel: ChallengeProgressViewModel
+    
     let buttonState: ButtonState = .active
     
     var body: some View {
@@ -37,13 +57,9 @@ struct ChallengeProgressView: View {
             .padding(.vertical, 24.adjustedH)
         }
         .scrollIndicators(.hidden)
-        .task {
-            await viewModel.loadChallenge()
-        }
     }
 }
-
-extension ChallengeProgressView {
+extension ChallengeProgressContentView {
     private var CherryGrowthView: some View {
         VStack(spacing: 0) {
             VStack(spacing: 0) {
@@ -99,9 +115,7 @@ extension ChallengeProgressView {
         )
         .cherrishShadow()
     }
-}
-
-extension ChallengeProgressView {
+    
     private var CherryTodoView: some View {
         VStack {
             HStack {

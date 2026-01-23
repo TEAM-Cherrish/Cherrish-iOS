@@ -25,35 +25,36 @@ struct NoTreatmentFilterView: View {
     var body: some View {
         VStack(spacing: 0) {
             TitleHeaderView(title: viewModel.selectedCategory?.title ?? "")
-            
-            ScrollView(.vertical, showsIndicators: false){
-                Spacer()
-                    .frame(height: 18.adjustedH)
-                
-                ForEach(viewModel.treatments, id: \.id) { treatment in
-                    TreatmentRowView(
-                        displayMode: .checkBoxView,
-                        treatmentEntity: treatment,
-                        isSelected: .constant(viewModel.isSelected(treatment)),
-                        action: {
-                            if viewModel.isSelected(treatment) {
-                                viewModel.removeTreatment(treatment)
-                            } else {
-                                viewModel.addTreatment(treatment)
-                                
-                            }
-                        }
-                    )
-                    .padding(.horizontal, 25.adjustedW)
+            if viewModel.isLoading {
+                CherrishLoadingView()
+            } else {
+                ScrollView(.vertical, showsIndicators: false) {
+                    Spacer()
+                        .frame(height: 18.adjustedH)
                     
+                    ForEach(viewModel.treatments, id: \.id) { treatment in
+                        TreatmentRowView(
+                            displayMode: .checkBoxView,
+                            treatmentEntity: treatment,
+                            isSelected: .constant(viewModel.isSelected(treatment)),
+                            action: {
+                                if viewModel.isSelected(treatment) {
+                                    viewModel.removeTreatment(treatment)
+                                } else {
+                                    viewModel.addTreatment(treatment)
+                                    
+                                }
+                            }
+                        )
+                        .padding(.horizontal, 25.adjustedW)
+                        
+                    }
+                    Spacer()
+                        .frame(height: 198.adjustedH)
                 }
-                Spacer()
-                    .frame(
-                        height: viewModel.selectedTreatments.isEmpty ?
-                        24.adjustedH : scrollViewHeight.adjustedH + 24.adjustedH
-                    )
             }
             
+           
         }
         .task {
             await viewModel.fetchNoTreatments()

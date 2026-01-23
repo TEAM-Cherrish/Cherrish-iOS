@@ -11,14 +11,20 @@ struct MyPageView: View {
     @StateObject var viewModel: MyPageViewModel
     
     var body: some View {
-        VStack {
-            Spacer()
-                .frame(height: 52.adjustedH)
-            headerView
-            grayEmptyBar
-            prepareView
-                .padding(.horizontal, 35)
-            grayEmptyBar
+        ZStack {
+            if viewModel.isLoading {
+                CherrishLoadingView()
+            } else {
+                VStack {
+                    Spacer()
+                        .frame(height: 52.adjustedH)
+                    headerView
+                    grayEmptyBar
+                    prepareView
+                        .padding(.horizontal, 35.adjustedW)
+                    grayEmptyBar
+                }
+            }
         }
         .task {
             do {
