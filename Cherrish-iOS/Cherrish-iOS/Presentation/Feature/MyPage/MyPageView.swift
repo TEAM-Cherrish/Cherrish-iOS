@@ -21,7 +21,7 @@ struct MyPageView: View {
                     headerView
                     grayEmptyBar
                     prepareView
-                        .padding(.horizontal, 35)
+                        .padding(.horizontal, 35.adjustedW)
                     grayEmptyBar
                 }
             }
