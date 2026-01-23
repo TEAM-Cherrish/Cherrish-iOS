@@ -50,11 +50,14 @@ struct NoTreatmentFilterView: View {
                         
                     }
                     Spacer()
-                        .frame(height: 198.adjustedH)
+                        .frame(
+                            height: viewModel.selectedTreatments.isEmpty ?
+                            24.adjustedH : scrollViewHeight.adjustedH + 24.adjustedH
+                        )
                 }
             }
             
-           
+            
         }
         .task {
             await viewModel.fetchNoTreatments()

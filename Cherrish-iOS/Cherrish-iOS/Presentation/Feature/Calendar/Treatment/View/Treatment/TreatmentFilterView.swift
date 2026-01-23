@@ -75,7 +75,10 @@ struct TreatmentFilterView: View {
                         .padding(.horizontal, 24.adjustedW)
                     }
                     Spacer()
-                        .frame(height: 198.adjustedH)
+                        .frame(
+                            height: viewModel.selectedTreatments.isEmpty ?
+                            24.adjustedH : scrollViewHeight.adjustedH + 24.adjustedH
+                        )
                 }
             }
             
