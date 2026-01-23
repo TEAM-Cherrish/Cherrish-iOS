@@ -21,7 +21,7 @@
 | <img src = "https://github.com/user-attachments/assets/2fc03587-f05a-45ee-a69f-288c1a978746" height = "25"> 이나연(Lead)<br/>[@Lee Nayeon](https://github.com/y-eonee) | <img src = "https://github.com/user-attachments/assets/175d7547-646a-48a8-95c8-4b8285012ad4" height = "25"> 공수민<br/>[@sum130](https://github.com/sum130) | <img src = "https://github.com/user-attachments/assets/53b25645-c9db-449c-9a6d-711fefdaa1c4" height = "25"> 어재선<br/>[@JaeSun](https://github.com/wotjs020708) | <img src = "https://github.com/user-attachments/assets/1f68623f-42e6-4f4d-a027-b3b1816f9a0a" height = "25"> 송성용<br/>[@soseoyo](https://github.com/soseoyo12) |
 | :---: | :---: | :---: | :---: |
 | <p align="center"><img src="https://github.com/user-attachments/assets/00617dc1-3de8-4583-85fc-230b49d9c253" width="260"/></p> | <p align="center"><img src="https://github.com/user-attachments/assets/66c10d29-37cd-4eeb-be02-9d14e2704cd7" width="260"/></p> | <p align="center"><img src="https://github.com/user-attachments/assets/73f0f19c-ff71-429f-8fb9-87763f712cef" width="260"/></p> | <p align="center"><img src="https://github.com/user-attachments/assets/c44d4de2-f5e8-4f5b-9ed4-a88f295dfd5a" width="260"/></p> |
-| `캘린더` `마이` | `챌린지` | `시술` | `홈` `온보딩` |
+| `캘린더` `마이페이지` | `챌린지` | `시술선택` | `홈` `온보딩` |
 <br />
 
 <br />
@@ -95,3 +95,7 @@ add: #2 이미지 에셋 추가
 │   ├── 📁 Resource
 │   └── 📁 Assets
 ```
+
+## <img src="https://github.com/user-attachments/assets/b7c69bb0-3579-4074-8eca-e7966128fffb" height="50"/> 트러블 슈팅 및 실패 경험 
+[☄️ 트러블슈팅](https://alpine-marten-2ce.notion.site/Trouble-Shooting-2f0fe06db525807f9fe4d47fe0edd946?source=copy_link)    
+[✍🏻 실패경험](https://alpine-marten-2ce.notion.site/2f0fe06db52580d991d5efa4fbc251e1?source=copy_link)
