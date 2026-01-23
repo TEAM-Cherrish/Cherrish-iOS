@@ -85,6 +85,7 @@ extension ChallengeProgressView {
             }
             .padding(.horizontal, 25.adjustedW)
         }
+        .frame(width: 326.adjustedW, height: 320.adjustedH)
         .padding(.top, 16.adjustedH)
         .background(
             RoundedRectangle(cornerRadius: 10)

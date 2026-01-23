@@ -17,7 +17,7 @@ struct ChallengeSelectMissionView: View {
         VStack {
             VStack {
                 HStack {
-                    VStack(alignment: .leading, spacing: 4.adjustedH) {
+                    VStack(alignment: .leading) {
                         TypographyText("챌린지 기간 동안\n진행할 미션을 선택해주세요.",
                                        style: .title1_sb_18,
                                        color: .gray1000
@@ -28,6 +28,7 @@ struct ChallengeSelectMissionView: View {
                                        color: .gray700
                         )
                         .frame(height: 20.adjustedH)
+                        .padding(.top, 4.adjustedH)
                     }
                     Spacer()
                 }
