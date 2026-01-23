@@ -6,9 +6,19 @@
 <br />
 
 ## 🍎 iOS Developers
-| <p align="center"><img src="https://github.com/y-eonee.png" width="260"/></p> | <p align="center"><img src="https://github.com/sum130.png" width="260"/></p> | <p align="center"><img src="https://github.com/wotjs020708.png" width="260"/></p> | <p align="center"><img src="https://github.com/soseoyo12.png" width="260"/></p> |
+| <p align="center"><img src="https://github.com/user-attachments/assets/00617dc1-3de8-4583-85fc-230b49d9c253" width="260"/></p> | <p align="center"><img src="https://github.com/user-attachments/assets/66c10d29-37cd-4eeb-be02-9d14e2704cd7" width="260"/></p> | <p align="center"><img src="https://github.com/user-attachments/assets/73f0f19c-ff71-429f-8fb9-87763f712cef" width="260"/></p> | <p align="center"><img src="https://github.com/user-attachments/assets/c44d4de2-f5e8-4f5b-9ed4-a88f295dfd5a" width="260"/></p> |
 | --- | --- | --- | --- |
 | <p align="center">[이나연(Lead)](https://github.com/y-eonee)</p> | <p align="center">[공수민](https://github.com/sum130)</p> | <p align="center">[어재선](https://github.com/wotjs020708)</p> | <p align="center">[송성용](https://github.com/soseoyo12)</p> |
+
+<br />
+
+## 🧑‍💻역할 분배 
+
+| 이나연 (lead) | 아키텍처 및 DIContainer 설계, 탭바 및 네트워크 세팅, `캘린더` , `마이페이지` 구현  |
+| --- | --- |
+| 공수민 | `챌린지` 페이지 구현 |
+| 송성용 | `Home`, `Onboarding`, `Information View` 구현, `CustomPicker`구현 |
+| 어재선 | `시술 일정 추가 화면`  구현 |
 
 <br />
 
