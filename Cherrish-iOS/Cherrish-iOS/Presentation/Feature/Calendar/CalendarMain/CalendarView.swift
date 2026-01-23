@@ -68,8 +68,8 @@ struct CalendarView: View {
 
 private struct CalendarContentView: View {
     @EnvironmentObject private var calendarCoordinator: CalendarCoordinator
-    @StateObject var viewModel: CalendarViewModel
-    @StateObject var homeCalendarFlowState: HomeCalendarFlowState
+    @ObservedObject var viewModel: CalendarViewModel
+    @ObservedObject var homeCalendarFlowState: HomeCalendarFlowState
     @State private var topGlobalY: CGFloat = .zero
     @State private var initialTopGlobalY: CGFloat? = nil
     @State private var bottomOffsetY: CGFloat = .zero

@@ -29,7 +29,7 @@ struct ChallengeProgressView: View {
 
 private struct ChallengeProgressContentView: View {
     @EnvironmentObject private var challengeCoordinator: ChallengeCoordinator
-    @StateObject var viewModel: ChallengeProgressViewModel
+    @ObservedObject var viewModel: ChallengeProgressViewModel
     
     let buttonState: ButtonState = .active
     

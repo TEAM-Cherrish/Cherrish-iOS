@@ -28,6 +28,7 @@ struct TreatmentFilterView: View {
                     Task {
                         try await viewModel.fetchTreatments()
                     }
+                    self.hideKeyboard()
                 },
                 isDisabled: false
             )

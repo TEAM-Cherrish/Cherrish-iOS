@@ -25,7 +25,7 @@ struct HomeView: View {
 }
 
 private struct HomeContentView: View {
-    @StateObject var viewModel: HomeViewModel
+    @ObservedObject var viewModel: HomeViewModel
     
     var body: some View {
         ZStack {
