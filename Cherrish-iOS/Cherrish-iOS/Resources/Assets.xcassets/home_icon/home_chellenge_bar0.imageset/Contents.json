@@ -6,10 +6,12 @@
       "scale" : "1x"
     },
     {
+      "filename" : "challenge_gaugebar_1@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "challenge_gaugebar_1@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

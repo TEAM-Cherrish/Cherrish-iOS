@@ -168,7 +168,7 @@ extension DowntimeBottomSheetView {
             
             Spacer()
             
-            CherrishPicker(selection: $selectedDowntime, range: 1...30)
+            CherrishPicker(selection: $selectedDowntime, range: 0...30)
             
             Spacer()
         }

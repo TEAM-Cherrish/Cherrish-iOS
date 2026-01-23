@@ -32,7 +32,7 @@ struct HomeView: View {
                         
                         if viewModel.cherryLevel != 0 {
                             Image(viewModel.cherryLevelImageName)
-                                .offset(x: -10.adjustedW, y: -67.adjustedH)
+                                .offset(x: -20.adjustedW, y: -57.adjustedH)
                         }
                     }
                     PlanBoxView(viewModel: viewModel)
