@@ -104,6 +104,10 @@ final class TreatmentViewModel: ObservableObject{
     }
     
     func isDateTextFieldNotEmpty() -> Bool {
+        guard let scheduledDate = calendarTreatmentFlowState.selectedDate else {
+            return false
+        }
+        
         guard !year.isEmpty, !month.isEmpty, !day.isEmpty else {
             Task { @MainActor in
                 updateWarning(state: .none)
@@ -124,14 +128,28 @@ final class TreatmentViewModel: ObservableObject{
             return false
         }
         
-        let today = Calendar.current.startOfDay(for: Date())
-        if date < today {
-            updateWarning(state: .pastDate)
-            return false
-        }
         
+        let today = Calendar.current.startOfDay(for: Date())
+        
+        if date < today {
+            if date < scheduledDate {
+                updateWarning(state: .pastDate)
+                return false
+            }
+            
+        } else {
+            if date < scheduledDate {
+                if date < today {
+                    updateWarning(state: .pastDate)
+                }
+                updateWarning(state: .beforeProcedureDate)
+                 return false
+            }
+        }
+    
         updateWarning(state: .none)
         return true
+
     }
     
   

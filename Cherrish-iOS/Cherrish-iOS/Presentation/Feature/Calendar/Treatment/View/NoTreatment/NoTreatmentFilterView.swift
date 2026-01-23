@@ -10,6 +10,18 @@ import SwiftUI
 struct NoTreatmentFilterView: View {
     @ObservedObject var viewModel: NoTreatmentViewModel
     
+    
+    private let itemHeight: CGFloat = 34.adjustedH
+    private let spacing: CGFloat = 8.adjustedH
+    private let maxVisibleCount = 3
+    
+    private var scrollViewHeight: CGFloat {
+        let count = min(viewModel.selectedTreatments.count, maxVisibleCount)
+        let contentHeight = CGFloat(count) * itemHeight + CGFloat(max(count - 1, 0)) * spacing
+        return contentHeight + 24.adjustedH + 40.adjustedH
+    }
+    
+    
     var body: some View {
         VStack(spacing: 0) {
             TitleHeaderView(title: viewModel.selectedCategory?.title ?? "")
@@ -29,16 +41,19 @@ struct NoTreatmentFilterView: View {
                             } else {
                                 viewModel.addTreatment(treatment)
                                 
-                            }   
+                            }
                         }
                     )
                     .padding(.horizontal, 25.adjustedW)
                     
                 }
                 Spacer()
-                    .frame(height: 198.adjustedH)
+                    .frame(
+                        height: viewModel.selectedTreatments.isEmpty ?
+                        24.adjustedH : scrollViewHeight.adjustedH + 24.adjustedH
+                    )
             }
-           
+            
         }
         .task {
             await viewModel.fetchNoTreatments()
@@ -58,7 +73,7 @@ private struct TitleHeaderView: View {
                     TypographyText("관련 시술 리스트", style: .title1_sb_18, color: .gray1000)
                         .frame(height: 27.adjustedH)
                     Spacer()
-
+                    
                 }
                 
                 
@@ -93,6 +108,6 @@ private struct TitleHeaderView: View {
                 .gray500()
         }
         .frame(height: 105.adjustedH    )
-          
+        
     }
 }
