@@ -75,7 +75,7 @@ add: #2 이미지 에셋 추가
 <br/>
 <br/>
 
-## <img src="https://github.com/user-attachments/assets/dda04d78-e3c9-4d87-ad1f-3f0bd94b1d5c" height = "40"> 📂 Foldering
+## <img src="https://github.com/user-attachments/assets/dda04d78-e3c9-4d87-ad1f-3f0bd94b1d5c" height = "40"> Foldering
 ```
 🍒 Cherrish-iOS
 ├── 📁 Cherrish-iOS
