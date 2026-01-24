@@ -29,11 +29,7 @@ struct SplashView: View {
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                if userDefaultService.load(key: .isOnboardingCompleted) ?? false {
-                    appCoordinator.navigationToTabbar()
-                } else {
-                    appCoordinator.navigationToOnboarding()
-                }
+                appCoordinator.navigationToOnboarding()
             }
         }
         .ignoresSafeArea()
